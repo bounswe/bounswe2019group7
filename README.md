@@ -1,4 +1,5 @@
 # BOUNSWE 2019 GROUP SE7EN
+Check out our wiki page for more information.
 
 # Who Are We?
 Seyfi Kutay Kılıç
@@ -16,8 +17,7 @@ https://github.com/merveilik
 Alperen Bağ 
 https://github.com/alprnbg
 
-Alihan Çelikcan - 
-# communicator
+Alihan Çelikcan - communicator
 https://github.com/anxeal
 
 Alican Şafak Özdek 
