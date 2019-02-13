@@ -1,5 +1,5 @@
 # BOUNSWE 2019 GROUP SE7EN
-Check out our [Wiki Page](https://github.com/bounswe/bounswe2019group7/wiki) for more information.
+Check out our [wiki page](https://github.com/bounswe/bounswe2019group7/wiki) for more information.
 
 # Who Are We?
 [Seyfi Kutay Kılıç](https://github.com/bounswe/bounswe2019group7/wiki/Kutay-Kılıç) - https://github.com/skutaykilic
