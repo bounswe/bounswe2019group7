@@ -2,22 +2,22 @@
 Check out our [wiki page](https://github.com/bounswe/bounswe2019group7/wiki) for more information.
 
 # Who Are We?
-[Seyfi Kutay Kılıç](https://github.com/bounswe/bounswe2019group7/wiki/Kutay-Kılıç) - https://github.com/skutaykilic
+[Seyfi Kutay Kılıç](https://github.com/bounswe/bounswe2019group7/wiki/Kutay-Kılıç)
 
-[M. Emir Gökdemir](https://github.com/bounswe/bounswe2019group7/wiki/Emir-Gökdemir) - https://github.com/gokdeemir
+[M. Emir Gökdemir](https://github.com/bounswe/bounswe2019group7/wiki/Emir-Gökdemir) 
 
-[Esra Yılmaz](https://github.com/bounswe/bounswe2019group7/wiki/Esra-Yılmaz) - https://github.com/esrayilmaz7
+[Esra Yılmaz](https://github.com/bounswe/bounswe2019group7/wiki/Esra-Yılmaz)
 
-[Merve İlik](https://github.com/bounswe/bounswe2019group7/wiki/Merve-İlik) - https://github.com/merveilik
+[Merve İlik](https://github.com/bounswe/bounswe2019group7/wiki/Merve-İlik)
 
-[Alperen Bağ](https://github.com/bounswe/bounswe2019group7/wiki/Alperen-Bağ) - https://github.com/alprnbg
+[Alperen Bağ](https://github.com/bounswe/bounswe2019group7/wiki/Alperen-Bağ)
 
-[Alihan Çelikcan](https://github.com/bounswe/bounswe2019group7/wiki/Alihan-Çelikcan) - https://github.com/anxeal - communicator
+[Alihan Çelikcan](https://github.com/bounswe/bounswe2019group7/wiki/Alihan-Çelikcan) - communicator
 
-[Alican Şafak Özdek](https://github.com/bounswe/bounswe2019group7/wiki/Şafak-Özdek) - https://github.com/safakozdek
+[Alican Şafak Özdek](https://github.com/bounswe/bounswe2019group7/wiki/Şafak-Özdek)
 
-[Nazım Berke Metin](https://github.com/bounswe/bounswe2019group7/wiki/Berke-Metin) - https://github.com/nbmetin
+[Nazım Berke Metin](https://github.com/bounswe/bounswe2019group7/wiki/Berke-Metin)
 
-[Kemal Duru](https://github.com/bounswe/bounswe2019group7/wiki/Kemal-Duru) - https://github.com/kemal-duru-2015400147
+[Kemal Duru](https://github.com/bounswe/bounswe2019group7/wiki/Kemal-Duru)
 
-[Ahmet Emir Kocaağa](https://github.com/bounswe/bounswe2019group7/wiki/Emir-Kocaağa) - https://github.com/liberbey
+[Ahmet Emir Kocaağa](https://github.com/bounswe/bounswe2019group7/wiki/Emir-Kocaağa)
