@@ -1,5 +1,5 @@
 # BOUNSWE 2019 GROUP SE7EN
-Check out our [wiki page](https://github.com/bounswe/bounswe2019group7/wiki) for more information.
+This is the project repository of group 7 for CmpE352 course. Check out our [wiki page](https://github.com/bounswe/bounswe2019group7/wiki) for more information!
 
 # Who Are We?
 [Seyfi Kutay Kılıç](https://github.com/bounswe/bounswe2019group7/wiki/Kutay-Kılıç)
@@ -12,7 +12,7 @@ Check out our [wiki page](https://github.com/bounswe/bounswe2019group7/wiki) for
 
 [Alperen Bağ](https://github.com/bounswe/bounswe2019group7/wiki/Alperen-Bağ)
 
-[Alihan Çelikcan](https://github.com/bounswe/bounswe2019group7/wiki/Alihan-Çelikcan) - communicator
+[Alihan Çelikcan](https://github.com/bounswe/bounswe2019group7/wiki/Alihan-Çelikcan) 
 
 [Alican Şafak Özdek](https://github.com/bounswe/bounswe2019group7/wiki/Şafak-Özdek)
 
