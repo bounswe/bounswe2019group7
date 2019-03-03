@@ -20,4 +20,4 @@ This is the project repository of group 7 for CmpE352 course. Check out our [wik
 
 [Kemal Duru](https://github.com/bounswe/bounswe2019group7/wiki/Kemal-Duru)
 
-[Ahmet Emir Kocaağa](https://github.com/bounswe/bounswe2019group7/wiki/Emir-Kocaağa)
+[Ahmet Emir Kocaağa](https://github.com/bounswe/bounswe2019group7/wiki/Ahmet-Emir-Kocaağa)
