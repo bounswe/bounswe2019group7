@@ -14,7 +14,7 @@ This is the project repository of group 7 for CmpE352 course. Check out our [wik
 
 [Alihan Çelikcan](https://github.com/bounswe/bounswe2019group7/wiki/Alihan-Çelikcan) 
 
-[Alican Şafak Özdek](https://github.com/bounswe/bounswe2019group7/wiki/Şafak-Özdek)
+[Alican Şafak Özdek](https://github.com/bounswe/bounswe2019group7/wiki/Alican-Şafak-Özdek)
 
 [Nazım Berke Metin](https://github.com/bounswe/bounswe2019group7/wiki/Berke-Metin)
 
