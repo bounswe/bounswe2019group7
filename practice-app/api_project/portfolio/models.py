@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+#temporary currency class
+class Currency(models.Model):
+    code = models.CharField(max_length=255)
+    value = models.FloatField()
+    portfolio = models.ForeignKey('Portfolio', null=True, on_delete=models.SET_NULL)
+
 
 class Portfolio(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
