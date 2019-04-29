@@ -1,22 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-#temporary currency class
+
 class Currency(models.Model):
     code = models.CharField(max_length=255)
     value = models.FloatField()
-    portfolio = models.ForeignKey('Portfolio', null=True, on_delete=models.SET_NULL)
-    
+
     def __str__(self):
         return str(self.code)+ " - "+str(self.value)
-
-
 
 
 class Portfolio(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     id = models.IntegerField(primary_key=True)
     username = models.CharField(max_length=255,default="")
+    currencies = models.ManyToManyField(Currency)
 
     def __str__(self):
         return str(User.username) + "'s Portfolio"
