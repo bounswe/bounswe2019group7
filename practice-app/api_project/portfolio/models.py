@@ -9,3 +9,12 @@ class Portfolio(models.Model):
 
     def __str__(self):
         return str(User.username) + "'s Portfolio"
+
+    def addCurrency(self, Currency):
+        pass
+
+    def deleteCurrency(self, Currency):
+        pass
+
+    def getPortfolio(self):
+        pass
