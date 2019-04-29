@@ -6,6 +6,11 @@ class Currency(models.Model):
     code = models.CharField(max_length=255)
     value = models.FloatField()
     portfolio = models.ForeignKey('Portfolio', null=True, on_delete=models.SET_NULL)
+    
+    def __str__(self):
+        return str(self.code)+ " - "+str(self.value)
+
+
 
 
 class Portfolio(models.Model):
