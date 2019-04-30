@@ -1,7 +1,11 @@
-from django.urls import path
-from .views import ListPortfoliosView
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from portfolio import views
 
+router = DefaultRouter()
+router.register(r'', views.PortfolioViewSet)
 
+# The API URLs are now determined automatically by the router.
 urlpatterns = [
-    path('songs/', ListPortfoliosView.as_view(), name="portfolios-all")
+    path('', include(router.urls)),
 ]
