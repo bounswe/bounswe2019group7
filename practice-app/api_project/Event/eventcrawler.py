@@ -9,20 +9,17 @@ class Eventcrawler:
 		self.base_url = 'http://us.econoday.com/byday.asp?'
 		self.header = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.132 Safari/537.36'}
 		self.information = []
-		#self.lastCrawl = None
 
 	def crawl(self):
 		currentdate=datetime.datetime.now()
 
-		#if (not self.lastCrawl) or self.lastCrawl.day!=currentdate.day:
 		for i in range(7): #last 7 days
 			self.getNextDaysEvents(currentdate, self.information)
 			currentdate -= datetime.timedelta(days=1)
-		#self.lastCrawl=datetime.datetime.now()
 
-		return self.information
+		return self.information #return all the info of last 7 days including today
 
-	def getNextDaysEvents(self, currentdate, information):
+	def getNextDaysEvents(self, currentdate, information): #append the given day's events to self.information
 		curr_url = self.base_url + 'day=' + str(currentdate.day) + \
 		           '&month=' + str(currentdate.month) + \
 		           '&year=' + str(currentdate.year)
@@ -33,7 +30,7 @@ class Eventcrawler:
 
 		evtDescRows = soup.find_all('tr', class_="dailyeventtext")
 
-		for row in evtDescRows:
+		for row in evtDescRows: #parse the html
 
 		    if (row.find_all('td')[0].get_text().find(':') != -1):
 		        evtTime = row.find_all('td')[0].get_text()
@@ -49,9 +46,5 @@ class Eventcrawler:
 
 		        evtName = row.find_all('td')[2].find_all('a')[0].get_text()
 		        evtDT = str(datetime.datetime(currentdate.year, currentdate.month, currentdate.day, evtTime24H_CT, int(evtTime[3:5]), 0, 0))
-		        information.append([evtName, evtDT])
-		
-
-crawler=Eventcrawler()
-print(crawler.crawl())
+		        information.append([evtName, evtDT]) # append the event title with it's time
 
