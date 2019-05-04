@@ -15,7 +15,7 @@ class CurrencyViewSet(viewsets.ModelViewSet):
     queryset = Currency.objects.all()
     serializer_class = CurrencySerializer
 
-    def list(self, request):  # GET articles/
+    def list(self, request):  # GET currencies/
         currency_list = [("USD", "TRY"), ("BTC", "USD"), ("EUR", "TRY"), ("EUR", "USD"), ("USD", "CNY")]
         data_list = []
         for currency in currency_list:
