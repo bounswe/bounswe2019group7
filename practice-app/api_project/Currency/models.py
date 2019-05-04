@@ -9,7 +9,7 @@ class Currency(models.Model):
     id = models.IntegerField(primary_key=True)
 
     def __str__(self):
-        return str(self.from_currency)+ "/"+str(self.to_currency) + ": " + str(self.exchange_rate)
+        return str(self.from_currency)+"/"+str(self.to_currency)+": "+str(self.exchange_rate)
 
 
 # PEVAKXVH1TMR8SU9
