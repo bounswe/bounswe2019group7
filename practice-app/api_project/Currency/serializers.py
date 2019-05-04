@@ -5,5 +5,5 @@ from .models import Currency
 class CurrencySerializer(serializers.ModelSerializer):
     class Meta:
         model = Currency
-        fields = ("code", "value", "id")
+        fields = ("from_currency", "to_currency", "exchange_rate", "id")
 
