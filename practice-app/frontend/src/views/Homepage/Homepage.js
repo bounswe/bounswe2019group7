@@ -42,19 +42,12 @@ class HomePage extends Component {
       quantityTL: 0,
       parities: []
     };
-
-    axios.get(baseUrl+'currencies/')
-      .then(function (response) {
-        this.state.parities = response
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .then(function () {
-        //
-    });
   }
+
+  componentDidMount(){
+    axios.get(baseUrl+'currencies/').then(function (response) {console.log(response); this.state.parities=response})
+  }
+
 
   handleChange = (e) => {
     this.setState({[e.target.name] : e.target.value})
