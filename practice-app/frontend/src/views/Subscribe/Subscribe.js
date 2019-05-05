@@ -30,7 +30,7 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 
 
-class HomePage extends Component {
+class Subscribe extends Component {
   constructor(props) {
     super(props);
 
@@ -99,4 +99,4 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+export default Subscribe;
