@@ -5,18 +5,23 @@ export default {
       name: 'Pages',
     },
     {
-      name: 'Login',
-      url: '/login',
+      name: 'Currencies',
+      url: '/homepage',
       icon: 'icon-cursor',
     },
     {
-      name: 'Register',
-      url: '/register',
+      name: 'Subscribe',
+      url: '/subscribe',
       icon: 'icon-cursor',
     },
     {
-      name: 'Logout',
-      url: '/logout',
+      name: 'Events',
+      url: '/events',
+      icon: 'icon-cursor',
+    },
+    {
+      name: 'Articles',
+      url: '/articles',
       icon: 'icon-cursor',
     }
 
