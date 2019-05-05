@@ -18,6 +18,7 @@ from django.conf.urls import url
 from django.urls import path
 from addToMailList.views import email_list_signup
 from mail.views import index
+from django.urls import include
 
 
 urlpatterns = [
