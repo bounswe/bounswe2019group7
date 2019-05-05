@@ -1,4 +1,5 @@
-# BOUNSWE 2019 GROUP SE7EN
+![eyeTrade](assets/eyeTradeLogo.png)
+
 This is the project repository of group 7 for CmpE352 course. Check out our [wiki page](https://github.com/bounswe/bounswe2019group7/wiki) for more information!
 
 # Who Are We?

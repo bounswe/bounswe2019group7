@@ -1,6 +1,6 @@
 {
-  "name": "Login",
+  "name": "Events",
   "version": "0.0.0",
   "private": true,
-  "main": "./Login.js"
+  "main": "./Events.js"
 }

@@ -20,7 +20,12 @@ import {
   Row,
   Table,
   ListGroup,
-  ListGroupItem
+  ListGroupItem,
+  Form,
+  FormGroup,
+  FormText,
+  Input,
+  Label,
 } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
@@ -30,26 +35,29 @@ class HomePage extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
     this.state = {
-      dropdownOpen: false,
-      radioSelected: 2,
+      quantityDollars: 0,
+      quantityTL: 0,
+      parities: []
     };
+
+    //Set the parities
   }
 
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    });
+  handleChange = (e) => {
+    this.setState({[e.target.name] : e.target.value})
   }
 
-  onRadioBtnClick(radioSelected) {
-    this.setState({
-      radioSelected: radioSelected,
-    });
+  convertToDollars(){
+    var dollars = this.state.quantityDollars
+    // Do api request
   }
+
+  convertToTL(){
+    var tl = this.state.quantityTL
+    // Do api request
+  }
+
 
   render() {
 
@@ -60,22 +68,70 @@ class HomePage extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-align-justify"></i><strong>Currencies</strong>
-                <div className="card-header-actions">
-                  <a href="https://reactstrap.github.io/components/listgroup/" rel="noreferrer noopener" target="_blank" className="card-header-action">
-                    <small className="text-muted">docs</small>
-                  </a>
-                </div>
               </CardHeader>
               <CardBody>
                 <ListGroup>
                   <ListGroupItem>Currency1</ListGroupItem>
-                  <ListGroupItem>Currency2</ListGroupItem>
-                  <ListGroupItem>Currency3</ListGroupItem>
-                  <ListGroupItem>Currency4</ListGroupItem>
+                  {this.state.parities.map((value, index) => {
+                    return <ListGroupItem key={index}>{value}</ListGroupItem>
+                  })}
                 </ListGroup>
               </CardBody>
             </Card>
           </Col>
+
+          <Col xs="12" md="6">
+            <Card>
+              <CardHeader>
+                <strong>Dollars to Turkish Liras</strong>
+              </CardHeader>
+              <CardBody>
+                <Form action="" method="post" className="form-horizontal">
+                  <FormGroup row>
+                    <Col md="2">
+                      <Label htmlFor="hf-email">Dollars:</Label>
+                    </Col>
+                    <Col md="4">
+                      <Input placeholder="Enter Quantity" name="quantityDollars" value={this.state.quantityDollars} onChange={this.handleChange} />
+                      <FormText className="help-block">Please enter the quantity</FormText>
+                    </Col>
+                    <Col md="3">
+                      <Button type="button" onClick={this.corvertToDollars} size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Convert</Button>
+                    </Col>
+                    <Col md="3">
+                      <h3> 10 TL </h3>
+                    </Col>
+                  </FormGroup>
+                </Form>
+              </CardBody>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <strong>Turkish Liras to Dollars</strong>
+              </CardHeader>
+              <CardBody>
+                <Form action="" method="post" className="form-horizontal">
+                  <FormGroup row>
+                    <Col md="2">
+                      <Label htmlFor="hf-email">TL:</Label>
+                    </Col>
+                    <Col md="4">
+                      <Input placeholder="Enter Quantity" name="quantityTL" value={this.state.quantityTL} onChange={this.handleChange} />
+                      <FormText className="help-block">Please enter the quantity</FormText>
+                    </Col>
+                    <Col md="3">
+                      <Button type="button" onClick={this.corvertToTL} size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Convert</Button>
+                    </Col>
+                    <Col md="3">
+                      <h3> 1.5 Dollars </h3>
+                    </Col>
+                  </FormGroup>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
+
         </Row>
       </div>
     );
