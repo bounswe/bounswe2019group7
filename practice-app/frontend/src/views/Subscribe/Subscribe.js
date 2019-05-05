@@ -57,7 +57,7 @@ class Subscribe extends Component {
   }
 
   componentDidMount() {
-    window.open("localhost:8000/mail");
+    window.open(this.baseUrl+"mail/");
   }
 
   handleChange = (e) => {
