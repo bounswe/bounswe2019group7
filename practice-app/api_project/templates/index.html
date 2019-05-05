@@ -18,7 +18,7 @@
                 {% csrf_token %}
                 <div class="form-group">
                     {{ form }}
-                    <button type="submit" class="submit">Signup</button>
+                    <button onclick="myFunction()" type="submit" class="submit">Subscribe</button>
                 </div>
               </form>
             </div>
@@ -26,5 +26,10 @@
         </div>
       </div>
 </section>
+<script>
+function myFunction() {
+  alert("Thanks for subscribing!");
+}
+</script>
 </body>
 </html>
