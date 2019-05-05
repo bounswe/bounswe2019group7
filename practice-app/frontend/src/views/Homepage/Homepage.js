@@ -40,27 +40,29 @@ class HomePage extends Component {
     this.state = {
       quantityDollars: 0,
       quantityTL: 0,
-      parities: []
+      parities: [],
+      convertedDollars: ""
     };
 
   }
 
   componentDidMount = () => {
-    axios.get(baseUrl+'currencies/').then((response)=>{console.log(response.data); this.setState({parities : response.data})})
+    axios.get(baseUrl+'currencies/').then((response)=>
+      {this.setState({parities : response.data})})
   }
 
   handleChange = (e) => {
     this.setState({[e.target.name] : e.target.value})
   }
 
-  convertToDollars(){
-    var dollars = this.state.quantityDollars
-    // Do api request
+  convertToDollars = (e) => {
+    e.preventDefault();
+    this.setState({convertedDollars : this.state.quantityTL*this.state.parities[0]["Realtime Currency Exchange Rate"]["9. Ask Price"]})
   }
 
-  convertToTL(){
-    var tl = this.state.quantityTL
-    // Do api request
+  convertToTL = (e) => {
+    e.preventDefault();
+    this.setState({convertedTL : this.state.quantityDollars*this.state.parities[1]["Realtime Currency Exchange Rate"]["9. Ask Price"]})
   }
 
 
@@ -76,9 +78,8 @@ class HomePage extends Component {
               </CardHeader>
               <CardBody>
                 <ListGroup>
-                  <ListGroupItem>Currency1</ListGroupItem>
                   {this.state.parities.map((value, index) => {
-                    return <ListGroupItem key={index}>{value}</ListGroupItem>
+                    return <ListGroupItem key={index}>{(value["Realtime Currency Exchange Rate"]["1. From_Currency Code"]+"/"+value["Realtime Currency Exchange Rate"]["3. To_Currency Code"]+": "+value["Realtime Currency Exchange Rate"]["9. Ask Price"])}</ListGroupItem>
                   })}
                 </ListGroup>
               </CardBody>
@@ -91,7 +92,7 @@ class HomePage extends Component {
                 <strong>Dollars to Turkish Liras</strong>
               </CardHeader>
               <CardBody>
-                <Form action="" method="post" className="form-horizontal">
+                <Form onSubmit={this.convertToTL} className="form-horizontal">
                   <FormGroup row>
                     <Col md="2">
                       <Label htmlFor="hf-email">Dollars:</Label>
@@ -101,10 +102,10 @@ class HomePage extends Component {
                       <FormText className="help-block">Please enter the quantity</FormText>
                     </Col>
                     <Col md="3">
-                      <Button type="button" onClick={this.corvertToDollars} size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Convert</Button>
+                      <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Convert</Button>
                     </Col>
                     <Col md="3">
-                      <h3> 10 TL </h3>
+                      <h3> {this.state.convertedTL} </h3>
                     </Col>
                   </FormGroup>
                 </Form>
@@ -116,7 +117,7 @@ class HomePage extends Component {
                 <strong>Turkish Liras to Dollars</strong>
               </CardHeader>
               <CardBody>
-                <Form action="" method="post" className="form-horizontal">
+                <Form onSubmit={this.convertToDollars} className="form-horizontal">
                   <FormGroup row>
                     <Col md="2">
                       <Label htmlFor="hf-email">TL:</Label>
@@ -126,10 +127,10 @@ class HomePage extends Component {
                       <FormText className="help-block">Please enter the quantity</FormText>
                     </Col>
                     <Col md="3">
-                      <Button type="button" onClick={this.corvertToTL} size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Convert</Button>
+                      <Button type="submit" size="sm" color="primary"><i className="fa fa-dot-circle-o"></i> Convert</Button>
                     </Col>
                     <Col md="3">
-                      <h3> 1.5 Dollars </h3>
+                      <h3> {this.state.convertedDollars} </h3>
                     </Col>
                   </FormGroup>
                 </Form>
