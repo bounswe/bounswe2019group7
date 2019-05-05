@@ -45,8 +45,8 @@ class HomePage extends Component {
 
   }
 
-  componentDidMount = () => {
-    axios.get(baseUrl+'currencies/').then((response)=>{console.log(response.data); this.setState({parities : response.data})})
+  componentDidMount(){
+   // axios.get(baseUrl+'currencies/').then(function (response) {console.log(response); this.state.parities=response})
   }
 
   handleChange = (e) => {
