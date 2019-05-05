@@ -60,7 +60,7 @@ class HomePage extends Component {
           <Col sm="12" xl="6">
             <Card>
                 <CardHeader>
-                    <i className="fa fa-mail"></i><strong>Subscribe to Mail List</strong>
+                    <i className="fa fa-envelope"></i><strong>Subscribe to Mail List</strong>
                 </CardHeader>
                 <CardBody>
                     <Form>
@@ -78,7 +78,7 @@ class HomePage extends Component {
           <Col sm="12" xl="6">
             <Card>
                 <CardHeader>
-                    <i className="fa fa-mail"></i><strong>Unsubscribe from Mail List</strong>
+                    <i className="fa fa-envelope"></i><strong>Unsubscribe from Mail List</strong>
                 </CardHeader>
                 <CardBody>
                     <Form>
