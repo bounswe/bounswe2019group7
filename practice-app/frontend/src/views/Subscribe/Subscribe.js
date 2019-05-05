@@ -17,17 +17,19 @@ import {
   DropdownMenu,
   DropdownToggle,
   Form,
+  FormGroup,
   Progress,
   Row,
   Input,
-  InputGroup,
-  InputGroupAddon,
   Table,
+  Label,
   ListGroup,
   ListGroupItem
 } from 'reactstrap';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
+
+import axios from 'axios';
 
 
 class Subscribe extends Component {
@@ -40,12 +42,17 @@ class Subscribe extends Component {
     };
   }
 
+  baseUrl = "http://localhost:8000/";
+
   subscribe = () => {
       console.log("Subscribing "+this.state.subMail);
-  }
-
-  unsubscribe = () => {
-      console.log("Unsubscribing "+this.state.unsubMail);
+      axios.post(this.baseUrl+"subscribe/",{email: this.state.subMail})
+      .then(()=>{
+        alert("Thanks for subscribing!");
+      })
+      .catch(()=>{
+        alert("There was an error subscribing, please try again later");
+      })
   }
 
   handleChange = (e) => {
@@ -57,38 +64,24 @@ class Subscribe extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col sm="12" xl="6">
+          <Col>
             <Card>
                 <CardHeader>
                     <i className="fa fa-envelope"></i><strong>Subscribe to Mail List</strong>
                 </CardHeader>
                 <CardBody>
                     <Form>
-                        <InputGroup>
-                            <InputGroupAddon addonType="prepend">Email</InputGroupAddon>
+                       <Row form>
+                         <Col md="2">
+                            <Label>Email</Label>
+                         </Col>
+                         <Col md="8">
                             <Input placeholder="abc@xyz.com" name="subMail" value={this.state.subMail} onChange={this.handleChange}/>
-                            <InputGroupAddon addonType="append">
-                                <Button onClick={this.subscribe}>Subscribe</Button>
-                            </InputGroupAddon>
-                        </InputGroup>
-                    </Form>
-                </CardBody>
-            </Card>
-          </Col>
-          <Col sm="12" xl="6">
-            <Card>
-                <CardHeader>
-                    <i className="fa fa-envelope"></i><strong>Unsubscribe from Mail List</strong>
-                </CardHeader>
-                <CardBody>
-                    <Form>
-                        <InputGroup>
-                            <InputGroupAddon addonType="prepend">Email</InputGroupAddon>
-                            <Input placeholder="abc@xyz.com" name="unsubMail" value={this.state.unsubMail} onChange={this.handleChange}/>
-                            <InputGroupAddon addonType="append">
-                                <Button onClick={this.unsubscribe}>Unsubscribe</Button>
-                            </InputGroupAddon>
-                        </InputGroup>
+                        </Col>
+                        <Col md="2">
+                            <Button onClick={this.subscribe} color="primary">Subscribe</Button>
+                         </Col>
+                        </Row>
                     </Form>
                 </CardBody>
             </Card>
