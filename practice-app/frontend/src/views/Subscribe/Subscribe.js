@@ -30,7 +30,7 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
 
 class Subscribe extends Component {
   constructor(props) {
@@ -42,10 +42,12 @@ class Subscribe extends Component {
     };
   }
 
-  baseUrl = "http://localhost:8000/";
+  baseUrl = "http://127.0.0.0:8000/";
 
   subscribe = () => {
       console.log("Subscribing "+this.state.subMail);
+
+      axios.defaults.headers.common['X-CSRF-TOKEN'] = Cookies.get('csrftoken');
       axios.post(this.baseUrl+"subscribe/",{email: this.state.subMail})
       .then(()=>{
         alert("Thanks for subscribing!");
