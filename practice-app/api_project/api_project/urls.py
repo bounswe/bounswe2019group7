@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('articles/', include('Article.urls')),
     path('currencies/', include('Currency.urls')),
+    path('events/', include('Event.urls')),
     url(r'^subscribe/$', email_list_signup, name='email-list-signup'),
     url(r'^mail/', index, name='index'),
 ]
