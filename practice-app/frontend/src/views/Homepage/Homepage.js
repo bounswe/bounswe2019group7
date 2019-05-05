@@ -1,24 +1,11 @@
-import React, { Component, lazy, Suspense } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
+import React, { Component} from 'react';
 import {
-  Badge,
   Button,
-  ButtonDropdown,
-  ButtonGroup,
-  ButtonToolbar,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
-  CardTitle,
   Col,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Progress,
   Row,
-  Table,
   ListGroup,
   ListGroupItem,
   Form,
@@ -27,8 +14,6 @@ import {
   Input,
   Label,
 } from 'reactstrap';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 
 const axios = require('axios')
 const baseUrl = "http://127.0.0.1:8000/"
@@ -41,7 +26,8 @@ class HomePage extends Component {
       quantityDollars: 0,
       quantityTL: 0,
       parities: [],
-      convertedDollars: ""
+      convertedDollars: "",
+      corvertedTL: ""
     };
 
   }

@@ -1,67 +1,36 @@
-import React, { Component, lazy, Suspense } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
+import React, { Component } from 'react';
 import {
-  Badge,
-  Button,
-  ButtonDropdown,
-  ButtonGroup,
-  ButtonToolbar,
   Card,
   CardBody,
-  CardFooter,
   CardHeader,
-  CardTitle,
   Col,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Form,
-  Progress,
   Row,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  Table,
-  ListGroup,
-  ListGroupItem
 } from 'reactstrap';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 
+import axios from 'axios';
 
 class Events extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      events: [
-        {
-          event_text: "Event 1",
-          event_date: new Date()
-        },
-        {
-          event_text: "Event 2",
-          event_date: new Date()
-        },
-        {
-          event_text: "Event 3",
-          event_date: new Date()
-        },
-        {
-          event_text: "Event 4",
-          event_date: new Date()
-        },
-        {
-          event_text: "Event 5",
-          event_date: new Date()
-        },
-        {
-          event_text: "Event 6",
-          event_date: new Date()
-        },
-      ]
+      events: []
     };
+  }
+
+  baseUrl = "http://127.0.0.1:8000/";
+
+  componentDidMount(){
+    axios.get(this.baseUrl+"events/")
+    .then(res=>{
+      var data = JSON.parse(res.data);
+      console.log(data);
+      var newEvents = [];
+      for(var i=0;data[i];i++){
+        newEvents.push(data[i]);
+      }
+      this.setState({events:newEvents});
+    })
   }
 
   subscribe = () => {
