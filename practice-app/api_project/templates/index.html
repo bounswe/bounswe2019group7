@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section class="newsletter no-padding-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2>Subscribe to Newsletter</h2>
+            <p class="text-big">Economical news, changes in currecies and some other great stuff.</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-holder">
+              <form action="{% url 'email-list-signup' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form }}
+                    <button type="submit" class="submit">Signup</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>
+</body>
+</html>
