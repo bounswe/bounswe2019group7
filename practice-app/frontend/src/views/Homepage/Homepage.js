@@ -30,6 +30,8 @@ import {
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 
+const axios = require('axios')
+const baseUrl = "http://127.0.0.1:8000/"
 
 class HomePage extends Component {
   constructor(props) {
@@ -41,7 +43,17 @@ class HomePage extends Component {
       parities: []
     };
 
-    //Set the parities
+    axios.get(baseUrl+'currencies/')
+      .then(function (response) {
+        this.state.parities = response
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        //
+    });
   }
 
   handleChange = (e) => {
