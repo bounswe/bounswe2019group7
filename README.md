@@ -1,4 +1,5 @@
 ![eyeTrade](assets/eyeTradeLogo.png)
+Check out our [demo app](http://52.87.206.237/#/homepage) for more information!
 
 This is the project repository of group 7 for CmpE352 course. Check out our [wiki page](https://github.com/bounswe/bounswe2019group7/wiki) for more information!
 
