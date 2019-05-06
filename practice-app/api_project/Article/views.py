@@ -10,13 +10,12 @@ class ArticleViewSet(viewsets.ModelViewSet):
 	queryset = Article.objects.all()
 	serializer_class = ArticleSerializer
 
-	def list(self, request): #GET articles/
-		serializer = ArticleSerializer(queryset)
-		return Response(serializer.data)
+	#def list(self, request) exists by default
 
 	def create(self, request): #POST articles/ with Article object in body	
+		queryset = Article.objects.all()
 		try:
-			Article.objects.create(owner = request.data["owner"], article_title = request.data["article_title"], article_text = request.data["article_text"])
+			Article.objects.create(article_title = request.data["article_title"], article_text = request.data["article_text"])
 			return Response(status=200)
 		except:
 			return Response(status=400)
@@ -33,14 +32,13 @@ class ArticleViewSet(viewsets.ModelViewSet):
 		queryset = Article.objects.all()
 		article = get_object_or_404(queryset, pk=pk)
 		try:
-			article = Article(owner = request.data["owner"], article_title = request.data["article_title"], article_text = request.data["article_text"])
+			article = Article(article_title = request.data["article_title"], article_text = request.data["article_text"])
 			article.save()
 			return Response(status=200)
 		except:
 			return Response(status=400)
 
 	def destroy(self, request, pk=None): #DELETE articles/<id>/
-		print("aa")
 		queryset = Article.objects.all()
 		article = get_object_or_404(queryset, pk=pk)
 		try:

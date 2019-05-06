@@ -15,30 +15,21 @@ import {
   Label,
 } from 'reactstrap';
 
+const axios = require('axios')
+const baseUrl = "http://127.0.0.1:8000/"
 
 class Articles extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-
     this.state = {
-      dropdownOpen: false,
-      radioSelected: 2,
+      articles : [],
     };
   }
 
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    });
-  }
-
-  onRadioBtnClick(radioSelected) {
-    this.setState({
-      radioSelected: radioSelected,
-    });
+  componentDidMount = () => {
+    axios.get(baseUrl+'articles/').then((response)=>
+      {this.setState({articles : response.data})})
   }
 
   render() {
@@ -46,23 +37,21 @@ class Articles extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col sm="12" xl="12">
+          {this.state.articles.map((value, index)=>{
+            return(
+          <Col sm="6" md="4" xl="3" key={index}>
             <Card>
-              <CardHeader>
-                <i className="fa fa-align-justify"></i><strong>Articles</strong>
-              </CardHeader>
-              <CardBody>
-                <ListGroup>
-                  <ListGroupItem>Article1</ListGroupItem>
-                  <ListGroupItem>Article2</ListGroupItem>
-                  <ListGroupItem>Article3</ListGroupItem>
-                  <ListGroupItem>Article4</ListGroupItem>
-                </ListGroup>
-              </CardBody>
+                <CardHeader>
+                    <i className="fa fa-certificate"></i><strong>{value["article_title"]}</strong>
+                </CardHeader>
+                <CardBody>
+                  {value["article_text"]}
+                </CardBody>
             </Card>
-          </Col>
-
+          </Col>);
+          })}
         </Row>
+
       </div>
     );
   }

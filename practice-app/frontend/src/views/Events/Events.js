@@ -7,8 +7,6 @@ import {
   Row,
 } from 'reactstrap';
 
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
 import axios from 'axios';
 
 class Events extends Component {
