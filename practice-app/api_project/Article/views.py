@@ -10,7 +10,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 	queryset = Article.objects.all()
 	serializer_class = ArticleSerializer
 
-	#def list(self, request) exists by default
+	#GET articles/ exists by default and returns the list of articles
 
 	def create(self, request): #POST articles/ with Article object in body	
 		queryset = Article.objects.all()
@@ -23,14 +23,14 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 	def retrieve(self, request, pk=None): #GET articles/<id>/
 		queryset = Article.objects.all()
-		article = get_object_or_404(queryset, pk=pk)
+		article = get_object_or_404(queryset, pk = pk)
 		serializer = ArticleSerializer(article)
 		return Response(serializer.data)
 
 	
 	def update(self, request, pk=None): #PUT articles/<id>/  with Article object in body
 		queryset = Article.objects.all()
-		article = get_object_or_404(queryset, pk=pk)
+		article = get_object_or_404(queryset, pk = pk)
 		try:
 			article.article_title = request.data["article_title"]
 			article.article_text = request.data["article_text"]
@@ -41,7 +41,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
 
 	def destroy(self, request, pk=None): #DELETE articles/<id>/
 		queryset = Article.objects.all()
-		article = get_object_or_404(queryset, pk=pk)
+		article = get_object_or_404(queryset, pk = pk)
 		try:
 			article.delete()
 			return Response(status=204)
