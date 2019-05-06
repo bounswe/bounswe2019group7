@@ -16,7 +16,7 @@ import {
 } from 'reactstrap';
 
 const axios = require('axios')
-const baseUrl = "http://3.86.94.89:8000/"
+const baseUrl = "http://52.87.206.237:8000/"
 
 class HomePage extends Component {
   constructor(props) {

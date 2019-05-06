@@ -18,7 +18,7 @@ class Events extends Component {
     };
   }
 
-  baseUrl = "http://3.86.94.89:8000/";
+  baseUrl = "http://52.87.206.237:8000/";
 
   componentDidMount(){
     axios.get(this.baseUrl+"events/")
