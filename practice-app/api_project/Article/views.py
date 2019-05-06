@@ -28,11 +28,12 @@ class ArticleViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data)
 
 	
-	def update(self, request, pk=None): #PUT articles/<id>/  with Article object in body	
+	def update(self, request, pk=None): #PUT articles/<id>/  with Article object in body
 		queryset = Article.objects.all()
 		article = get_object_or_404(queryset, pk=pk)
 		try:
-			article = Article(article_title = request.data["article_title"], article_text = request.data["article_text"])
+			article.article_title = request.data["article_title"]
+			article.article_text = request.data["article_text"]
 			article.save()
 			return Response(status=200)
 		except:
