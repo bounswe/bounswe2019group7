@@ -18,7 +18,6 @@ class CurrencyTest(TestCase):
 
     def test_retrieve(self):
         queryset = Currency.objects.all()
-        print(queryset)
         currency = get_object_or_404(queryset, id=0)
         serializer = CurrencySerializer(currency)
         response = self.client.get(reverse(CurrencyViewSet.retrieve, kwargs={'pk': 0}))

@@ -6,7 +6,6 @@ from .serializers import CurrencySerializer
 import requests
 import json
 from rest_framework.decorators import action
-from django.http import JsonResponse
 from django.http import HttpResponseNotFound
 
 
