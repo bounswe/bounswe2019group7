@@ -6,8 +6,6 @@ import json
 
 class EventViewSet(viewsets.ModelViewSet):
 
-    queryset = Event.objects.all()
-
     def list(self, request):   
         crawler = Eventcrawler()
         events = crawler.crawl()
