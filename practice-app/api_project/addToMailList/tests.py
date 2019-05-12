@@ -20,6 +20,7 @@ class TestForm1(SimpleTestCase):
 
         self.assertTrue(form.is_valid())
 
+
 class TestForm2(SimpleTestCase):
 
     def test_form_is_valid(self):

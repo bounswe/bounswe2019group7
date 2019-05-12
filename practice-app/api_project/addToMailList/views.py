@@ -1,8 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from rest_framework.decorators import action
 from .forms import EmailSignupForm
 from .models import Signup
 
@@ -18,6 +16,7 @@ members_endpoint = '{api_url}/lists/{list_id}/members'.format(
     api_url=api_url,
     list_id=MAILCHIMP_EMAIL_LIST_ID
 )
+
 
 def subscribe(email):
     data = {
