@@ -43,12 +43,12 @@ class HomePage extends Component {
 
   convertToDollars = (e) => {
     e.preventDefault();
-    this.setState({convertedDollars : this.state.quantityTL*this.state.parities[0]["Realtime Currency Exchange Rate"]["9. Ask Price"]})
+    this.setState({convertedDollars : this.state.quantityTL*this.state.parities[1]["Realtime Currency Exchange Rate"]["9. Ask Price"]})
   }
 
   convertToTL = (e) => {
     e.preventDefault();
-    this.setState({convertedTL : this.state.quantityDollars*this.state.parities[1]["Realtime Currency Exchange Rate"]["9. Ask Price"]})
+    this.setState({convertedTL : this.state.quantityDollars*this.state.parities[0]["Realtime Currency Exchange Rate"]["9. Ask Price"]})
   }
 
 
