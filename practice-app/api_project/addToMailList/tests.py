@@ -4,6 +4,7 @@ from addToMailList.views import email_list_signup
 from addToMailList.forms import EmailSignupForm
 
 
+# tests if the url works fine.
 class TestUrls(SimpleTestCase):
 
     def test_url_is_resolved(self):
@@ -11,6 +12,7 @@ class TestUrls(SimpleTestCase):
         self.assertEquals(resolve(url).func, email_list_signup)
 
 
+# tests if form data is valid
 class TestForm1(SimpleTestCase):
 
     def test_form_is_valid(self):
@@ -21,11 +23,24 @@ class TestForm1(SimpleTestCase):
         self.assertTrue(form.is_valid())
 
 
+# tests if form data is valid
 class TestForm2(SimpleTestCase):
 
     def test_form_is_valid(self):
         form = EmailSignupForm(data={
             'randomName': 'asdasd@gmail.com'
+        })
+
+        self.assertFalse(form.is_valid())
+
+
+# tests if form data is valid
+class TestForm3(SimpleTestCase):
+
+    def test_form_is_valid(self):
+        form = EmailSignupForm(data={
+            'randomName': 'asdasd@gmail.com',
+            'mail': 'sadsadsadsadsa'
         })
 
         self.assertFalse(form.is_valid())
