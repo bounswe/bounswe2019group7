@@ -23,6 +23,11 @@ export default {
       name: 'Articles',
       url: '/articles',
       icon: 'icon-cursor',
+    },
+    {
+      name: 'Documentation',
+      url: '/documentation',
+      icon: 'icon-cursor',
     }
 
   ],
