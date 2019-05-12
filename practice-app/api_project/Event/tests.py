@@ -3,7 +3,7 @@ from django.urls import reverse
 from .views import *
 
 
-class CurrencyTest(TestCase):
+class EventTest(TestCase):
 
     def __init__(self, *args, **kwargs):
         TestCase.__init__(self, *args, **kwargs)
