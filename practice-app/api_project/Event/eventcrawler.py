@@ -13,7 +13,7 @@ class Eventcrawler:
 	def crawl(self):
 		current_date=datetime.datetime.now()
 
-		for i in range(4): #last 4 days
+		for i in range(7): #last 7 days
 			self.getNextDaysEvents(current_date, self.information)
 			current_date -= datetime.timedelta(days=1)
 
