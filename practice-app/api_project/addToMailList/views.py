@@ -7,6 +7,7 @@ from .models import Signup
 import json
 import requests
 
+#Information related to mailchimp api taken from settings.py
 MAILCHIMP_API_KEY = settings.MAILCHIMP_API_KEY
 MAILCHIMP_DATA_CENTER = settings.MAILCHIMP_DATA_CENTER
 MAILCHIMP_EMAIL_LIST_ID = settings.MAILCHIMP_EMAIL_LIST_ID
@@ -17,7 +18,7 @@ members_endpoint = '{api_url}/lists/{list_id}/members'.format(
     list_id=MAILCHIMP_EMAIL_LIST_ID
 )
 
-
+#function to subscribe using mailchimp API
 def subscribe(email):
     data = {
         "email_address": email,
@@ -30,7 +31,7 @@ def subscribe(email):
     )
     return r.status_code, r.json()
 
-
+#checks if request is valid, returns the response from mailchimp's API
 def email_list_signup(request):
     form = EmailSignupForm(request.POST or None)
     if request.method == "POST":

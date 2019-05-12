@@ -5,8 +5,8 @@ from addToMailList.models import Signup
 # Create your views here.
 form = EmailSignupForm()
 
+# handles request, shows index.html at /mail page.
 def index(request):
-
     if request.method == "POST":
         email = request.POST["email"]
         new_signup = Signup()
