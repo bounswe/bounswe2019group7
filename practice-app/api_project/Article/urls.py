@@ -8,4 +8,6 @@ router.register(r'', views.ArticleViewSet)
 # The API URLs are now determined automatically by the router.
 urlpatterns = [
     path('', include(router.urls)),
+    path('getbykeywordsintitle/<str:keyword>', views.getArticlesByKeywordsOnTitle),
+    path('getbykeywordsincontent/<str:keyword>', views.getArticlesByKeywordsOnContent),
 ]
