@@ -58,3 +58,23 @@ class ArticleTestCase(TestCase):
 		# test for response of search for keyword in content
 		self.assertEqual(getArticlesByKeywordsOnContent(factory.get('getbykeywordsincontent/'), keyword="content keyword1").data, '[{"article_title" : "text title keyword1 text", "article_text" : "text content keyword1 text"}])'
 		self.assertEqual(getArticlesByKeywordsOnContent(factory.get('getbykeywordsincontent/'), keyword="content keyword2").data, '[{"article_title" : "text title keyword2 text", "article_text" : "text content keyword2 text"}])'
+		
+	def new_test_for_search(self):
+
+		article1 = Article.objects.get(article_title = "cmpe cat cat cat dog dog")
+		article2 = Article.objects.get(article_title = "cmpe321 cmpe352")
+
+		factory = APIRequestFactory() # to create requests
+
+		#test for search for keyword in title
+		self.assertEqual(getArticlesByKeywordsOnTitle(factory.get('getbykeywordsintitle/'), keyword="cmpe").status_code, 200)
+		self.assertEqual(getArticlesByKeywordsOnTitle(factory.get('getbykeywordsintitle/'), keyword="cmpe321").status_code, 200)
+		
+		self.assertEqual(getArticlesByKeywordsOnContent(factory.get('getbykeywordsintitle/'), keyword="dog cat").status_code, 200)
+		self.assertEqual(getArticlesByKeywordsOnContent(factory.get('getbykeywordsintitle/'), keyword="cat dog").status_code, 200)
+		
+		
+		#test for searching a keyword which is not in the titles.
+		self.assertEqual(getArticlesByKeywordsOnContent(factory.get('getbykeywordsincontent/'), keyword="ie306").data, '[])')
+
+		
