@@ -4,6 +4,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from Article.models import Article
 
+from django.db import connection
+import json
 
 class ArticleViewSet(viewsets.ModelViewSet):
 
@@ -47,3 +49,30 @@ class ArticleViewSet(viewsets.ModelViewSet):
 			return Response(status=204)
 		except:
 			return Response(status=400)
+
+
+
+def convertToDict(cursor): # A utility function to convert sql results to dictionaries
+	columns = [col[0] for col in cursor.description]
+	return [
+		dict(zip(columns, row))
+		for row in cursor.fetchall()
+	]
+
+def getArticlesByKeywordsOnTitle(request, keyword):
+	articles = []
+	with connection.cursor() as cursor:
+		cursor.execute('Select * From Article Where article_title Like %s', ['%'+keyword+'%'])
+		articles = convertToDict(cursor)
+
+	jsonofarticles = json.dumps(articles)
+	return Response(jsonofarticles)
+
+def getArticlesByKeywordsOnContent(request, keyword):
+	articles = []
+	with connection.cursor() as cursor:
+		cursor.execute('Select * From Article Where article_text Like %s', ['%'+keyword+'%'])
+		articles = convertToDict(cursor)
+
+	jsonofarticles = json.dumps(articles)
+	return Response(jsonofarticles)
