@@ -5,7 +5,7 @@ This is the project repository of group 7 for CmpE352 course. Check out our [wik
 
 # Who Are We?
 
-![contributors](assets/contributors.jpg)
+![](assets/contributors.jpg)
 
 [Seyfi Kutay Kılıç](https://github.com/bounswe/bounswe2019group7/wiki/Kutay-Kılıç)
 
