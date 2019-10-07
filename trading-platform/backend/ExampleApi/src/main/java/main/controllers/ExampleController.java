@@ -4,10 +4,7 @@ import main.models.ExampleResponse;
 import main.services.ExampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -16,6 +13,7 @@ public class ExampleController {
 
     @Autowired ExampleService exampleService;
 
+    @CrossOrigin
     @GetMapping("/example")
     public ResponseEntity<ExampleResponse> exampleMethod(@RequestHeader int number){
         // return true if number is odd
