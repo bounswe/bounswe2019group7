@@ -1,11 +1,14 @@
 package com.example.anil.tradersappapiexample
 
-import android.support.v7.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.View
+import android.widget.TextView
+import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,29 +17,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val retrofitService = RetrofitInstance.getRetrofitInstance().create(ExampleApiInterface::class.java)
-        //retrofitService.getIsOdd().enqueue(Callback<ApiResponse>())
+        retrofitService.getIsOdd(1).enqueue(object : Callback<ApiResponse> {
+
+            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
+                Log.e("ErrorTag", t.cause.toString())
+            }
+
+            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
+                val response = response.body()
+                response?.let {
+                    if (it.isOdd) {
+                        findViewById<View>(R.id.rootLayout).setBackgroundColor(Color.YELLOW)
+                        findViewById<TextView>(R.id.responseText).text = "The response is odd."
+                    } else {
+                        findViewById<View>(R.id.rootLayout).setBackgroundColor(Color.CYAN)
+                        findViewById<TextView>(R.id.responseText).text = "The response is even."
+                    }
+                }
+
+            }
+
+        })
 
     }
 }
 
-class RetrofitInstance {
-
-    companion object {
-        val BASE_URL: String = "OUR API URL"
-        fun getRetrofitInstance(): Retrofit{
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
-    }
-
-}
-interface ExampleApiInterface {
-    @GET("OUR API ENDPOINT")
-    fun getIsOdd(): retrofit2.Call<ApiResponse>
-}
-
-data class ApiResponse(
-    val isOdd : Boolean
-)
