@@ -1,14 +1,10 @@
 package com.example.anil.tradersappapiexample
 
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.View
-import android.widget.TextView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import android.support.v7.widget.Toolbar
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,29 +12,42 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
         val retrofitService = RetrofitInstance.getRetrofitInstance().create(ExampleApiInterface::class.java)
-        retrofitService.getIsOdd(1).enqueue(object : Callback<ApiResponse> {
 
-            override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-                Log.e("ErrorTag", t.cause.toString())
+        loginButton.setOnClickListener {
+            val email = email.text.toString()
+            val password = password.text.toString()
+            if (!validateLoginCredentials(email, password)) {
+                /* AlertDialog.Builder(applicationContext)
+                     .setTitle("Login unsuccessful.")
+                     .setMessage("Enter your information again...")
+                     .show() */
             }
-
-            override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-                val response = response.body()
-                response?.let {
-                    if (it.isOdd) {
-                        findViewById<View>(R.id.rootLayout).setBackgroundColor(Color.YELLOW)
-                        findViewById<TextView>(R.id.responseText).text = "The response is odd."
-                    } else {
-                        findViewById<View>(R.id.rootLayout).setBackgroundColor(Color.CYAN)
-                        findViewById<TextView>(R.id.responseText).text = "The response is even."
-                    }
-                }
-
+            else {
+                openHomePage()
             }
+        }
 
-        })
+        registerButton.setOnClickListener {
+            openRegistrationPage()
 
+        }
+    }
+
+    private fun validateLoginCredentials(email: String, password: String): Boolean {
+        return true
+    }
+
+    private fun openHomePage(){
+        val intent = Intent()
+        // TODO: Go to home page after implementing it
+    }
+
+    private fun openRegistrationPage(){
+        val intent = Intent()
+        // TODO: Go to registration page after implementing it
     }
 }
 
