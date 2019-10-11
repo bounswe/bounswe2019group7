@@ -1,4 +1,4 @@
-package com.example.anil.tradersappapiexample
+package com.example.app.tradersapp
 
 import android.content.Intent
 import android.os.Bundle

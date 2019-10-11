@@ -1,4 +1,4 @@
-package com.example.anil.tradersappapiexample
+package com.example.app.tradersapp
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

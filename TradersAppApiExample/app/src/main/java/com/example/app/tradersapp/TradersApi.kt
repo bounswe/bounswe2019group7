@@ -1,4 +1,4 @@
-package com.example.anil.tradersappapiexample
+package com.example.app.tradersapp
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

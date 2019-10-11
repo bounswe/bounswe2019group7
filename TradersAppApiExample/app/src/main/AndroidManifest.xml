@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.anil.tradersappapiexample">
+          package="com.example.app.tradersapp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -17,20 +17,16 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.app.tradersapp.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrationActivity">
+        <activity android:name="com.example.app.tradersapp.RegistrationActivity">
         </activity>
-        <activity
-                android:name=".LoginActivity"
-                android:label="@string/title_activity_login">
-        </activity>
-        <activity android:name=".HomepageActivity">
+        <activity android:name="com.example.app.tradersapp.HomepageActivity">
         </activity>
     </application>
 
