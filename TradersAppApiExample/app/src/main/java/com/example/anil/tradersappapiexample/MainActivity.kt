@@ -41,13 +41,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openHomePage(){
-        val intent = Intent()
-        // TODO: Go to home page after implementing it
+        val intent = Intent(this, HomepageActivity::class.java)
+        startActivity(intent)
     }
 
     private fun openRegistrationPage(){
-        val intent = Intent()
-        // TODO: Go to registration page after implementing it
+        val intent = Intent(this, RegistrationActivity::class.java)
+        startActivity(intent)
+
     }
 }
 
