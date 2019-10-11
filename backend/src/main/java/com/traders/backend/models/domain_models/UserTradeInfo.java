@@ -5,13 +5,13 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "AccountTradeInfo")
-public class AccountTradeInfo implements Serializable {
+@Table(name = "UserTradeInfo")
+public class UserTradeInfo implements Serializable {
 
     @Id
     @OneToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "id"))
-    public Account account;
+    public User user;
 
     @NotNull
     public String iban;
@@ -19,8 +19,8 @@ public class AccountTradeInfo implements Serializable {
     @NotNull
     public String tc;
 
-    public AccountTradeInfo(Account account, String iban, String tc){
-        this.account = account;
+    public UserTradeInfo(User user, String iban, String tc){
+        this.user = user;
         this.iban = iban;
         this.tc = tc;
     }

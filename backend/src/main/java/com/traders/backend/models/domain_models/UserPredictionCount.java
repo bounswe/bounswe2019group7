@@ -5,13 +5,13 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name="AccountPredictionCount")
-public class AccountPredictionCount implements Serializable {
+@Table(name="UserPredictionCount")
+public class UserPredictionCount implements Serializable {
 
     @Id
     @OneToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "id"))
-    public Account account;
+    public User user;
 
     @NotNull
     public Integer totalPredictions;
@@ -19,8 +19,8 @@ public class AccountPredictionCount implements Serializable {
     @NotNull
     public Integer truePredictions;
 
-    public AccountPredictionCount(Account account){
-        this.account = account;
+    public UserPredictionCount(User user){
+        this.user = user;
         this.totalPredictions = 0;
         this.truePredictions = 0;
         // the total and true predictions are set to 0 initially
