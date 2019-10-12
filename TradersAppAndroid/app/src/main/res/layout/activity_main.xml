@@ -1,77 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/rootLayout"
-        android:background="@color/Black"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity" android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".MainActivity">
 
     <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+            layout="@layout/toolbar" />
 
     <EditText
-            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
             android:drawableStart="@drawable/ic_email_black_24dp"
+            android:drawableLeft="@drawable/ic_email_black_24dp"
             android:drawablePadding="5dp"
+            android:ems="10"
             android:hint="E-mail"
-            android:textColorHint="@color/White"
-            android:textColor="@color/White"
-            android:layout_marginHorizontal="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:ems="10"
-            android:id="@+id/email" app:layout_constraintStart_toEndOf="@+id/toolbar"
-            app:layout_constraintEnd_toStartOf="@+id/toolbar" android:layout_marginStart="40dp"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" android:layout_marginEnd="40dp"
-            android:layout_marginTop="30dp"/>
+            app:layout_constraintEnd_toStartOf="@+id/toolbar"
+            app:layout_constraintStart_toEndOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
     <EditText
-            android:drawableLeft="@drawable/ic_lock_black_24dp"
-            android:drawableStart="@drawable/ic_lock_black_24dp"
-            android:drawablePadding="5dp"
-            android:hint="Password"
-            android:textColorHint="@color/White"
-            android:textColor="@color/White"
-            android:layout_marginHorizontal="50dp"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:drawableStart="@drawable/ic_lock_black_24dp"
+            android:drawableLeft="@drawable/ic_lock_black_24dp"
+            android:drawablePadding="5dp"
             android:ems="10"
-            android:id="@+id/password" android:layout_marginTop="10dp" app:layout_constraintTop_toBottomOf="@+id/email"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="40dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="40dp"/>
+            android:hint="Password"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/email" />
+
     <Button
+            android:id="@+id/loginButton"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
             android:text="Login"
             android:textStyle="bold"
-            android:textColor="@color/White"
-            android:background="@color/DeepPink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/loginButton"
-            app:layout_constraintTop_toBottomOf="@+id/password" android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="40dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="40dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <View
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="2px"
-            app:layout_constraintTop_toBottomOf="@+id/loginButton"
-            android:background="@android:color/darker_gray" android:layout_marginTop="30dp"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_marginTop="30dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
     <Button
+            android:id="@+id/registerButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="40dp"
             android:text="Sign Up"
             android:textStyle="bold"
-            android:textColor="@color/White"
-            android:background="@color/DeepPink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/registerButton" android:layout_marginTop="25dp"
-            app:layout_constraintTop_toBottomOf="@+id/divider" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="40dp" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="40dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
 
 </android.support.constraint.ConstraintLayout>
