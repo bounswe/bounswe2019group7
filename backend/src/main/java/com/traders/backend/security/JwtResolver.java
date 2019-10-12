@@ -1,14 +1,11 @@
-package com.traders.backend.security.utilities;
+package com.traders.backend.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -24,10 +21,6 @@ public class JwtResolver {
         catch (Exception e){
             return null; // no token
         }
-    }
-
-    public Authentication getAuthentication(String username){
-        return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
     }
 
     // Extracts the username(email) from the given token

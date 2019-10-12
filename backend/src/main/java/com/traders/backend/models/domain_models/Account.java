@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
-@Table(name="User")
-public class User implements Serializable {
+@Table(name="Account")
+public class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,13 +18,13 @@ public class User implements Serializable {
     @Email
     @NotNull
     @UniqueElements
-    public String email; // email is the username
-
-    @NotNull
-    public String password;
+    public String email;
 
     @NotNull
     public String name;
+
+    @NotNull
+    public String accountPassword;
 
     @NotNull
     public String surname;
@@ -36,7 +36,7 @@ public class User implements Serializable {
     public Double locationY;
 
     @NotNull
-    public String role; // might be trader or basic
+    public Boolean isTrader;
 
     @NotNull
     public Boolean isPublic;
@@ -44,13 +44,13 @@ public class User implements Serializable {
     @NotNull
     public Boolean isActive; // whether the user has activated her account via email
 
-    public User(String email, String name, String surname, Double locationX, Double locationY, String role){
+    public Account(String email, String name, String surname, Double locationX, Double locationY, Boolean isTrader){
         this.email = email;
         this.name = name;
         this.surname = surname;
         this.locationX = locationX;
         this.locationY = locationY;
-        this.role = role;
+        this.isTrader = isTrader;
         this.isPublic = true; // the accounts are public by default
         this.isActive = false; // when the account is created, it is not active yet
     }

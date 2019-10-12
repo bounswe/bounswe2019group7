@@ -1,6 +1,6 @@
-package com.traders.backend.security.validators;
+package com.traders.backend.security;
 
-import com.traders.backend.security.utilities.JwtResolver;
+import com.traders.backend.security.JwtResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class JwtBasicValidator {
+public class JwtValidator {
 
     @Value("${jwt.secret}") private String secret;
 
