@@ -12,8 +12,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)    // Remove title from the toolbar
+
         val retrofitService = RetrofitInstance.getRetrofitInstance().create(ExampleApiInterface::class.java)
 
         loginButton.setOnClickListener {
