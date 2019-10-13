@@ -12,6 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
 
+import static com.eyetrade.cloud.util.constants.UserConstants.AUTHORITY_BASIC_USER;
+import static com.eyetrade.cloud.util.constants.UserConstants.AUTHORITY_TRADER_USER;
+
 /**
  * Created by Emir Gökdemir
  * on 12 Eki 2019
@@ -35,7 +38,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String AUTHORITIES_QUERY = "SELECT a.email, " +
             "a.authority " +
-            "FROM authorities AS a " +
+            "FROM authority AS a " +
             "WHERE a.email = ? ";
 
     @Override
@@ -54,7 +57,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.
                 csrf().disable()
                 .authorizeRequests()
-                .anyRequest().authenticated()
+                .antMatchers("/user/basic").hasAuthority(AUTHORITY_BASIC_USER)
+                .antMatchers("/user/trader").hasAuthority(AUTHORITY_TRADER_USER)
+                .anyRequest().permitAll()
+
+                .and().logout().logoutUrl("/user/logout")
+                .logoutSuccessUrl("/user/index")
+                .invalidateHttpSession(true)
+
                 .and().httpBasic();
 
     }

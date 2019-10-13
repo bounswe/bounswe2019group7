@@ -7,6 +7,10 @@ package com.eyetrade.cloud.util.constants;
 
 public class UserConstants {
     //Authority
-    public static final String AUTHORITY_USER = "USER";
-    public static final String AUTHORITY_ADMIN = "ADMIN";
+    public static final String AUTHORITY_BASIC_USER = "BASIC USER";
+    public static final String AUTHORITY_TRADER_USER = "TRADER USER";
+
+    //User Type
+    public static final String BASIC_USER = "BASIC USER";
+    public static final String TRADER_USER = "TRADER USER";
 }
