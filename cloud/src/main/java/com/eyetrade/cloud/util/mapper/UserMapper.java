@@ -22,6 +22,7 @@ public class UserMapper {
         user.setLocationY(userDto.getLocationY());
         user.setName(userDto.getName());
         user.setSurname(userDto.getSurname());
+        user.setUserType(userDto.getUserType());
         return user;
     }
 

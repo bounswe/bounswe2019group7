@@ -38,27 +38,28 @@ public class ConfirmationTokenService {
         this.environment = environment;
     }
 
-    public String sendToken(String email, String type) {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new RuntimeException(MessageTypeConstants.USER_NOT_EXIST);
-        }
-        ConfirmationToken confirmationToken = new ConfirmationToken(user, type);
+    public String sendToken(String email, String type,User user) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(user.getEmail());
-
+        ConfirmationToken confirmationToken=new ConfirmationToken();
         if (type.equals(TokenConstants.USER_REGISTER)) {
+            confirmationToken = new ConfirmationToken(user, type);
+            mailMessage.setTo(user.getEmail());
             mailMessage.setSubject(CONFIRM_ACCOUNT_HEADER);
             mailMessage.setText(CONFIRM_ACCOUNT_BODY
                     + this.environment.getProperty("spring.url")
                     + CONFIRM_ACCOUNT_URL + confirmationToken.getConfirmationToken());
         } else if (type.equals(TokenConstants.PASSWORD_RESET)) {
+            user = userRepository.findByEmail(email);
+            if (user == null) {
+                throw new RuntimeException(MessageTypeConstants.USER_NOT_EXIST);
+            }
+            confirmationToken = new ConfirmationToken(user, type);
+            mailMessage.setTo(user.getEmail());
             mailMessage.setSubject(RESET_PASSWORD_HEADER);
             mailMessage.setText(RESET_PASSWORD_BODY
                     + this.environment.getProperty("spring.url")
                     + RESET_PASSWORD_URL + confirmationToken.getConfirmationToken());
         }
-
         try {
             javaMailSender.send(mailMessage);
         } catch (RuntimeException exception) {

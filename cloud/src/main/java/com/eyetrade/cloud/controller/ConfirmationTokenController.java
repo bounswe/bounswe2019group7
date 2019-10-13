@@ -21,7 +21,7 @@ public class ConfirmationTokenController {
 
     @GetMapping("/send-token")
     public String sendToken(@RequestParam("email") String email, @RequestParam("type") String type){
-        return confirmationTokenService.sendToken(email, type);
+        return confirmationTokenService.sendToken(email, type,null);
     }
 
 

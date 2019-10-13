@@ -1,11 +1,13 @@
 package com.eyetrade.cloud.model.data.entity;
 
+import com.eyetrade.cloud.util.constants.Role;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import static com.eyetrade.cloud.util.constants.GeneralConstants.ID_LENGTH;
 
@@ -24,6 +26,7 @@ public class User {
     @Column(name = "id", length = ID_LENGTH)
     private String identifier;
 
+    @NotNull
     @Column(name = "email")
     @Email
     private String email;
@@ -39,6 +42,19 @@ public class User {
     private String surname;
 
     @Column
+    private String phone;
+
+    @NotNull
+    @Column
+    private String userType;
+
+    @Column
+    private String iban;
+
+    @Column
+    private String identityNo;
+
+    @Column
     private String city;
 
     @Column
@@ -49,5 +65,4 @@ public class User {
 
     @Column(name = "confirmed")
     private boolean confirmed;
-
 }

@@ -6,4 +6,5 @@ public class MessageTypeConstants {
     public static final String EXPIRED_TOKEN = "Zaman Aşımına Uğramış İstek";
     public static final String USER_NOT_EXIST = "Kullanıcı Bulunamadı";
     public static final String MAIL_SEND_FAILED = "Mail Gönderilemedi";
+    public static final String IBAN_AND_IDENTITY_SHOULD_BE_PROVIDED = "Iban ve Kimlik No Girilmeli";
 }

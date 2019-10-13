@@ -9,16 +9,20 @@ import com.eyetrade.cloud.model.data.repository.UserRepository;
 import com.eyetrade.cloud.model.resource.UserResource;
 import com.eyetrade.cloud.util.constants.MessageTypeConstants;
 import com.eyetrade.cloud.util.constants.TokenConstants;
-import com.eyetrade.cloud.util.constants.UserConstants;
 import com.eyetrade.cloud.util.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static com.eyetrade.cloud.util.constants.TokenConstants.CONVERT_SECOND_TO_HOUR;
+import static com.eyetrade.cloud.util.constants.UserConstants.*;
 
 /**
  * Created by Emir Gökdemir
@@ -41,6 +45,16 @@ public class UserService {
     private ConfirmationTokenService confirmationTokenService;
 
 
+    public  List<UserResource> all()
+    {
+        List<UserResource> userResources= new ArrayList<>();
+        for (User user : userRepository.findAll()) {
+            userResources.add(UserMapper.toResource(user));
+        }
+        return userResources;
+    }
+
+    @Transactional
     public UserResource save(User user) {
         User existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser != null) {
@@ -49,17 +63,30 @@ public class UserService {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
-
         userRepository.save(user);
-        authorityRepository.save(new Authority(user.getEmail(), UserConstants.AUTHORITY_USER));
-        confirmationTokenService.sendToken(user.getIdentifier(), TokenConstants.USER_REGISTER);
+
+        String authority = user.getUserType();
+        switch (authority) {
+            case BASIC_USER:
+                authorityRepository.save(new Authority(user.getEmail(), AUTHORITY_BASIC_USER));
+                break;
+            case TRADER_USER:
+                if(user.getIban()!=null&&user.getIdentityNo()!=null){
+                    authorityRepository.save(new Authority(user.getEmail(), AUTHORITY_TRADER_USER));
+                }
+                else{
+                    throw new RuntimeException(MessageTypeConstants.IBAN_AND_IDENTITY_SHOULD_BE_PROVIDED);
+                }
+                break;
+        }
+
+        confirmationTokenService.sendToken(user.getEmail(), TokenConstants.USER_REGISTER,user);
 
         return UserMapper.toResource(user);
     }
 
 
     private long hourDifference(Date date, Date now) {
-
         return (now.getTime() - date.getTime()) / (CONVERT_SECOND_TO_HOUR);
     }
 

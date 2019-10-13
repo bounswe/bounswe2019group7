@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
+import java.util.List;
 
 /** Created by Emir Gökdemir
  on 12 Eki 2019 */
@@ -20,6 +21,11 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/all")
+    public List<UserResource> allUsers(){
+        return userService.all();
+    }
 
     @PostMapping("/register")
     public UserResource registerUser(@RequestBody @Valid UserDto userDto) {
@@ -41,5 +47,15 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public UserResource findUserIdByEmail(@PathVariable("email") String email) {
         return userService.findUserIdByEmail(email);
+    }
+
+    @GetMapping("/basic")
+    public String basicUserWelcomePage(){
+        return "Welcome Basic User!";
+    }
+
+    @GetMapping("/trader")
+    public String traderUserWelcomePage(){
+        return "Welcome Trader User!";
     }
 }
