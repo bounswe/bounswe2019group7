@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import static com.eyetrade.cloud.util.constants.ConfigConstants.EYE_TRADE_URL;
+
 /**
  * Created by Emir Gökdemir
  * on 13 Eki 2019
@@ -16,8 +18,7 @@ public class CorsConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
 
         registry.addMapping("/**")
-                .allowedOrigins(
-                        "http://localhost:8080")
+                .allowedOrigins(EYE_TRADE_URL)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
                 .allowCredentials(true);
     }
