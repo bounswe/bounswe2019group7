@@ -18,9 +18,12 @@ public class UserDto {
     private String email;
     private String name;
     private String surname;
+    @Length(min=10,max=13)
     private String phone;
     private String authority;
+    @Length(min=16,max=18)
     private String iban;
+    @Length(min=11, max=11)
     private String identityNo;
     private String city;
     private String locationX;

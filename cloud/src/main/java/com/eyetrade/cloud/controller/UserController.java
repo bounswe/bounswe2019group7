@@ -4,6 +4,7 @@ import com.eyetrade.cloud.model.dto.UserDto;
 import com.eyetrade.cloud.model.resource.UserResource;
 import com.eyetrade.cloud.service.UserService;
 import com.eyetrade.cloud.util.mapper.UserMapper;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = {"/user"})
+@Api
 public class UserController {
 
     @Autowired
