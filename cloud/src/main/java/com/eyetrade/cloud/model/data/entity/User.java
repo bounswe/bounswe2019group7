@@ -46,7 +46,8 @@ public class User {
 
     @NotNull
     @Column
-    private String userType;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column
     private String iban;

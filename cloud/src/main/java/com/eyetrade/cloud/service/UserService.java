@@ -8,12 +8,12 @@ import com.eyetrade.cloud.model.data.repository.ConfirmationTokenRepository;
 import com.eyetrade.cloud.model.data.repository.UserRepository;
 import com.eyetrade.cloud.model.resource.UserResource;
 import com.eyetrade.cloud.util.constants.MessageTypeConstants;
+import com.eyetrade.cloud.util.constants.Role;
 import com.eyetrade.cloud.util.constants.TokenConstants;
 import com.eyetrade.cloud.util.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.List;
 
 import static com.eyetrade.cloud.util.constants.TokenConstants.CONVERT_SECOND_TO_HOUR;
-import static com.eyetrade.cloud.util.constants.UserConstants.*;
 
 /**
  * Created by Emir Gökdemir
@@ -49,7 +48,7 @@ public class UserService {
     {
         List<UserResource> userResources= new ArrayList<>();
         for (User user : userRepository.findAll()) {
-            userResources.add(UserMapper.toResource(user));
+            userResources.add(UserMapper.entityToResource(user));
         }
         return userResources;
     }
@@ -63,16 +62,16 @@ public class UserService {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
-        String authority = user.getUserType();
-        switch (authority) {
+        Role role = user.getRole();
+        switch (role) {
             case BASIC_USER:
-                authorityRepository.save(new Authority(user.getEmail(), AUTHORITY_BASIC_USER));
+                authorityRepository.save(new Authority(user.getEmail(), Role.BASIC_USER));
                 break;
             case TRADER_USER:
                 if(user.getIban()!=null&&user.getIdentityNo()!=null){
-                    authorityRepository.save(new Authority(user.getEmail(), AUTHORITY_TRADER_USER));
+                    authorityRepository.save(new Authority(user.getEmail(), Role.TRADER_USER));
                 }
                 else{
                     throw new RuntimeException(MessageTypeConstants.IBAN_AND_IDENTITY_SHOULD_BE_PROVIDED);
@@ -82,7 +81,7 @@ public class UserService {
 
         confirmationTokenService.sendToken(user.getEmail(), TokenConstants.USER_REGISTER,user);
 
-        return UserMapper.toResource(user);
+        return UserMapper.entityToResource(user);
     }
 
 
@@ -124,7 +123,7 @@ public class UserService {
         }
         user.setConfirmed(true);
         userRepository.save(user);
-        return UserMapper.toResource(user);
+        return UserMapper.entityToResource(user);
     }
 
     public UserResource resetPassword(String password, String confirmationToken) {
@@ -141,7 +140,7 @@ public class UserService {
         user.setPassword(encoder.encode(password));
         user.setConfirmed(true);
         userRepository.save(user);
-        return UserMapper.toResource(user);
+        return UserMapper.entityToResource(user);
     }
 
     public UserResource findUserIdByEmail(String email) {
@@ -149,7 +148,7 @@ public class UserService {
         if (user == null) {
             throw new RuntimeException(MessageTypeConstants.USER_NOT_EXIST);
         }
-        return UserMapper.toResource(user);
+        return UserMapper.entityToResource(user);
     }
 
 }
