@@ -27,6 +27,14 @@
                   </b-row>
                 </b-form>
               </b-card-body>
+              <b-card-footer class="p-4" style="align-self:center; padding:1.5rem 10% !important; background-color:unset">
+                <b-row>
+                  <b-button size="lg" variant="google-plus" class="mr-1 btn-brand">
+                    <i class="fa fa-google"></i>
+                    <span>Login with Google</span>
+                  </b-button>
+                </b-row>
+              </b-card-footer>
             </b-card>
             <b-card no-body class="text-white bg-primary py-5 d-md-down-none" style="width:44%">
               <b-card-body class="text-center">
