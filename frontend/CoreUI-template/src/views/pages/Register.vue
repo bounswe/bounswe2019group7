@@ -112,54 +112,52 @@
                       {text: 'Trader ',value: '1'},
                       {text: 'Basic User ',value: '2'}
                     ]"
-                    checked="2"
+                    checked="1"
                     stacked
+                    v-on:change="changeUserType"
                   ></b-form-radio-group>
                 </b-form-group>
-
-                <b-input-group class="mb-4">
-                  <b-input-group-prepend>
-                    <b-input-group-text>
-                      <i class="icon-credit-card"></i>
-                    </b-input-group-text>
-                  </b-input-group-prepend>
-                  <b-form-input
-                    type="text"
-                    class="form-control"
-                    placeholder="Credit Card Number(0000-0000-0000-0000)"
-                    autocomplete="creditCardNumber"
-                  />
-                </b-input-group>
-
-                <b-input-group class="mb-4">
-                  <b-input-group-prepend>
-                    <b-input-group-text>
-                      <i class="fa fa-id-card-o fa-lg"></i>
-                    </b-input-group-text>
-                  </b-input-group-prepend>
-                  <b-form-input
-                    type="text"
-                    class="form-control"
-                    placeholder="Identity Number"
-                    autocomplete="identityNumber"
-                  />
-                </b-input-group>
+                <div v-if="seen">
+                  <b-input-group class="mb-4" id="creditCardDiv">
+                    <b-input-group-prepend>
+                      <b-input-group-text>
+                        <i class="icon-credit-card"></i>
+                      </b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      type="text"
+                      class="form-control"
+                      placeholder="Credit Card Number(0000-0000-0000-0000)"
+                      autocomplete="creditCardNumber"
+                    />
+                  </b-input-group>
+                  <b-input-group class="mb-4" id="idNumberDiv">
+                    <b-input-group-prepend>
+                      <b-input-group-text>
+                        <i class="fa fa-id-card-o fa-lg"></i>
+                      </b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      type="text"
+                      class="form-control"
+                      placeholder="Identity Number"
+                      autocomplete="identityNumber"
+                    />
+                  </b-input-group>
+                </div>
 
                 <b-button variant="success" block>Create Account</b-button>
               </b-form>
             </b-card-body>
-            <b-card-footer class="p-4">
+            <b-card-footer
+              class="p-4"
+              style="align-self:center; padding:1.5rem 10% !important; background-color:unset"
+            >
               <b-row>
-                <b-col cols="6">
-                  <b-button block class="btn btn-facebook">
-                    <span>facebook</span>
-                  </b-button>
-                </b-col>
-                <b-col cols="6">
-                  <b-button block class="btn btn-twitter" type="button">
-                    <span>twitter</span>
-                  </b-button>
-                </b-col>
+                <b-button size="lg" variant="google-plus" class="mr-1 btn-brand">
+                  <i class="fa fa-google"></i>
+                  <span>Sign up with Google</span>
+                </b-button>
               </b-row>
             </b-card-footer>
           </b-card>
@@ -171,6 +169,17 @@
 
 <script>
 export default {
-  name: "Register"
+  name: "Register",
+  data: function() {
+    return {
+      seen: true
+    };
+  },
+  methods: {
+    changeUserType() {
+      console.log(this.seen);
+      this.seen = !this.seen;
+    }
+  }
 };
 </script>
