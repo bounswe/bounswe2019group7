@@ -1,12 +1,13 @@
 package com.eyetrade.cloud.model.data.entity;
 
+import com.eyetrade.cloud.util.constants.Role;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+        import javax.validation.constraints.NotEmpty;
 
-import static com.eyetrade.cloud.util.constants.GeneralConstants.ID_LENGTH;
+        import static com.eyetrade.cloud.util.constants.GeneralConstants.ID_LENGTH;
 
 /**
  * Created by Emir Gökdemir
@@ -26,13 +27,12 @@ public class Authority {
     @NotEmpty(message = "Please provide your email")
     private String email;
 
-    @Column(name = "authority")
-    @NotEmpty(message = "*Please provide your authority")
-    private String authority;
+    @Column(name = "role")
+    private Role role;
 
 
-    public Authority(String email,String authority){
-        this.authority = authority;
+    public Authority(String email, Role role){
+        this.role = role;
         this.email = email;
     }
 

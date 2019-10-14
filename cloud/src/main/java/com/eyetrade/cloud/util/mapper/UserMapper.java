@@ -10,7 +10,7 @@ import com.eyetrade.cloud.model.resource.UserResource;
  */
 
 public class UserMapper {
-    public static User toEntity(UserDto userDto) {
+    public static User dtoToEntity(UserDto userDto) {
         if (userDto == null) {
             return null;
         }
@@ -22,11 +22,13 @@ public class UserMapper {
         user.setLocationY(userDto.getLocationY());
         user.setName(userDto.getName());
         user.setSurname(userDto.getSurname());
-        user.setUserType(userDto.getUserType());
+        user.setRole(userDto.getRole());
+        user.setIban(userDto.getIban());
+        user.setIdentityNo(userDto.getIdentityNo());
         return user;
     }
 
-    public static UserResource toResource(User user) {
+    public static UserResource entityToResource(User user) {
         if (user == null) {
             return null;
         }

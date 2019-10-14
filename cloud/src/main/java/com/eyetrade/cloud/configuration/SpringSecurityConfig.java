@@ -1,5 +1,6 @@
 package com.eyetrade.cloud.configuration;
 
+import com.eyetrade.cloud.util.constants.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,9 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.sql.DataSource;
-
-import static com.eyetrade.cloud.util.constants.UserConstants.AUTHORITY_BASIC_USER;
-import static com.eyetrade.cloud.util.constants.UserConstants.AUTHORITY_TRADER_USER;
 
 /**
  * Created by Emir Gökdemir
@@ -37,7 +35,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             "AND u.email = ? ";
 
     private final String AUTHORITIES_QUERY = "SELECT a.email, " +
-            "a.authority " +
+            "a.role " +
             "FROM authority AS a " +
             "WHERE a.email = ? ";
 
@@ -57,8 +55,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.
                 csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/basic").hasAuthority(AUTHORITY_BASIC_USER)
-                .antMatchers("/user/trader").hasAuthority(AUTHORITY_TRADER_USER)
+                .antMatchers("/user/basic").hasAuthority(Role.BASIC_USER.toString())
+                .antMatchers("/user/trader").hasAuthority(Role.TRADER_USER.toString())
                 .anyRequest().permitAll()
 
                 .and().logout().logoutUrl("/user/logout")

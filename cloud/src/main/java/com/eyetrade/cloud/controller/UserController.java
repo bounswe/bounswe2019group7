@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class UserController {
 
     @PostMapping("/register")
     public UserResource registerUser(@RequestBody @Valid UserDto userDto) {
-        return userService.save(UserMapper.toEntity(userDto));
+        return userService.save(UserMapper.dtoToEntity(userDto));
     }
 
     @GetMapping("/confirm-register")
