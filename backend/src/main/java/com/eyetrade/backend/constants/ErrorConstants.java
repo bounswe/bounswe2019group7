@@ -1,6 +1,6 @@
 package com.eyetrade.backend.constants;
 
-public class MessageTypeConstants {
+public class ErrorConstants {
     public static final String INVALID_TOKEN = "Geçersiz Bağlantı İsteği";
     public static final String MAIL_ALREADY_EXISTS = "Mail Sistemde Kayıtlı";
     public static final String EXPIRED_TOKEN = "Zaman Aşımına Uğramış İstek";

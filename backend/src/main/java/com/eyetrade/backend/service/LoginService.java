@@ -4,7 +4,7 @@ import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.repository.UserRepository;
 import com.eyetrade.backend.model.dto.LoginDto;
 import com.eyetrade.backend.security.JwtGenerator;
-import com.eyetrade.backend.constants.MessageTypeConstants;
+import com.eyetrade.backend.constants.ErrorConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ public class LoginService {
         String password = loginDto.getPassword();
         User user = userRepository.findByEmailAndPword(email, password);
         if(user == null){
-            throw new RuntimeException(MessageTypeConstants.WRONG_EMAIL_OR_PASSWORD);
+            throw new RuntimeException(ErrorConstants.WRONG_EMAIL_OR_PASSWORD);
         }
         else{
             return jwtGenerator.generateToken(email);

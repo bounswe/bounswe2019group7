@@ -1,6 +1,6 @@
 package com.eyetrade.backend.service;
 
-import com.eyetrade.backend.constants.MessageTypeConstants;
+import com.eyetrade.backend.constants.ErrorConstants;
 import com.eyetrade.backend.mapper.UserMapper;
 import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.resource.UserResource;
@@ -26,7 +26,7 @@ public class ResetPasswordService {
         String email = jwtResolver.getUsernameFromToken(confirmationToken);
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new RuntimeException(MessageTypeConstants.USER_NOT_EXIST);
+            throw new RuntimeException(ErrorConstants.USER_NOT_EXIST);
         }
         user.setPword(password);
         user.setConfirmed(true);
