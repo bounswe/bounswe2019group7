@@ -1,10 +1,8 @@
 package com.eyetrade.backend.model.entity;
 
-import com.eyetrade.backend.constants.MessageTypeConstants;
 import com.eyetrade.backend.constants.Role;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

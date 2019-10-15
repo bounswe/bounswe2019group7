@@ -2,7 +2,7 @@ package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.repository.UserRepository;
 import com.eyetrade.backend.security.JwtGenerator;
-import com.eyetrade.backend.constants.MessageTypeConstants;
+import com.eyetrade.backend.constants.ErrorConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -19,9 +19,6 @@ import static com.eyetrade.backend.constants.MailConstants.*;
 
 @Service
 public class ConfirmationTokenService {
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -59,7 +56,7 @@ public class ConfirmationTokenService {
         try {
             javaMailSender.send(mailMessage);
         } catch (RuntimeException exception) {
-            throw new RuntimeException(MessageTypeConstants.MAIL_SEND_FAILED);
+            throw new RuntimeException(ErrorConstants.MAIL_SEND_FAILED);
         }
     }
 }
