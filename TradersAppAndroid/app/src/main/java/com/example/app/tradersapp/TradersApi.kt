@@ -2,8 +2,9 @@ package com.example.app.tradersapp
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.GET
-import retrofit2.http.Header
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 
 class RetrofitInstance {
 
@@ -16,14 +17,25 @@ class RetrofitInstance {
                 .build()
         }
     }
-
 }
 
-interface ExampleApiInterface {
-    @GET("api/example")
-    fun getIsOdd(@Header("number") number: Int): retrofit2.Call<ApiResponse>
+interface ApiInterface {
+    @FormUrlEncoded
+    @POST("user/register")
+    fun registerUser(
+        @Field("name") name: String,
+        @Field("surname") surname: String,
+        @Field("password") password: String,
+        @Field("email") email: String,
+        @Field("role") userType: String,
+        @Field("city") city: String = "Istanbul",
+        @Field("iban") iban: String = "56451465465",
+        @Field("identityNo") identityNo: String = "564654",
+        @Field("locationX") locationX: String = "10",
+        @Field("locationY") locationY: String = "40"
+    ): retrofit2.Call<ApiResponse>
 }
 
 data class ApiResponse(
-    val isOdd: Boolean
+    val isOdd: Boolean // TODO: Clarify the response type with backend
 )

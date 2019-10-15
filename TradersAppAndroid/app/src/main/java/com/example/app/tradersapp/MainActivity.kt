@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)    // Remove title from the toolbar
 
-        val retrofitService = RetrofitInstance.getRetrofitInstance().create(ExampleApiInterface::class.java)
+        val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
 
         loginButton.setOnClickListener {
             val email = email.text.toString()
