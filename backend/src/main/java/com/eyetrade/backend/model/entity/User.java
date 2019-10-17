@@ -1,30 +1,29 @@
 package com.eyetrade.backend.model.entity;
 
 import com.eyetrade.backend.constants.Role;
-import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
-
 /**
  * Created by Emir Gökdemir
  * on 12 Eki 2019
  */
-@Data
+
+@Getter
+@Setter
 @Entity
 @Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-    @Column(name = "id", length = ID_LENGTH)
-    private String identifier;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
     @Column(name = "email")
@@ -35,35 +34,36 @@ public class User {
     @NotEmpty(message = "Please provide your password")
     private String pword;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "surname")
     private String surname;
 
-    @Column
+    @Column(name = "phone")
     private String phone;
 
     @NotNull
-    @Column
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column
+    @Column(name = "iban")
     private String iban;
 
-    @Column
+    @Column(name = "identityNo")
     private String identityNo;
 
-    @Column
+    @Column(name = "city")
     private String city;
 
-    @Column
+    @Column(name = "locationX")
     private String locationX;
 
-    @Column
+    @Column(name = "locationY")
     private String locationY;
 
     @Column(name = "confirmed")
     private boolean confirmed;
+
 }

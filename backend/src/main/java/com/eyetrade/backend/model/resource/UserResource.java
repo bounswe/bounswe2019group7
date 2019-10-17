@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 @Setter
 @Resource
 public class UserResource {
-    private String identifier;
+    private Long id;
     private String email;
     private boolean confirmed;
     private String name;
