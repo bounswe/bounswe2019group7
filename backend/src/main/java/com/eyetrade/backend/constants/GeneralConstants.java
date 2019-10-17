@@ -6,5 +6,5 @@ package com.eyetrade.backend.constants;
  */
 
 public class GeneralConstants {
-    public static final int ID_LENGTH=50;
+    public static final int ID_LENGTH=30;
 }

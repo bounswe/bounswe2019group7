@@ -11,6 +11,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
 
 /**
@@ -27,7 +29,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     @Column(name = "id", length = ID_LENGTH)
-    private Long id;
+    private UUID id;
 
     @NotNull
     @Column(name = "email")
