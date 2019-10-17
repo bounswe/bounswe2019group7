@@ -1,28 +1,32 @@
 package com.eyetrade.backend.model.entity;
 
 import com.eyetrade.backend.constants.Role;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
+
 /**
  * Created by Emir Gökdemir
  * on 12 Eki 2019
  */
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO,generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    @Column(name = "id", length = ID_LENGTH)
     private Long id;
 
     @NotNull
@@ -51,19 +55,18 @@ public class User {
     @Column(name = "iban")
     private String iban;
 
-    @Column(name = "identityNo")
+    @Column(name = "identity_no")
     private String identityNo;
 
     @Column(name = "city")
     private String city;
 
-    @Column(name = "locationX")
+    @Column(name = "location_x")
     private String locationX;
 
-    @Column(name = "locationY")
+    @Column(name = "location_y")
     private String locationY;
 
     @Column(name = "confirmed")
     private boolean confirmed;
-
 }
