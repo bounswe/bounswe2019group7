@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 /**
  * Created by Emir Gökdemir
@@ -14,7 +15,7 @@ import javax.annotation.Resource;
 @Setter
 @Resource
 public class UserResource {
-    private Long id;
+    private UUID id;
     private String email;
     private boolean confirmed;
     private String name;
