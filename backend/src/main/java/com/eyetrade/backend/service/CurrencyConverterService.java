@@ -27,7 +27,7 @@ public class CurrencyConverterService {
     private CurrencyRecordService currencyRecordService;
 
     public CurrencyConverterResource convertCurrency (CurrencyConverterDto converterDto){
-        CurrencyRecord record= currencyRepository.findTopByOrderByTimestamp();
+        CurrencyRecord record= currencyRepository.findLastRecord();
         if(record==null || checkExpired(record.getTimestamp())){
             try {
                 record=currencyRecordService.getCurrencyRecord();
