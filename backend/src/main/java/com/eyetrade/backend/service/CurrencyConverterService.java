@@ -58,6 +58,6 @@ public class CurrencyConverterService {
     }
 
     private boolean checkExpired(Long lastUpdateTime){
-        return (lastUpdateTime-new Date().getTime()>CURRENCY_EXPIRE_TIME);
+        return (new Date().getTime()-lastUpdateTime>CURRENCY_EXPIRE_TIME);
     }
 }
