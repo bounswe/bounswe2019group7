@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
+import android.widget.RadioGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_registration.*
 import okhttp3.ResponseBody
@@ -67,5 +69,16 @@ class RegistrationActivity : AppCompatActivity() {
                 })
             }
         }
+
+        userTypeRadioGroup.setOnCheckedChangeListener { _: RadioGroup, _: Int ->
+            displayTraderUserInput()
+        }
+        displayTraderUserInput()
+    }
+
+    fun displayTraderUserInput(){
+        val vis = if(userTypeRadioGroup.checkedRadioButtonId == basicUserRadio.id) View.GONE else View.VISIBLE
+        registerIBANInput.visibility = vis
+        registerIdNoInput.visibility = vis
     }
 }
