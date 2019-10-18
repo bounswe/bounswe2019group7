@@ -42,6 +42,11 @@ class CurrenciesFragment : Fragment() {
         currencySpinner2.setSelection(2, false)
         requestExchangeRateAndUpdateAmounts()
 
+        swap.setOnClickListener {
+            swapCurrencies()
+            updateAmounts()
+        }
+
         currencySpinner1.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Do nothing
@@ -81,7 +86,7 @@ class CurrenciesFragment : Fragment() {
         })
     }
 
-    fun requestExchangeRateAndUpdateAmounts(){
+    private fun requestExchangeRateAndUpdateAmounts(){
         val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
         retrofitService.getExchangeRate(currency1, currency2, 1.0).enqueue(object: Callback<ExchangeRateResponse>{
             override fun onFailure(call: Call<ExchangeRateResponse>, t: Throwable) {
@@ -99,7 +104,7 @@ class CurrenciesFragment : Fragment() {
         })
     }
 
-    fun updateAmounts(){
+    private fun updateAmounts(){
         if(amount1.text.toString()!= ""){
             val exchangedValue = java.lang.Double.parseDouble(amount1.text.toString()) * rate
             amount2.text = BigDecimal(exchangedValue).setScale(2, RoundingMode.HALF_EVEN).toString()
@@ -107,5 +112,26 @@ class CurrenciesFragment : Fragment() {
         else{
             amount2.text = "0"
         }
+    }
+
+    private fun swapCurrencies(){
+        // Swap currencies
+        val tempCurrency = currency1
+        currency1 = currency2
+        currency2 = tempCurrency
+
+        // Reverse the exchange rate
+        rate = 1 / rate
+
+        // Swap background colors
+        val tempBackground = layout1.background
+        layout1.background = layout2.background
+        layout2.background = tempBackground
+
+        // Swap spinner selections
+        val tempSelection = currency1Spinner.selectedItemPosition
+        currency1Spinner.setSelection(currency2Spinner.selectedItemPosition)
+        currency2Spinner.setSelection(tempSelection)
+
     }
 }
