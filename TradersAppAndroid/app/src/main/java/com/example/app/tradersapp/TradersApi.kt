@@ -56,8 +56,8 @@ data class RegistrationInformation(
     val locationY: String,
     val locationX: String,
     val city: String,
-    val iban: String = "5645146555895645",  // length of iban has to be between 16 and 18
-    val identityNo: String = "54848458964"  // length of identity has to be 11
+    val iban: String,
+    val identityNo: String
 )
 
 data class LoginInformation(
