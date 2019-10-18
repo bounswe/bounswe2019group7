@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+    <ImageView
+            android:id="@+id/flag"
+            android:layout_width="30dp"
+            android:layout_height="10dp"
+            android:src="@drawable/trading_logo"/>
+
+    <TextView
+            android:id="@+id/currencyName"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:textSize="7sp"
+            android:text="Euro"
+            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="141dp"
+            android:layout_marginTop="0dp"/>
+
+</RelativeLayout>

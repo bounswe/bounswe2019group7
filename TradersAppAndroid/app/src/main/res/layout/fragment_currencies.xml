@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".CurrenciesFragment" android:orientation="vertical">
+
+
+    <LinearLayout
+            android:layout_weight="1"
+            android:background="@color/DarkBlue"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center">
+
+        <Spinner
+                android:id="@+id/currency1Spinner"
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </Spinner>
+
+        <EditText
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="5"
+                android:textSize="50sp"
+                android:text=""
+                android:hint="0"
+                android:textColor="@color/White"
+                android:maxLength="10"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/amount1"/>
+        />
+    ]
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_weight="1"
+            android:background="@color/DodgerBlue"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center">
+        <TextView
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="5"
+                android:textSize="50sp"
+                android:text="0"
+                android:textColor="@color/White"
+                android:maxLength="10"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/amount2"/>
+
+        <Spinner
+                android:id="@+id/currency2Spinner"
+                android:background="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+        </Spinner>
+    </LinearLayout>
+
+</LinearLayout>

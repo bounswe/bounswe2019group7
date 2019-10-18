@@ -14,11 +14,11 @@ class RetrofitInstance {
         val BASE_URL: String = "http://100.26.202.213:8080/"
 
 
-        val interceptor : HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
+        val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY
         }
 
-        val client : OkHttpClient = OkHttpClient.Builder().apply {
+        val client: OkHttpClient = OkHttpClient.Builder().apply {
             this.addInterceptor(interceptor)
         }.build()
 
@@ -42,9 +42,15 @@ interface ApiInterface {
 
     @Headers("Content-Type:application/json")
     @POST("login")
-    fun loginUser(
-        @Body info: LoginInformation
-    ): retrofit2.Call<ResponseBody>
+    fun loginUser(@Body info: LoginInformation): retrofit2.Call<ResponseBody>
+
+
+    @GET("currency/convert")
+    fun getExchangeRate(@Query("inputCurrencyType") currency1: String,
+                        @Query("outputCurrencyType") currency2: String,
+                        @Query("amount") amount: Double = 1.0): retrofit2.Call<ExchangeRateResponse>
+
+
 }
 
 data class RegistrationInformation(
@@ -63,4 +69,8 @@ data class RegistrationInformation(
 data class LoginInformation(
     val email: String,
     val password: String
+)
+
+data class ExchangeRateResponse(
+    val rate: Double
 )
