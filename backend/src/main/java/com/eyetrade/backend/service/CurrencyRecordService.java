@@ -1,6 +1,7 @@
 package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.constants.CurrencyConstants;
+import com.eyetrade.backend.constants.CurrencyType;
 import com.eyetrade.backend.model.entity.CurrencyRecord;
 import com.eyetrade.backend.repository.CurrencyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,10 +33,10 @@ public class CurrencyRecordService {
         Map<String, Number> rates = getCurrencyRates();
         CurrencyRecord record = new CurrencyRecord();
         record.setTimestamp(new Date().getTime());
-        record.setDollarRate(rates.get("USD").doubleValue());
-        record.setEuroRate(rates.get("EUR").doubleValue());
-        record.setTurkishLiraRate(rates.get("TRY").doubleValue());
-        record.setSterlingRate(rates.get("GBP").doubleValue());
+        record.setDollarRate(rates.get(CurrencyType.USD.toString()).doubleValue());
+        record.setEuroRate(rates.get(CurrencyType.EUR.toString()).doubleValue());
+        record.setTurkishLiraRate(rates.get(CurrencyType.TRY.toString()).doubleValue());
+        record.setSterlingRate(rates.get(CurrencyType.GBP.toString()).doubleValue());
         currencyRepository.save(record);
         return record;
     }
