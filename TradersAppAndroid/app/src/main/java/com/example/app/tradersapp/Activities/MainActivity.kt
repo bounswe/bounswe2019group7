@@ -2,6 +2,7 @@ package com.example.app.tradersapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
@@ -22,11 +23,14 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)    // Remove title from the toolbar
 
-
         loginButton.setOnClickListener {
+            // TODO : Remove comments
+            /*
             val email = email.text.toString()
             val password = password.text.toString()
-            validateAndLogin(email, password)
+            validateAndLogin(email, password) */
+            openHomePage() // delete this
+
         }
 
         registerButton.setOnClickListener {
