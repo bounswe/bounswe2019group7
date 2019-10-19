@@ -19,22 +19,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)    // Remove title from the toolbar
-
         loginButton.setOnClickListener {
-            // TODO : Remove comments
-            /*
+
             val email = email.text.toString()
             val password = password.text.toString()
-            validateAndLogin(email, password) */
-            openHomePage() // delete this
+            validateAndLogin(email, password)
 
         }
 
         registerButton.setOnClickListener {
             openRegistrationPage()
+        }
+
+        continueAsGuestButton.setOnClickListener {
+            openHomePage()
         }
     }
 
