@@ -92,7 +92,7 @@ class CurrenciesFragment : Fragment() {
             override fun onFailure(call: Call<ExchangeRateResponse>, t: Throwable) {
                 Toast.makeText(
                     activity,
-                    "Unexpected server error occured. Please try again.",
+                    "Unexpected server error occurred. Please try again.",
                     Toast.LENGTH_SHORT
                 ).show();
             }

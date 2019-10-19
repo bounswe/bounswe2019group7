@@ -47,15 +47,14 @@ class MainActivity : AppCompatActivity() {
                     this@MainActivity,
                     "Unexpected server error occured. Please try again.",
                     Toast.LENGTH_SHORT
-                ).show();
+                ).show()
             }
 
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.code() == 200) {
                     openHomePage()
-                    finish() // finish this activity so that it cannot be opened again with back button
                 } else {
-                    Toast.makeText(this@MainActivity, "Login failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this@MainActivity, "Login failed.", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -65,6 +64,7 @@ class MainActivity : AppCompatActivity() {
     private fun openHomePage() {
         val intent = Intent(this, HomepageActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun openRegistrationPage() {
