@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/action_home"
+            android:title="Home"
+            android:icon="@android:drawable/ic_dialog_map"
+            />
+    <item
+            android:id="@+id/action_events"
+            android:title="Events"
+            android:icon="@android:drawable/ic_dialog_info"
+            />
+    <item
+            android:id="@+id/action_articles"
+            android:title="Articles"
+            android:icon="@android:drawable/ic_dialog_info"
+            />
+    <item
+            android:id="@+id/action_trade_indices"
+            android:title="Trade Indices"
+            android:icon="@android:drawable/ic_dialog_info"
+            />
+    <item
+            android:id="@+id/action_stocks"
+            android:title="Stocks"
+            android:icon="@android:drawable/ic_dialog_info"
+            />
+    <item
+            android:id="@+id/action_commodities"
+            android:title="Commodities"
+            android:icon="@android:drawable/ic_dialog_info"
+            />
+    <item
+            android:id="@+id/action_currencies"
+            android:title="Currencies"
+            android:icon="@android:drawable/ic_dialog_info"
+            />
+
+    <item
+            android:id="@+id/action_funds"
+            android:title="Funds"
+            android:icon="@android:drawable/ic_menu_search"
+            />
+
+    <item
+            android:id="@+id/action_cryptocurrencies"
+            android:title="Cryptocurrencies"
+            android:icon="@android:drawable/ic_lock_idle_lock"
+            />
+
+    <item
+            android:id="@+id/action_help"
+            android:title="Help"
+            android:icon="@android:drawable/ic_menu_help"
+            />
+</menu>
