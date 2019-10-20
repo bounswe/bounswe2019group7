@@ -1,22 +1,22 @@
 package com.example.app.tradersapp
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.ActionBarDrawerToggle
-import android.view.View
 import com.example.app.tradersapp.Fragments.HomeFragment
 import kotlinx.android.synthetic.main.activity_homepage.*
-
+import java.util.*
 
 
 class HomepageActivity : AppCompatActivity() {
 
     private var actionBar: ActionBar? = null
+
+    private val recentItemIds = Stack<Int>()
+    private val recentTitles = Stack<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +25,8 @@ class HomepageActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         actionBar = supportActionBar
         actionBar?.title = "eyeTrade - Home"
+        recentItemIds.push(R.id.action_home)
+        recentTitles.push(actionBar?.title.toString())
 
         val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
             this,
@@ -43,6 +45,10 @@ class HomepageActivity : AppCompatActivity() {
 
         // Set navigation view navigation item selected listener
         nav_view.setNavigationItemSelectedListener {
+            if(!recentItemIds.empty() && it.itemId == recentItemIds.peek()){
+                return@setNavigationItemSelectedListener false
+            }
+
             var fragment: Fragment? = null
 
             when (it.itemId) {
@@ -54,12 +60,15 @@ class HomepageActivity : AppCompatActivity() {
                     fragment = CurrenciesFragment()
                     changeTitle("Currencies")
                 }
-
             }
+
+            recentItemIds.push(it.itemId)
+            recentTitles.push(actionBar?.title.toString())
 
             if (fragment != null) {
                 val transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.nav_host_fragment, fragment)
+                transaction.addToBackStack(null)
                 transaction.commit()
             }
 
@@ -71,6 +80,14 @@ class HomepageActivity : AppCompatActivity() {
 
     private fun changeTitle(s: String) {
         actionBar?.title = "eyeTrade - $s"
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if(recentItemIds.empty()) return
+        recentTitles.pop()
+        actionBar?.title = recentTitles.peek()
+        recentItemIds.pop()
     }
 
 }

@@ -105,6 +105,7 @@ class CurrenciesFragment : Fragment() {
     }
 
     private fun updateAmounts(){
+        if(amount1.text == null) return
         if(amount1.text.toString()!= ""){
             val exchangedValue = java.lang.Double.parseDouble(amount1.text.toString()) * rate
             amount2.text = BigDecimal(exchangedValue).setScale(2, RoundingMode.HALF_EVEN).toString()
