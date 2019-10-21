@@ -6,6 +6,8 @@ const DefaultContainer = () => import('@/containers/DefaultContainer')
 
 // Views
 const Dashboard = () => import('@/views/Dashboard')
+const Currency = () => import('@/views/Currency')
+const Events = () => import('@/views/Events')
 
 const Colors = () => import('@/views/theme/Colors')
 const Typography = () => import('@/views/theme/Typography')
@@ -53,7 +55,6 @@ const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
-const Events = () => import('@/views/pages/Events')
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -65,7 +66,7 @@ function configRoutes() {
   return [
     {
       path: '/',
-      redirect: '/dashboard',
+      redirect: '/pages/login',
       name: 'Home',
       component: DefaultContainer,
       children: [
@@ -73,6 +74,16 @@ function configRoutes() {
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
+        },
+        {
+          path: 'currency',
+          name: 'Currency',
+          component: Currency
+        },
+        {
+          path: 'events',
+          name: 'Events',
+          component: Events
         },
         {
           path: 'theme',
@@ -327,13 +338,7 @@ function configRoutes() {
           path: 'register',
           name: 'Register',
           component: Register
-        },
-        {
-          path: 'events',
-          name: 'Events',
-          component: Events
         }
-
       ]
     }
   ]
