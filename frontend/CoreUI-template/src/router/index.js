@@ -53,6 +53,7 @@ const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
 const Login = () => import('@/views/pages/Login')
 const Register = () => import('@/views/pages/Register')
+const Events = () => import('@/views/pages/Events')
 
 // Users
 const Users = () => import('@/views/users/Users')
@@ -326,7 +327,13 @@ function configRoutes() {
           path: 'register',
           name: 'Register',
           component: Register
+        },
+        {
+          path: 'events',
+          name: 'Events',
+          component: Events
         }
+
       ]
     }
   ]
