@@ -86,7 +86,8 @@ class HomepageActivity : AppCompatActivity() {
         super.onBackPressed()
         if(recentItemIds.empty()) return
         recentTitles.pop()
-        actionBar?.title = recentTitles.peek()
+        if(!recentTitles.empty())
+            actionBar?.title = recentTitles.peek()
         recentItemIds.pop()
     }
 
