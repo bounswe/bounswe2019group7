@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import kotlinx.android.synthetic.main.fragment_currencies.*
+import kotlinx.android.synthetic.main.fragment_currencies.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,7 +24,6 @@ class CurrenciesFragment : Fragment() {
     private var currency1 = "EUR"
     private var currency2 = "USD"
     private val currencies = listOf("TRY", "EUR", "USD", "GBP")
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_currencies, container, false)
@@ -45,6 +45,7 @@ class CurrenciesFragment : Fragment() {
         swap.setOnClickListener {
             swapCurrencies()
             updateAmounts()
+            updateRateText()
         }
 
         currencySpinner1.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
@@ -100,6 +101,7 @@ class CurrenciesFragment : Fragment() {
             override fun onResponse(call: Call<ExchangeRateResponse>, response: Response<ExchangeRateResponse>) {
                 rate = response.body()?.rate ?: 1.0
                 updateAmounts()
+                updateRateText()
             }
         })
     }
@@ -107,11 +109,15 @@ class CurrenciesFragment : Fragment() {
     private fun updateAmounts(){
         if(amount1.text.toString()!= ""){
             val exchangedValue = java.lang.Double.parseDouble(amount1.text.toString()) * rate
-            amount2.text = BigDecimal(exchangedValue).setScale(2, RoundingMode.HALF_EVEN).toString()
+            amount2.text = round(exchangedValue)
         }
         else{
             amount2.text = "0"
         }
+    }
+
+    private fun updateRateText(){
+        rateText.text = "Exchange rate: 1 " + currency1 + " = " + round(rate) + " " + currency2
     }
 
     private fun swapCurrencies(){
@@ -133,5 +139,9 @@ class CurrenciesFragment : Fragment() {
         currency1Spinner.setSelection(currency2Spinner.selectedItemPosition)
         currency2Spinner.setSelection(tempSelection)
 
+    }
+
+    private fun round(number: Double): String{
+        return BigDecimal(number).setScale(2, RoundingMode.HALF_EVEN).toString()
     }
 }
