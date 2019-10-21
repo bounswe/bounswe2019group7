@@ -245,6 +245,11 @@ export default {
           icon: 'icon-star'
         },
         {
+          name: 'Events',
+          url: '/pages/events',
+          icon: 'icon-star'
+        },
+        {
           name: 'Error 404',
           url: '/pages/404',
           icon: 'icon-star'
