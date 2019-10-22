@@ -26,7 +26,7 @@ class EventArticleHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerV
     fun bind(item: EventArticleModel) {
         eaBody?.text = item.body
         eaTitle?.text = item.title
-        eaImage?.setImageResource(R.drawable.article1)
+        eaImage?.setImageResource(item.image)
     }
 
 }
