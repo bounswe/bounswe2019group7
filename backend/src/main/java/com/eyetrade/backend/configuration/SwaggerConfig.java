@@ -23,14 +23,15 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.eyetrade"))
+                .apis(RequestHandlerSelectors.basePackage("com.eyetrade.backend.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiEndPointsInfo());
     }
 
     private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder().title("Eyetrade")
+        return new ApiInfoBuilder()
+                .title("Eyetrade")
                 .description("Trading Management REST API")
                 .contact(new Contact("Eyetrade", "http://100.26.202.213:8080", "eyetrade451@gmail.com"))
                 .license("Apache 2.0")
