@@ -27,7 +27,7 @@ public class CurrencyConverterService {
     private CurrencyRecordService currencyRecordService;
 
     public CurrencyConverterResource convertCurrency (CurrencyConverterDto converterDto){
-        CurrencyRecord record= currencyRepository.findTopByOrderByTimestamp();
+        CurrencyRecord record= currencyRepository.findLastRecord();
         if(record==null || checkExpired(record.getTimestamp())){
             try {
                 record=currencyRecordService.getCurrencyRecord();
@@ -58,6 +58,6 @@ public class CurrencyConverterService {
     }
 
     private boolean checkExpired(Long lastUpdateTime){
-        return (lastUpdateTime-new Date().getTime()>CURRENCY_EXPIRE_TIME);
+        return (new Date().getTime()-lastUpdateTime>CURRENCY_EXPIRE_TIME);
     }
 }
