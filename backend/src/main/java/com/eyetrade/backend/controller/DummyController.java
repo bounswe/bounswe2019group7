@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/dummy")
-@Api
+@Api(value = "Dummy")
 public class DummyController {
 
     @Autowired
