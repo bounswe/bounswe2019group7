@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,9 +25,11 @@ public class UserFollowingController {
     @Autowired
     private JwtUserChecker jwtUserChecker;
 
-    @ApiOperation(value = "A user sends a request to follow another user", response = UserResource.class)
+    @ApiOperation(value = "A user's request to follow another user", response = UserResource.class)
     @GetMapping("/follow")
-    public ResponseEntity<UserResource> follow(String token, String followingUserEmail){
+    public ResponseEntity<UserResource> follow(
+            @RequestHeader("Authorization") String token, @RequestHeader("followingUserEmail") String followingUserEmail)
+    {
         UUID userId = jwtUserChecker.resolveBasicToken(token);
         UserResource followingUserResource = userFollowingService.followUser(userId, followingUserEmail);
         return ResponseEntity.ok(followingUserResource);

@@ -22,14 +22,14 @@ public class DummyController {
 
     @ApiOperation(value = "Test the authorization of trader user", response = String.class)
     @GetMapping("/trader")
-    public ResponseEntity<?> trader(@RequestHeader("Authentication") String token){
+    public ResponseEntity<?> trader(@RequestHeader("Authorization") String token){
         UUID id = jwtUserChecker.resolveTraderToken(token);
         return ResponseEntity.ok(id);
     }
 
     @ApiOperation(value = "Test the authorization of basic user", response = String.class)
     @GetMapping("/basic")
-    public ResponseEntity<?> basic(@RequestHeader("Authentication") String token){
+    public ResponseEntity<?> basic(@RequestHeader("Authorization") String token){
         UUID id = jwtUserChecker.resolveBasicToken(token);
         return ResponseEntity.ok(id);
     }
