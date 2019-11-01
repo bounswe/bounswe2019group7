@@ -5,7 +5,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 import java.util.UUID;
 
 import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
@@ -30,7 +29,7 @@ public class UserFollowing {
     private User following;
 
     @NotNull
-    @Column(name = "followed_date")
-    private Timestamp followedDate;
+    @Column(name = "timestamp")
+    private Long timestamp;
 
 }

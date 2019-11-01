@@ -15,6 +15,8 @@ import java.util.UUID;
 @Setter
 @Resource
 public class UserResource {
+    // TODO: that model should be improved
+
     private String email;
     private boolean confirmed;
     private String name;
