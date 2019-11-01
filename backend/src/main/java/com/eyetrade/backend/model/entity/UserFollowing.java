@@ -21,11 +21,13 @@ public class UserFollowing {
     private UUID id;
 
     @NotNull
-    @Column(name = "follower")
+    @ManyToOne
+    @JoinColumn(name = "follower")
     private User follower;
 
     @NotNull
-    @Column(name = "following")
+    @ManyToOne
+    @JoinColumn(name = "following")
     private User following;
 
     @NotNull

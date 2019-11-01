@@ -7,15 +7,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Api(value = "User Following", tags = {"Operations Related With User following relations"})
+@Api(value = "User Following", tags = {"Operations Related with User Following Relations"})
 @RestController
 @RequestMapping("/user_following")
 public class UserFollowingController {
@@ -27,7 +24,7 @@ public class UserFollowingController {
     private JwtUserChecker jwtUserChecker;
 
     @ApiOperation(value = "A user's request to follow another user", response = UserResource.class)
-    @GetMapping("/follow")
+    @PostMapping("/follow")
     public ResponseEntity<UserResource> follow(
             @RequestHeader("Authorization") String token,
             @RequestHeader("followingUserEmail") String followingUserEmail
@@ -41,7 +38,8 @@ public class UserFollowingController {
     @ApiOperation(
             value = "Get a user's followers. If an email is given we look for email owner's followers, " +
                     "otherwise we look for the request sender's followers",
-            response = List.class
+            response = UserResource.class,
+            responseContainer = "List"
     )
     @GetMapping("/getFollowers")
     public ResponseEntity<List<UserResource>> getFollowers(
@@ -63,7 +61,8 @@ public class UserFollowingController {
     @ApiOperation(
             value = "Get a user's followings. If an email is given we look for email owner's followings, " +
                     "otherwise we look for the request sender's followings",
-            response = List.class
+            response = UserResource.class,
+            responseContainer = "List"
     )
     @GetMapping("/getFollowings")
     public ResponseEntity<List<UserResource>> getFollowings(
