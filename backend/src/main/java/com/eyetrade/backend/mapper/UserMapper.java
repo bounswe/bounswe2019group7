@@ -37,7 +37,6 @@ public class UserMapper {
         userResource.setName(user.getName());
         userResource.setSurname(user.getSurname());
         userResource.setConfirmed(user.isConfirmed());
-        userResource.setId(user.getId());
         return userResource;
     }
 }

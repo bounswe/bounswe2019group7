@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 
 /**
@@ -39,14 +40,14 @@ public class RegistrationService {
         userRepository.saveAndFlush(user);
 
         //TODO: mail göndermeyi kontrol et
-        confirmationTokenService.sendActivationToken(user.getEmail());
+        confirmationTokenService.sendActivationToken(user);
 
         return UserMapper.entityToResource(user);
     }
 
     public void confirmRegister(String confirmationToken) {
-        String email = jwtResolver.getUsernameFromToken(confirmationToken);
-        User user = userRepository.findByEmail(email);
+        UUID id = jwtResolver.getIdFromToken(confirmationToken);
+        User user = userRepository.findById(id);
         if (user == null) {
             throw new RuntimeException(ErrorConstants.USER_NOT_EXIST);
         }

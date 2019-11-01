@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     @Autowired
-    JwtGenerator jwtGenerator;
+    private JwtGenerator jwtGenerator;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public String login(LoginDto loginDto){
         String email = loginDto.getEmail();
@@ -25,7 +25,7 @@ public class LoginService {
             throw new RuntimeException(ErrorConstants.WRONG_EMAIL_OR_PASSWORD);
         }
         else{
-            return jwtGenerator.generateToken(email);
+            return jwtGenerator.generateToken(user.getId());
         }
     }
 

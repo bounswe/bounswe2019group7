@@ -15,9 +15,9 @@ import java.util.UUID;
 @Setter
 @Resource
 public class UserResource {
-    private UUID id;
     private String email;
     private boolean confirmed;
     private String name;
     private String surname;
+
 }

@@ -9,6 +9,8 @@ import com.eyetrade.backend.security.JwtResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class ResetPasswordService {
 
@@ -23,8 +25,8 @@ public class ResetPasswordService {
 
     // Todo: Hash password
     public UserResource resetPassword(String password, String confirmationToken) {
-        String email = jwtResolver.getUsernameFromToken(confirmationToken);
-        User user = userRepository.findByEmail(email);
+        UUID id = jwtResolver.getIdFromToken(confirmationToken);
+        User user = userRepository.findById(id);
         if (user == null) {
             throw new RuntimeException(ErrorConstants.USER_NOT_EXIST);
         }

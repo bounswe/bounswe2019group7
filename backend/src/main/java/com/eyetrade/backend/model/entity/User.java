@@ -2,8 +2,6 @@ package com.eyetrade.backend.model.entity;
 
 import com.eyetrade.backend.constants.Role;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
