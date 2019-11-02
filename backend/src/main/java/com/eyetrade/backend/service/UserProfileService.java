@@ -1,6 +1,9 @@
 package com.eyetrade.backend.service;
 
+import com.eyetrade.backend.mapper.UserMapper;
+import com.eyetrade.backend.model.dto.UserDto;
 import com.eyetrade.backend.model.entity.User;
+import com.eyetrade.backend.model.resource.UserResource;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +16,14 @@ public class UserProfileService {
     @Autowired
     private UserRepository userRepository;
 
-    public User getUserProfile(UUID userID){
+    public UserResource getUserProfile(UUID userID){
         User user =userRepository.findById(userID);
-        return user;
+        return UserMapper.entityToResource(user);
     }
 
-    public User updateProfile(UUID userID, User newUserProfile){
+    public UserResource updateProfile(UUID userID, UserDto newUserDto){
+
+        User newUserProfile = UserMapper.dtoToEntity(newUserDto);
         User user =userRepository.findById(userID);
 
         user.setCity(newUserProfile.getCity());
@@ -32,6 +37,6 @@ public class UserProfileService {
         user.setPhone(newUserProfile.getPhone());
 
         userRepository.save(user);
-        return user;
+        return UserMapper.entityToResource(user);
     }
 }

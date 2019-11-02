@@ -1,6 +1,5 @@
 package com.eyetrade.backend.controller;
 
-import com.eyetrade.backend.mapper.UserMapper;
 import com.eyetrade.backend.model.dto.UserDto;
 import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.resource.UserResource;
@@ -29,22 +28,22 @@ public class UserProfileController {
 
     @ApiOperation(value = "Return user profile information", response = UserResource.class)
     @GetMapping("/profile")
-    public ResponseEntity<User> getUserProfile(
+    public ResponseEntity<UserResource> getUserProfile(
             @RequestHeader("Authorization") String token
     ){
         UUID userID = jwtUserChecker.resolveBasicToken(token);
-        User user = userProfileService.getUserProfile(userID);
+        UserResource user = userProfileService.getUserProfile(userID);
         return ResponseEntity.ok(user);
     }
 
     @ApiOperation(value = "Updates user profile with given info", response = UserResource.class)
     @PostMapping("/updateProfile")
-    public ResponseEntity<User> updateUserProfile(
+    public ResponseEntity<UserResource> updateUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid UserDto userDto
     ){
         UUID userID = jwtUserChecker.resolveBasicToken(token);
-        User user = userProfileService.updateProfile(userID, UserMapper.dtoToEntity(userDto));
+        UserResource user = userProfileService.updateProfile(userID, userDto);
         return ResponseEntity.ok(user);
     }
 
