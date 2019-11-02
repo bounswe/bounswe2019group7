@@ -38,10 +38,7 @@ public class RegistrationService {
             throw new RuntimeException(ErrorConstants.IBAN_AND_IDENTITY_SHOULD_BE_PROVIDED);
         }
         userRepository.saveAndFlush(user);
-
-        //TODO: mail göndermeyi kontrol et
         confirmationTokenService.sendActivationToken(user);
-
         return UserMapper.entityToResource(user);
     }
 

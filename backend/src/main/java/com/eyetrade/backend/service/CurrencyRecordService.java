@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.eyetrade.backend.constants.CurrencyConstants.CURRENCY_EXPIRE_TIME;
+import static com.eyetrade.backend.constants.ErrorConstants.CURRENCIES_COULD_NOT_BE_UPDATED;
 
 @Service
 public class CurrencyRecordService {
@@ -65,8 +66,7 @@ public class CurrencyRecordService {
             try {
                 record=getCurrencyRecord();
             } catch (IOException e) {
-                e.printStackTrace();
-                // TODO: 17 Eki 2019 error handling
+                throw new RuntimeException(CURRENCIES_COULD_NOT_BE_UPDATED);
             }
         }
         return record;

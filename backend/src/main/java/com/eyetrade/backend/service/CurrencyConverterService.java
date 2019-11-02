@@ -8,6 +8,8 @@ import com.eyetrade.backend.repository.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.eyetrade.backend.constants.ErrorConstants.NO_SUCH_CURRENCY_TYPES;
+
 /**
  * Created by Emir Gökdemir
  * on 17 Eki 2019
@@ -40,7 +42,8 @@ public class CurrencyConverterService {
                 return record.getSterlingRate();
             case USD:
                 return record.getDollarRate();
+            default:
+                throw new RuntimeException(NO_SUCH_CURRENCY_TYPES);
         }
-        return 0.00;
     }
 }

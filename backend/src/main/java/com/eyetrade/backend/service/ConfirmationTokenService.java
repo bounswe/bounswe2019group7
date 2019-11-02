@@ -7,6 +7,7 @@ import com.eyetrade.backend.constants.ErrorConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,7 @@ public class ConfirmationTokenService {
     private void sendMail(SimpleMailMessage mailMessage){
         try {
             javaMailSender.send(mailMessage);
-        } catch (RuntimeException exception) {
+        } catch (MailException exception) {
             throw new RuntimeException(ErrorConstants.MAIL_SEND_FAILED);
         }
     }

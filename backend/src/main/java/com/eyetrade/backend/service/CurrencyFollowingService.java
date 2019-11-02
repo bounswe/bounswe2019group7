@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import static com.eyetrade.backend.constants.ErrorConstants.FOLLOWING_RELATION_ALREADY_EXISTS;
 import static com.eyetrade.backend.constants.ErrorConstants.NO_SUCH_FOLLOWING;
 
 /**
@@ -41,7 +42,7 @@ public class CurrencyFollowingService {
         // find both of the users
         User follower = userRepository.findById(followerId);
         if (followingRepository.existsByBaseCurrencyTypeAndFollower(baseCurrencyType,follower)){
-            throw new IllegalArgumentException("The following relation already exists.");
+            throw new IllegalArgumentException(FOLLOWING_RELATION_ALREADY_EXISTS);
         }
         CurrencyFollowing relation = new CurrencyFollowing();
         relation.setFollower(follower);
