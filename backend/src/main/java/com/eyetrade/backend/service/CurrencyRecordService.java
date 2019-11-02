@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.eyetrade.backend.constants.CurrencyConstants.CURRENCY_EXPIRE_TIME;
+
 @Service
 public class CurrencyRecordService {
 
@@ -55,5 +57,24 @@ public class CurrencyRecordService {
             return data;
         }
     }
+
+
+    public CurrencyRecord updateIfCurrenciesExpiredAndGetLastRecord(){
+        CurrencyRecord record= currencyRepository.findLastRecord();
+        if(record==null || checkExpired(record.getTimestamp())){
+            try {
+                record=getCurrencyRecord();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // TODO: 17 Eki 2019 error handling
+            }
+        }
+        return record;
+    }
+
+    private boolean checkExpired(Long lastUpdateTime){
+        return (new Date().getTime()-lastUpdateTime>CURRENCY_EXPIRE_TIME);
+    }
+
 
 }
