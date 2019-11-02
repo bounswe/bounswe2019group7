@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 import java.util.function.Function;
 
 @Component
@@ -14,8 +15,9 @@ public class JwtResolver {
     @Value("${jwt.secret}") private String secret;
 
     // Extracts the username(email) from the given token
-    public String getUsernameFromToken(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
+    public UUID getIdFromToken(String token) {
+        String idString = getClaimFromToken(token, Claims::getSubject);
+        return UUID.fromString(idString);
     }
 
     public Date getExpirationDateFromToken(String token) {

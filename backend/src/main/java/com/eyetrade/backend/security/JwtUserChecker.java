@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.UUID;
 
 //TODO: refactor the code
 @Component
@@ -22,21 +23,20 @@ public class JwtUserChecker {
     @Autowired
     private UserRepository userRepository;
 
-    public String resolveTraderToken(String token){
-        String email = resolveBasicToken(token);
-        User user = userRepository.findByEmail(email);
+    public UUID resolveTraderToken(String token){
+        UUID id = resolveBasicToken(token);
+        User user = userRepository.findById(id);
         if(user.getRole() == Role.BASIC_USER){
             throw new RuntimeException(ErrorConstants.NOT_TRADER_USER);
         }
-        return email;
+        return id;
     }
 
-    public String resolveBasicToken(String token) {
-        String email = jwtResolver.getUsernameFromToken(token);
+    public UUID resolveBasicToken(String token) {
         if(isTokenExpired(token)){
             throw new RuntimeException(ErrorConstants.EXPIRED_TOKEN);
         }
-        return email;
+        return jwtResolver.getIdFromToken(token);
     }
 
     // checks whether the token has expired

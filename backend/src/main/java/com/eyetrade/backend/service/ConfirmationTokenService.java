@@ -1,5 +1,6 @@
 package com.eyetrade.backend.service;
 
+import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.repository.UserRepository;
 import com.eyetrade.backend.security.JwtGenerator;
 import com.eyetrade.backend.constants.ErrorConstants;
@@ -29,11 +30,14 @@ public class ConfirmationTokenService {
     @Autowired
     private JwtGenerator jwtGenerator;
 
+    @Autowired
+    private UserRepository userRepository;
 
-    public void sendActivationToken(String email) {
+
+    public void sendActivationToken(User user) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        String confirmationToken = jwtGenerator.generateToken(email);
-        mailMessage.setTo(email);
+        String confirmationToken = jwtGenerator.generateToken(user.getId());
+        mailMessage.setTo(user.getEmail());
         mailMessage.setSubject(CONFIRM_ACCOUNT_HEADER);
         mailMessage.setText(CONFIRM_ACCOUNT_BODY
                 + this.environment.getProperty("spring.url")
@@ -42,9 +46,10 @@ public class ConfirmationTokenService {
     }
 
     public void sendResetPasswordsToken(String email) {
+        User user = userRepository.findByEmail(email);
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        String confirmationToken = jwtGenerator.generateToken(email);
-        mailMessage.setTo(email);
+        String confirmationToken = jwtGenerator.generateToken(user.getId());
+        mailMessage.setTo(user.getEmail());
         mailMessage.setSubject(RESET_PASSWORD_HEADER);
         mailMessage.setText(RESET_PASSWORD_BODY
                 + this.environment.getProperty("spring.url")

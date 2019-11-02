@@ -15,9 +15,11 @@ import java.util.UUID;
 @Setter
 @Resource
 public class UserResource {
-    private UUID id;
+    // TODO: that model should be improved
+
     private String email;
     private boolean confirmed;
     private String name;
     private String surname;
+
 }

@@ -1,6 +1,7 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.model.dto.LoginDto;
+import com.eyetrade.backend.model.resource.LoginResource;
 import com.eyetrade.backend.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,9 +22,9 @@ public class LoginController {
 
     @ApiOperation(value = "Login with the username (email) and password", response = String.class)
     @PostMapping("")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
-        String token = loginService.login(loginDto);
-        return ResponseEntity.ok(token);
+    public ResponseEntity<LoginResource> login(@RequestBody LoginDto loginDto){
+        LoginResource loginResource = loginService.login(loginDto);
+        return ResponseEntity.ok(loginResource);
     }
 
 }

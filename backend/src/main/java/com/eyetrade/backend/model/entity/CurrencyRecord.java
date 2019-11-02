@@ -3,7 +3,7 @@ package com.eyetrade.backend.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+
 
 @Data
 @Entity
