@@ -15,7 +15,7 @@ import java.util.UUID;
 @Api(value = "User Following", tags = {"Operations Related with User Following Relations"})
 @RestController
 @RequestMapping("/user_following")
-public class UserFollowingController {
+public class    UserFollowingController {
 
     @Autowired
     private UserFollowingService userFollowingService;
