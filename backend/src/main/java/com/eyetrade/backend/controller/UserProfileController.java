@@ -1,7 +1,6 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.model.dto.UserDto;
-import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.resource.UserResource;
 import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.UserProfileService;
