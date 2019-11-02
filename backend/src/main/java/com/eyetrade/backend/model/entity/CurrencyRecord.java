@@ -1,8 +1,13 @@
 package com.eyetrade.backend.model.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+
+import java.util.UUID;
+
+import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
 
 
 @Data
@@ -11,9 +16,10 @@ import javax.persistence.*;
 public class CurrencyRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO,generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    @Column(name = "id", length = ID_LENGTH)
+    private UUID id;
 
     @Column(name = "timestamp")
     private Long timestamp; // time in milliseconds

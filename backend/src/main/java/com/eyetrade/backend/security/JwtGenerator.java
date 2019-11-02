@@ -17,7 +17,7 @@ public class JwtGenerator {
 
     @Value("${jwt.secret}") private String secret;
 
-    // Generates a token with the given user's email and current time
+    // Generates a token with the given user's id and current time
     public String generateToken(UUID id) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()

@@ -8,11 +8,6 @@ import com.eyetrade.backend.repository.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.Date;
-
-import static com.eyetrade.backend.constants.CurrencyConstants.CURRENCY_EXPIRE_TIME;
-
 /**
  * Created by Emir Gökdemir
  * on 17 Eki 2019
@@ -27,15 +22,7 @@ public class CurrencyConverterService {
     private CurrencyRecordService currencyRecordService;
 
     public CurrencyConverterResource convertCurrency (CurrencyConverterDto converterDto){
-        CurrencyRecord record= currencyRepository.findLastRecord();
-        if(record==null || checkExpired(record.getTimestamp())){
-            try {
-                record=currencyRecordService.getCurrencyRecord();
-            } catch (IOException e) {
-                e.printStackTrace();
-                // TODO: 17 Eki 2019 error handling
-            }
-        }
+        CurrencyRecord record= currencyRecordService.updateIfCurrenciesExpiredAndGetLastRecord();
         CurrencyConverterResource resource= new CurrencyConverterResource();
         resource.setRate(
                 findRate(converterDto.getOutputCurrencyType(),record)/findRate(converterDto.getInputCurrencyType(),record));
@@ -43,7 +30,7 @@ public class CurrencyConverterService {
         return resource;
     }
 
-    private Double findRate(CurrencyType type, CurrencyRecord record) {
+    public Double findRate(CurrencyType type, CurrencyRecord record) {
         switch (type) {
             case TRY:
                 return record.getTurkishLiraRate();
@@ -55,9 +42,5 @@ public class CurrencyConverterService {
                 return record.getDollarRate();
         }
         return 0.00;
-    }
-
-    private boolean checkExpired(Long lastUpdateTime){
-        return (new Date().getTime()-lastUpdateTime>CURRENCY_EXPIRE_TIME);
     }
 }
