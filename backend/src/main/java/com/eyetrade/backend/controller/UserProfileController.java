@@ -25,12 +25,19 @@ public class UserProfileController {
     @Autowired
     private JwtUserChecker jwtUserChecker;
 
-    @ApiOperation(value = "Return user profile information", response = UserResource.class)
+    @ApiOperation(value = "Return current users profile information", response = UserResource.class)
     @GetMapping("/profile")
-    public ResponseEntity<UserResource> getUserProfile(
+    public ResponseEntity<UserResource> getSelfProfile(
             @RequestHeader("Authorization") String token
     ){
         UUID userID = jwtUserChecker.resolveBasicToken(token);
+        UserResource user = userProfileService.getUserProfile(userID);
+        return ResponseEntity.ok(user);
+    }
+
+    @ApiOperation(value = "Return profile of given user", response = UserResource.class)
+    @GetMapping("/user")
+    public ResponseEntity<UserResource> getUserProfile(UUID userID){
         UserResource user = userProfileService.getUserProfile(userID);
         return ResponseEntity.ok(user);
     }
