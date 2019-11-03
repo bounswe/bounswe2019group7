@@ -37,7 +37,9 @@ public class UserProfileController {
 
     @ApiOperation(value = "Return profile of given user", response = UserResource.class)
     @GetMapping("/user")
-    public ResponseEntity<UserResource> getUserProfile(UUID userID){
+    public ResponseEntity<UserResource> getUserProfile(
+            @RequestParam("userID")  UUID userID
+    ){
         UserResource user = userProfileService.getUserProfile(userID);
         return ResponseEntity.ok(user);
     }
