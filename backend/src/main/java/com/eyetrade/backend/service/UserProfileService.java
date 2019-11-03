@@ -35,7 +35,7 @@ public class UserProfileService {
         user.setName(newUserProfile.getName());
         user.setSurname(newUserProfile.getSurname());
         user.setPhone(newUserProfile.getPhone());
-        user.setStatus(newUserProfile.getStatus());
+        user.setPrivacyType(newUserProfile.getPrivacyType());
 
         userRepository.save(user);
         return UserMapper.entityToResource(user);

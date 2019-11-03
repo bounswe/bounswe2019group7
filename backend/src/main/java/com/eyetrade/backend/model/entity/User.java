@@ -1,7 +1,7 @@
 package com.eyetrade.backend.model.entity;
 
 import com.eyetrade.backend.constants.Role;
-import com.eyetrade.backend.constants.Status;
+import com.eyetrade.backend.constants.PrivacyType;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -74,5 +74,5 @@ public class User {
     @NotNull
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private PrivacyType privacyType;
 }

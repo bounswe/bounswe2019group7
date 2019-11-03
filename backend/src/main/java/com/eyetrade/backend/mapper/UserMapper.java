@@ -25,7 +25,7 @@ public class UserMapper {
         user.setRole(userDto.getRole());
         user.setIban(userDto.getIban());
         user.setIdentityNo(userDto.getIdentityNo());
-        user.setStatus(userDto.getStatus());
+        user.setPrivacyType(userDto.getPrivacyType());
         return user;
     }
 
