@@ -30,7 +30,7 @@ public class CurrencyFollowingController {
     @Autowired
     private JwtUserChecker jwtUserChecker;
 
-    @ApiOperation(value = "A user's request to follow currencies with a base currency type.")//, response = UserResource.class)
+    @ApiOperation(value = "A user's request to follow currencies with a base currency type.", response = CurrencyFollowingResource.class)
     @PostMapping("/follow")
     public ResponseEntity<CurrencyFollowingResource> follow(
             @RequestHeader("Authorization") String token,

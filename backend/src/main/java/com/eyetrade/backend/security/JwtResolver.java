@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.function.Function;
 
+import static com.eyetrade.backend.constants.ErrorConstants.INVALID_TOKEN;
+
 @Component
 public class JwtResolver {
 
@@ -16,7 +18,12 @@ public class JwtResolver {
 
     // Extracts the username(email) from the given token
     public UUID getIdFromToken(String token) {
-        String idString = getClaimFromToken(token, Claims::getSubject);
+        String idString;
+        try{
+         idString = getClaimFromToken(token, Claims::getSubject);
+        } catch (Exception e){
+            throw new RuntimeException(INVALID_TOKEN);
+        }
         return UUID.fromString(idString);
     }
 

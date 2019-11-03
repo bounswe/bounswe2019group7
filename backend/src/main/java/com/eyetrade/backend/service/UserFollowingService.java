@@ -8,12 +8,12 @@ import com.eyetrade.backend.repository.UserFollowingRepository;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
+import static com.eyetrade.backend.constants.ErrorConstants.USER_NOT_EXIST;
 
 @Service
 public class UserFollowingService {
@@ -43,24 +43,36 @@ public class UserFollowingService {
     // Get the followers of the current user
     public List<UserResource> getSelfFollowers(UUID id){
         User following = userRepository.findById(id);
+        if (following==null){
+            throw new NoSuchElementException(USER_NOT_EXIST);
+        }
         return getFollowers(following);
     }
 
     // Get the followers of another user
     public List<UserResource> getUserFollowers(String email){
         User following = userRepository.findByEmail(email);
+        if (following==null){
+            throw new NoSuchElementException(USER_NOT_EXIST);
+        }
         return getFollowers(following);
     }
 
     // Get the followings of the current user
     public List<UserResource> getSelfFollowings(UUID id){
         User follower = userRepository.findById(id);
+        if (follower==null){
+            throw new NoSuchElementException(USER_NOT_EXIST);
+        }
         return getFollowings(follower);
     }
 
     // Get the followings of another user
     public List<UserResource> getUserFollowings(String email){
         User follower = userRepository.findByEmail(email);
+        if (follower==null){
+            throw new NoSuchElementException(USER_NOT_EXIST);
+        }
         return getFollowings(follower);
     }
 
