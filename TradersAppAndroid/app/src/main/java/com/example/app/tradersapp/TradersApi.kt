@@ -41,6 +41,12 @@ interface ApiInterface {
     ): retrofit2.Call<ResponseBody>
 
     @Headers("Content-Type:application/json")
+    @POST("profile/update")
+    fun updateUser(
+        @Body info: RegistrationInformation
+    ): retrofit2.Call<ResponseBody>
+
+    @Headers("Content-Type:application/json")
     @POST("login")
     fun loginUser(@Body info: LoginInformation): retrofit2.Call<ResponseBody>
 
