@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import com.example.app.tradersapp.Fragments.EventArticleFragment
 
 import com.example.app.tradersapp.Fragments.HomeFragment
+import com.example.app.tradersapp.Fragments.ProfileFragment
 import kotlinx.android.synthetic.main.activity_homepage.*
 import java.util.*
 
@@ -72,6 +73,11 @@ class HomepageActivity : AppCompatActivity() {
                 R.id.action_events -> {
                     fragment = EventArticleFragment.newInstance(false)
                     changeTitle("Economic Events")
+                }
+
+                R.id.action_profile -> {
+                    fragment = ProfileFragment()
+                    changeTitle("My Profile")
                 }
 
             }
