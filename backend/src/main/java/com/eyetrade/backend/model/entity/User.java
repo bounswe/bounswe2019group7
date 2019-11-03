@@ -72,7 +72,7 @@ public class User {
     private boolean confirmed;
 
     @NotNull
-    @Column(name = "status")
+    @Column(name = "privacy_type")
     @Enumerated(EnumType.STRING)
     private PrivacyType privacyType;
 }
