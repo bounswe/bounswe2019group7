@@ -1,6 +1,7 @@
 package com.eyetrade.backend.model.dto;
 
 import com.eyetrade.backend.constants.Role;
+import com.eyetrade.backend.constants.Status;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,6 +29,7 @@ public class UserDto {
     private String locationX;
     private String locationY;
     private Role role;
+    private Status status;
 
     @Length(min = 5, message = "The field must be at least 5 characters")
     @Length(max = 50, message = "The field must be less than 50 characters")

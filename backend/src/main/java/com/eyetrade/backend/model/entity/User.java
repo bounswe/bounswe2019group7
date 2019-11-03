@@ -1,6 +1,7 @@
 package com.eyetrade.backend.model.entity;
 
 import com.eyetrade.backend.constants.Role;
+import com.eyetrade.backend.constants.Status;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -69,4 +70,9 @@ public class User {
 
     @Column(name = "confirmed")
     private boolean confirmed;
+
+    @NotNull
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }
