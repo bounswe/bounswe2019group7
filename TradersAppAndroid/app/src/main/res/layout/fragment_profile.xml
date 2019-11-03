@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".Fragments.ProfileFragment">
+
+    <ImageView
+      android:id="@+id/profilePic"
+      android:layout_width="120dp"
+      android:layout_height="120dp"
+      android:layout_alignParentTop="true"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="10dp"
+      android:padding="5dp"
+      app:srcCompat="@drawable/trading_logo" />
+
+    <TextView
+      android:id="@+id/name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/profilePic"
+      android:layout_centerHorizontal="true"
+      android:gravity="center"
+      android:text="Hans Graham"
+      android:textSize="22sp"
+      android:textStyle="bold" />
+
+    <TextView
+      android:id="@+id/description"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/name"
+      android:layout_centerHorizontal="true"
+      android:gravity="center"
+      android:text="I am jealous of Turkey"
+      android:textSize="18sp"
+      android:textStyle="italic" />
+
+    <LinearLayout
+      android:id="@+id/linearLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@id/description"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="10dp"
+      android:orientation="horizontal">
+
+        <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="11dp"
+          android:layout_weight="1"
+          android:gravity="center"
+          android:orientation="vertical">
+
+        <TextView
+          android:id="@+id/tv1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:text="3260"
+          android:textColor="@color/colorAccent"
+          android:textSize="24sp" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Followers"
+          android:textSize="18sp"
+          android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <View
+          android:layout_width="1dp"
+          android:layout_height="match_parent"
+          android:background="#A9A9A9" />
+
+        <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="11dp"
+          android:layout_weight="1"
+          android:gravity="center"
+          android:orientation="vertical">
+
+        <TextView
+          android:id="@+id/tv2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:text="563"
+          android:textColor="@color/colorPrimary"
+          android:textSize="24sp" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Following"
+          android:textSize="18sp"
+          android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+            android:layout_marginTop="11dp"
+            android:layout_below="@id/linearLayout"
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#A9A9A9" />
+
+    <Button
+      android:id="@+id/follow"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/line"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="10dp"
+      android:background="@drawable/round_button"
+      android:text="Follow me"
+      android:textColor="#ffff" />
+
+</RelativeLayout>
+
