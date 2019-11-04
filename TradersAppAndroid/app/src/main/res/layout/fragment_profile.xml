@@ -14,7 +14,7 @@
       android:layout_centerHorizontal="true"
       android:layout_marginTop="10dp"
       android:padding="5dp"
-      app:srcCompat="@drawable/trading_logo" />
+      app:srcCompat="@drawable/hansgraham" />
 
     <TextView
       android:id="@+id/name"
@@ -23,26 +23,26 @@
       android:layout_below="@id/profilePic"
       android:layout_centerHorizontal="true"
       android:gravity="center"
-      android:text="Hans Graham"
+      android:text=""
       android:textSize="22sp"
       android:textStyle="bold" />
 
     <TextView
-      android:id="@+id/description"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/name"
-      android:layout_centerHorizontal="true"
-      android:gravity="center"
-      android:text="I am jealous of Turkey"
-      android:textSize="18sp"
-      android:textStyle="italic" />
+            android:id="@+id/email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text=""
+            android:textSize="18sp"
+            android:textStyle="italic"/>
 
     <LinearLayout
       android:id="@+id/linearLayout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_below="@id/description"
+      android:layout_below="@id/email"
       android:layout_centerHorizontal="true"
       android:layout_marginTop="10dp"
       android:orientation="horizontal">
@@ -92,7 +92,7 @@
           android:layout_height="wrap_content"
           android:gravity="center"
           android:text="563"
-          android:textColor="@color/colorPrimary"
+          android:textColor="@color/colorAccent"
           android:textSize="24sp" />
 
         <TextView

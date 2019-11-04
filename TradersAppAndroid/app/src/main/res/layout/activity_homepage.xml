@@ -23,7 +23,7 @@
 
         <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
         <fragment
-                android:name="com.example.app.tradersapp.Fragments.EventArticleFragment"
+                android:name="com.example.app.tradersapp.Fragments.HomeFragment"
                 android:id="@+id/nav_host_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
