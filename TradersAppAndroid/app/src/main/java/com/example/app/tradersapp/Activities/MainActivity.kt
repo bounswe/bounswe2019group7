@@ -6,6 +6,7 @@ import android.os.PersistableBundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.ResponseBody
@@ -13,6 +14,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+// TODO: Find more convenient way to store this token later
+var currentToken: String? = ""
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +43,8 @@ class MainActivity : AppCompatActivity() {
         val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
         val loginInfo = LoginInformation(email, password)
 
-        retrofitService.loginUser(loginInfo).enqueue(object : Callback<ResponseBody> {
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+        retrofitService.loginUser(loginInfo).enqueue(object : Callback<LoginResponse> {
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.i("ApiRequest", "Request failed: " + t.toString())
                 Toast.makeText(
                     this@MainActivity,
@@ -50,8 +53,9 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
 
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 if (response.code() == 200) {
+                    currentToken = response.body()?.token
                     openHomePage()
                 } else {
                     Toast.makeText(this@MainActivity, "Login failed.", Toast.LENGTH_SHORT).show()
