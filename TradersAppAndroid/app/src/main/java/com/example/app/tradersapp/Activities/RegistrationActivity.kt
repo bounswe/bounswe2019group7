@@ -1,7 +1,9 @@
 package com.example.app.tradersapp
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
@@ -17,11 +19,19 @@ class RegistrationActivity : AppCompatActivity() {
 
     private var updateProfile: Boolean = false
 
+    private var sp:SharedPreferences? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
+        sp = PreferenceManager.getDefaultSharedPreferences(this)
+
         updateProfile = intent.extras?.get("updateProfile") == true
+
+        if(updateProfile){
+            registerSignUpButton.text="Update"
+        }
 
         registerCancelButton.setOnClickListener {
             this.finish()
@@ -80,7 +90,7 @@ class RegistrationActivity : AppCompatActivity() {
                     idNo
                 )
 
-            Toast.makeText(this, "Signing Up", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, if(updateProfile) "Updating Profile" else "Signing Up", Toast.LENGTH_SHORT).show()
 
             if (!updateProfile) {
                 retrofitService.registerUser(registrationInfo).enqueue(object :
@@ -113,13 +123,12 @@ class RegistrationActivity : AppCompatActivity() {
                                 this@RegistrationActivity,
                                 "Registration failed.",
                                 Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            ).show()
                         }
                     }
                 })
             } else {
-                retrofitService.updateUser(registrationInfo).enqueue(object :
+                retrofitService.updateUser(sp?.getString("token",null),registrationInfo).enqueue(object :
                     Callback<ResponseBody> {
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         Log.i("ApiRequest", "Request failed: " + t.toString())
@@ -139,18 +148,14 @@ class RegistrationActivity : AppCompatActivity() {
                                 this@RegistrationActivity,
                                 "Profile updated!",
                                 Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            val intent = Intent(this@RegistrationActivity, MainActivity::class.java)
-                            startActivity(intent)
+                            ).show()
                             finish()
                         } else {
                             Toast.makeText(
                                 this@RegistrationActivity,
-                                "Could not update profile.",
+                                "Could not update profile: "+response.code(),
                                 Toast.LENGTH_SHORT
-                            )
-                                .show()
+                            ).show()
                         }
                     }
                 })
@@ -163,7 +168,7 @@ class RegistrationActivity : AppCompatActivity() {
         displayTraderUserInput()
     }
 
-    fun displayTraderUserInput() {
+    private fun displayTraderUserInput() {
         val vis =
             if (userTypeRadioGroup.checkedRadioButtonId == basicUserRadio.id) View.GONE else View.VISIBLE
         registerIBANInput.visibility = vis

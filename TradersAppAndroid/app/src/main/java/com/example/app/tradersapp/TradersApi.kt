@@ -40,12 +40,6 @@ interface ApiInterface {
     ): retrofit2.Call<ResponseBody>
 
     @Headers("Content-Type:application/json")
-    @POST("profile/update")
-    fun updateUser(
-        @Body info: RegistrationInformation
-    ): retrofit2.Call<ResponseBody>
-
-    @Headers("Content-Type:application/json")
     @POST("login")
     fun loginUser(@Body info: LoginInformation): retrofit2.Call<LoginResponse>
 
@@ -59,7 +53,12 @@ interface ApiInterface {
     @GET("user_profile/profile")
     fun getUserProfileInformation(@Header("Authorization") token: String?): retrofit2.Call<ProfileInformationResponse>
 
-
+    @Headers("Content-Type:application/json")
+    @POST("user_profile/updateProfile")
+    fun updateUser(
+        @Header("Authorization") token: String?,
+        @Body info: RegistrationInformation
+    ): retrofit2.Call<ResponseBody>
 }
 
 data class RegistrationInformation(
