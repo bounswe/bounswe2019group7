@@ -125,5 +125,16 @@
       android:text="Follow me"
       android:textColor="#ffff" />
 
+    <Button
+        android:id="@+id/updateProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/follow"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/round_button"
+        android:text="Update Profile"
+        android:textColor="#ffff" />
+
 </RelativeLayout>
 

@@ -1,13 +1,13 @@
 package com.example.app.tradersapp.Fragments
 
 
-import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.PorterDuff
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.util.Log
@@ -16,13 +16,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.app.tradersapp.*
-
 import kotlinx.android.synthetic.main.fragment_profile.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ProfileFragment : Fragment() {
+
+    private var sp:SharedPreferences?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,13 +36,15 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        sp = PreferenceManager.getDefaultSharedPreferences(context)
+
         val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-        retrofitService.getUserProfileInformation(currentToken).enqueue(object: Callback<ProfileInformationResponse>{
+        retrofitService.getUserProfileInformation(sp?.getString("token",null)).enqueue(object: Callback<ProfileInformationResponse>{
             override fun onFailure(call: Call<ProfileInformationResponse>, t: Throwable) {
                 Log.i("ApiRequest", "Request failed: " + t.toString())
                 Toast.makeText(
                     activity?.applicationContext,
-                    "Unexpected server error occured. Please try again.",
+                    "Unexpected server error occurred. Please try again.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -72,7 +75,11 @@ class ProfileFragment : Fragment() {
             // TODO: Handle following feature
         }
 
-
+        updateProfile.setOnClickListener {
+            val intent = Intent(context, RegistrationActivity::class.java)
+            intent.putExtra("updateProfile", true)
+            startActivity(intent)
+        }
     }
 
 
