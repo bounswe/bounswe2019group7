@@ -13,7 +13,6 @@ class RetrofitInstance {
     companion object {
         val BASE_URL: String = "http://100.26.202.213:8080/"
 
-
         val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY
         }
@@ -48,13 +47,17 @@ interface ApiInterface {
 
     @Headers("Content-Type:application/json")
     @POST("login")
-    fun loginUser(@Body info: LoginInformation): retrofit2.Call<ResponseBody>
+    fun loginUser(@Body info: LoginInformation): retrofit2.Call<LoginResponse>
 
 
     @GET("currency/convert")
     fun getExchangeRate(@Query("inputCurrencyType") currency1: String,
                         @Query("outputCurrencyType") currency2: String,
                         @Query("amount") amount: Double = 1.0): retrofit2.Call<ExchangeRateResponse>
+
+    @Headers("Content-Type:application/json")
+    @GET("user_profile/profile")
+    fun getUserProfileInformation(@Header("Authorization") token: String?): retrofit2.Call<ProfileInformationResponse>
 
 
 }
@@ -69,7 +72,9 @@ data class RegistrationInformation(
     val locationX: String,
     val city: String,
     val iban: String,
-    val identityNo: String
+    val identityNo: String,
+    val privacyType: String = "PRIVATE_USER", // TODO: Handle these later!!!
+    val phone: String = "05555555555"
 )
 
 data class LoginInformation(
@@ -77,6 +82,17 @@ data class LoginInformation(
     val password: String
 )
 
+data class LoginResponse(
+    val token: String
+)
+
 data class ExchangeRateResponse(
     val rate: Double
+)
+
+data class ProfileInformationResponse(
+    val confirmed: Boolean,
+    val email: String,
+    val name: String,
+    val surname: String
 )

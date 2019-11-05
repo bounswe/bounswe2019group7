@@ -50,6 +50,12 @@
             />
 
     <item
+            android:id="@+id/action_profile"
+            android:title="My Profile"
+            android:icon="@android:drawable/ic_dialog_info"
+            />
+
+    <item
             android:id="@+id/action_help"
             android:title="Help"
             android:icon="@android:drawable/ic_menu_help"
