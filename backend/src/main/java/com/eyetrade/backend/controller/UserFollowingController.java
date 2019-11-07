@@ -1,6 +1,6 @@
 package com.eyetrade.backend.controller;
 
-import com.eyetrade.backend.model.resource.UserResource;
+import com.eyetrade.backend.model.resource.user.MinimalUserResource;
 import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.UserFollowingService;
 import io.swagger.annotations.Api;
@@ -23,31 +23,31 @@ public class    UserFollowingController {
     @Autowired
     private JwtUserChecker jwtUserChecker;
 
-    @ApiOperation(value = "A user's request to follow another user", response = UserResource.class)
+    @ApiOperation(value = "A user's request to follow another user", response = MinimalUserResource.class)
     @PostMapping("/follow")
-    public ResponseEntity<UserResource> follow(
+    public ResponseEntity<MinimalUserResource> follow(
             @RequestHeader("Authorization") String token,
             @RequestHeader("followingUserEmail") String followingUserEmail
     ) {
         UUID userId = jwtUserChecker.resolveBasicToken(token);
-        UserResource followingUserResource = userFollowingService.followUser(userId, followingUserEmail);
-        return ResponseEntity.ok(followingUserResource);
+        MinimalUserResource followingMinimalUserResource = userFollowingService.followUser(userId, followingUserEmail);
+        return ResponseEntity.ok(followingMinimalUserResource);
     }
 
 
     @ApiOperation(
             value = "Get a user's followers. If an email is given we look for email owner's followers, " +
                     "otherwise we look for the request sender's followers",
-            response = UserResource.class,
+            response = MinimalUserResource.class,
             responseContainer = "List"
     )
     @GetMapping("/getFollowers")
-    public ResponseEntity<List<UserResource>> getFollowers(
+    public ResponseEntity<List<MinimalUserResource>> getFollowers(
             @RequestHeader("Authorization") String token,
             @RequestHeader(value = "otherUserEmail", required = false) String otherUserEmail
     ) {
         UUID userId = jwtUserChecker.resolveBasicToken(token);
-        List<UserResource> followers;
+        List<MinimalUserResource> followers;
         if(otherUserEmail == null){
             followers = userFollowingService.getSelfFollowers(userId);
         }
@@ -61,16 +61,16 @@ public class    UserFollowingController {
     @ApiOperation(
             value = "Get a user's followings. If an email is given we look for email owner's followings, " +
                     "otherwise we look for the request sender's followings",
-            response = UserResource.class,
+            response = MinimalUserResource.class,
             responseContainer = "List"
     )
     @GetMapping("/getFollowings")
-    public ResponseEntity<List<UserResource>> getFollowings(
+    public ResponseEntity<List<MinimalUserResource>> getFollowings(
             @RequestHeader("Authorization") String token,
             @RequestHeader(value = "otherUserEmail", required = false) String otherUserEmail
     ) {
         UUID userId = jwtUserChecker.resolveBasicToken(token);
-        List<UserResource> followings;
+        List<MinimalUserResource> followings;
         if(otherUserEmail == null){
             followings = userFollowingService.getSelfFollowings(userId);
         }

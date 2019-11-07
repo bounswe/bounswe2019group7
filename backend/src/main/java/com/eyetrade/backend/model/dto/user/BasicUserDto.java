@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Setter
 @ToString
-public class BasicRegisterDto {
+public class BasicUserDto {
 
     private String email;
 

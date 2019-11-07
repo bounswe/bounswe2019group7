@@ -1,9 +1,12 @@
 package com.eyetrade.backend.service;
 
+import com.eyetrade.backend.constants.PrivacyType;
 import com.eyetrade.backend.mapper.UserMapper;
-import com.eyetrade.backend.model.dto.UserDto;
+import com.eyetrade.backend.model.dto.user.BasicUserDto;
+import com.eyetrade.backend.model.dto.user.TraderUserDto;
 import com.eyetrade.backend.model.entity.User;
-import com.eyetrade.backend.model.resource.UserResource;
+import com.eyetrade.backend.model.resource.user.CompleteUserResource;
+import com.eyetrade.backend.model.resource.user.PartialUserResource;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,28 +19,46 @@ public class UserProfileService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserResource getUserProfile(UUID userID){
-        User user =userRepository.findById(userID);
-        return UserMapper.entityToResource(user);
+    @Autowired
+    private UserFollowingService userFollowingService;
+
+    public CompleteUserResource getSelfProfile(UUID selfId){
+        User selfUser = userRepository.findById(selfId);
+        return UserMapper.entityToCompleteUserResource(selfUser,
+                userFollowingService.countFollowers(selfUser),
+                userFollowingService.countFollowers(selfUser));
     }
 
-    public UserResource updateProfile(UUID userID, UserDto newUserDto){
+    public PartialUserResource getOtherProfile(UUID selfId, String otherUserEmail){
+        User selfUser = userRepository.findById(selfId);
+        User otherUser = userRepository.findByEmail(otherUserEmail);
+        if(otherUser.getPrivacyType() == PrivacyType.PUBLIC_USER
+                || userFollowingService.getSelfFollowings(selfUser.getId()).contains(otherUser)){
+            return UserMapper.entityToPartialUserResource(otherUser,
+                    userFollowingService.countFollowers(otherUser),
+                    userFollowingService.countFollowers(otherUser));
+        }
+        else{
+            // you have no access for that user because it is private and you do not follow
+            return null;
+        }
+    }
 
-        User newUserProfile = UserMapper.dtoToEntity(newUserDto);
-        User user =userRepository.findById(userID);
+    public CompleteUserResource updateBasicProfile(UUID userID, BasicUserDto newBasicUserDto){
+        User updatedUser = UserMapper.basicUserDtoToEntity(newBasicUserDto);
+        updatedUser.setId(userID);
+        userRepository.save(updatedUser);
+        return UserMapper.entityToCompleteUserResource(updatedUser,
+                userFollowingService.countFollowers(updatedUser),
+                userFollowingService.countFollowers(updatedUser));
+    }
 
-        user.setCity(newUserProfile.getCity());
-        user.setEmail(newUserProfile.getEmail());
-        user.setIban(newUserProfile.getIban());
-        user.setIdentityNo(newUserProfile.getIdentityNo());
-        user.setLocationX(newUserProfile.getLocationX());
-        user.setLocationY(newUserProfile.getLocationY());
-        user.setName(newUserProfile.getName());
-        user.setSurname(newUserProfile.getSurname());
-        user.setPhone(newUserProfile.getPhone());
-        user.setPrivacyType(newUserProfile.getPrivacyType());
-
-        userRepository.save(user);
-        return UserMapper.entityToResource(user);
+    public CompleteUserResource updateTraderProfile(UUID userID, TraderUserDto newTraderUserDto){
+        User updatedUser = UserMapper.traderUserDtoToEntity(newTraderUserDto);
+        updatedUser.setId(userID);
+        userRepository.save(updatedUser);
+        return UserMapper.entityToCompleteUserResource(updatedUser,
+                userFollowingService.countFollowers(updatedUser),
+                userFollowingService.countFollowers(updatedUser));
     }
 }

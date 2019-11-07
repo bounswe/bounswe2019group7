@@ -1,6 +1,5 @@
 package com.eyetrade.backend.controller;
 
-import com.eyetrade.backend.model.resource.UserResource;
 import com.eyetrade.backend.service.ConfirmationTokenService;
 import com.eyetrade.backend.service.ResetPasswordService;
 import io.swagger.annotations.Api;
@@ -35,12 +34,12 @@ public class ResetPasswordController {
         return ResponseEntity.ok("Success");
     }
 
-    @ApiOperation(value = "Reset the user's password by using the link in the confirmation mail", response = UserResource.class)
+    @ApiOperation(value = "Reset the user's password by using the link in the confirmation mail", response = String.class)
     @GetMapping("/reset-password")
-    public ResponseEntity<UserResource> resetPassword(@RequestParam("password") String password,
-                                      @RequestParam("token") String confirmationToken) {
-        UserResource user = resetPasswordService.resetPassword(password, confirmationToken);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<String> resetPassword(@RequestParam("password") String password,
+                                                              @RequestParam("token") String confirmationToken) {
+        resetPasswordService.resetPassword(password, confirmationToken);
+        return ResponseEntity.ok("success");
     }
 
 

@@ -1,8 +1,13 @@
 package com.eyetrade.backend.mapper;
 
+import com.eyetrade.backend.constants.PrivacyType;
+import com.eyetrade.backend.constants.Role;
+import com.eyetrade.backend.model.dto.user.TraderUserDto;
 import com.eyetrade.backend.model.entity.User;
-import com.eyetrade.backend.model.dto.UserDto;
-import com.eyetrade.backend.model.resource.UserResource;
+import com.eyetrade.backend.model.dto.user.BasicUserDto;
+import com.eyetrade.backend.model.resource.user.CompleteUserResource;
+import com.eyetrade.backend.model.resource.user.MinimalUserResource;
+import com.eyetrade.backend.model.resource.user.PartialUserResource;
 
 /**
  * Created by Emir Gökdemir
@@ -10,34 +15,60 @@ import com.eyetrade.backend.model.resource.UserResource;
  */
 
 public class UserMapper {
-    public static User dtoToEntity(UserDto userDto) {
-        if (userDto == null) {
-            return null;
-        }
+
+    public static User basicUserDtoToEntity(BasicUserDto basicUserDto) {
         User user = new User();
-        user.setEmail(userDto.getEmail());
-        user.setPword(userDto.getPassword());
-        user.setCity(userDto.getCity());
-        user.setLocationX(userDto.getLocationX());
-        user.setLocationY(userDto.getLocationY());
-        user.setName(userDto.getName());
-        user.setSurname(userDto.getSurname());
-        user.setRole(userDto.getRole());
-        user.setIban(userDto.getIban());
-        user.setIdentityNo(userDto.getIdentityNo());
-        user.setPrivacyType(userDto.getPrivacyType());
+        user.setEmail(basicUserDto.getEmail());
+        user.setName(basicUserDto.getName());
+        user.setSurname(basicUserDto.getSurname());
+        user.setPhone(basicUserDto.getPhone());
+        user.setLocationX(basicUserDto.getLocationX());
+        user.setLocationY(basicUserDto.getLocationY());
+        user.setCountry(basicUserDto.getCountry());
+        user.setCity(basicUserDto.getCity());
+        user.setPrivacyType(PrivacyType.PUBLIC_USER); // Public user on default
+        user.setRole(Role.BASIC_USER);
+        user.setConfirmed(false); // User is not confirmed yet
         return user;
     }
 
-    public static UserResource entityToResource(User user) {
-        if (user == null) {
-            return null;
-        }
-        UserResource userResource = new UserResource();
-        userResource.setEmail(user.getEmail());
-        userResource.setName(user.getName());
-        userResource.setSurname(user.getSurname());
-        userResource.setConfirmed(user.isConfirmed());
-        return userResource;
+    public static User traderUserDtoToEntity(TraderUserDto traderRegisterDto) {
+        // First, map the fields that are also exist in basic users
+        User user = basicUserDtoToEntity(traderRegisterDto);
+        // Then, map the trader user fields
+        user.setRole(Role.TRADER_USER);
+        user.setIban(traderRegisterDto.getIban());
+        user.setIdentityNo(traderRegisterDto.getIdentityNo());
+        return user;
     }
+
+    public static MinimalUserResource entityToMinimalUserResource(User user) {
+        MinimalUserResource resource = new MinimalUserResource();
+        resource.setEmail(user.getEmail());
+        resource.setName(user.getName());
+        resource.setSurname(user.getSurname());
+        return resource;
+    }
+
+    public static PartialUserResource entityToPartialUserResource(User user, long followerCount, long followingCount){
+        PartialUserResource resource = (PartialUserResource) entityToMinimalUserResource(user);
+        resource.setLocationX(user.getLocationX());
+        resource.setLocationY(user.getLocationY());
+        resource.setCountry(user.getCountry());
+        resource.setCity(user.getCity());
+        resource.setRole(user.getRole());
+        resource.setFollowerCount(followerCount);
+        resource.setFollowingCount(followingCount);
+        return resource;
+    }
+
+    public static CompleteUserResource entityToCompleteUserResource(User user, long followerCount, long followingCount){
+        CompleteUserResource resource = (CompleteUserResource) entityToPartialUserResource(user, followerCount, followingCount);
+        resource.setPhone(user.getPhone());
+        resource.setPrivacyType(user.getPrivacyType());
+        resource.setIban(user.getIban());
+        resource.setIdentityNo(user.getIdentityNo());
+        return resource;
+    }
+
 }

@@ -1,8 +1,8 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.constants.CurrencyType;
-import com.eyetrade.backend.model.resource.CurrencyFollowingResource;
-import com.eyetrade.backend.model.resource.UserResource;
+import com.eyetrade.backend.model.resource.currency.CurrencyFollowingResource;
+import com.eyetrade.backend.model.resource.user.MinimalUserResource;
 import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.CurrencyFollowingService;
 import io.swagger.annotations.Api;
@@ -43,7 +43,7 @@ public class CurrencyFollowingController {
 
     @ApiOperation(
             value = "Get a user's currency followings.",
-            response = UserResource.class,
+            response = MinimalUserResource.class,
             responseContainer = "List"
     )
     @GetMapping("/getFollowers")

@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Setter
 @ToString
-public class TraderRegisterDto extends BasicRegisterDto {
+public class TraderUserDto extends BasicUserDto {
 
     @Length(min=16,max=18)
     private String iban;

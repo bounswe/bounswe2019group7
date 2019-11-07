@@ -1,9 +1,9 @@
 package com.eyetrade.backend.controller;
 
-import com.eyetrade.backend.model.dto.UserDto;
-import com.eyetrade.backend.model.resource.UserResource;
+import com.eyetrade.backend.model.dto.user.BasicUserDto;
+import com.eyetrade.backend.model.dto.user.TraderUserDto;
+import com.eyetrade.backend.model.resource.user.CompleteUserResource;
 import com.eyetrade.backend.service.RegistrationService;
-import com.eyetrade.backend.mapper.UserMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,19 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
-    @ApiOperation(value = "Register a user with the needed information", response = UserResource.class)
-    @PostMapping("/register")
-    public ResponseEntity<UserResource> registerUser(@RequestBody @Valid UserDto userDto) {
-        UserResource user = registrationService.save(UserMapper.dtoToEntity(userDto));
+    @ApiOperation(value = "Register a basic user with the needed information", response = CompleteUserResource.class)
+    @PostMapping("/basic_register")
+    public ResponseEntity<CompleteUserResource> registerBasicUser(@RequestBody @Valid BasicUserDto basicUserDto,
+                                                                  @RequestHeader("password") String password) {
+        CompleteUserResource user = registrationService.saveBasicUser(basicUserDto, password);
+        return ResponseEntity.ok(user);
+    }
+
+    @ApiOperation(value = "Register a trader user with the needed information", response = CompleteUserResource.class)
+    @PostMapping("/trader_register")
+    public ResponseEntity<CompleteUserResource> registerTraderUser(@RequestBody @Valid TraderUserDto traderRegisterDto,
+                                                                   @RequestHeader("password") String password) {
+        CompleteUserResource user = registrationService.saveTraderUser(traderRegisterDto, password);
         return ResponseEntity.ok(user);
     }
 
