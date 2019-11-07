@@ -1,5 +1,6 @@
 package com.eyetrade.backend.controller;
 
+import com.eyetrade.backend.constants.PrivacyType;
 import com.eyetrade.backend.model.dto.user.BasicUserDto;
 import com.eyetrade.backend.model.dto.user.TraderUserDto;
 import com.eyetrade.backend.model.resource.user.CompleteUserResource;
@@ -68,6 +69,17 @@ public class UserProfileController {
     ){
         UUID userID = jwtUserChecker.resolveBasicToken(token);
         CompleteUserResource user = userProfileService.updateTraderProfile(userID, traderUserDto);
+        return ResponseEntity.ok(user);
+    }
+
+    @ApiOperation(value = "Updates a user's profile privacy", response = CompleteUserResource.class)
+    @PostMapping("/updatePrivacy")
+    public ResponseEntity<CompleteUserResource> updateTraderUserProfile(
+            @RequestHeader("Authorization") String token,
+            @RequestHeader("privacy") PrivacyType privacy
+    ){
+        UUID userID = jwtUserChecker.resolveBasicToken(token);
+        CompleteUserResource user = userProfileService.updatePrivacy(userID, privacy);
         return ResponseEntity.ok(user);
     }
 

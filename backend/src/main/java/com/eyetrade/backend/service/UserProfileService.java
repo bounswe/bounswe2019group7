@@ -44,21 +44,29 @@ public class UserProfileService {
         }
     }
 
-    public CompleteUserResource updateBasicProfile(UUID userID, BasicUserDto newBasicUserDto){
+    public CompleteUserResource updateBasicProfile(UUID userId, BasicUserDto newBasicUserDto){
         User updatedUser = UserMapper.basicUserDtoToEntity(newBasicUserDto);
-        updatedUser.setId(userID);
+        updatedUser.setId(userId);
         userRepository.save(updatedUser);
         return UserMapper.entityToCompleteUserResource(updatedUser,
                 userFollowingService.countFollowers(updatedUser),
                 userFollowingService.countFollowers(updatedUser));
     }
 
-    public CompleteUserResource updateTraderProfile(UUID userID, TraderUserDto newTraderUserDto){
+    public CompleteUserResource updateTraderProfile(UUID userId, TraderUserDto newTraderUserDto){
         User updatedUser = UserMapper.traderUserDtoToEntity(newTraderUserDto);
-        updatedUser.setId(userID);
+        updatedUser.setId(userId);
         userRepository.save(updatedUser);
         return UserMapper.entityToCompleteUserResource(updatedUser,
                 userFollowingService.countFollowers(updatedUser),
                 userFollowingService.countFollowers(updatedUser));
+    }
+
+    public CompleteUserResource updatePrivacy(UUID userId, PrivacyType privacy){
+        User user = userRepository.findById(userId);
+        user.setPrivacyType(privacy);
+        return UserMapper.entityToCompleteUserResource(user,
+                userFollowingService.countFollowers(user),
+                userFollowingService.countFollowers(user));
     }
 }
