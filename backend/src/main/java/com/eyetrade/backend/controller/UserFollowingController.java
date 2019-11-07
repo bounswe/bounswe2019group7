@@ -41,7 +41,7 @@ public class    UserFollowingController {
             response = MinimalUserResource.class,
             responseContainer = "List"
     )
-    @GetMapping("/getFollowers")
+    @GetMapping("/get_followers")
     public ResponseEntity<List<MinimalUserResource>> getFollowers(
             @RequestHeader("Authorization") String token,
             @RequestHeader(value = "otherUserEmail", required = false) String otherUserEmail
@@ -64,7 +64,7 @@ public class    UserFollowingController {
             response = MinimalUserResource.class,
             responseContainer = "List"
     )
-    @GetMapping("/getFollowings")
+    @GetMapping("/get_followings")
     public ResponseEntity<List<MinimalUserResource>> getFollowings(
             @RequestHeader("Authorization") String token,
             @RequestHeader(value = "otherUserEmail", required = false) String otherUserEmail

@@ -17,10 +17,6 @@ public class BasicUserDto {
 
     private String email;
 
-    @Length(min = 5, message = "The field must be at least 5 characters")
-    @Length(max = 50, message = "The field must be less than 50 characters")
-    private String password;
-
     private String name;
 
     private String surname;

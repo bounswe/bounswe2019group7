@@ -23,7 +23,6 @@ import java.util.UUID;
 @RequestMapping("/currency_following")
 public class CurrencyFollowingController {
 
-
     @Autowired
     private CurrencyFollowingService currencyFollowingService;
 
@@ -46,7 +45,7 @@ public class CurrencyFollowingController {
             response = MinimalUserResource.class,
             responseContainer = "List"
     )
-    @GetMapping("/getFollowers")
+    @GetMapping("/get_followers")
     public ResponseEntity<CurrencyFollowingResource> getFollowers(
             @RequestHeader("Authorization") String token) {
         UUID userId = jwtUserChecker.resolveBasicToken(token);

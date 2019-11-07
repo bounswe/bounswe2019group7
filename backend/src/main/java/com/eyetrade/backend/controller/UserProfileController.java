@@ -29,7 +29,7 @@ public class UserProfileController {
     private JwtUserChecker jwtUserChecker;
 
     @ApiOperation(value = "Return current users profile information", response = CompleteUserResource.class)
-    @GetMapping("/profile")
+    @GetMapping("/self_profile")
     public ResponseEntity<CompleteUserResource> getSelfProfile(
             @RequestHeader("Authorization") String token
     ){
@@ -40,7 +40,7 @@ public class UserProfileController {
 
     @ApiOperation(value = "Return profile of a given user. If the user is private and you don't follow it then returns null",
             response = CompleteUserResource.class)
-    @GetMapping("/user")
+    @GetMapping("/other_profile")
     public ResponseEntity<PartialUserResource> getOtherProfile(
             @RequestHeader("Authorization") String token,
             @RequestHeader("email") String email
@@ -51,7 +51,7 @@ public class UserProfileController {
     }
 
     @ApiOperation(value = "Updates a basic profile with the given info", response = CompleteUserResource.class)
-    @PostMapping("/updateBasicProfile")
+    @PostMapping("/update_basic_profile")
     public ResponseEntity<CompleteUserResource> updateBasicUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid BasicUserDto basicUserDto
@@ -62,7 +62,7 @@ public class UserProfileController {
     }
 
     @ApiOperation(value = "Updates a trader profile with the given info", response = CompleteUserResource.class)
-    @PostMapping("/updateTraderProfile")
+    @PostMapping("/update_trader_profile")
     public ResponseEntity<CompleteUserResource> updateTraderUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid TraderUserDto traderUserDto
@@ -73,7 +73,7 @@ public class UserProfileController {
     }
 
     @ApiOperation(value = "Updates a user's profile privacy", response = CompleteUserResource.class)
-    @PostMapping("/updatePrivacy")
+    @PostMapping("/update_privacy")
     public ResponseEntity<CompleteUserResource> updateTraderUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestHeader("privacy") PrivacyType privacy

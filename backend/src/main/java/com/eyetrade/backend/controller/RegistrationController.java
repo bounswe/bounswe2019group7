@@ -40,7 +40,7 @@ public class RegistrationController {
     }
 
     @ApiOperation(value = "Confirm a registration by using the link from the user's confirmation mail", response = String.class)
-    @GetMapping("/confirm-register")
+    @GetMapping("/confirm_register")
     public ResponseEntity<String> confirmRegister(@RequestParam("token") String confirmationToken) {
         registrationService.confirmRegister(confirmationToken);
         return ResponseEntity.ok("Success");

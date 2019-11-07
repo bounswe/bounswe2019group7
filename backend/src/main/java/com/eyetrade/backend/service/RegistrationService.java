@@ -49,7 +49,8 @@ public class RegistrationService {
     @Transactional
     private CompleteUserResource save(User user) {
         userRepository.saveAndFlush(user);
-        confirmationTokenService.sendActivationToken(user);
+        // TODO: Sending email generates errors for now, so I commented it
+        //confirmationTokenService.sendActivationToken(user);
         // for a new register user follower and followings are 0
         return UserMapper.entityToCompleteUserResource(user, 0, 0);
     }

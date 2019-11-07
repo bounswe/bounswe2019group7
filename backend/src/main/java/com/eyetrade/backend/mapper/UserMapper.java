@@ -51,7 +51,11 @@ public class UserMapper {
     }
 
     public static PartialUserResource entityToPartialUserResource(User user, long followerCount, long followingCount){
-        PartialUserResource resource = (PartialUserResource) entityToMinimalUserResource(user);
+        PartialUserResource resource = new PartialUserResource();
+        resource.setEmail(user.getEmail());
+        resource.setName(user.getName());
+        resource.setSurname(user.getSurname());
+
         resource.setLocationX(user.getLocationX());
         resource.setLocationY(user.getLocationY());
         resource.setCountry(user.getCountry());
@@ -63,7 +67,19 @@ public class UserMapper {
     }
 
     public static CompleteUserResource entityToCompleteUserResource(User user, long followerCount, long followingCount){
-        CompleteUserResource resource = (CompleteUserResource) entityToPartialUserResource(user, followerCount, followingCount);
+        CompleteUserResource resource = new CompleteUserResource();
+        resource.setEmail(user.getEmail());
+        resource.setName(user.getName());
+        resource.setSurname(user.getSurname());
+
+        resource.setLocationX(user.getLocationX());
+        resource.setLocationY(user.getLocationY());
+        resource.setCountry(user.getCountry());
+        resource.setCity(user.getCity());
+        resource.setRole(user.getRole());
+        resource.setFollowerCount(followerCount);
+        resource.setFollowingCount(followingCount);
+
         resource.setPhone(user.getPhone());
         resource.setPrivacyType(user.getPrivacyType());
         resource.setIban(user.getIban());
