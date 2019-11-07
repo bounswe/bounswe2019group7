@@ -2,10 +2,13 @@ package com.eyetrade.backend.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Emir Gökdemir
@@ -15,11 +18,25 @@ import javax.persistence.Table;
 @Data
 @ToString
 @AllArgsConstructor
-@Table(name="rss_event_feed_message")
+@NoArgsConstructor
+@Table(name = "rss_event_feed_message")
 public class RssEventFeedMessage {
+
+    @Id
+    private UUID guid;
+
+    private String link;
+
     private String title;
-    private  String link;
+
     private String description;
-    private String author;
-    private String pubDate;
+
+    private Date pubDate;
+
+    private String additionDate;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "feed_id")
+    private RssEventFeed feed;
 }
