@@ -1,8 +1,8 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.constants.CurrencyType;
-import com.eyetrade.backend.model.resource.CurrencyFollowingResource;
-import com.eyetrade.backend.model.resource.UserResource;
+import com.eyetrade.backend.model.resource.currency.CurrencyFollowingResource;
+import com.eyetrade.backend.model.resource.user.MinimalUserResource;
 import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.CurrencyFollowingService;
 import io.swagger.annotations.Api;
@@ -23,7 +23,6 @@ import java.util.UUID;
 @RequestMapping("/currency_following")
 public class CurrencyFollowingController {
 
-
     @Autowired
     private CurrencyFollowingService currencyFollowingService;
 
@@ -43,10 +42,10 @@ public class CurrencyFollowingController {
 
     @ApiOperation(
             value = "Get a user's currency followings.",
-            response = UserResource.class,
+            response = MinimalUserResource.class,
             responseContainer = "List"
     )
-    @GetMapping("/getFollowers")
+    @GetMapping("/get_followers")
     public ResponseEntity<CurrencyFollowingResource> getFollowers(
             @RequestHeader("Authorization") String token) {
         UUID userId = jwtUserChecker.resolveBasicToken(token);

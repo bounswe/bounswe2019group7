@@ -1,9 +1,9 @@
 package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.constants.CurrencyType;
-import com.eyetrade.backend.model.dto.CurrencyConverterDto;
+import com.eyetrade.backend.model.dto.currency.CurrencyConverterDto;
 import com.eyetrade.backend.model.entity.CurrencyRecord;
-import com.eyetrade.backend.model.resource.CurrencyConverterResource;
+import com.eyetrade.backend.model.resource.currency.CurrencyConverterResource;
 import com.eyetrade.backend.repository.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

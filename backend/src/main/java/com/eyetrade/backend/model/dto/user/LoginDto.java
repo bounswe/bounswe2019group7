@@ -1,4 +1,4 @@
-package com.eyetrade.backend.model.dto;
+package com.eyetrade.backend.model.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;

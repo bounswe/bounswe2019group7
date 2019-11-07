@@ -1,9 +1,7 @@
 package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.constants.ErrorConstants;
-import com.eyetrade.backend.mapper.UserMapper;
 import com.eyetrade.backend.model.entity.User;
-import com.eyetrade.backend.model.resource.UserResource;
 import com.eyetrade.backend.repository.UserRepository;
 import com.eyetrade.backend.security.JwtResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class ResetPasswordService {
     private JwtResolver jwtResolver;
 
     @Transactional
-    public UserResource resetPassword(String password, String confirmationToken) {
+    public void resetPassword(String password, String confirmationToken) {
         UUID id = jwtResolver.getIdFromToken(confirmationToken);
         User user = userRepository.findById(id);
         if (user == null) {
@@ -34,7 +32,6 @@ public class ResetPasswordService {
         user.setPword(password);
         user.setConfirmed(true);
         userRepository.save(user);
-        return UserMapper.entityToResource(user);
     }
 
 }

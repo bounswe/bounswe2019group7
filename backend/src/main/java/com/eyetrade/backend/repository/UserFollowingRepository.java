@@ -6,10 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface UserFollowingRepository extends JpaRepository<UserFollowing,String> {
+public interface UserFollowingRepository extends JpaRepository<UserFollowing, String> {
 
     List<UserFollowing> findByFollower(User follower);
 
     List<UserFollowing> findByFollowing(User following);
+
+    long countByFollower(User follower);
+
+    long countByFollowing(User following);
 
 }

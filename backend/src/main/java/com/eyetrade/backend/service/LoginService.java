@@ -1,9 +1,9 @@
 package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.model.entity.User;
-import com.eyetrade.backend.model.resource.LoginResource;
+import com.eyetrade.backend.model.resource.user.LoginResource;
 import com.eyetrade.backend.repository.UserRepository;
-import com.eyetrade.backend.model.dto.LoginDto;
+import com.eyetrade.backend.model.dto.user.LoginDto;
 import com.eyetrade.backend.security.JwtGenerator;
 import com.eyetrade.backend.constants.ErrorConstants;
 import org.springframework.beans.factory.annotation.Autowired;
