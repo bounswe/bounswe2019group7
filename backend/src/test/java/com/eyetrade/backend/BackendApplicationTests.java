@@ -1,6 +1,6 @@
 package com.eyetrade.backend;
 
-import com.eyetrade.backend.service.RssEventReaderService;
+import com.eyetrade.backend.service.EventRssReaderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,7 +14,7 @@ public class BackendApplicationTests {
 
 	@Spy
 	@InjectMocks
-	public RssEventReaderService readerService;
+	public EventRssReaderService readerService;
 
 	@Test
 	public void contextLoads() {
