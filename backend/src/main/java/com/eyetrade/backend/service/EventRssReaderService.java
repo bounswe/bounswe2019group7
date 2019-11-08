@@ -1,7 +1,7 @@
 package com.eyetrade.backend.service;
 
-import com.eyetrade.backend.model.entity.RssEventFeed;
-import com.eyetrade.backend.model.entity.RssEventFeedMessage;
+import com.eyetrade.backend.model.entity.EventRssFeed;
+import com.eyetrade.backend.model.entity.EventRssFeedMessage;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
@@ -22,10 +22,10 @@ import static com.eyetrade.backend.constants.RssFeedConstants.EVENT_RSS_URL;
  */
 
 @Service
-public class RssEventReaderService {
+public class EventRssReaderService {
 
 
-    public RssEventFeed readFeed() {
+    public EventRssFeed readFeed() {
 
         SyndFeed feed;
         try {
@@ -38,7 +38,7 @@ public class RssEventReaderService {
             throw new RuntimeException();
         }
         Date formattedDate=new Date();
-        RssEventFeed eventFeed=new RssEventFeed();
+        EventRssFeed eventFeed=new EventRssFeed();
 
         //Setting our eventFeed data from parsed data.
         eventFeed.setDescription(feed.getDescription());
@@ -50,7 +50,7 @@ public class RssEventReaderService {
             //cascading
             SyndEntryImpl event=(SyndEntryImpl)object;
 
-            RssEventFeedMessage eventFeedMessage=new RssEventFeedMessage();
+            EventRssFeedMessage eventFeedMessage=new EventRssFeedMessage();
 
             //Setting our eventFeedMessage data from parsed object.
             eventFeedMessage.setGuid(UUID.fromString(event.getUri()));

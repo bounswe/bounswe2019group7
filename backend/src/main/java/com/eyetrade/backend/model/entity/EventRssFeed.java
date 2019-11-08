@@ -23,7 +23,7 @@ import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
 @AllArgsConstructor
 @Table(name="rss_event_feed")
 @NoArgsConstructor
-public class RssEventFeed {
+public class EventRssFeed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "system-uuid")

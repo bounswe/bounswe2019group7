@@ -20,7 +20,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "rss_event_feed_message")
-public class RssEventFeedMessage {
+public class EventRssFeedMessage {
 
     @Id
     private UUID guid;
@@ -38,5 +38,5 @@ public class RssEventFeedMessage {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "feed_id")
-    private RssEventFeed feed;
+    private EventRssFeed feed;
 }
