@@ -20,20 +20,21 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "rss_event_feed_message")
-public class EventRssFeedMessage {
+public class Event {
 
     @Id
+    @Column(name="id")
     private UUID guid;
 
     private String link;
 
     private String title;
 
-    private String description;
+    @Column(length = 1024)
+    private String content;
 
-    private Date pubDate;
-
-    private String additionDate;
+    @Column(name="addition_date")
+    private Date additionDate;
 
     @NotNull
     @ManyToOne
