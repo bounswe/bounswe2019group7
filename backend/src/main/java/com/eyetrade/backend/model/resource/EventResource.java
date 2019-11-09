@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Emir Gökdemir
@@ -19,7 +19,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventResource {
+    private UUID guid;
     private String title;
     private String content;
     private String stringDate;
+    private Double score;
 }

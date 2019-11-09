@@ -40,4 +40,9 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "feed_id")
     private EventRssFeed feed;
+
+    private Double score=4.00;
+
+    @Column(name = "score_number")
+    private Integer givenScoreCount =0;
 }

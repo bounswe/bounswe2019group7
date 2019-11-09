@@ -18,13 +18,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import static com.eyetrade.backend.constants.EventConstants.EVENT_RSS_URL;
-import static com.eyetrade.backend.constants.EventConstants.RESOURCE_TIME_FORMAT;
 
 /**
  * Created by Emir Gökdemir
@@ -88,18 +85,4 @@ public class EventRssReaderService {
         return eventFeed;
     }
 
-    public List<EventResource> getEvents() {
-        List<EventResource> resources = new ArrayList<>();
-        List<Event> events = eventRepository.findAllByOrderByAdditionDateDesc();
-        for (Event event : events) {
-            EventResource resource = new EventResource(event.getTitle(), event.getContent(),
-                    DateUtils.TimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT));
-            resources.add(resource);
-        }
-        return resources;
-    }
-
-    public String getEvent(UUID guid) {
-        return eventRepository.findEventRssFeedMessageByGuid(guid).getContent();
-    }
 }
