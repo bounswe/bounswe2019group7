@@ -1,7 +1,7 @@
 package com.eyetrade.backend.service;
 
-import com.eyetrade.backend.model.entity.EventRssFeed;
 import com.eyetrade.backend.model.entity.Event;
+import com.eyetrade.backend.model.entity.EventRssFeed;
 import com.eyetrade.backend.repository.EventRepository;
 import com.eyetrade.backend.repository.EventRssFeedRepository;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
