@@ -1,7 +1,8 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.model.entity.EventRssFeed;
-import com.eyetrade.backend.model.resource.EventResource;
+import com.eyetrade.backend.model.resource.event.EventResource;
+import com.eyetrade.backend.model.resource.event.EventResourceInstance;
 import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.EventRssReaderService;
 import com.eyetrade.backend.service.EventService;
@@ -32,27 +33,28 @@ public class EventController {
     @Autowired
     private JwtUserChecker jwtUserChecker;
 
+    // TODO: 9 Kas 2019 It will be removed when it's stable
     @ApiOperation(value = "Update events bu using a rss source", response = EventRssFeed.class)
     @GetMapping("/update_events")
     public EventRssFeed updateEvents() throws FeedException {
         return rssReaderService.readAndSaveFeed();
     }
 
-    @ApiOperation(value = "Rss element description", response = EventResource.class)
+    @ApiOperation(value = "Rss element description", response = EventResourceInstance.class)
     @GetMapping("/get_an_event")
-    public EventResource getEvent(@RequestParam UUID id) {
+    public EventResourceInstance getEvent(@RequestParam UUID id) {
         return eventService.getEvent(id);
     }
 
     @ApiOperation(value = "Get events order by time", response = List.class)
     @GetMapping("/get_events")
-    public List<EventResource> getEvents() {
+    public EventResource getEvents() {
         return eventService.getEvents();
     }
 
-    @ApiOperation(value = "Give point to an event over 5", response = EventResource.class)
-    @GetMapping("/give_point")
-    public EventResource givePoint(@RequestHeader("Authorization") String token, @RequestParam UUID id, @RequestParam Double score) throws IllegalAccessException {
+    @ApiOperation(value = "Give point to an event over 5", response = EventResourceInstance.class)
+    @PostMapping("/give_point")
+    public EventResourceInstance givePoint(@RequestHeader("Authorization") String token, @RequestParam UUID id, @RequestParam Double score) throws IllegalAccessException {
         jwtUserChecker.resolveBasicToken(token);
         return eventService.givePoint(id, score);
     }
