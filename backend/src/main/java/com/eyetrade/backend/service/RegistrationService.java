@@ -1,11 +1,12 @@
 package com.eyetrade.backend.service;
 
+import com.eyetrade.backend.model.dto.user.BasicUserDto;
+import com.eyetrade.backend.model.dto.user.TraderUserDto;
 import com.eyetrade.backend.model.entity.User;
+import com.eyetrade.backend.model.resource.user.CompleteUserResource;
 import com.eyetrade.backend.repository.UserRepository;
-import com.eyetrade.backend.model.resource.UserResource;
 import com.eyetrade.backend.security.JwtResolver;
 import com.eyetrade.backend.constants.ErrorConstants;
-import com.eyetrade.backend.constants.Role;
 import com.eyetrade.backend.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,17 +32,30 @@ public class RegistrationService {
     @Autowired
     private JwtResolver jwtResolver;
 
-    // TODO: 15 Eki 2019 hash password
     @Transactional
-    public UserResource save(User user) {
-        if(user.getRole().equals(Role.TRADER_USER) && (user.getIban() == null || user.getIdentityNo() == null)) {
-            throw new RuntimeException(ErrorConstants.IBAN_AND_IDENTITY_SHOULD_BE_PROVIDED);
-        }
-        userRepository.saveAndFlush(user);
-        confirmationTokenService.sendActivationToken(user);
-        return UserMapper.entityToResource(user);
+    public CompleteUserResource saveBasicUser(BasicUserDto basicUserDto, String password) {
+        User user = UserMapper.basicUserDtoToEntity(basicUserDto);
+        user.setPword(password);
+        return save(user);
     }
 
+    @Transactional
+    public CompleteUserResource saveTraderUser(TraderUserDto traderRegisterDto, String password) {
+        User user = UserMapper.traderUserDtoToEntity(traderRegisterDto);
+        user.setPword(password);
+        return save(user);
+    }
+
+    @Transactional
+    private CompleteUserResource save(User user) {
+        userRepository.saveAndFlush(user);
+        // TODO: Sending email generates errors for now, so I commented it
+        //confirmationTokenService.sendActivationToken(user);
+        // for a new register user follower and followings are 0
+        return UserMapper.entityToCompleteUserResource(user, 0, 0);
+    }
+
+    @Transactional
     public void confirmRegister(String confirmationToken) {
         UUID id = jwtResolver.getIdFromToken(confirmationToken);
         User user = userRepository.findById(id);

@@ -48,6 +48,23 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "location_x")
+    private double locationX;
+
+    @Column(name = "location_y")
+    private double locationY;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "city")
+    private String city;
+
+    @NotNull
+    @Column(name = "privacy_type")
+    @Enumerated(EnumType.STRING)
+    private PrivacyType privacyType;
+
     @NotNull
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
@@ -59,20 +76,7 @@ public class User {
     @Column(name = "identity_no")
     private String identityNo;
 
-    @Column(name = "city")
-    private String city;
-
-    @Column(name = "location_x")
-    private String locationX;
-
-    @Column(name = "location_y")
-    private String locationY;
-
     @Column(name = "confirmed")
     private boolean confirmed;
 
-    @NotNull
-    @Column(name = "privacy_type")
-    @Enumerated(EnumType.STRING)
-    private PrivacyType privacyType;
 }

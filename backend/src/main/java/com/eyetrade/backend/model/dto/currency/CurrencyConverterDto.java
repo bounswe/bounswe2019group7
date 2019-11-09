@@ -1,4 +1,4 @@
-package com.eyetrade.backend.model.dto;
+package com.eyetrade.backend.model.dto.currency;
 
 import com.eyetrade.backend.constants.CurrencyType;
 import lombok.Getter;
