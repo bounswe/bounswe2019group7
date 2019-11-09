@@ -34,7 +34,7 @@ public class CurrencyFollowingController {
     public ResponseEntity<CurrencyFollowingResource> follow(
             @RequestHeader("Authorization") String token,
             @RequestHeader("BaseCurrencyType")CurrencyType baseCurrencyType
-            ) {
+            )  throws IllegalAccessException{
         UUID userId = jwtUserChecker.resolveBasicToken(token);
         return ResponseEntity.ok(currencyFollowingService.followCurrency(userId, baseCurrencyType));
     }
@@ -47,7 +47,7 @@ public class CurrencyFollowingController {
     )
     @GetMapping("/get_followers")
     public ResponseEntity<CurrencyFollowingResource> getFollowers(
-            @RequestHeader("Authorization") String token) {
+            @RequestHeader("Authorization") String token) throws IllegalAccessException {
         UUID userId = jwtUserChecker.resolveBasicToken(token);
         return ResponseEntity.ok(currencyFollowingService.getFollowings(userId));
     }

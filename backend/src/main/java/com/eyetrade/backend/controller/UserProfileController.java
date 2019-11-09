@@ -32,11 +32,12 @@ public class UserProfileController {
     @GetMapping("/self_profile")
     public ResponseEntity<CompleteUserResource> getSelfProfile(
             @RequestHeader("Authorization") String token
-    ){
+    )  throws IllegalAccessException{
         UUID userID = jwtUserChecker.resolveBasicToken(token);
         CompleteUserResource user = userProfileService.getSelfProfile(userID);
         return ResponseEntity.ok(user);
     }
+
 
     @ApiOperation(value = "Return profile of a given user. If the user is private and you don't follow it then returns null",
             response = CompleteUserResource.class)
@@ -44,7 +45,7 @@ public class UserProfileController {
     public ResponseEntity<PartialUserResource> getOtherProfile(
             @RequestHeader("Authorization") String token,
             @RequestHeader("email") String email
-    ){
+    )throws IllegalAccessException{
         UUID userID = jwtUserChecker.resolveBasicToken(token);
         PartialUserResource user = userProfileService.getOtherProfile(userID, email);
         return ResponseEntity.ok(user);
@@ -55,7 +56,7 @@ public class UserProfileController {
     public ResponseEntity<CompleteUserResource> updateBasicUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid BasicUserDto basicUserDto
-    ){
+    )throws IllegalAccessException{
         UUID userID = jwtUserChecker.resolveBasicToken(token);
         CompleteUserResource user = userProfileService.updateBasicProfile(userID, basicUserDto);
         return ResponseEntity.ok(user);
@@ -66,9 +67,10 @@ public class UserProfileController {
     public ResponseEntity<CompleteUserResource> updateTraderUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid TraderUserDto traderUserDto
-    ){
+    )throws IllegalAccessException{
         UUID userID = jwtUserChecker.resolveBasicToken(token);
         CompleteUserResource user = userProfileService.updateTraderProfile(userID, traderUserDto);
+
         return ResponseEntity.ok(user);
     }
 
@@ -77,7 +79,7 @@ public class UserProfileController {
     public ResponseEntity<CompleteUserResource> updateTraderUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestHeader("privacy") PrivacyType privacy
-    ){
+    )throws IllegalAccessException{
         UUID userID = jwtUserChecker.resolveBasicToken(token);
         CompleteUserResource user = userProfileService.updatePrivacy(userID, privacy);
         return ResponseEntity.ok(user);

@@ -3,10 +3,14 @@ package com.eyetrade.backend.repository;
 import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.entity.UserFollowing;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface UserFollowingRepository extends JpaRepository<UserFollowing, String> {
+@Repository
+public interface UserFollowingRepository extends JpaRepository<UserFollowing, UUID> {
+
 
     List<UserFollowing> findByFollower(User follower);
 

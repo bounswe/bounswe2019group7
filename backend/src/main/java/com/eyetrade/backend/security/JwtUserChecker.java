@@ -23,7 +23,7 @@ public class JwtUserChecker {
     @Autowired
     private UserRepository userRepository;
 
-    public UUID resolveTraderToken(String token){
+    public UUID resolveTraderToken(String token) throws IllegalAccessException {
         UUID id = resolveBasicToken(token);
         User user = userRepository.findById(id);
         if(user.getRole() == Role.BASIC_USER){
@@ -32,11 +32,15 @@ public class JwtUserChecker {
         return id;
     }
 
-    public UUID resolveBasicToken(String token) {
+    public UUID resolveBasicToken(String token) throws IllegalAccessException {
         if(isTokenExpired(token)){
             throw new RuntimeException(ErrorConstants.EXPIRED_TOKEN);
         }
-        return jwtResolver.getIdFromToken(token);
+        UUID id=jwtResolver.getIdFromToken(token);
+        if(userRepository.findById(id)==null){
+            throw new IllegalAccessException(ErrorConstants.USER_NOT_EXIST);
+        }
+        return id;
     }
 
     // checks whether the token has expired
