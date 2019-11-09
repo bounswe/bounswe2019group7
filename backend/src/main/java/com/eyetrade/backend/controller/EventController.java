@@ -32,7 +32,7 @@ public class EventController {
     @Autowired
     private JwtUserChecker jwtUserChecker;
 
-    @ApiOperation(value = "Rss read elements", response = EventRssFeed.class)
+    @ApiOperation(value = "Update events bu using a rss source", response = EventRssFeed.class)
     @GetMapping("/update_events")
     public EventRssFeed updateEvents() throws FeedException {
         return rssReaderService.readAndSaveFeed();
@@ -40,8 +40,8 @@ public class EventController {
 
     @ApiOperation(value = "Rss element description", response = EventResource.class)
     @GetMapping("/get_an_event")
-    public EventResource takeEventContents(@RequestParam UUID idd) {
-        return eventService.getEvent(idd);
+    public EventResource getEvent(@RequestParam UUID id) {
+        return eventService.getEvent(id);
     }
 
     @ApiOperation(value = "Get events order by time", response = List.class)
