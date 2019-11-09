@@ -5,6 +5,7 @@ import com.eyetrade.backend.model.resource.EventResource;
 import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.EventRssReaderService;
 import com.eyetrade.backend.service.EventService;
+import com.sun.syndication.io.FeedException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,8 @@ public class EventController {
     private JwtUserChecker jwtUserChecker;
 
     @ApiOperation(value = "Rss read elements", response = EventRssFeed.class)
-    @GetMapping("/check")
-    public EventRssFeed checkRss() {
+    @GetMapping("/update_events")
+    public EventRssFeed updateEvents() throws FeedException {
         return rssReaderService.readAndSaveFeed();
     }
 
@@ -51,13 +52,9 @@ public class EventController {
 
     @ApiOperation(value = "Give point to an event over 5", response = EventResource.class)
     @GetMapping("/give_point")
-    public EventResource givePoint(@RequestHeader ("Authorization") String token, @RequestParam UUID id, @RequestParam Double score) {
-        try {
-            jwtUserChecker.resolveBasicToken(token);
-        } catch (IllegalAccessException e){
-
-        }
-        return eventService.givePoint(id,score);
+    public EventResource givePoint(@RequestHeader("Authorization") String token, @RequestParam UUID id, @RequestParam Double score) throws IllegalAccessException {
+        jwtUserChecker.resolveBasicToken(token);
+        return eventService.givePoint(id, score);
     }
 
 }

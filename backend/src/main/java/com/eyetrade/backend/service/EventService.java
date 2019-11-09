@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.eyetrade.backend.constants.ErrorConstants.POINT_SHOULD_BE_INSIDE_RANGE;
 import static com.eyetrade.backend.constants.EventConstants.RESOURCE_TIME_FORMAT;
 
 /**
@@ -28,30 +29,33 @@ public class EventService {
         List<EventResource> resources = new ArrayList<>();
         List<Event> events = eventRepository.findAllByOrderByAdditionDateDesc();
         for (Event event : events) {
-            EventResource resource = new EventResource(event.getGuid(),event.getTitle(), event.getContent(),
+            EventResource resource = new EventResource(event.getGuid(), event.getTitle(), event.getContent(),
                     DateUtils.TimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
-                    event.getScore());
+                    event.getLink(), event.getScore());
             resources.add(resource);
         }
         return resources;
     }
 
     public EventResource getEvent(UUID guid) {
-        Event event=eventRepository.findEventByGuid(guid);
-        return new EventResource(event.getGuid(),event.getTitle(),event.getContent(),
-                DateUtils.TimeFormatter(event.getAdditionDate(),RESOURCE_TIME_FORMAT),
-                event.getScore());
+        Event event = eventRepository.findEventByGuid(guid);
+        return new EventResource(event.getGuid(), event.getTitle(), event.getContent(),
+                DateUtils.TimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
+                event.getLink(), event.getScore());
     }
 
     @Transactional
-    public EventResource givePoint(UUID guid, Double score){
-        Event event=eventRepository.getOne(guid);
-        int givenScoreCount=event.getGivenScoreCount();
-        event.setScore((event.getScore()*givenScoreCount+score)/(givenScoreCount+1));
+    public EventResource givePoint(UUID guid, Double score) {
+        if (score < 0 || score > 5) {
+            throw new IllegalArgumentException(POINT_SHOULD_BE_INSIDE_RANGE);
+        }
+        Event event = eventRepository.getOne(guid);
+        int givenScoreCount = event.getGivenScoreCount();
+        event.setScore((event.getScore() * givenScoreCount + score) / (givenScoreCount + 1));
         event.setGivenScoreCount(++givenScoreCount);
         eventRepository.save(event);
-        return new EventResource(event.getGuid(),event.getTitle(),event.getContent(),
-                DateUtils.TimeFormatter(event.getAdditionDate(),RESOURCE_TIME_FORMAT),
-                event.getScore());
+        return new EventResource(event.getGuid(), event.getTitle(), event.getContent(),
+                DateUtils.TimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
+                event.getLink(),event.getScore());
     }
 }

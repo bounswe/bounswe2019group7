@@ -1,6 +1,7 @@
 package com.eyetrade.backend;
 
 import com.eyetrade.backend.service.EventRssReaderService;
+import com.sun.syndication.io.FeedException;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
@@ -18,7 +19,7 @@ public class EventTests {
     public EventRssReaderService readerService;
 
     @Test
-    public void RssEventReaderTest() {
+    public void RssEventReaderTest() throws FeedException {
         //examined in debug mode
         readerService.readAndSaveFeed();
     }

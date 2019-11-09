@@ -29,7 +29,7 @@ public class UserProfileController {
     @GetMapping("/profile")
     public ResponseEntity<UserResource> getSelfProfile(
             @RequestHeader("Authorization") String token
-    ){
+    )  throws IllegalAccessException{
         UUID userID = jwtUserChecker.resolveBasicToken(token);
         UserResource user = userProfileService.getUserProfile(userID);
         return ResponseEntity.ok(user);
@@ -39,7 +39,7 @@ public class UserProfileController {
     @GetMapping("/user")
     public ResponseEntity<UserResource> getUserProfile(
             @RequestParam("userID")  UUID userID
-    ){
+    ) {
         UserResource user = userProfileService.getUserProfile(userID);
         return ResponseEntity.ok(user);
     }
@@ -49,7 +49,7 @@ public class UserProfileController {
     public ResponseEntity<UserResource> updateUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid UserDto userDto
-    ){
+    ) throws IllegalAccessException{
         UUID userID = jwtUserChecker.resolveBasicToken(token);
         UserResource user = userProfileService.updateProfile(userID, userDto);
         return ResponseEntity.ok(user);

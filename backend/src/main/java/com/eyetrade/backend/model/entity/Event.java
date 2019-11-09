@@ -19,7 +19,7 @@ import java.util.UUID;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "rss_event_feed_message")
+@Table(name = "event")
 public class Event {
 
     @Id

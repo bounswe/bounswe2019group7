@@ -28,12 +28,11 @@ public class    UserFollowingController {
     public ResponseEntity<UserResource> follow(
             @RequestHeader("Authorization") String token,
             @RequestHeader("followingUserEmail") String followingUserEmail
-    ) {
+    ) throws IllegalAccessException{
         UUID userId = jwtUserChecker.resolveBasicToken(token);
         UserResource followingUserResource = userFollowingService.followUser(userId, followingUserEmail);
         return ResponseEntity.ok(followingUserResource);
     }
-
 
     @ApiOperation(
             value = "Get a user's followers. If an email is given we look for email owner's followers, " +
@@ -45,7 +44,7 @@ public class    UserFollowingController {
     public ResponseEntity<List<UserResource>> getFollowers(
             @RequestHeader("Authorization") String token,
             @RequestHeader(value = "otherUserEmail", required = false) String otherUserEmail
-    ) {
+    )  throws IllegalAccessException {
         UUID userId = jwtUserChecker.resolveBasicToken(token);
         List<UserResource> followers;
         if(otherUserEmail == null){
@@ -68,7 +67,7 @@ public class    UserFollowingController {
     public ResponseEntity<List<UserResource>> getFollowings(
             @RequestHeader("Authorization") String token,
             @RequestHeader(value = "otherUserEmail", required = false) String otherUserEmail
-    ) {
+    ) throws IllegalAccessException {
         UUID userId = jwtUserChecker.resolveBasicToken(token);
         List<UserResource> followings;
         if(otherUserEmail == null){

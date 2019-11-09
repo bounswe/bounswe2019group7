@@ -23,5 +23,6 @@ public class EventResource {
     private String title;
     private String content;
     private String stringDate;
+    private String link;
     private Double score;
 }
