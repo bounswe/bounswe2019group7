@@ -40,7 +40,7 @@ public class EventRssReaderService {
 
     @Modifying
     @Transactional
-    @Scheduled(cron="0 0/5 * * * *")
+    @Scheduled(cron = "0 0/12 * * * *")
     public EventRssFeed readAndSaveFeed() throws FeedException {
         SyndFeed feed;
 
@@ -49,8 +49,10 @@ public class EventRssReaderService {
         cal.getTime();
         cal.add(Calendar.DATE, -1);
         Date previousDay = cal.getTime();
+        cal.add(Calendar.HOUR, 16);
+        Date last8Hours = cal.getTime();
         eventRepository.deleteByAdditionDateBefore(previousDay);
-        feedRepository.deleteByAdditionDateBefore(previousDay);
+        feedRepository.deleteByAdditionDateBefore(last8Hours);
 
         try {
             URL feedSource = new URL(EVENT_RSS_URL);
