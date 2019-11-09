@@ -1,7 +1,7 @@
 package com.eyetrade.backend.controller;
 
-import com.eyetrade.backend.model.dto.CurrencyConverterDto;
-import com.eyetrade.backend.model.resource.CurrencyConverterResource;
+import com.eyetrade.backend.model.dto.currency.CurrencyConverterDto;
+import com.eyetrade.backend.model.resource.currency.CurrencyConverterResource;
 import com.eyetrade.backend.service.CurrencyConverterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

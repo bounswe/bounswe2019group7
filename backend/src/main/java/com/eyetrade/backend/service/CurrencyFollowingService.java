@@ -4,7 +4,7 @@ import com.eyetrade.backend.constants.CurrencyType;
 import com.eyetrade.backend.model.entity.CurrencyFollowing;
 import com.eyetrade.backend.model.entity.CurrencyRecord;
 import com.eyetrade.backend.model.entity.User;
-import com.eyetrade.backend.model.resource.CurrencyFollowingResource;
+import com.eyetrade.backend.model.resource.currency.CurrencyFollowingResource;
 import com.eyetrade.backend.repository.CurrencyFollowingRepository;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
