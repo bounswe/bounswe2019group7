@@ -35,9 +35,9 @@ public class ArticleController {
     responseContainer = "List")
     @GetMapping("/get_user_articles")
     public List<ArticleResource> getUserArticles(
-            @RequestParam UUID userId
+            @RequestParam String userEmail
     ){
-        return articleService.getArticles(userId);
+        return articleService.getArticles(userEmail);
     }
 
     @ApiOperation(value = "Get current users articles", response = ArticleResource.class,

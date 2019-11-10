@@ -21,4 +21,5 @@ public class ArticleResource {
     private String changeDate;
     private UUID authId;
     private Double score;
+    private String authorEmail;
 }

@@ -28,7 +28,7 @@ public class ArticleService {
             ArticleResource articleResource = new ArticleResource(article.getId(), article.getTitle(),
                     article.getContent(),DateUtils.TimeFormatter(article.getAdditionDate(),RESOURCE_TIME_FORMAT),
                     DateUtils.TimeFormatter(article.getLastChangeDate(),RESOURCE_TIME_FORMAT),
-                    article.getAuthorId(),article.getScore());
+                    article.getAuthorId(),article.getScore(),article.getAuthorEmail());
             resources.add(articleResource);
         }
         return  resources;
@@ -42,18 +42,33 @@ public class ArticleService {
             ArticleResource articleResource = new ArticleResource(article.getId(), article.getTitle(),
                     article.getContent(), DateUtils.TimeFormatter(article.getAdditionDate(), RESOURCE_TIME_FORMAT),
                     DateUtils.TimeFormatter(article.getLastChangeDate(),RESOURCE_TIME_FORMAT),
-                    article.getAuthorId(), article.getScore());
+                    article.getAuthorId(), article.getScore(),article.getAuthorEmail());
             resources.add(articleResource);
         }
         return  resources;
     }
+
+    public List<ArticleResource> getArticles(String userEmail){
+        List<ArticleResource> resources = new ArrayList<ArticleResource>();
+        List<Article> articles = articleRepository.findAllByAuthorEmailOrderByAdditionDateDesc(userEmail);
+
+        for (Article article: articles){
+            ArticleResource articleResource = new ArticleResource(article.getId(), article.getTitle(),
+                    article.getContent(), DateUtils.TimeFormatter(article.getAdditionDate(), RESOURCE_TIME_FORMAT),
+                    DateUtils.TimeFormatter(article.getLastChangeDate(),RESOURCE_TIME_FORMAT),
+                    article.getAuthorId(), article.getScore(),article.getAuthorEmail());
+            resources.add(articleResource);
+        }
+        return resources;
+    }
+
 
     public ArticleResource getArticle(UUID id){
         Article article = articleRepository.findArticleById(id);
         return new ArticleResource(article.getId(), article.getTitle(),
                 article.getContent(), DateUtils.TimeFormatter(article.getAdditionDate(), RESOURCE_TIME_FORMAT),
                 DateUtils.TimeFormatter(article.getLastChangeDate(),RESOURCE_TIME_FORMAT),
-                article.getAuthorId(), article.getScore());
+                article.getAuthorId(), article.getScore(),article.getAuthorEmail());
     }
 
     public ArticleResource createArticle(UUID userID,ArticleDto articleDto){

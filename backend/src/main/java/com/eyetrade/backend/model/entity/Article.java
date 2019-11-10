@@ -4,6 +4,8 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.UUID;
 
@@ -24,14 +26,19 @@ public class Article {
     @Column(length = 1024)
     private String content;
 
-    @Column(name = "addition date")
+    @Column(name = "addition_date")
     private Date additionDate;
 
-    @Column(name = "last modified")
+    @Column(name = "last_modified")
     private Date lastChangeDate;
 
-    @Column(name = "author id")
+    @Column(name = "author_id")
     private UUID authorId;
+
+    @NotNull
+    @Column(name = "author_email")
+    @Email
+    private String authorEmail;
 
     private Double score=4.00;
 

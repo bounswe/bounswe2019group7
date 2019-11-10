@@ -22,6 +22,7 @@ public class ArticleMapper {
         articleResource.setScore(article.getScore());
         articleResource.setUuid(article.getId());
         articleResource.setChangeDate(article.getLastChangeDate().toString());
+        articleResource.setAuthorEmail(article.getAuthorEmail());
         return articleResource;
     }
 }
