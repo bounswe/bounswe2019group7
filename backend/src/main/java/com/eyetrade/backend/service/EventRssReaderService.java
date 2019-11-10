@@ -38,7 +38,6 @@ public class EventRssReaderService {
     @Autowired
     private EventRssFeedRepository feedRepository;
 
-    @Modifying
     @Transactional
     @Scheduled(cron = "0 0/12 * * * *")
     public EventRssFeed readAndSaveFeed() throws FeedException {
@@ -49,10 +48,8 @@ public class EventRssReaderService {
         cal.getTime();
         cal.add(Calendar.DATE, -1);
         Date previousDay = cal.getTime();
-        cal.add(Calendar.HOUR, 16);
-        Date last8Hours = cal.getTime();
         eventRepository.deleteByAdditionDateBefore(previousDay);
-        feedRepository.deleteByAdditionDateBefore(last8Hours);
+        feedRepository.deleteByAdditionDateBefore(previousDay);
 
         try {
             URL feedSource = new URL(EVENT_RSS_URL);
@@ -71,7 +68,7 @@ public class EventRssReaderService {
         eventFeed.setLink(feed.getLink());
         eventFeed.setTitle(feed.getTitle());
         eventFeed.setAdditionDate(date);
-        feedRepository.saveAndFlush(eventFeed);
+        feedRepository.save(eventFeed);
         eventFeed = readAndSaveMessages(eventFeed, feed);
         return eventFeed;
     }
@@ -83,7 +80,7 @@ public class EventRssReaderService {
             SyndEntryImpl syndEntry = (SyndEntryImpl) object;
             UUID guid = UUID.fromString(syndEntry.getUri());
             if (eventRepository.existsByGuid(guid)) {
-                continue;
+                break;
             }
             Event event = new Event();
             //Setting our event data from parsed object.
