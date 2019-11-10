@@ -10,18 +10,22 @@ public class ArticleMapper {
         Article article = new Article();
         article.setTitle(articleDto.getTitle());
         article.setContent(articleDto.getContent());
+        article.setAuthorEmail(articleDto.getAuthorEmail());
+        article.setAuthorName(articleDto.getAuthorName());
+        article.setAuthorSurname(articleDto.getAuthorSurname());
         return article;
     }
 
     public static ArticleResource entityToArticleResource(Article article){
         ArticleResource articleResource = new ArticleResource();
-        articleResource.setAuthId(article.getAuthorId());
         articleResource.setTitle(article.getTitle());
         articleResource.setContent(article.getContent());
         articleResource.setStringDate(article.getAdditionDate().toString());
         articleResource.setScore(article.getScore());
         articleResource.setUuid(article.getId());
         articleResource.setChangeDate(article.getLastChangeDate().toString());
+        articleResource.setAuthorName(article.getAuthorName());
+        articleResource.setAuthorSurname(article.getAuthorSurname());
         articleResource.setAuthorEmail(article.getAuthorEmail());
         return articleResource;
     }

@@ -44,10 +44,11 @@ public class ArticleController {
     responseContainer = "List")
     @GetMapping("/get_self_articles")
     public List<ArticleResource> getSelfArticles(
-            @RequestHeader("Authorization") String token
+            @RequestHeader("Authorization") String token,
+            @RequestParam String selfEmail
     ) throws IllegalAccessException {
-        UUID userID = jwtUserChecker.resolveBasicToken(token);
-        return articleService.getArticles(userID);
+        jwtUserChecker.resolveBasicToken(token);
+        return articleService.getArticles(selfEmail);
     }
 
     @ApiOperation(value = "Get article by id", response = ArticleResource.class)
@@ -62,8 +63,8 @@ public class ArticleController {
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid ArticleDto articleDto
     ) throws IllegalAccessException{
-        UUID userID = jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.createArticle(userID,articleDto);
+        jwtUserChecker.resolveBasicToken(token);
+        ArticleResource article = articleService.createArticle(articleDto);
         return article;
     }
 
@@ -74,8 +75,8 @@ public class ArticleController {
             @RequestBody @Valid ArticleDto articleDto,
             @RequestParam UUID articleID
     )throws IllegalAccessException{
-        UUID userID = jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.updateArticle(userID,articleDto,articleID);
+        jwtUserChecker.resolveBasicToken(token);
+        ArticleResource article = articleService.updateArticle(articleDto,articleID);
         return article;
 
     }

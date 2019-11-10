@@ -32,8 +32,11 @@ public class Article {
     @Column(name = "last_modified")
     private Date lastChangeDate;
 
-    @Column(name = "author_id")
-    private UUID authorId;
+    @Column(name = "author_name")
+    private String authorName;
+
+    @Column(name = "author_surname")
+    private String authorSurname;
 
     @NotNull
     @Column(name = "author_email")

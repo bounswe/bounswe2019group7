@@ -30,16 +30,6 @@ public class ArticleService {
         return  resources;
     }
 
-    public List<ArticleResource> getArticles(UUID userID){
-        List<ArticleResource> resources = new ArrayList<ArticleResource>();
-        List<Article> articles = articleRepository.findAllByAuthorIdOrderByAdditionDateDesc(userID);
-
-        for(Article article: articles){
-            resources.add(ArticleMapper.entityToArticleResource(article));
-        }
-        return  resources;
-    }
-
     public List<ArticleResource> getArticles(String userEmail){
         List<ArticleResource> resources = new ArrayList<ArticleResource>();
         List<Article> articles = articleRepository.findAllByAuthorEmailOrderByAdditionDateDesc(userEmail);
@@ -56,18 +46,17 @@ public class ArticleService {
         return ArticleMapper.entityToArticleResource(article);
     }
 
-    public ArticleResource createArticle(UUID userID,ArticleDto articleDto){
+    public ArticleResource createArticle(ArticleDto articleDto){
         Article article = ArticleMapper.articleDtoToEntity(articleDto);
         article.setAdditionDate(Calendar.getInstance().getTime());
         article.setLastChangeDate(Calendar.getInstance().getTime());
-        article.setAuthorId(userID);
         articleRepository.save(article);
         return ArticleMapper.entityToArticleResource(article);
     }
 
-    public ArticleResource updateArticle(UUID userID, ArticleDto articleDto, UUID articleID){
+    public ArticleResource updateArticle(ArticleDto articleDto, UUID articleID){
         Article article=articleRepository.findArticleById(articleID);
-        if(article.getAuthorId()!=userID){
+        if(article.getAuthorEmail()!=articleDto.getAuthorEmail()){
             throw new RuntimeException(ErrorConstants.NOT_AUTHORIZED_FOR_OPERATION);
         }else{
             article.setTitle(articleDto.getTitle());
