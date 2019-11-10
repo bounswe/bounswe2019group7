@@ -81,7 +81,7 @@ public class EventRssReaderService {
             SyndEntryImpl syndEntry = (SyndEntryImpl) object;
             UUID guid = UUID.fromString(syndEntry.getUri());
             if (eventRepository.existsByGuid(guid)) {
-                break;
+                continue;
             }
             Event event = new Event();
             //Setting our event data from parsed object.
