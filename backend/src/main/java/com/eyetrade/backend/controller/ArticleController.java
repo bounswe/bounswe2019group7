@@ -39,7 +39,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "Get current users artilces", response = List.class)
-    @GetMapping("/get_sel_articles")
+    @GetMapping("/get_self_articles")
     public List<ArticleResource> getSelfArticles(
             @RequestHeader("Authorization") String token
     ) throws IllegalAccessException {
