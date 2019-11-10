@@ -24,7 +24,8 @@ public class ArticleController {
     @Autowired
     private JwtUserChecker jwtUserChecker;
 
-    @ApiOperation(value = "Get all articles ordered by time", response = List.class)
+    @ApiOperation(value = "Get all articles ordered by time", response = ArticleResource.class
+    ,responseContainer = "List")
     @GetMapping("/get_articles")
     public List<ArticleResource> getArticles(){
         return articleService.getArticles();
@@ -38,7 +39,8 @@ public class ArticleController {
         return articleService.getArticles(userId);
     }
 
-    @ApiOperation(value = "Get current users artilces", response = List.class)
+    @ApiOperation(value = "Get current users artilces", response = ArticleResource.class,
+    responseContainer = "List")
     @GetMapping("/get_self_articles")
     public List<ArticleResource> getSelfArticles(
             @RequestHeader("Authorization") String token
