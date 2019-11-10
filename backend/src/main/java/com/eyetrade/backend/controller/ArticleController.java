@@ -78,7 +78,18 @@ public class ArticleController {
         jwtUserChecker.resolveBasicToken(token);
         ArticleResource article = articleService.updateArticle(articleDto,articleID);
         return article;
+    }
 
+    @ApiOperation(value = "Give a point to an article", response = ArticleResource.class)
+    @GetMapping("/give_point")
+    public ArticleResource givePoint(
+            @RequestHeader("Authorization") String token,
+            @RequestParam Double score,
+            @RequestParam UUID articleID
+    )throws IllegalAccessException{
+        jwtUserChecker.resolveBasicToken(token);
+        ArticleResource article = articleService.givePoint(score,articleID);
+        return article;
     }
 
 

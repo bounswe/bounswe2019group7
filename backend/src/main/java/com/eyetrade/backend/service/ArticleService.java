@@ -66,4 +66,17 @@ public class ArticleService {
             return ArticleMapper.entityToArticleResource(article);
         }
     }
+
+    public ArticleResource givePoint(Double score, UUID articleID){
+        if(score<0 || score > 5){
+            throw new IllegalArgumentException(ErrorConstants.POINT_SHOULD_BE_INSIDE_RANGE);
+        }
+        Article article = articleRepository.findArticleById(articleID);
+        int scoreCount = article.getGivenScoreCount();
+        article.setScore((article.getScore() * scoreCount + score) / (scoreCount + 1));
+        article.setGivenScoreCount(++scoreCount);
+        articleRepository.save(article);
+        return ArticleMapper.entityToArticleResource(article);
+
+    }
 }
