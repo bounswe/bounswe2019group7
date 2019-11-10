@@ -31,7 +31,8 @@ public class ArticleController {
         return articleService.getArticles();
     }
 
-    @ApiOperation(value = "Get all articles of a user", response = List.class)
+    @ApiOperation(value = "Get all articles of a user", response = ArticleResource.class,
+    responseContainer = "List")
     @GetMapping("/get_user_articles")
     public List<ArticleResource> getUserArticles(
             @RequestParam UUID userId
@@ -39,7 +40,7 @@ public class ArticleController {
         return articleService.getArticles(userId);
     }
 
-    @ApiOperation(value = "Get current users artilces", response = ArticleResource.class,
+    @ApiOperation(value = "Get current users articles", response = ArticleResource.class,
     responseContainer = "List")
     @GetMapping("/get_self_articles")
     public List<ArticleResource> getSelfArticles(
