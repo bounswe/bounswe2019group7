@@ -6,13 +6,13 @@ import com.eyetrade.backend.model.dto.ArticleDto;
 import com.eyetrade.backend.model.entity.Article;
 import com.eyetrade.backend.model.resource.ArticleResource;
 import com.eyetrade.backend.repository.ArticleRepository;
-import com.eyetrade.backend.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-
-import static com.eyetrade.backend.constants.ArticleConstants.RESOURCE_TIME_FORMAT;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ArticleService {
@@ -25,11 +25,7 @@ public class ArticleService {
         List<Article> articles = articleRepository.findAllByOrderByAdditionDateDesc();
 
         for(Article article: articles){
-            ArticleResource articleResource = new ArticleResource(article.getId(), article.getTitle(),
-                    article.getContent(),DateUtils.TimeFormatter(article.getAdditionDate(),RESOURCE_TIME_FORMAT),
-                    DateUtils.TimeFormatter(article.getLastChangeDate(),RESOURCE_TIME_FORMAT),
-                    article.getAuthorId(),article.getScore(),article.getAuthorEmail());
-            resources.add(articleResource);
+            resources.add(ArticleMapper.entityToArticleResource(article));
         }
         return  resources;
     }
@@ -39,11 +35,7 @@ public class ArticleService {
         List<Article> articles = articleRepository.findAllByAuthorIdOrderByAdditionDateDesc(userID);
 
         for(Article article: articles){
-            ArticleResource articleResource = new ArticleResource(article.getId(), article.getTitle(),
-                    article.getContent(), DateUtils.TimeFormatter(article.getAdditionDate(), RESOURCE_TIME_FORMAT),
-                    DateUtils.TimeFormatter(article.getLastChangeDate(),RESOURCE_TIME_FORMAT),
-                    article.getAuthorId(), article.getScore(),article.getAuthorEmail());
-            resources.add(articleResource);
+            resources.add(ArticleMapper.entityToArticleResource(article));
         }
         return  resources;
     }
@@ -53,11 +45,7 @@ public class ArticleService {
         List<Article> articles = articleRepository.findAllByAuthorEmailOrderByAdditionDateDesc(userEmail);
 
         for (Article article: articles){
-            ArticleResource articleResource = new ArticleResource(article.getId(), article.getTitle(),
-                    article.getContent(), DateUtils.TimeFormatter(article.getAdditionDate(), RESOURCE_TIME_FORMAT),
-                    DateUtils.TimeFormatter(article.getLastChangeDate(),RESOURCE_TIME_FORMAT),
-                    article.getAuthorId(), article.getScore(),article.getAuthorEmail());
-            resources.add(articleResource);
+            resources.add(ArticleMapper.entityToArticleResource(article));
         }
         return resources;
     }
@@ -65,10 +53,7 @@ public class ArticleService {
 
     public ArticleResource getArticle(UUID id){
         Article article = articleRepository.findArticleById(id);
-        return new ArticleResource(article.getId(), article.getTitle(),
-                article.getContent(), DateUtils.TimeFormatter(article.getAdditionDate(), RESOURCE_TIME_FORMAT),
-                DateUtils.TimeFormatter(article.getLastChangeDate(),RESOURCE_TIME_FORMAT),
-                article.getAuthorId(), article.getScore(),article.getAuthorEmail());
+        return ArticleMapper.entityToArticleResource(article);
     }
 
     public ArticleResource createArticle(UUID userID,ArticleDto articleDto){
