@@ -46,7 +46,7 @@ class RegistrationActivity : AppCompatActivity() {
             }
             val name = registerNameInput.text.toString()
             val surname = registerSurnameInput.text.toString()
-            val location = registerLocationInput.text.toString()
+            val location = registerLocationButton.text.toString()
             val email = registerEmailInput.text.toString()
             val userTypeId = userTypeRadioGroup.checkedRadioButtonId
 
@@ -166,6 +166,11 @@ class RegistrationActivity : AppCompatActivity() {
             displayTraderUserInput()
         }
         displayTraderUserInput()
+
+        registerLocationButton.setOnClickListener {
+            val intent = Intent(this, LocationPickerActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun displayTraderUserInput() {
