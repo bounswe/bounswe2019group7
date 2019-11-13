@@ -55,7 +55,7 @@ public class ArticleService {
     }
 
     public ArticleResource updateArticle(ArticleDto articleDto, UUID articleID){
-        Article article=articleRepository.findArticleById(articleID);
+        Article article=articleRepository.getOne(articleID);
         if(article.getAuthorEmail()!=articleDto.getAuthorEmail()){
             throw new RuntimeException(ErrorConstants.NOT_AUTHORIZED_FOR_OPERATION);
         }else{
@@ -71,7 +71,7 @@ public class ArticleService {
         if(score<0 || score > 5){
             throw new IllegalArgumentException(ErrorConstants.POINT_SHOULD_BE_INSIDE_RANGE);
         }
-        Article article = articleRepository.findArticleById(articleID);
+        Article article = articleRepository.getOne(articleID);
         int scoreCount = article.getGivenScoreCount();
         article.setScore((article.getScore() * scoreCount + score) / (scoreCount + 1));
         article.setGivenScoreCount(++scoreCount);
