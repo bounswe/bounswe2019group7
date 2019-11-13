@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.annotation.Resource;
+import javax.persistence.Column;
 import java.util.UUID;
 
 @Resource
@@ -16,6 +17,7 @@ import java.util.UUID;
 public class ArticleResource {
     private UUID uuid;
     private String title;
+    @Column(length = 1024)
     private String content;
     private String stringDate;
     private String changeDate;
