@@ -78,7 +78,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "Give a point to an article", response = ArticleResource.class)
-    @GetMapping("/give_point")
+    @PostMapping("/give_point")
     public ArticleResource givePoint(
             @RequestHeader("Authorization") String token,
             @RequestParam Double score,
