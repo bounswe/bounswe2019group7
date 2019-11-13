@@ -2,6 +2,7 @@ package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.model.dto.ArticleDto;
 import com.eyetrade.backend.model.resource.ArticleResource;
+import com.eyetrade.backend.model.resource.ArticlesResource;
 import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.ArticleService;
 import io.swagger.annotations.Api;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,26 +24,23 @@ public class ArticleController {
     @Autowired
     private JwtUserChecker jwtUserChecker;
 
-    @ApiOperation(value = "Get all articles ordered by time", response = ArticleResource.class
-    ,responseContainer = "List")
+    @ApiOperation(value = "Get all articles ordered by time", response = ArticlesResource.class)
     @GetMapping("/get_articles")
-    public List<ArticleResource> getArticles(){
+    public ArticlesResource getArticles(){
         return articleService.getArticles();
     }
 
-    @ApiOperation(value = "Get all articles of a user", response = ArticleResource.class,
-    responseContainer = "List")
+    @ApiOperation(value = "Get all articles of a user", response = ArticlesResource.class)
     @GetMapping("/get_user_articles")
-    public List<ArticleResource> getUserArticles(
+    public ArticlesResource getUserArticles(
             @RequestParam String userEmail
     ){
         return articleService.getArticles(userEmail);
     }
 
-    @ApiOperation(value = "Get current users articles", response = ArticleResource.class,
-    responseContainer = "List")
+    @ApiOperation(value = "Get current users articles", response = ArticlesResource.class)
     @GetMapping("/get_self_articles")
-    public List<ArticleResource> getSelfArticles(
+    public ArticlesResource getSelfArticles(
             @RequestHeader("Authorization") String token,
             @RequestParam String selfEmail
     ) throws IllegalAccessException {

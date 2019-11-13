@@ -5,6 +5,7 @@ import com.eyetrade.backend.mapper.ArticleMapper;
 import com.eyetrade.backend.model.dto.ArticleDto;
 import com.eyetrade.backend.model.entity.Article;
 import com.eyetrade.backend.model.resource.ArticleResource;
+import com.eyetrade.backend.model.resource.ArticlesResource;
 import com.eyetrade.backend.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,24 +21,24 @@ public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
 
-    public List<ArticleResource> getArticles(){
+    public ArticlesResource getArticles(){
         List<ArticleResource> resources = new ArrayList<ArticleResource>();
         List<Article> articles = articleRepository.findAllByOrderByAdditionDateDesc();
 
         for(Article article: articles){
             resources.add(ArticleMapper.entityToArticleResource(article));
         }
-        return  resources;
+        return  new ArticlesResource(resources);
     }
 
-    public List<ArticleResource> getArticles(String userEmail){
+    public ArticlesResource getArticles(String userEmail){
         List<ArticleResource> resources = new ArrayList<ArticleResource>();
         List<Article> articles = articleRepository.findAllByAuthorEmailOrderByAdditionDateDesc(userEmail);
 
         for (Article article: articles){
             resources.add(ArticleMapper.entityToArticleResource(article));
         }
-        return resources;
+        return new ArticlesResource(resources);
     }
 
 
