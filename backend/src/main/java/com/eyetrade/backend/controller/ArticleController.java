@@ -1,8 +1,8 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.model.dto.ArticleDto;
-import com.eyetrade.backend.model.resource.ArticleResource;
-import com.eyetrade.backend.model.resource.ArticlesResource;
+import com.eyetrade.backend.model.resource.article.ArticleResource;
+import com.eyetrade.backend.model.resource.article.ArticlesResource;
 import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.ArticleService;
 import io.swagger.annotations.Api;

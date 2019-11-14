@@ -2,7 +2,7 @@ package com.eyetrade.backend.mapper;
 
 import com.eyetrade.backend.model.dto.ArticleDto;
 import com.eyetrade.backend.model.entity.Article;
-import com.eyetrade.backend.model.resource.ArticleResource;
+import com.eyetrade.backend.model.resource.article.ArticleResource;
 
 public class ArticleMapper {
 
