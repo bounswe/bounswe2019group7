@@ -25,13 +25,13 @@ public class ArticleController {
     private JwtUserChecker jwtUserChecker;
 
     @ApiOperation(value = "Get all articles ordered by time", response = ArticlesResource.class)
-    @GetMapping("/get_articles")
+    @GetMapping("/articles")
     public ArticlesResource getArticles(){
         return articleService.getArticles();
     }
 
     @ApiOperation(value = "Get all articles of a user", response = ArticlesResource.class)
-    @GetMapping("/get_user_articles")
+    @GetMapping("/user_articles")
     public ArticlesResource getUserArticles(
             @RequestParam String userEmail
     ){
@@ -39,7 +39,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "Get current users articles", response = ArticlesResource.class)
-    @GetMapping("/get_self_articles")
+    @GetMapping("/self_articles")
     public ArticlesResource getSelfArticles(
             @RequestHeader("Authorization") String token,
             @RequestParam String selfEmail
@@ -49,13 +49,13 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "Get article by id", response = ArticleResource.class)
-    @GetMapping("/get_article")
+    @GetMapping("/article")
     public ArticleResource getArticle(@RequestParam UUID id){
         return articleService.getArticle(id);
     }
 
     @ApiOperation(value = "Create an article", response = ArticleResource.class)
-    @PostMapping("/create_article")
+    @PostMapping("/create")
     public ArticleResource createArticle(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid ArticleDto articleDto
@@ -66,7 +66,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "Update an article", response = ArticleResource.class)
-    @PostMapping("/update_article")
+    @PostMapping("/update")
     public ArticleResource updateArticle(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid ArticleDto articleDto,

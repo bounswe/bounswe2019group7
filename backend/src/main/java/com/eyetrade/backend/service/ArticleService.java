@@ -57,7 +57,7 @@ public class ArticleService {
 
     public ArticleResource updateArticle(ArticleDto articleDto, UUID articleID){
         Article article=articleRepository.getOne(articleID);
-        if(article.getAuthorEmail()!=articleDto.getAuthorEmail()){
+        if(!article.getAuthorEmail().equals(articleDto.getAuthorEmail())){
             throw new RuntimeException(ErrorConstants.NOT_AUTHORIZED_FOR_OPERATION);
         }else{
             article.setTitle(articleDto.getTitle());
