@@ -22,6 +22,9 @@ public class UserFollowingService {
     @Autowired
     private UserFollowingRepository userFollowingRepository;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @Transactional
     public MinimalUserResource followUser(UUID followerId, String followingEmail){
         // find both of the users
@@ -34,6 +37,8 @@ public class UserFollowingService {
         relation.setTimestamp(new Date().getTime());
         // save it
         userFollowingRepository.saveAndFlush(relation);
+        // create the notification
+        notificationService.createNotification(follower, following);
         // return the response
         return UserMapper.entityToMinimalUserResource(following);
     }
