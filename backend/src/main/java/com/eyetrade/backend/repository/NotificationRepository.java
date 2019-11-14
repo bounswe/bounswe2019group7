@@ -17,7 +17,7 @@ public interface NotificationRepository extends JpaRepository<Notification, UUID
     List<Notification> findNotificationByNotificationOwner(User user);
 
     @Modifying
-    void deleteByNotificationOwner(User user);
+    void deleteNotificationByNotificationOwner(User user);
 
     @Modifying
     void deleteById(UUID id);

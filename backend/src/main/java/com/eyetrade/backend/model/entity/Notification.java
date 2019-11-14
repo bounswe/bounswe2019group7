@@ -22,11 +22,13 @@ public class Notification {
     private UUID id;
 
     @NotNull
-    @Column(name = "notification_owner")
+    @ManyToOne
+    @JoinColumn(name = "notification_owner")
     private User notificationOwner;
 
     @NotNull
-    @Column(name = "follower")
+    @ManyToOne
+    @JoinColumn(name = "follower")
     private User follower;
 
     @NotNull

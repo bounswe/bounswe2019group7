@@ -25,7 +25,7 @@ public class NotificationService {
     private UserRepository userRepository;
 
     @Transactional
-    public void createNotification(User follower, User following){
+    void createNotification(User follower, User following){
         Notification notification = new Notification();
         notification.setNotificationOwner(following);
         notification.setFollower(follower);
@@ -46,7 +46,7 @@ public class NotificationService {
     @Transactional
     public void deleteAllSelfNotifications(UUID userId){
         User user = userRepository.findById(userId);
-        notificationRepository.deleteByNotificationOwner(user);
+        notificationRepository.deleteNotificationByNotificationOwner(user);
     }
 
     @Transactional

@@ -51,13 +51,13 @@ public class NotificationController {
             (@RequestHeader("Authorization") String token)
             throws IllegalAccessException {
         UUID userId = jwtUserChecker.resolveBasicToken(token);
-        notificationService.getAllSelfNotifications(userId);
+        notificationService.deleteAllSelfNotifications(userId);
         return ResponseEntity.ok("Success");
     }
 
     @ApiOperation(value = "Mark a notification as seen by giving it's id. However, the notification must belong to the user",
             response = String.class)
-    @PutMapping("/see_notification")
+    @PutMapping("/mark_notification")
     public ResponseEntity<String> setNotificationAsSeen
             (@RequestHeader("Authorization") String token,
              @RequestHeader("notification_id") UUID notificationId)
@@ -69,7 +69,7 @@ public class NotificationController {
 
     @ApiOperation(value = "Mark all the notifications as seen which belong to the user",
             response = String.class)
-    @PutMapping("/see_self_notifications")
+    @PutMapping("/mark_self_notifications")
     public ResponseEntity<String> setAllSelfNotificationAsSeen
             (@RequestHeader("Authorization") String token)
             throws IllegalAccessException {
