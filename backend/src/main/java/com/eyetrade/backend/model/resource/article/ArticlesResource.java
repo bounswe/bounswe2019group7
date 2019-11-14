@@ -1,4 +1,4 @@
-package com.eyetrade.backend.model.resource;
+package com.eyetrade.backend.model.resource.article;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
