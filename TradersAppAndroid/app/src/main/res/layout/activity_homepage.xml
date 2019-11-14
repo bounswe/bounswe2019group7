@@ -37,14 +37,12 @@
             android:background="@color/colorPrimary"
             android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/drawer_title"
-                android:layout_width="match_parent"
+
+        <ImageView
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:padding="50dp"
-                android:text="eyeTrade"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center"
+                android:src="@drawable/eye_trade_logo"/>
 
         <android.support.design.widget.NavigationView
                 android:id="@+id/nav_view"
