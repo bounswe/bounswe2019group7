@@ -37,7 +37,7 @@ public class NotificationService {
     @Transactional
     public void deleteNotification(UUID userId, UUID notificationId) throws IllegalAccessException {
         Notification notification = notificationRepository.findNotificationById(notificationId);
-        if(!notification.getNotificationOwner().getId().equals(notification.getNotificationOwner().getId())){
+        if(!notification.getNotificationOwner().getId().equals(userId)){
             throw new IllegalAccessException();
         }
         notificationRepository.deleteById(notificationId);
@@ -52,7 +52,7 @@ public class NotificationService {
     @Transactional
     public void setNotificationAsSeen(UUID userId, UUID notificationId) throws IllegalAccessException {
         Notification notification = notificationRepository.findNotificationById(notificationId);
-        if(!notification.getNotificationOwner().getId().equals(notification.getNotificationOwner().getId())){
+        if(!notification.getNotificationOwner().getId().equals(userId)){
             throw new IllegalAccessException();
         }
         notification.setSeen(true);
@@ -60,7 +60,7 @@ public class NotificationService {
     }
 
     @Transactional
-    public void setAllSelfNotificationAsSeen(UUID userId) throws IllegalAccessException {
+    public void setAllSelfNotificationAsSeen(UUID userId){
         User user = userRepository.findById(userId);
         List<Notification> notifications = notificationRepository.findNotificationByNotificationOwner(user);
         for(Notification notification : notifications) {
@@ -69,7 +69,6 @@ public class NotificationService {
         notificationRepository.saveAll(notifications);
     }
 
-    @Transactional
     public List<NotificationResource> getAllSelfNotifications(UUID userId){
         User user = userRepository.findById(userId);
         List<Notification> notifications = notificationRepository.findNotificationByNotificationOwner(user);
