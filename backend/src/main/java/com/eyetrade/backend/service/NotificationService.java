@@ -1,13 +1,16 @@
 package com.eyetrade.backend.service;
 
+import com.eyetrade.backend.mapper.NotificationMapper;
 import com.eyetrade.backend.model.entity.Notification;
 import com.eyetrade.backend.model.entity.User;
+import com.eyetrade.backend.model.resource.notification.NotificationResource;
 import com.eyetrade.backend.repository.NotificationRepository;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -66,7 +69,15 @@ public class NotificationService {
         notificationRepository.saveAll(notifications);
     }
 
-
-
+    @Transactional
+    public List<NotificationResource> getAllSelfNotifications(UUID userId){
+        User user = userRepository.findById(userId);
+        List<Notification> notifications = notificationRepository.findNotificationByNotificationOwner(user);
+        List<NotificationResource> notificationResources = new ArrayList<>();
+        for(Notification notification : notifications) {
+            notificationResources.add(NotificationMapper.entityToResource(notification));
+        }
+        return notificationResources;
+    }
 
 }
