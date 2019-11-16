@@ -1,5 +1,6 @@
 package com.example.app.tradersapp
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -15,11 +16,20 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+const val LOCATION_PICKER_CODE = 0
+
 class RegistrationActivity : AppCompatActivity() {
 
     private var updateProfile: Boolean = false
 
-    private var sp:SharedPreferences? = null
+    private var sp: SharedPreferences? = null
+
+    private var city: String = ""
+    private var country: String = ""
+    private var locationX: Double = 0.0
+    private var locationY: Double = 0.0
+    private var locationSet: Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +39,61 @@ class RegistrationActivity : AppCompatActivity() {
 
         updateProfile = intent.extras?.get("updateProfile") == true
 
-        if(updateProfile){
-            registerSignUpButton.text="Update"
+        if (updateProfile) {
+            registerSignUpButton.text = "Update"
+
+            val retrofitService =
+                RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+
+            retrofitService.getSelfProfileInformation(sp?.getString("token", null))
+                .enqueue(object : Callback<SelfProfileInformationResponse> {
+                    override fun onFailure(
+                        call: Call<SelfProfileInformationResponse>,
+                        t: Throwable
+                    ) {
+                        Log.i("ApiRequest", "Request failed: " + t.toString())
+                        Toast.makeText(
+                            this@RegistrationActivity,
+                            "Unexpected server error occurred. Please try again.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    override fun onResponse(
+                        call: Call<SelfProfileInformationResponse>,
+                        response: Response<SelfProfileInformationResponse>
+                    ) {
+                        if (response.code() == 200) {
+                            val body = response.body()
+                            if (body != null) {
+                                registerNameInput.setText(body.name)
+                                registerSurnameInput.setText(body.surname)
+                                registerEmailInput.setText(body.email)
+                                registerIdNoInput.setText(body.identityNo)
+                                registerIBANInput.setText(body.iban)
+                                locationX = body.locationX
+                                locationY = body.locationY
+                                city = body.city
+                                country = body.country
+                                registerLocationButton.text = if(city.isBlank()) country else "$city, $country"
+                                locationSet = true
+                                if (body.role == "BASIC_USER") {
+                                    basicUserRadio.isSelected = true
+                                } else {
+                                    tradingUserRadio.isSelected = true
+                                }
+                                displayTraderUserInput()
+                            }
+                        } else {
+                            Toast.makeText(
+                                this@RegistrationActivity,
+                                "Not logged in.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                })
         }
 
         registerCancelButton.setOnClickListener {
@@ -38,6 +101,11 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         registerSignUpButton.setOnClickListener {
+            if (!locationSet) {
+                Toast.makeText(this, "Please pick your location", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val password = registerPasswordInput.text.toString()
             val passwordAgain = registerPasswordAgainInput.text.toString()
             if (password != passwordAgain) {
@@ -46,7 +114,6 @@ class RegistrationActivity : AppCompatActivity() {
             }
             val name = registerNameInput.text.toString()
             val surname = registerSurnameInput.text.toString()
-            val location = registerLocationButton.text.toString()
             val email = registerEmailInput.text.toString()
             val userTypeId = userTypeRadioGroup.checkedRadioButtonId
 
@@ -54,7 +121,41 @@ class RegistrationActivity : AppCompatActivity() {
 
             var iban = registerIBANInput.text.toString()
             var idNo = registerIdNoInput.text.toString()
-            if (userType == "TRADER_USER") {
+
+            val retrofitService =
+                RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+
+            if (userType == "BASIC_USER") {
+
+                // TODO: Add Phone Number
+                val registrationInfo =
+                    BasicUserInformation(
+                        name,
+                        surname,
+                        "05555555555",
+                        email,
+                        city,
+                        country,
+                        locationX,
+                        locationY
+                    )
+
+                Toast.makeText(
+                    this,
+                    if (updateProfile) "Updating Profile" else "Signing Up",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                if (!updateProfile) {
+                    retrofitService.registerBasicUser(registrationInfo, password)
+                        .enqueue(RegisterCallback.apply {
+                            this.activity = this@RegistrationActivity
+                        })
+                } else {
+                    retrofitService.updateBasicUser(sp?.getString("token", null), registrationInfo)
+                        .enqueue(UpdateCallback.apply { this.activity = this@RegistrationActivity })
+                }
+            } else if (userType == "TRADER_USER") {
                 // length of iban has to be between 16 and 18
                 if (iban.length < 16 || iban.length > 18) {
                     Toast.makeText(this, "IBAN must have 16-18 characters!", Toast.LENGTH_SHORT)
@@ -67,98 +168,36 @@ class RegistrationActivity : AppCompatActivity() {
                         .show()
                     return@setOnClickListener
                 }
-            } else {
-                iban = "000000000000000000"
-                idNo = "00000000000"
-            }
+                // TODO: Add Phone Number
+                val registrationInfo =
+                    TraderUserInformation(
+                        name,
+                        surname,
+                        "05555555555",
+                        email,
+                        city,
+                        country,
+                        locationX,
+                        locationY,
+                        idNo,
+                        iban
+                    )
 
-            val retrofitService =
-                RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+                Toast.makeText(
+                    this,
+                    if (updateProfile) "Updating Profile" else "Signing Up",
+                    Toast.LENGTH_SHORT
+                ).show()
 
-            // TODO: Check the initialization below, 3 locations are passed at the end, may need to change later!
-            val registrationInfo =
-                RegistrationInformation(
-                    name,
-                    surname,
-                    email,
-                    password,
-                    userType,
-                    location,
-                    location,
-                    location,
-                    iban,
-                    idNo
-                )
-
-            Toast.makeText(this, if(updateProfile) "Updating Profile" else "Signing Up", Toast.LENGTH_SHORT).show()
-
-            if (!updateProfile) {
-                retrofitService.registerUser(registrationInfo).enqueue(object :
-                    Callback<ResponseBody> {
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Log.i("ApiRequest", "Request failed: " + t.toString())
-                        Toast.makeText(
-                            this@RegistrationActivity,
-                            "Unexpected server error occurred. Please try again.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        if (response.code() == 200) {
-                            Toast.makeText(
-                                this@RegistrationActivity,
-                                "Successfully registered!",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            val intent = Intent(this@RegistrationActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            Toast.makeText(
-                                this@RegistrationActivity,
-                                "Registration failed.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                })
-            } else {
-                retrofitService.updateUser(sp?.getString("token",null),registrationInfo).enqueue(object :
-                    Callback<ResponseBody> {
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        Log.i("ApiRequest", "Request failed: " + t.toString())
-                        Toast.makeText(
-                            this@RegistrationActivity,
-                            "Unexpected server error occurred. Please try again.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
-                    ) {
-                        if (response.code() == 200) {
-                            Toast.makeText(
-                                this@RegistrationActivity,
-                                "Profile updated!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            finish()
-                        } else {
-                            Toast.makeText(
-                                this@RegistrationActivity,
-                                "Could not update profile: "+response.code(),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                })
+                if (!updateProfile) {
+                    retrofitService.registerTraderUser(registrationInfo, password)
+                        .enqueue(RegisterCallback.apply {
+                            this.activity = this@RegistrationActivity
+                        })
+                } else {
+                    retrofitService.updateTraderUser(sp?.getString("token", null), registrationInfo)
+                        .enqueue(UpdateCallback.apply { this.activity = this@RegistrationActivity })
+                }
             }
         }
 
@@ -169,7 +208,22 @@ class RegistrationActivity : AppCompatActivity() {
 
         registerLocationButton.setOnClickListener {
             val intent = Intent(this, LocationPickerActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, LOCATION_PICKER_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == LOCATION_PICKER_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    city = data.getStringExtra("city")
+                    country = data.getStringExtra("country")
+                    locationX = data.getDoubleExtra("locationX", 0.0)
+                    locationY = data.getDoubleExtra("locationY", 0.0)
+                    registerLocationButton.text = data.getStringExtra("name")
+                    locationSet = true
+                }
+            }
         }
     }
 
@@ -178,5 +232,77 @@ class RegistrationActivity : AppCompatActivity() {
             if (userTypeRadioGroup.checkedRadioButtonId == basicUserRadio.id) View.GONE else View.VISIBLE
         registerIBANInput.visibility = vis
         registerIdNoInput.visibility = vis
+    }
+
+    object RegisterCallback :
+        Callback<ResponseBody> {
+        var activity: RegistrationActivity? = null
+
+        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            Log.i("ApiRequest", "Request failed: " + t.toString())
+            Toast.makeText(
+                activity,
+                "Unexpected server error occurred. Please try again.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        override fun onResponse(
+            call: Call<ResponseBody>,
+            response: Response<ResponseBody>
+        ) {
+            if (response.code() == 200) {
+                Toast.makeText(
+                    activity,
+                    "Successfully registered!",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                val intent =
+                    Intent(activity, MainActivity::class.java)
+                activity?.startActivity(intent)
+                activity?.finish()
+            } else {
+                Toast.makeText(
+                    activity,
+                    "Registration failed.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    object UpdateCallback :
+        Callback<ResponseBody> {
+        var activity: RegistrationActivity? = null
+
+        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+            Log.i("ApiRequest", "Request failed: " + t.toString())
+            Toast.makeText(
+                activity,
+                "Unexpected server error occurred. Please try again.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        override fun onResponse(
+            call: Call<ResponseBody>,
+            response: Response<ResponseBody>
+        ) {
+            if (response.code() == 200) {
+                Toast.makeText(
+                    activity,
+                    "Profile updated!",
+                    Toast.LENGTH_SHORT
+                ).show()
+                activity?.finish()
+            } else {
+                Toast.makeText(
+                    activity,
+                    "Could not update profile: " + response.code(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }

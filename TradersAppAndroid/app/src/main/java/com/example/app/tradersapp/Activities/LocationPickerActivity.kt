@@ -2,7 +2,6 @@ package com.example.app.tradersapp
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.Address
 import android.location.Geocoder
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -18,10 +17,6 @@ import kotlinx.android.synthetic.main.activity_location_picker.*
 import java.util.*
 import android.app.Activity
 import android.content.Intent
-import android.support.v4.app.SupportActivity
-import android.support.v4.app.SupportActivity.ExtraData
-import android.support.v4.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 
 
@@ -30,7 +25,9 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
 
     private var loc:LatLng? = null
-    private var locName:String? = ""
+    private var city:String? = null
+    private var country:String? = null
+    private var name:String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,15 +38,17 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         pickLocationButton.setOnClickListener{
-            if(locName.isNullOrBlank()){
+            if(country.isNullOrBlank()){
                 Toast.makeText(this, "Please select a valid location", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             val resultIntent = Intent()
-            resultIntent.putExtra("location", locName)
+            resultIntent.putExtra("city", city)
+            resultIntent.putExtra("country", country)
             resultIntent.putExtra("locationX", loc?.longitude)
             resultIntent.putExtra("locationY", loc?.latitude)
+            resultIntent.putExtra("name", name)
             setResult(Activity.RESULT_OK, resultIntent)
             finish()
         }
@@ -63,16 +62,10 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
             val gcd = Geocoder(this, Locale.ENGLISH)
             val addresses = gcd.getFromLocation(it.latitude, it.longitude, 1)
             if (addresses.size > 0) {
-                val name =
-                    if (addresses[0].adminArea != null)
-                        addresses[0].adminArea + ", " + addresses[0].countryName
-                    else addresses[0].countryName
-
-                loc = it
-                locName = name
-
-                if(!name.isNullOrBlank())
-                    mMap.addMarker(MarkerOptions().position(it).title(name)).showInfoWindow()
+                city = addresses[0].adminArea
+                country = addresses[0].countryName
+                name =  if(city.isNullOrBlank()) country else "$city, $country"
+                mMap.addMarker(MarkerOptions().position(it).title(name)).showInfoWindow()
             }
         }
 

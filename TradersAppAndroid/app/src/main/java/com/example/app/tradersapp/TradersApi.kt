@@ -1,7 +1,6 @@
 package com.example.app.tradersapp
 
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -34,9 +33,17 @@ class RetrofitInstance {
 interface ApiInterface {
 
     @Headers("Content-Type:application/json")
-    @POST("registration/register")
-    fun registerUser(
-        @Body info: RegistrationInformation
+    @POST("registration/basic_register")
+    fun registerBasicUser(
+        @Body info: BasicUserInformation,
+        @Header("password")password: String
+    ): retrofit2.Call<ResponseBody>
+
+    @Headers("Content-Type:application/json")
+    @POST("registration/trader_register")
+    fun registerTraderUser(
+        @Body info: TraderUserInformation,
+        @Header("password")password: String
     ): retrofit2.Call<ResponseBody>
 
     @Headers("Content-Type:application/json")
@@ -50,30 +57,46 @@ interface ApiInterface {
                         @Query("amount") amount: Double = 1.0): retrofit2.Call<ExchangeRateResponse>
 
     @Headers("Content-Type:application/json")
-    @GET("user_profile/profile")
-    fun getUserProfileInformation(@Header("Authorization") token: String?): retrofit2.Call<ProfileInformationResponse>
+    @GET("user_profile/self_profile")
+    fun getSelfProfileInformation(@Header("Authorization") token: String?): retrofit2.Call<SelfProfileInformationResponse>
 
     @Headers("Content-Type:application/json")
-    @POST("user_profile/updateProfile")
-    fun updateUser(
+    @POST("user_profile/update_basic_profile")
+    fun updateBasicUser(
         @Header("Authorization") token: String?,
-        @Body info: RegistrationInformation
+        @Body info: BasicUserInformation
+    ): retrofit2.Call<ResponseBody>
+
+    @Headers("Content-Type:application/json")
+    @POST("user_profile/update_trader_profile")
+    fun updateTraderUser(
+        @Header("Authorization") token: String?,
+        @Body info: TraderUserInformation
     ): retrofit2.Call<ResponseBody>
 }
 
-data class RegistrationInformation(
+data class BasicUserInformation(
     val name: String,
     val surname: String,
+    val phone: String,
     val email: String,
-    val password: String,
-    val role: String,
-    val locationY: String,
-    val locationX: String,
     val city: String,
-    val iban: String,
+    val country: String,
+    val locationX: Double,
+    val locationY: Double
+)
+
+data class TraderUserInformation(
+    val name: String,
+    val surname: String,
+    val phone: String,
+    val email: String,
+    val city: String,
+    val country: String,
+    val locationX: Double,
+    val locationY: Double,
     val identityNo: String,
-    val privacyType: String = "PRIVATE_USER", // TODO: Handle these later!!!
-    val phone: String = "05555555555"
+    val iban: String
 )
 
 data class LoginInformation(
@@ -89,9 +112,19 @@ data class ExchangeRateResponse(
     val rate: Double
 )
 
-data class ProfileInformationResponse(
-    val confirmed: Boolean,
-    val email: String,
+data class SelfProfileInformationResponse(
     val name: String,
-    val surname: String
+    val surname: String,
+    val phone: String,
+    val email: String,
+    val city: String,
+    val country: String,
+    val locationX: Double,
+    val locationY: Double,
+    val identityNo: String,
+    val iban: String,
+    val role: String,
+    val privacyType: String,
+    val followerCount: Int,
+    val followingCount: Int
 )
