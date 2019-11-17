@@ -39,8 +39,8 @@ class ProfileFragment : Fragment() {
         sp = PreferenceManager.getDefaultSharedPreferences(context)
 
         val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-        retrofitService.getUserProfileInformation(sp?.getString("token",null)).enqueue(object: Callback<ProfileInformationResponse>{
-            override fun onFailure(call: Call<ProfileInformationResponse>, t: Throwable) {
+        retrofitService.getSelfProfileInformation(sp?.getString("token",null)).enqueue(object: Callback<SelfProfileInformationResponse>{
+            override fun onFailure(call: Call<SelfProfileInformationResponse>, t: Throwable) {
                 Log.i("ApiRequest", "Request failed: " + t.toString())
                 Toast.makeText(
                     activity?.applicationContext,
@@ -49,7 +49,7 @@ class ProfileFragment : Fragment() {
                 ).show()
             }
 
-            override fun onResponse(call: Call<ProfileInformationResponse>, response: Response<ProfileInformationResponse>) {
+            override fun onResponse(call: Call<SelfProfileInformationResponse>, response: Response<SelfProfileInformationResponse>) {
                 if (response.code() == 200) {
                     val body = response.body()
                     name.text = body?.name + " " + body?.surname

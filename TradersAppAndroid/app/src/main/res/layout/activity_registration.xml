@@ -8,15 +8,15 @@
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="-87dp"
+            tools:layout_editor_absoluteY="0dp">
 
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin">
+                android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
 
             <EditText
@@ -82,17 +82,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/registerPasswordInput" />
 
-            <EditText
-                    android:id="@+id/registerLocationInput"
-                    android:layout_width="0dp"
+            <Button
+                    android:id="@+id/registerLocationButton"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@android:drawable/ic_menu_mapmode"
-                    android:ems="10"
-                    android:hint="Location"
-                    android:inputType="text"
+                    android:text="Set Your Location"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/registerPasswordAgainInput" />
+
 
             <RadioGroup
                     android:id="@+id/userTypeRadioGroup"
@@ -101,7 +100,7 @@
                     android:checkedButton="@id/basicUserRadio"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/registerLocationInput">
+                    app:layout_constraintTop_toBottomOf="@+id/registerLocationButton">
 
                 <RadioButton
                         android:id="@+id/basicUserRadio"

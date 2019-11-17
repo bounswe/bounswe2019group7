@@ -83,7 +83,6 @@ class MainActivity : AppCompatActivity() {
     private fun openRegistrationPage() {
         val intent = Intent(this, RegistrationActivity::class.java)
         startActivity(intent)
-
     }
 }
 
