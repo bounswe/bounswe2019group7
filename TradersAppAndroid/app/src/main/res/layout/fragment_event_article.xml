@@ -6,8 +6,6 @@
         android:background="@color/colorPrimaryDark"
         tools:context=".Fragments.EventArticleFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <android.support.v7.widget.RecyclerView
             android:id="@+id/eaList"
             android:layout_width="match_parent"

@@ -86,10 +86,7 @@ class HomepageActivity : AppCompatActivity() {
             recentTitles.push(actionBar?.title.toString())
 
             if (fragment != null) {
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.nav_host_fragment, fragment)
-                transaction.addToBackStack(null)
-                transaction.commit()
+                startFragment(fragment)
             }
 
             // Close the drawer
@@ -100,6 +97,13 @@ class HomepageActivity : AppCompatActivity() {
 
     private fun changeTitle(s: String) {
         actionBar?.title = "eyeTrade - $s"
+    }
+
+    fun startFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.nav_host_fragment, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     override fun onBackPressed() {

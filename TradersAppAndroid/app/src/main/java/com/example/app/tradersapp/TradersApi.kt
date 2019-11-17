@@ -1,7 +1,6 @@
 package com.example.app.tradersapp
 
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -45,9 +44,16 @@ interface ApiInterface {
 
 
     @GET("currency/convert")
-    fun getExchangeRate(@Query("inputCurrencyType") currency1: String,
-                        @Query("outputCurrencyType") currency2: String,
-                        @Query("amount") amount: Double = 1.0): retrofit2.Call<ExchangeRateResponse>
+    fun getExchangeRate(
+        @Query("inputCurrencyType") currency1: String,
+        @Query("outputCurrencyType") currency2: String,
+        @Query("amount") amount: Double = 1.0
+    ): retrofit2.Call<ExchangeRateResponse>
+
+    @GET("user_following/get_followers")
+    fun getFollowers(@Query("Authorization") authorization: String,
+                     @Query("otherUserEmail") otherUserEmail: StringIndexOutOfBoundsException
+    ): retrofit2.Call<FollowersResponse>
 
     @Headers("Content-Type:application/json")
     @GET("user_profile/profile")
@@ -60,6 +66,12 @@ interface ApiInterface {
         @Body info: RegistrationInformation
     ): retrofit2.Call<ResponseBody>
 }
+
+data class FollowersResponse(
+    val email: String,
+    val name: String,
+    val surname: String
+)
 
 data class RegistrationInformation(
     val name: String,

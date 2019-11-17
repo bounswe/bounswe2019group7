@@ -80,6 +80,14 @@ class ProfileFragment : Fragment() {
             intent.putExtra("updateProfile", true)
             startActivity(intent)
         }
+
+        linearLayoutFollowers.setOnClickListener {
+            (activity as HomepageActivity).startFragment(FollowersFragment.newInstance(true))
+        }
+
+        linearLayoutFollowing.setOnClickListener {
+            (activity as HomepageActivity).startFragment(FollowersFragment.newInstance(false))
+        }
     }
 
 
