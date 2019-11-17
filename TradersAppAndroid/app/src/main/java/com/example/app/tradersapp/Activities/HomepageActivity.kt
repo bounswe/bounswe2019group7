@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.ActionBarDrawerToggle
+import com.example.app.tradersapp.Fragments.CurrenciesFragment
 
 import com.example.app.tradersapp.Fragments.EventArticleFragment
 
@@ -61,7 +62,7 @@ class HomepageActivity : AppCompatActivity() {
                     changeTitle("Home")
                 }
                 R.id.action_currencies -> {
-                    fragment = CurrencyConverterFragment()
+                    fragment = CurrenciesFragment()
                     changeTitle("Currency Converter")
                 }
 

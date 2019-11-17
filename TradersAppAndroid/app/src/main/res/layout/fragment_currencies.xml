@@ -11,13 +11,14 @@
             android:id="@+id/selectText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="32dp"
+            android:layout_marginRight="16dp"
             android:text="Choose your base currency"
             android:textColor="@color/White"
             android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/baseCurrencyRadioGroup"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/baseCurrencyRadioGroup" app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent"/>
 
     <RadioGroup
@@ -34,38 +35,41 @@
                 android:id="@+id/tryRb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:background="@color/DodgerBlue"
-                android:button="null"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/round_button"
+                android:button="@null"
                 android:text="@string/currency_try"
-                android:textSize="30sp"/>
+                android:textSize="24sp"/>
 
         <RadioButton
                 android:id="@+id/eurRb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:button="null"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/round_button_transparent"
+                android:button="@null"
                 android:text="@string/currency_eur"
-                android:textSize="30sp"/>
+                android:textSize="24sp"/>
 
         <RadioButton
                 android:id="@+id/usdRb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:button="null"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/round_button_transparent"
+                android:button="@null"
                 android:text="@string/currency_usd"
-                android:textSize="30sp"/>
+                android:textSize="24sp"/>
 
         <RadioButton
                 android:id="@+id/gbpRb"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:button="null"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/round_button_transparent"
+                android:button="@null"
                 android:text="@string/currency_gbp"
-                android:textSize="30sp"/>
+                android:textSize="24sp"/>
     </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>
