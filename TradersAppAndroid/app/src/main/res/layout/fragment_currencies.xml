@@ -1,105 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context=".CurrenciesFragment" android:orientation="vertical">
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        <LinearLayout
-                android:id="@+id/layout1"
-                android:layout_weight="1"
-                android:background="@color/DarkBlue"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:gravity="center">
-
-            <Spinner
-                    android:id="@+id/currency1Spinner"
-                    android:background="@null"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-            </Spinner>
-
-            <EditText
-                    android:background="@null"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:ems="5"
-                    android:textSize="50sp"
-                    android:text=""
-                    android:hint="0"
-                    android:textColor="@color/White"
-                    android:maxLength="10"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:id="@+id/amount1"/>
-            />
-            ]
-        </LinearLayout>
-
-        <LinearLayout
-                android:id="@+id/layout2"
-                android:layout_weight="1"
-                android:background="@color/DodgerBlue"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:gravity="center">
-            <TextView
-                    android:background="@null"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="5"
-                    android:textSize="50sp"
-                    android:text="0"
-                    android:textColor="@color/White"
-                    android:maxLength="10"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:id="@+id/amount2"/>
-
-            <Spinner
-                    android:id="@+id/currency2Spinner"
-                    android:background="@null"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-            </Spinner>
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/swap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_anchor="@id/layout1"
-            app:backgroundTint="@color/DodgerBlue"
-            app:elevation="7dp"
-            android:layout_margin="20dp"
-            android:src="@drawable/swap"
-            app:layout_anchorGravity="bottom|center" />
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".Fragments.CurrenciesFragment">
 
     <TextView
-            android:id="@+id/rateText"
+            android:id="@+id/selectText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_anchor="@id/layout2"
-            android:text=""
-            android:layout_margin="30dp"
-            app:layout_anchorGravity="bottom|center"
-    />
+            android:layout_marginTop="32dp"
+            android:text="Choose your base currency"
+            android:textColor="@color/White"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/baseCurrencyRadioGroup"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent"/>
 
+    <RadioGroup
+            android:id="@+id/baseCurrencyRadioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:checkedButton="@id/tryRb"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/selectText">
 
+        <RadioButton
+                android:id="@+id/tryRb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:background="@color/DodgerBlue"
+                android:button="null"
+                android:text="@string/currency_try"
+                android:textSize="30sp"/>
 
-</android.support.design.widget.CoordinatorLayout>
+        <RadioButton
+                android:id="@+id/eurRb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:button="null"
+                android:text="@string/currency_eur"
+                android:textSize="30sp"/>
+
+        <RadioButton
+                android:id="@+id/usdRb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:button="null"
+                android:text="@string/currency_usd"
+                android:textSize="30sp"/>
+
+        <RadioButton
+                android:id="@+id/gbpRb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:button="null"
+                android:text="@string/currency_gbp"
+                android:textSize="30sp"/>
+    </RadioGroup>
+
+</android.support.constraint.ConstraintLayout>

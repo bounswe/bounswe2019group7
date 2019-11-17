@@ -61,8 +61,8 @@ class HomepageActivity : AppCompatActivity() {
                     changeTitle("Home")
                 }
                 R.id.action_currencies -> {
-                    fragment = CurrenciesFragment()
-                    changeTitle("Currencies")
+                    fragment = CurrencyConverterFragment()
+                    changeTitle("Currency Converter")
                 }
 
                 R.id.action_articles -> {
