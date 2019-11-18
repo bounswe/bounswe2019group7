@@ -63,6 +63,11 @@ interface ApiInterface {
                      @Query("otherUserEmail") otherUserEmail: StringIndexOutOfBoundsException
     ): retrofit2.Call<FollowersResponse>
 
+    @GET("user_following/get_followings")
+    fun getFollowings(@Query("Authorization") authorization: String,
+                     @Query("otherUserEmail") otherUserEmail: StringIndexOutOfBoundsException
+    ): retrofit2.Call<FollowersResponse>
+
     @Headers("Content-Type:application/json")
     @GET("user_profile/self_profile")
     fun getSelfProfileInformation(@Header("Authorization") token: String?): retrofit2.Call<SelfProfileInformationResponse>
@@ -82,7 +87,6 @@ interface ApiInterface {
     ): retrofit2.Call<ResponseBody>
 }
 
-<<<<<<< HEAD
 data class FollowersResponse(
     val email: String,
     val name: String,
