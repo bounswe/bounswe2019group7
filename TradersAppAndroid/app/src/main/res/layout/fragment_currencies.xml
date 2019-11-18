@@ -8,7 +8,7 @@
         tools:context=".Fragments.CurrenciesFragment">
 
     <TextView
-            android:id="@+id/selectText"
+            android:id="@+id/baseCurrencyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -16,7 +16,7 @@
             android:layout_marginRight="16dp"
             android:text="Choose your base currency"
             android:textColor="@color/White"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/baseCurrencyRadioGroup" app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent"/>
@@ -29,7 +29,7 @@
             android:checkedButton="@id/tryRb"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/selectText">
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/baseCurrencyText">
 
         <RadioButton
                 android:id="@+id/tryRb"
@@ -72,15 +72,71 @@
                 android:textSize="24sp"/>
     </RadioGroup>
 
-    <android.support.v7.widget.RecyclerView
+    <TextView
+            android:id="@+id/targetCurrencyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/baseCurrencyRadioGroup"
-            android:id="@+id/rwCurrencies">
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="16dp"
+            android:text="Choose your target currency"
+            android:textColor="@color/White"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/targetCurrencyRadioGroup" app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toBottomOf="@id/baseCurrencyRadioGroup"/>
+
+    <RadioGroup
+            android:id="@+id/targetCurrencyRadioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:checkedButton="@id/eurRb2"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@id/targetCurrencyText">
+
+        <RadioButton
+                android:id="@+id/tryRb2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/round_button_transparent"
+                android:button="@null"
+                android:text="@string/currency_try"
+                android:textSize="24sp"/>
+
+        <RadioButton
+                android:id="@+id/eurRb2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/round_button"
+                android:button="@null"
+                android:text="@string/currency_eur"
+                android:textSize="24sp"/>
+
+        <RadioButton
+                android:id="@+id/usdRb2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/round_button_transparent"
+                android:button="@null"
+                android:text="@string/currency_usd"
+                android:textSize="24sp"/>
+
+        <RadioButton
+                android:id="@+id/gbpRb2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/round_button_transparent"
+                android:button="@null"
+                android:text="@string/currency_gbp"
+                android:textSize="24sp"/>
+    </RadioGroup>
 
 
-    </android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

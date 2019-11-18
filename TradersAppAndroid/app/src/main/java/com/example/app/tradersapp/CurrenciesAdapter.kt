@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 
+/* This class is not used now!!! Will be deleted if it is decided that it is unnecessary!*/
 class CurrenciesAdapter(private val data: MutableList<CurrencyEntry>, context: Context) : RecyclerView.Adapter<CurrenciesAdapter.CurrencyEntryHolder>() {
 
     val mContext = context
@@ -28,6 +29,10 @@ class CurrenciesAdapter(private val data: MutableList<CurrencyEntry>, context: C
             Toast.makeText(mContext, "Follow button is clicked for " + currencyEntry.currency, Toast.LENGTH_SHORT).show();
         }
 
+        holder.itemView.setOnClickListener {
+            // TODO:  plot fragment from here.
+        }
+
     }
 
     override fun getItemCount() = data.size
@@ -38,15 +43,8 @@ class CurrenciesAdapter(private val data: MutableList<CurrencyEntry>, context: C
         val flag: ImageView = view.findViewById(R.id.flag)
         val followButton: Button = view.findViewById(R.id.followButton)
 
-
-
     }
 
-    fun removeAt(position: Int) {
-        data.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, data.size)
-    }
 
 }
 data class CurrencyEntry(val currency: String, val flagId: Int)

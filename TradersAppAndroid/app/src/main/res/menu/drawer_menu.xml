@@ -38,6 +38,12 @@
             />
 
     <item
+            android:id="@+id/action_currency_converter"
+            android:title="Currency Converter"
+            android:icon="@android:drawable/ic_dialog_info"
+    />
+
+    <item
             android:id="@+id/action_funds"
             android:title="Funds"
             android:icon="@android:drawable/ic_menu_search"
