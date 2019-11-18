@@ -3,10 +3,13 @@ package com.example.app.tradersapp.Fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import com.example.app.tradersapp.CurrenciesAdapter
+import com.example.app.tradersapp.CurrencyEntry
 
 import com.example.app.tradersapp.R
 import kotlinx.android.synthetic.main.fragment_currencies.*
@@ -14,8 +17,8 @@ import kotlinx.android.synthetic.main.fragment_currencies.*
 
 class CurrenciesFragment : Fragment() {
 
-    var baseCurrency = "TRY" // TRY is selected by default
-    var checkedButtonId = 0
+    private var baseCurrency = "TRY" // TRY is selected by default
+    private var prevCheckedId = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,21 +31,32 @@ class CurrenciesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        checkedButtonId = baseCurrencyRadioGroup.checkedRadioButtonId
 
+        var currencyEntries = ArrayList<CurrencyEntry>()
+        currencyEntries.add(CurrencyEntry("EUR", R.drawable.trading_logo))
+        currencyEntries.add(CurrencyEntry("GBP", R.drawable.trading_logo))
+        currencyEntries.add(CurrencyEntry("USD", R.drawable.trading_logo))
+        currencyEntries.add(CurrencyEntry("TRY", R.drawable.trading_logo))
+
+        rwCurrencies.layoutManager = LinearLayoutManager(context)
+        rwCurrencies.setHasFixedSize(true) //improves performance
+        rwCurrencies.adapter = context?.let { CurrenciesAdapter(currencyEntries, it) }
+
+
+        prevCheckedId = baseCurrencyRadioGroup.checkedRadioButtonId
 
         baseCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+
             val checkedButton = group.findViewById<RadioButton>(checkedId)
-            updateButtonColors(checkedButtonId, checkedButton)
-            checkedButtonId = checkedId
+            updateButtonColors(prevCheckedId, checkedButton)
+            prevCheckedId = checkedId
             baseCurrency = checkedButton.text.toString()
             //updateCurrencies()
-
 
         }
     }
 
-    private fun updateButtonColors(previousCheckedId: Int, newlyCheckedButton: RadioButton){
+    private fun updateButtonColors(previousCheckedId: Int, newlyCheckedButton: RadioButton) {
         newlyCheckedButton.background = (resources.getDrawable(R.drawable.round_button, null))
         baseCurrencyRadioGroup.findViewById<RadioButton>(previousCheckedId).background = null
     }
