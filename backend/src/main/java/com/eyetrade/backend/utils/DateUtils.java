@@ -12,7 +12,7 @@ import java.util.Date;
 @UtilityClass
 public class DateUtils {
 
-    public static String TimeFormatter(Date date,String newPattern){
+    public static String dateTimeFormatter(Date date, String newPattern){
         SimpleDateFormat formatter = new SimpleDateFormat(newPattern);
         return formatter.format(date);
     }

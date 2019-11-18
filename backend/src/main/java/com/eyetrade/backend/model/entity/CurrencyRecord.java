@@ -21,8 +21,8 @@ public class CurrencyRecord {
     @Column(name = "id", length = ID_LENGTH)
     private UUID id;
 
-    @Column(name = "timestamp")
-    private Long timestamp; // time in milliseconds
+    @Column(name = "date")
+    private String date; // time in milliseconds
 
     // Those are rates of the currencies with respect to base EUR
     // However, the base is not important in conversions

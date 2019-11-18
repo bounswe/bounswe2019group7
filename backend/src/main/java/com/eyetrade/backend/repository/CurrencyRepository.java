@@ -10,7 +10,7 @@ import java.util.UUID;
 @Repository
 public interface CurrencyRepository extends JpaRepository<CurrencyRecord, UUID> {
     @Query(
-            value = "SELECT * FROM currency_records order by timestamp desc LIMIT 1",
+            value = "SELECT * FROM currency_records order by date desc LIMIT 1",
             nativeQuery = true)
     CurrencyRecord findLastRecord();
 }

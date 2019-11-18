@@ -31,7 +31,7 @@ public class EventService {
         List<Event> events = eventRepository.findAllByOrderByAdditionDateDesc();
         for (Event event : events) {
             EventResourceInstance resource = new EventResourceInstance(event.getGuid(), event.getTitle(), event.getContent(),
-                    DateUtils.TimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
+                    DateUtils.dateTimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
                     event.getLink(), event.getScore());
             instances.add(resource);
         }
@@ -43,7 +43,7 @@ public class EventService {
     public EventResourceInstance getEvent(UUID guid) {
         Event event = eventRepository.findEventByGuid(guid);
         return new EventResourceInstance(event.getGuid(), event.getTitle(), event.getContent(),
-                DateUtils.TimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
+                DateUtils.dateTimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
                 event.getLink(), event.getScore());
     }
 
@@ -58,7 +58,7 @@ public class EventService {
         event.setGivenScoreCount(++givenScoreCount);
         eventRepository.save(event);
         return new EventResourceInstance(event.getGuid(), event.getTitle(), event.getContent(),
-                DateUtils.TimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
+                DateUtils.dateTimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
                 event.getLink(),event.getScore());
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Date;
 import java.util.UUID;
 
-import static com.eyetrade.backend.utils.DateUtils.TimeFormatter;
+import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 
 
 /**
@@ -24,7 +24,7 @@ public class UtilTests {
 
     @Test
     public void TimeFormatterTest(){
-        Assert.assertEquals(TimeFormatter(new Date(),"yyyy"),"2019");
+        Assert.assertEquals(dateTimeFormatter(new Date(),"yyyy"),"2019");
         System.out.println();
         System.out.println("\n"+new Date());
     }

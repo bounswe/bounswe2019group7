@@ -12,16 +12,22 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static com.eyetrade.backend.constants.CurrencyConstants.CURRENCY_EXPIRE_TIME;
 import static com.eyetrade.backend.constants.ErrorConstants.CURRENCIES_COULD_NOT_BE_UPDATED;
+import static com.eyetrade.backend.constants.EventConstants.DB_DATE_TIME_FORMAT;
+import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 
 @Service
 public class CurrencyRecordService {
@@ -32,10 +38,12 @@ public class CurrencyRecordService {
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    @Transactional
+    @Scheduled(cron = "0 0 4 * * ?") //scheduled of every day at 4 am.
     public CurrencyRecord getCurrencyRecord() throws IOException {
         Map<String, Number> rates = getCurrencyRates();
         CurrencyRecord record = new CurrencyRecord();
-        record.setTimestamp(new Date().getTime());
+        record.setDate(dateTimeFormatter(new Date(),DB_DATE_TIME_FORMAT));
         record.setDollarRate(rates.get(CurrencyType.USD.toString()).doubleValue());
         record.setEuroRate(rates.get(CurrencyType.EUR.toString()).doubleValue());
         record.setTurkishLiraRate(rates.get(CurrencyType.TRY.toString()).doubleValue());
@@ -62,13 +70,18 @@ public class CurrencyRecordService {
 
     public CurrencyRecord updateIfCurrenciesExpiredAndGetLastRecord(){
         CurrencyRecord record= currencyRepository.findLastRecord();
-        if(record==null || checkExpired(record.getTimestamp())){
-            try {
-                record=getCurrencyRecord();
-            } catch (IOException e) {
-                throw new RuntimeException(CURRENCIES_COULD_NOT_BE_UPDATED);
+        try{
+            if(record==null || checkExpired((new SimpleDateFormat(DB_DATE_TIME_FORMAT).parse(record.getDate())).getTime())){
+                try {
+                    record=getCurrencyRecord();
+                } catch (IOException e) {
+                    throw new RuntimeException(CURRENCIES_COULD_NOT_BE_UPDATED);
+                }
             }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
         return record;
     }
 
