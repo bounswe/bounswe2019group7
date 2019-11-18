@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
+import static com.eyetrade.backend.utils.DateUtils.getDateXDaysAgo;
 
 
 /**
@@ -27,5 +28,10 @@ public class UtilTests {
         Assert.assertEquals(dateTimeFormatter(new Date(),"yyyy"),"2019");
         System.out.println();
         System.out.println("\n"+new Date());
+    }
+
+    @Test
+    public void getDateXDaysAgoTest(){
+        System.out.println(dateTimeFormatter(getDateXDaysAgo(10),"yyyy/MM/dd"));
     }
 }

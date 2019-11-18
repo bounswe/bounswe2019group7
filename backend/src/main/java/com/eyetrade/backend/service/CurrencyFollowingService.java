@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static com.eyetrade.backend.constants.ErrorConstants.FOLLOWING_RELATION_ALREADY_EXISTS;
 import static com.eyetrade.backend.constants.ErrorConstants.NO_SUCH_FOLLOWING;
-import static com.eyetrade.backend.constants.EventConstants.DB_DATE_TIME_FORMAT;
+import static com.eyetrade.backend.constants.GeneralConstants.DB_DATE_TIME_FORMAT;
 import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 
 /**

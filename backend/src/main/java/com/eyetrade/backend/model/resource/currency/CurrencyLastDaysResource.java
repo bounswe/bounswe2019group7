@@ -18,8 +18,8 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CurrencyIntervalResource {
+public class CurrencyLastDaysResource {
     List<CurrencyConverterResource> currencyConverterResources;
     String startDate;
-    String endDate;
+    Integer dayAmount;
 }

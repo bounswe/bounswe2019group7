@@ -3,6 +3,7 @@ package com.eyetrade.backend.utils;
 import lombok.experimental.UtilityClass;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,4 +17,16 @@ public class DateUtils {
         SimpleDateFormat formatter = new SimpleDateFormat(newPattern);
         return formatter.format(date);
     }
+
+    public static Date getDateXDaysAgo(Integer days){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -days);
+        return cal.getTime();
+    }
+
+    public static String getDateXDaysAgoWithFormat(Integer days, String pattern){
+        return dateTimeFormatter(getDateXDaysAgo(days),pattern);
+    }
+
+
 }

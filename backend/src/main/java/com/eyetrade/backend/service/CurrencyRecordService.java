@@ -26,7 +26,7 @@ import java.util.Map;
 
 import static com.eyetrade.backend.constants.CurrencyConstants.CURRENCY_EXPIRE_TIME;
 import static com.eyetrade.backend.constants.ErrorConstants.CURRENCIES_COULD_NOT_BE_UPDATED;
-import static com.eyetrade.backend.constants.EventConstants.DB_DATE_TIME_FORMAT;
+import static com.eyetrade.backend.constants.GeneralConstants.DB_DATE_TIME_FORMAT;
 import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 
 @Service
