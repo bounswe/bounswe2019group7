@@ -1,148 +1,115 @@
-package com.example.app.tradersapp
+package com.example.app.tradersapp.Fragments
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.RadioButton
+import android.widget.RadioGroup
+
+import com.example.app.tradersapp.R
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import kotlinx.android.synthetic.main.fragment_currencies.*
-import kotlinx.android.synthetic.main.fragment_currencies.view.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.math.BigDecimal
-import java.math.RoundingMode
-import kotlin.properties.Delegates
+import android.support.v4.content.ContextCompat
+import android.graphics.drawable.Drawable
+import com.github.mikephil.charting.utils.Utils.getSDKInt
+import android.graphics.DashPathEffect
+import com.github.mikephil.charting.utils.Utils
+
 
 class CurrenciesFragment : Fragment() {
 
-    private var rate: Double by Delegates.notNull<Double>()
-    private var currency1 = "EUR"
-    private var currency2 = "USD"
-    private val currencies = listOf("TRY", "EUR", "USD", "GBP")
+    private var baseCurrency = "TRY"    // TRY is the base currency by default
+    private var targetCurrency = "EUR"  // EUR is the target currency by default
+    private var prevBaseId = 0
+    private var prevTargetId = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private lateinit var mChart: LineChart
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_currencies, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val currencySpinner1 = currency1Spinner   // get reference to the spinners
-        val currencySpinner2= currency2Spinner
 
-        currencySpinner1.adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, currencies)
-        currencySpinner2.adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, currencies)
+        prevBaseId = baseCurrencyRadioGroup.checkedRadioButtonId
+        prevTargetId = targetCurrencyRadioGroup.checkedRadioButtonId
 
-        // Set default currencies and request exchange rate for those
-        currencySpinner1.setSelection(1, false)
-        currencySpinner2.setSelection(2, false)
-        requestExchangeRateAndUpdateAmounts()
+        createPlot()
 
-        swap.setOnClickListener {
-            swapCurrencies()
-            updateAmounts()
-            updateRateText()
-        }
-
-        currencySpinner1.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                currency1 = currencySpinner1.getItemAtPosition(position).toString()
-                requestExchangeRateAndUpdateAmounts()
+        baseCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            val checkedButton = group.findViewById<RadioButton>(checkedId)
+            if(checkedButton.text != targetCurrency){
+                updateButtonColors(prevBaseId, checkedButton,baseCurrencyRadioGroup)
+                prevBaseId = checkedId
+                baseCurrency = checkedButton.text.toString()
+                //createPlot()
             }
 
         }
 
-        currencySpinner2.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
+        targetCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            val checkedButton = group.findViewById<RadioButton>(checkedId)
+            if(checkedButton.text != baseCurrency){
+                updateButtonColors(prevTargetId, checkedButton,targetCurrencyRadioGroup)
+                prevTargetId = checkedId
+                targetCurrency = checkedButton.text.toString()
+                //createPlot()
             }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                currency2 = currencySpinner2.getItemAtPosition(position).toString()
-                requestExchangeRateAndUpdateAmounts()
-            }
-
-        }
-
-        amount1.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                // Do nothing
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Do nothing
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                updateAmounts()
-            }
-        })
-    }
-
-    private fun requestExchangeRateAndUpdateAmounts(){
-        val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-        retrofitService.getExchangeRate(currency1, currency2, 1.0).enqueue(object: Callback<ExchangeRateResponse>{
-            override fun onFailure(call: Call<ExchangeRateResponse>, t: Throwable) {
-                Toast.makeText(
-                    activity,
-                    "Unexpected server error occurred. Please try again.",
-                    Toast.LENGTH_SHORT
-                ).show();
-            }
-
-            override fun onResponse(call: Call<ExchangeRateResponse>, response: Response<ExchangeRateResponse>) {
-                rate = response.body()?.rate ?: 1.0
-                updateAmounts()
-                updateRateText()
-            }
-        })
-    }
-
-    private fun updateAmounts(){
-        if(amount1.text == null) return
-        if(amount1.text.toString()!= ""){
-            val exchangedValue = java.lang.Double.parseDouble(amount1.text.toString()) * rate
-            amount2.text = round(exchangedValue)
-        }
-        else{
-            amount2.text = "0"
         }
     }
 
-    private fun updateRateText(){
-        rateText.text = "Exchange rate: 1 " + currency1 + " = " + round(rate) + " " + currency2
+    private fun updateButtonColors(previousCheckedId: Int, newlyCheckedButton: RadioButton, radioGroup: RadioGroup) {
+        newlyCheckedButton.background = (resources.getDrawable(R.drawable.round_button, null))
+        radioGroup.findViewById<RadioButton>(previousCheckedId).background = null
     }
 
-    private fun swapCurrencies(){
-        // Swap currencies
-        val tempCurrency = currency1
-        currency1 = currency2
-        currency2 = tempCurrency
+    private fun createPlot(){
+        mChart = chart
+        mChart.setTouchEnabled(true);
+        mChart.setPinchZoom(true);
 
-        // Reverse the exchange rate
-        rate = 1 / rate
+        val entries1 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
 
-        // Swap background colors
-        val tempBackground = layout1.background
-        layout1.background = layout2.background
-        layout2.background = tempBackground
+        val lineDataSet1 = LineDataSet(entries1, "Currency")
+        lineDataSet1.color = Color.RED
+        lineDataSet1.setDrawValues(false)
+        lineDataSet1.setAxisDependency(YAxis.AxisDependency.LEFT)
 
-        // Swap spinner selections
-        val tempSelection = currency1Spinner.selectedItemPosition
-        currency1Spinner.setSelection(currency2Spinner.selectedItemPosition)
-        currency2Spinner.setSelection(tempSelection)
+        lineDataSet1.setDrawIcons(false)
+        lineDataSet1.enableDashedLine(10f, 5f, 0f)
+        lineDataSet1.enableDashedHighlightLine(10f, 5f, 0f)
+        lineDataSet1.setColor(Color.DKGRAY)
+        lineDataSet1.setCircleColor(Color.DKGRAY)
+        lineDataSet1.setLineWidth(1f)
+        lineDataSet1.setCircleRadius(3f)
+        lineDataSet1.setDrawCircleHole(false)
+        lineDataSet1.setValueTextSize(9f)
+        lineDataSet1.setDrawFilled(true)
+        lineDataSet1.setFormLineWidth(1f)
+        lineDataSet1.setFormLineDashEffect(DashPathEffect(floatArrayOf(10f, 5f), 0f))
+        lineDataSet1.setFormSize(15f)
+        lineDataSet1.setFillColor(Color.DKGRAY)
 
+
+        val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1)
+        val lineData = LineData(lineDataSets)
+        mChart.data = lineData
+        mChart.invalidate()
     }
 
-    private fun round(number: Double): String{
-        return BigDecimal(number).setScale(2, RoundingMode.HALF_EVEN).toString()
-    }
 }

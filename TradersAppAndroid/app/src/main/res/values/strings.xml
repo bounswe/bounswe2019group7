@@ -15,6 +15,12 @@
     <string name="open_drawer">Open</string>
     <string name="close_drawer">Close</string>
 
+    <!-- Currency names -->
+    <string name="currency_try">TRY</string>
+    <string name="currency_usd">USD</string>
+    <string name="currency_eur">EUR</string>
+    <string name="currency_gbp">GBP</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_location_picker">Location</string>
