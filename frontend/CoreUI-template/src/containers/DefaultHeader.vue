@@ -22,10 +22,8 @@
       <b-nav-item class="px-3" to="/dashboard"></b-nav-item>
     </b-navbar-nav>
     <b-navbar-nav class="ml-auto">
-      <b-nav-item class="d-md-down-none">
-        <i class="icon-bell"></i>
-        <b-badge pill variant="danger"></b-badge>
-      </b-nav-item>
+
+      <NotificationHeaderDropdown />
       <DefaultHeaderDropdownAccnt />
       <b-nav-item class="d-md-down-none">
         <!-- Empty space. -->
@@ -38,6 +36,7 @@
 <script>
 import { Header as AppHeader, SidebarToggler, AsideToggler } from "@coreui/vue";
 import DefaultHeaderDropdownAccnt from "./DefaultHeaderDropdownAccnt";
+import NotificationHeaderDropdown from "./NotificationHeaderDropdown";
 
 export default {
   name: "DefaultHeader",
@@ -45,7 +44,14 @@ export default {
     AsideToggler,
     AppHeader,
     DefaultHeaderDropdownAccnt,
+    NotificationHeaderDropdown,
     SidebarToggler
-  }
+  },
+  methods: {
+        notify: function() {
+            //TODO get notifications from endpoint
+            console.log("Get notifications")
+        },
+      }
 };
 </script>

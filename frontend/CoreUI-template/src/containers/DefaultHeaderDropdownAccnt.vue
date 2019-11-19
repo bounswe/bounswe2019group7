@@ -1,7 +1,7 @@
 <template>
   <AppHeaderDropdown right no-caret>
     <template slot="header">
-      <img src="img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
+      <img src="img/avatars/user.png" class="img-avatar" />
     </template>\
     <template slot="dropdown">
       <b-dropdown-header tag="div" class="text-center">
@@ -30,9 +30,6 @@ export default {
   name: "DefaultHeaderDropdownAccnt",
   components: {
     AppHeaderDropdown
-  },
-  data: () => {
-    return { itemsCount: 42 };
   },
   methods: {
         logout: function() {
