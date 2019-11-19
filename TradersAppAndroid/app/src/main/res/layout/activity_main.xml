@@ -8,13 +8,24 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/logo"
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="30dp"
+            android:src="@drawable/eye_trade_logo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
     <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="50dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="40dp"
             android:drawableStart="@drawable/ic_email_black_24dp"
             android:drawableLeft="@drawable/ic_email_black_24dp"
@@ -24,7 +35,7 @@
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/logo" />
 
     <EditText
             android:id="@+id/password"
