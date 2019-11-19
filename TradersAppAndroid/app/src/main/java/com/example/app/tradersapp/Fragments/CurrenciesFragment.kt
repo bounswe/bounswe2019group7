@@ -85,7 +85,7 @@ class CurrenciesFragment : Fragment() {
 
         val entries1 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
 
-        val lineDataSet1 = LineDataSet(entries1, "Company 1")
+        val lineDataSet1 = LineDataSet(entries1, "Currency")
         lineDataSet1.color = Color.RED
         lineDataSet1.setDrawValues(false)
         lineDataSet1.setAxisDependency(YAxis.AxisDependency.LEFT)
