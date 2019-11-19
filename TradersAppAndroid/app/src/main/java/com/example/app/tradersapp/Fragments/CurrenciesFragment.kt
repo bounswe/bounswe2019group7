@@ -18,6 +18,11 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import kotlinx.android.synthetic.main.fragment_currencies.*
+import android.support.v4.content.ContextCompat
+import android.graphics.drawable.Drawable
+import com.github.mikephil.charting.utils.Utils.getSDKInt
+import android.graphics.DashPathEffect
+import com.github.mikephil.charting.utils.Utils
 
 
 class CurrenciesFragment : Fragment() {
@@ -79,19 +84,29 @@ class CurrenciesFragment : Fragment() {
         mChart.setPinchZoom(true);
 
         val entries1 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
-        val entries2 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
 
         val lineDataSet1 = LineDataSet(entries1, "Company 1")
         lineDataSet1.color = Color.RED
         lineDataSet1.setDrawValues(false)
         lineDataSet1.setAxisDependency(YAxis.AxisDependency.LEFT)
 
-        val lineDataSet2 = LineDataSet(entries2, "Company 2")
-        lineDataSet2.color = Color.BLUE
-        lineDataSet1.setDrawValues(false)
-        lineDataSet2.setAxisDependency(YAxis.AxisDependency.LEFT)
+        lineDataSet1.setDrawIcons(false)
+        lineDataSet1.enableDashedLine(10f, 5f, 0f)
+        lineDataSet1.enableDashedHighlightLine(10f, 5f, 0f)
+        lineDataSet1.setColor(Color.DKGRAY)
+        lineDataSet1.setCircleColor(Color.DKGRAY)
+        lineDataSet1.setLineWidth(1f)
+        lineDataSet1.setCircleRadius(3f)
+        lineDataSet1.setDrawCircleHole(false)
+        lineDataSet1.setValueTextSize(9f)
+        lineDataSet1.setDrawFilled(true)
+        lineDataSet1.setFormLineWidth(1f)
+        lineDataSet1.setFormLineDashEffect(DashPathEffect(floatArrayOf(10f, 5f), 0f))
+        lineDataSet1.setFormSize(15f)
+        lineDataSet1.setFillColor(Color.DKGRAY)
 
-        val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1, lineDataSet2)
+
+        val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1)
         val lineData = LineData(lineDataSets)
         mChart.data = lineData
         mChart.invalidate()
