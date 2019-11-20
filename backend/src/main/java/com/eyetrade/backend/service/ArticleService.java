@@ -82,6 +82,7 @@ public class ArticleService {
         }else{
             article.setTitle(articleDto.getTitle());
             article.setContent(articleDto.getContent());
+            article.setContentAbstract(articleDto.getContentAbstract());
             article.setLastChangeDate(Calendar.getInstance().getTime());
             articleRepository.save(article);
             return ArticleMapper.entityToArticleResource(article);

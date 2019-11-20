@@ -10,6 +10,7 @@ public class ArticleMapper {
         Article article = new Article();
         article.setTitle(articleDto.getTitle());
         article.setContent(articleDto.getContent());
+        article.setContentAbstract(articleDto.getContentAbstract());
         article.setAuthorEmail(articleDto.getAuthorEmail());
         article.setAuthorName(articleDto.getAuthorName());
         article.setAuthorSurname(articleDto.getAuthorSurname());
@@ -20,6 +21,7 @@ public class ArticleMapper {
         ArticleResource articleResource = new ArticleResource();
         articleResource.setTitle(article.getTitle());
         articleResource.setContent(article.getContent());
+        articleResource.setContentAbstract(article.getContentAbstract());
         articleResource.setStringDate(article.getAdditionDate().toString());
         articleResource.setScore(article.getScore());
         articleResource.setUuid(article.getId());
