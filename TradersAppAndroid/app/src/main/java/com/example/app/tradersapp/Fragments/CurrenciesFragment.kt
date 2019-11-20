@@ -80,8 +80,15 @@ class CurrenciesFragment : Fragment() {
 
     private fun createPlot(){
         mChart = chart
-        mChart.setTouchEnabled(true);
-        mChart.setPinchZoom(true);
+        mChart.setTouchEnabled(true)
+        mChart.setPinchZoom(true)
+
+        mChart.legend.textColor = Color.WHITE
+        mChart.description.isEnabled = false
+
+        mChart.xAxis.textColor = Color.WHITE
+        mChart.axisLeft.textColor = Color.WHITE
+        mChart.axisRight.textColor = Color.WHITE
 
         val entries1 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
 
@@ -93,8 +100,8 @@ class CurrenciesFragment : Fragment() {
         lineDataSet1.setDrawIcons(false)
         lineDataSet1.enableDashedLine(10f, 5f, 0f)
         lineDataSet1.enableDashedHighlightLine(10f, 5f, 0f)
-        lineDataSet1.setColor(Color.DKGRAY)
-        lineDataSet1.setCircleColor(Color.DKGRAY)
+        lineDataSet1.setColor(Color.WHITE)
+        lineDataSet1.setCircleColor(Color.WHITE)
         lineDataSet1.setLineWidth(1f)
         lineDataSet1.setCircleRadius(3f)
         lineDataSet1.setDrawCircleHole(false)
@@ -103,7 +110,8 @@ class CurrenciesFragment : Fragment() {
         lineDataSet1.setFormLineWidth(1f)
         lineDataSet1.setFormLineDashEffect(DashPathEffect(floatArrayOf(10f, 5f), 0f))
         lineDataSet1.setFormSize(15f)
-        lineDataSet1.setFillColor(Color.DKGRAY)
+        lineDataSet1.setFillColor(Color.WHITE)
+        lineDataSet1.setValueTextColors(mutableListOf(Color.WHITE))
 
 
         val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1)

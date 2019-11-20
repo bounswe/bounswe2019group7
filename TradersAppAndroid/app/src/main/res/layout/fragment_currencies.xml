@@ -39,7 +39,7 @@
                 android:background="@drawable/round_button"
                 android:button="@null"
                 android:text="@string/currency_try"
-                android:textSize="24sp"/>
+                android:textSize="18sp" />
 
         <RadioButton
                 android:id="@+id/eurRb"
@@ -49,7 +49,7 @@
                 android:background="@drawable/round_button_transparent"
                 android:button="@null"
                 android:text="@string/currency_eur"
-                android:textSize="24sp"/>
+                android:textSize="18sp" />
 
         <RadioButton
                 android:id="@+id/usdRb"
@@ -59,7 +59,7 @@
                 android:background="@drawable/round_button_transparent"
                 android:button="@null"
                 android:text="@string/currency_usd"
-                android:textSize="24sp"/>
+                android:textSize="18sp" />
 
         <RadioButton
                 android:id="@+id/gbpRb"
@@ -69,7 +69,7 @@
                 android:background="@drawable/round_button_transparent"
                 android:button="@null"
                 android:text="@string/currency_gbp"
-                android:textSize="24sp"/>
+                android:textSize="18sp" />
     </RadioGroup>
 
     <TextView
@@ -104,7 +104,7 @@
                 android:background="@drawable/round_button_transparent"
                 android:button="@null"
                 android:text="@string/currency_try"
-                android:textSize="24sp"/>
+                android:textSize="18sp" />
 
         <RadioButton
                 android:id="@+id/eurRb2"
@@ -114,7 +114,7 @@
                 android:background="@drawable/round_button"
                 android:button="@null"
                 android:text="@string/currency_eur"
-                android:textSize="24sp"/>
+                android:textSize="18sp" />
 
         <RadioButton
                 android:id="@+id/usdRb2"
@@ -124,7 +124,7 @@
                 android:background="@drawable/round_button_transparent"
                 android:button="@null"
                 android:text="@string/currency_usd"
-                android:textSize="24sp"/>
+                android:textSize="18sp" />
 
         <RadioButton
                 android:id="@+id/gbpRb2"
@@ -134,7 +134,7 @@
                 android:background="@drawable/round_button_transparent"
                 android:button="@null"
                 android:text="@string/currency_gbp"
-                android:textSize="24sp"/>
+                android:textSize="18sp" />
     </RadioGroup>
 
     <com.github.mikephil.charting.charts.LineChart

@@ -7,5 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="Widget.AppCompat.Button.Colored" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/White</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+    </style>
 
 </resources>

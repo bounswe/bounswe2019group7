@@ -115,26 +115,24 @@
             android:background="#A9A9A9" />
 
     <Button
-      android:id="@+id/follow"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/line"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="10dp"
-      android:background="@drawable/round_button"
-      android:text="Follow me"
-      android:textColor="#ffff" />
+            android:id="@+id/follow"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Follow me" />
 
     <Button
-        android:id="@+id/updateProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/follow"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/round_button"
-        android:text="Update Profile"
-        android:textColor="#ffff" />
+            android:id="@+id/updateProfile"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/follow"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Update Profile" />
 
 </RelativeLayout>
 
