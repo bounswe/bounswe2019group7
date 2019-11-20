@@ -38,7 +38,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         pickLocationButton.setOnClickListener{
-            if(country.isNullOrBlank()){
+            if(loc == null){
                 Toast.makeText(this, "Please select a valid location", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -59,6 +59,7 @@ class LocationPickerActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mMap.setOnMapClickListener {
             mMap.clear()
+            loc = it
             val gcd = Geocoder(this, Locale.ENGLISH)
             val addresses = gcd.getFromLocation(it.latitude, it.longitude, 1)
             if (addresses.size > 0) {
