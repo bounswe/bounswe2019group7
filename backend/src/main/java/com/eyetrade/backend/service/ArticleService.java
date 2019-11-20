@@ -31,9 +31,29 @@ public class ArticleService {
         return  new ArticlesResource(resources);
     }
 
+    public ArticlesResource getTopArticles(){
+        List<ArticleResource> resources = new ArrayList<ArticleResource>();
+        List<Article> articles = articleRepository.findAllByOrOrderByScoreDesc();
+
+        for(Article article: articles){
+            resources.add(ArticleMapper.entityToArticleResource(article));
+        }
+        return  new ArticlesResource(resources);
+    }
+
     public ArticlesResource getArticles(String userEmail){
         List<ArticleResource> resources = new ArrayList<ArticleResource>();
         List<Article> articles = articleRepository.findAllByAuthorEmailOrderByAdditionDateDesc(userEmail);
+
+        for (Article article: articles){
+            resources.add(ArticleMapper.entityToArticleResource(article));
+        }
+        return new ArticlesResource(resources);
+    }
+
+    public ArticlesResource getTopArticles(String userEmail){
+        List<ArticleResource> resources = new ArrayList<ArticleResource>();
+        List<Article> articles = articleRepository.findAllByAuthorEmailOrOrderByScoreDesc(userEmail);
 
         for (Article article: articles){
             resources.add(ArticleMapper.entityToArticleResource(article));
