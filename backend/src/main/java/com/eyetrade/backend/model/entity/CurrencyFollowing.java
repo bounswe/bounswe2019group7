@@ -35,6 +35,6 @@ public class CurrencyFollowing {
     private CurrencyType baseCurrencyType;
 
     @NotNull
-    @Column(name = "timestamp")
-    private Long timestamp;
+    @Column(name = "Date")
+    private String followingDate;
 }

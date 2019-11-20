@@ -1,7 +1,11 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.model.dto.currency.CurrencyConverterDto;
+import com.eyetrade.backend.model.dto.currency.CurrencyConverterIntervalDto;
+import com.eyetrade.backend.model.dto.currency.CurrencyConverterLastDaysDto;
 import com.eyetrade.backend.model.resource.currency.CurrencyConverterResource;
+import com.eyetrade.backend.model.resource.currency.CurrencyIntervalResource;
+import com.eyetrade.backend.model.resource.currency.CurrencyLastDaysResource;
 import com.eyetrade.backend.service.CurrencyConverterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,4 +34,15 @@ public class CurrencyController {
         return ResponseEntity.ok(result);
     }
 
+    @ApiOperation(value = "Takes the currency rates between two dates, target currency, amount of source currency; then it turns list of exchange rate and amounts", response = CurrencyIntervalResource.class)
+    @GetMapping("/take-rates-between-dates")
+    public ResponseEntity<CurrencyIntervalResource> convertCurrency(CurrencyConverterIntervalDto dto) {
+        return ResponseEntity.ok(currencyConverterService.findRateBetweenDates(dto));
+    }
+
+    @ApiOperation(value = "Takes the currency rates last X days, with target currency, amount of source currency; then it turns list of exchange rate and amounts", response = CurrencyIntervalResource.class)
+    @GetMapping("/take-rates-last-days")
+    public ResponseEntity<CurrencyLastDaysResource> convertCurrency(CurrencyConverterLastDaysDto dto) {
+        return ResponseEntity.ok(currencyConverterService.findRateLastDays(dto));
+    }
 }

@@ -47,7 +47,7 @@ public class RegistrationService {
     }
 
     @Transactional
-    private CompleteUserResource save(User user) {
+    public CompleteUserResource save(User user) {
         userRepository.saveAndFlush(user);
         // TODO: Sending email generates errors for now, so I commented it
         //confirmationTokenService.sendActivationToken(user);
