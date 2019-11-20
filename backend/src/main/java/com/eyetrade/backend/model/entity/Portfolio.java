@@ -22,7 +22,4 @@ public class Portfolio {
 
     @Column(name = "owner_id")
     private String ownerID;
-
-    @Column(name = "currencies")
-    private String currencies;
 }

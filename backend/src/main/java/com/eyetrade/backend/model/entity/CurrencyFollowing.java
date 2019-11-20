@@ -37,4 +37,8 @@ public class CurrencyFollowing {
     @NotNull
     @Column(name = "Date")
     private String followingDate;
+
+    @Column(name = "portfolio_id")
+    private String portfolioID;
+
 }
