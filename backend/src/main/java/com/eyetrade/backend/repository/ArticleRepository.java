@@ -16,9 +16,9 @@ public interface ArticleRepository extends JpaRepository<Article, UUID> {
 
     List<Article> findAllByOrderByAdditionDateDesc();
 
-    List<Article> findAllByOrOrderByScoreDesc();
+    List<Article> findAllByOrderByScoreDesc();
 
     List<Article> findAllByAuthorEmailOrderByAdditionDateDesc(String authorEmail);
 
-    List<Article> findAllByAuthorEmailOrOrderByScoreDesc(String authorEMail);
+    List<Article> findAllByAuthorEmailOrderByScoreDesc(String authorEMail);
 }

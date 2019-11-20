@@ -33,7 +33,7 @@ public class ArticleService {
 
     public ArticlesResource getTopArticles(){
         List<ArticleResource> resources = new ArrayList<ArticleResource>();
-        List<Article> articles = articleRepository.findAllByOrOrderByScoreDesc();
+        List<Article> articles = articleRepository.findAllByOrderByScoreDesc();
 
         for(Article article: articles){
             resources.add(ArticleMapper.entityToArticleResource(article));
@@ -53,7 +53,7 @@ public class ArticleService {
 
     public ArticlesResource getTopArticles(String userEmail){
         List<ArticleResource> resources = new ArrayList<ArticleResource>();
-        List<Article> articles = articleRepository.findAllByAuthorEmailOrOrderByScoreDesc(userEmail);
+        List<Article> articles = articleRepository.findAllByAuthorEmailOrderByScoreDesc(userEmail);
 
         for (Article article: articles){
             resources.add(ArticleMapper.entityToArticleResource(article));
