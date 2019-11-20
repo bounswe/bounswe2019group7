@@ -13,6 +13,7 @@ import com.example.app.tradersapp.Fragments.EventArticleFragment
 import com.example.app.tradersapp.Fragments.HomeFragment
 import com.example.app.tradersapp.Fragments.ProfileFragment
 import kotlinx.android.synthetic.main.activity_homepage.*
+import kotlinx.android.synthetic.main.activity_homepage.view.*
 import java.util.*
 
 
@@ -109,6 +110,10 @@ class HomepageActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        if(drawer_layout.isDrawerOpen(GravityCompat.START)){
+            drawer_layout.closeDrawer(GravityCompat.START)
+            return
+        }
         super.onBackPressed()
         if(recentItemIds.empty()) return
         recentTitles.pop()
