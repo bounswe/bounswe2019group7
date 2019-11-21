@@ -103,6 +103,12 @@ class HomepageActivity : AppCompatActivity() {
             drawer_layout.closeDrawer(GravityCompat.START)
             true
         }
+
+        // Default fragment
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.nav_host_fragment, HomeFragment())
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun changeTitle(s: String) {
