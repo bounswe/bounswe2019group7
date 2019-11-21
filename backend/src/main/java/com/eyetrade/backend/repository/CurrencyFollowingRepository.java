@@ -13,4 +13,5 @@ public interface CurrencyFollowingRepository extends JpaRepository<CurrencyFollo
 
     boolean existsByBaseCurrencyTypeAndFollower(CurrencyType type,User follower);
     CurrencyFollowing findByFollower(User follower);
+    CurrencyFollowing findByPortfolioID(String portfolioID);
 }

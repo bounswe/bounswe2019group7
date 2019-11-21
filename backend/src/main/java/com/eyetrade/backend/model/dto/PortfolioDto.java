@@ -10,5 +10,4 @@ import lombok.ToString;
 public class PortfolioDto {
     public String name;
     public String ownerID;
-    public String currencies;
 }

@@ -69,4 +69,19 @@ public class CurrencyFollowingService {
                 baseRate/record.getEuroRate(),
                 baseRate/record.getSterlingRate());
     }
+
+    @Transactional
+    public CurrencyFollowingResource getFollowings(String portfolioID){
+        CurrencyFollowing relation=followingRepository.findByPortfolioID(portfolioID);
+        if (relation==null){
+            throw new NoSuchElementException(NO_SUCH_FOLLOWING);
+        }
+        CurrencyRecord record=currencyRecordService.updateIfCurrenciesExpiredAndGetLastRecord();
+        Double baseRate=converterService.findRate(relation.getBaseCurrencyType(),record);
+        return new CurrencyFollowingResource(
+                baseRate/record.getTurkishLiraRate(),
+                baseRate/record.getDollarRate(),
+                baseRate/record.getEuroRate(),
+                baseRate/record.getSterlingRate());
+    }
 }
