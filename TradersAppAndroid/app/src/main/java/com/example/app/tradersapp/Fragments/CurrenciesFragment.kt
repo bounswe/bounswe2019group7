@@ -86,24 +86,26 @@ class CurrenciesFragment : Fragment() {
         val entries1 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
 
         val lineDataSet1 = LineDataSet(entries1, "Currency")
-        lineDataSet1.color = Color.RED
-        lineDataSet1.setDrawValues(false)
-        lineDataSet1.setAxisDependency(YAxis.AxisDependency.LEFT)
+        lineDataSet1.apply{
+            color = Color.RED
+            setDrawValues(false)
+            axisDependency = YAxis.AxisDependency.LEFT
+            setDrawIcons(false)
+            enableDashedLine(10f, 5f, 0f)
+            enableDashedHighlightLine(10f, 5f, 0f)
+            color = Color.DKGRAY
+            setCircleColor(Color.DKGRAY)
+            lineWidth = 1f
+            circleRadius = 3f
+            setDrawCircleHole(false)
+            valueTextSize = 9f
+            setDrawFilled(true)
+            formLineWidth = 1f
+            formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
+            formSize = 15f
+            fillColor = Color.DKGRAY
 
-        lineDataSet1.setDrawIcons(false)
-        lineDataSet1.enableDashedLine(10f, 5f, 0f)
-        lineDataSet1.enableDashedHighlightLine(10f, 5f, 0f)
-        lineDataSet1.setColor(Color.DKGRAY)
-        lineDataSet1.setCircleColor(Color.DKGRAY)
-        lineDataSet1.setLineWidth(1f)
-        lineDataSet1.setCircleRadius(3f)
-        lineDataSet1.setDrawCircleHole(false)
-        lineDataSet1.setValueTextSize(9f)
-        lineDataSet1.setDrawFilled(true)
-        lineDataSet1.setFormLineWidth(1f)
-        lineDataSet1.setFormLineDashEffect(DashPathEffect(floatArrayOf(10f, 5f), 0f))
-        lineDataSet1.setFormSize(15f)
-        lineDataSet1.setFillColor(Color.DKGRAY)
+        }
 
 
         val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1)
