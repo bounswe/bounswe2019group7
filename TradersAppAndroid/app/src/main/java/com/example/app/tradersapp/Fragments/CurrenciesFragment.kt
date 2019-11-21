@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 
-import com.example.app.tradersapp.R
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -22,7 +21,13 @@ import android.support.v4.content.ContextCompat
 import android.graphics.drawable.Drawable
 import com.github.mikephil.charting.utils.Utils.getSDKInt
 import android.graphics.DashPathEffect
+import android.widget.Toast
+import com.example.app.tradersapp.*
 import com.github.mikephil.charting.utils.Utils
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.properties.Delegates
 
 
 class CurrenciesFragment : Fragment() {
@@ -33,6 +38,7 @@ class CurrenciesFragment : Fragment() {
     private var prevTargetId = 0
 
     private lateinit var mChart: LineChart
+    private var mPastExchangeRates: ArrayList<PastExchangeRateInfo> by Delegates.notNull<ArrayList<PastExchangeRateInfo>>()
 
 
     override fun onCreateView(
@@ -76,6 +82,28 @@ class CurrenciesFragment : Fragment() {
     private fun updateButtonColors(previousCheckedId: Int, newlyCheckedButton: RadioButton, radioGroup: RadioGroup) {
         newlyCheckedButton.background = (resources.getDrawable(R.drawable.round_button, null))
         radioGroup.findViewById<RadioButton>(previousCheckedId).background = null
+    }
+
+    private fun requestPastRates(lastdays: Int, sourceCurrency: String, targetCurrency: String){
+        val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+        retrofitService.getExchangeRateForPastDays(1f, lastdays, sourceCurrency, targetCurrency).enqueue(object: Callback<ExchangeRatePastDaysResponse>{
+            override fun onFailure(call: Call<ExchangeRatePastDaysResponse>, t: Throwable) {
+                Toast.makeText(
+                    activity,
+                    "Unexpected server error occurred. Please try again.",
+                    Toast.LENGTH_SHORT
+                ).show();
+            }
+
+            override fun onResponse(
+                call: Call<ExchangeRatePastDaysResponse>,
+                response: Response<ExchangeRatePastDaysResponse>
+            ) {
+                // If there is a response, update the list, else, keep it as it is
+                mPastExchangeRates = response.body()?.pastExchangeRates ?: mPastExchangeRates
+            }
+
+        })
     }
 
     private fun createPlot(){
