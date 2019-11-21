@@ -1,5 +1,6 @@
 package com.example.app.tradersapp
 
+import com.google.gson.annotations.SerializedName
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -55,6 +56,12 @@ interface ApiInterface {
     fun getExchangeRate(@Query("inputCurrencyType") currency1: String,
                         @Query("outputCurrencyType") currency2: String,
                         @Query("amount") amount: Double = 1.0): retrofit2.Call<ExchangeRateResponse>
+
+    @GET("currency/take-rates-last-days")
+    fun getExchangeRateForPastDays(@Query("number") amount: Float,
+                                   @Query("lastDays") lastDays: Int,
+                                   @Query("sourceCurrencyType") sourceCurrency: String,
+                                   @Query("targetCurrencyType") targetCurrency: String): retrofit2.Call<ExchangeRatePastDaysResponse>
 
     @Headers("Content-Type:application/json")
     @GET("user_profile/self_profile")
@@ -112,6 +119,18 @@ data class ExchangeRateResponse(
     val rate: Double
 )
 
+data class ExchangeRatePastDaysResponse(
+    @SerializedName("currencyConverterResources")
+    val pastExchangeRates: ArrayList<PastExchangeRateInfo>,
+    val startDate: String
+
+)
+
+data class PastExchangeRateInfo(
+    val amount: Double,  // actually we don't need this at all, can be removed later if it's possible
+    val rate: Double,
+    val date: String
+)
 data class SelfProfileInformationResponse(
     val name: String,
     val surname: String,
