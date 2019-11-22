@@ -1,5 +1,6 @@
 package com.example.app.tradersapp
 
+import com.google.gson.annotations.SerializedName
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -73,6 +74,34 @@ interface ApiInterface {
         @Header("Authorization") token: String?,
         @Body info: TraderUserInformation
     ): retrofit2.Call<ResponseBody>
+
+    @GET("article/article")
+    fun getArticleById(@Query("id") articleId: String): retrofit2.Call<ArticleResponse>
+
+    @GET("article/articles")
+    fun getAllArticles(): retrofit2.Call<ArticlesListResponse>
+
+    @GET("article/self_articles")
+    fun getSelfArticles(@Header("Authorization") token: String?,
+                        @Query("selfEmail") email: String): retrofit2.Call<ArticlesListResponse>
+
+    @GET("article/user_articles")
+    fun getUserArticles(@Query("userEmail") email: String): retrofit2.Call<ArticlesListResponse>
+
+    @POST("article/create")
+    fun createArticle(@Header("Authorization") token: String?,
+                      @Body info: ArticleInformation): retrofit2.Call<ArticleResponse>
+
+    @POST("article/give_point")
+    fun givePointToArticle(@Header("Authorization") token: String?,
+                           @Query("articleID") articleId: String,
+                           @Query("score") score: Double): retrofit2.Call<ArticleResponse>
+
+    @POST("article/update")
+    fun updateArticle(@Header("Authorization") token: String?,
+                      @Body info: ArticleInformation,
+                      @Query("articleID") articleId: String): retrofit2.Call<ArticleResponse>
+
 }
 
 data class BasicUserInformation(
@@ -104,6 +133,14 @@ data class LoginInformation(
     val password: String
 )
 
+data class ArticleInformation(
+    val authorEmail: String,
+    val authorName: String,
+    val authorSurname: String,
+    val content: String,
+    val title: String
+)
+
 data class LoginResponse(
     val token: String
 )
@@ -127,4 +164,20 @@ data class SelfProfileInformationResponse(
     val privacyType: String,
     val followerCount: Int,
     val followingCount: Int
+)
+
+data class ArticlesListResponse(
+    @SerializedName("articles")
+    val allArticles: ArrayList<ArticleResponse>
+)
+
+data class ArticleResponse(
+    val authorEmail: String,
+    val authorName: String,
+    val authorSurname: String,
+    val changeDate: String,
+    val content: String,
+    val score: Double,
+    val title: String,
+    val uuid: String
 )
