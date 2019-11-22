@@ -17,6 +17,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+            android:id="@+id/articleAuthorName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Author: "
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@id/eaImage"
+            app:layout_constraintRight_toRightOf="@id/eaImage"
+            app:layout_constraintTop_toBottomOf="@id/eaImage"/>
+
+    <TextView
             android:id="@+id/eaTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -37,10 +48,13 @@
             android:layout_marginStart="18dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="18dp"
+            android:layout_marginBottom="32dp"
+            android:ellipsize="end"
+            android:maxLines="15"
             android:text="Event or article preview"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/eaImage"
-            app:layout_constraintTop_toBottomOf="@+id/eaTitle" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/eaImage"
+            app:layout_constraintTop_toBottomOf="@+id/eaTitle"/>
 
 </android.support.constraint.ConstraintLayout>
