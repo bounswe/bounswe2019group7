@@ -5,9 +5,15 @@
         <b-card-body class="p-5 clearfix">
           <b-row>
             <b-col sm="4">
-              <img src="img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
-              <div class="h2 text-primary mb-0 mt-2">Name Surname</div>
-              <div class="text-muted text-uppercase font-weight-bold font-xs">(Required information)</div>
+              <img
+                src="img/avatars/user.png"
+                class="img-avatar"
+                alt="admin@bootstrapmaster.com"
+              />
+              <div class="h2 text-primary mb-0 mt-2">{{ info }}</div>
+              <div class="text-muted text-uppercase font-weight-bold font-xs">
+                (Required information)
+              </div>
             </b-col>
             <b-col sm="4">
               <b-card>
@@ -15,11 +21,19 @@
                   <i class="icon-pie-chart"></i>
                 </div>
                 <div class="h4 mb-0">28%</div>
-                <small class="text-muted text-uppercase font-weight-bold">Prediction Success Rate</small>
-                <b-progress height="{}" class="progress-xs mt-3 mb-0" :value="25" />
+                <small class="text-muted text-uppercase font-weight-bold"
+                  >Prediction Success Rate</small
+                >
+                <b-progress
+                  height="{}"
+                  class="progress-xs mt-3 mb-0"
+                  :value="25"
+                />
               </b-card>
               <b-button size="lg" variant="primary" block>Portfolios</b-button>
-              <b-button size="lg" variant="primary" block>Create an Alarm</b-button>
+              <b-button size="lg" variant="primary" block
+                >Create an Alarm</b-button
+              >
             </b-col>
             <b-col sm="4">
               <b-button size="lg" variant="primary" block>Follow</b-button>
@@ -28,7 +42,9 @@
                 <div class="brand-card-header bg-twitter">
                   <i class="fa fa-eye"></i>
                   <div class="chart-wrapper">
-                    <social-box-chart-example :data="[65, 59, 84, 84, 51, 55, 40]" />
+                    <social-box-chart-example
+                      :data="[65, 59, 84, 84, 51, 55, 40]"
+                    />
                   </div>
                 </div>
                 <div class="brand-card-body">
@@ -53,12 +69,19 @@
           <b-tabs>
             <b-tab title="Articles" active>
               <b-col lg="12">
-                <c-table :table-data="items" :fields="fields" caption="Article Tables">
+                <c-table
+                  :table-data="items"
+                  :fields="fields"
+                  caption="Article Tables"
+                >
                   <template v-slot:cell(details)="data">
                     <!-- `data.value` is the value after formatted by the Formatter -->
                     <a
-                      :href="`#${data.value.replace(/[^a-z]+/i,'-').toLowerCase()}`"
-                    >{{ data.value }}</a>
+                      :href="
+                        `#${data.value.replace(/[^a-z]+/i, '-').toLowerCase()}`
+                      "
+                      >{{ data.value }}</a
+                    >
                   </template>
                 </c-table>
               </b-col>
@@ -164,7 +187,8 @@ export default {
         { key: "description" },
         { key: "publishDate", label: "Publish Date" },
         { key: "details", label: "See Details", formatter: "fullName" }
-      ]
+      ],
+      info: null
     };
   },
   components: {
@@ -175,6 +199,20 @@ export default {
     click() {
       // do nothing
     }
+  },
+  mounted() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    this.$http
+      .get("http://100.26.202.213:8080/user_profile/self_profile", 1)
+      .then(
+        response => {
+          info = response.name;
+        },
+        error => {
+          console.log("eerror");
+        }
+      );
   }
 };
 </script>
