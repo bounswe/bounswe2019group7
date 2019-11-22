@@ -2,6 +2,7 @@ package com.example.app.tradersapp.Fragments
 
 
 import android.graphics.Color
+import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-
+import android.widget.Toast
+import com.example.app.tradersapp.*
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -17,17 +19,9 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import kotlinx.android.synthetic.main.fragment_currencies.*
-import android.support.v4.content.ContextCompat
-import android.graphics.drawable.Drawable
-import com.github.mikephil.charting.utils.Utils.getSDKInt
-import android.graphics.DashPathEffect
-import android.widget.Toast
-import com.example.app.tradersapp.*
-import com.github.mikephil.charting.utils.Utils
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.properties.Delegates
 
 
 class CurrenciesFragment : Fragment() {
@@ -105,15 +99,11 @@ class CurrenciesFragment : Fragment() {
                 mPlotEntries = mPastExchangeRates.mapIndexed { index, pastExchangeRateInfo ->
                     Entry(index.toFloat(), pastExchangeRateInfo.rate )
                 }
-                if(::mChart.isInitialized){
-                    updatePlot()
-                }
-                else{
+                if(!::mChart.isInitialized){
                     createPlot()
                 }
-
+                updatePlot()
             }
-
         })
     }
 
@@ -122,12 +112,19 @@ class CurrenciesFragment : Fragment() {
         mChart.setTouchEnabled(true);
         mChart.setPinchZoom(true);
 
-        //val entries1 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
+        mChart.legend.textColor = Color.WHITE
+        mChart.description.isEnabled = false
 
+        mChart.xAxis.textColor = Color.WHITE
+        mChart.axisLeft.textColor = Color.WHITE
+        mChart.axisRight.textColor = Color.WHITE
 
-        val lineDataSet1 = LineDataSet(mPlotEntries, "Currency")
+    }
+
+    private fun updatePlot(){
+        val lineDataSet1 = LineDataSet(mPlotEntries, "$baseCurrency - $targetCurrency")
         lineDataSet1.apply{
-            color = Color.WHITE
+            color = Color.RED
             setDrawValues(false)
             axisDependency = YAxis.AxisDependency.LEFT
             setDrawIcons(false)
@@ -144,17 +141,9 @@ class CurrenciesFragment : Fragment() {
             formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
             formSize = 15f
             fillColor = Color.WHITE
+            setValueTextColors(mutableListOf(Color.WHITE))
         }
 
-
-        val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1)
-        val lineData = LineData(lineDataSets)
-        mChart.data = lineData
-        mChart.invalidate()
-    }
-
-    private fun updatePlot(){
-        val lineDataSet1 = LineDataSet(mPlotEntries, "Currency")
         val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1)
         val lineData = LineData(lineDataSets)
         mChart.data = lineData
