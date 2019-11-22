@@ -58,7 +58,7 @@ interface ApiInterface {
                         @Query("amount") amount: Double = 1.0): retrofit2.Call<ExchangeRateResponse>
 
     @GET("currency/take-rates-last-days")
-    fun getExchangeRateForPastDays(@Query("number") amount: Float,
+    fun getExchangeRateForPastDays(@Query("amount") amount: Float,
                                    @Query("lastDays") lastDays: Int,
                                    @Query("sourceCurrencyType") sourceCurrency: String,
                                    @Query("targetCurrencyType") targetCurrency: String): retrofit2.Call<ExchangeRatePastDaysResponse>
@@ -128,7 +128,7 @@ data class ExchangeRatePastDaysResponse(
 
 data class PastExchangeRateInfo(
     val amount: Double,  // actually we don't need this at all, can be removed later if it's possible
-    val rate: Double,
+    val rate: Float,
     val date: String
 )
 data class SelfProfileInformationResponse(

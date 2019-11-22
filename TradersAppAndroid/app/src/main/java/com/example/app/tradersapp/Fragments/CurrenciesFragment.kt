@@ -38,8 +38,9 @@ class CurrenciesFragment : Fragment() {
     private var prevTargetId = 0
 
     private lateinit var mChart: LineChart
-    private var mPastExchangeRates: ArrayList<PastExchangeRateInfo> by Delegates.notNull<ArrayList<PastExchangeRateInfo>>()
-
+    private var mPastExchangeRates = MutableList(3) { index -> PastExchangeRateInfo(1.0,5f, "dsjd") }
+   // private var mPastExchangeRates: MutableList<PastExchangeRateInfo> by Delegates.notNull<MutableList<PastExchangeRateInfo>>()
+    private lateinit var mPlotEntries: List<Entry>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +56,7 @@ class CurrenciesFragment : Fragment() {
         prevBaseId = baseCurrencyRadioGroup.checkedRadioButtonId
         prevTargetId = targetCurrencyRadioGroup.checkedRadioButtonId
 
-        createPlot()
+        requestPastRates(2, baseCurrency, targetCurrency)
 
         baseCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             val checkedButton = group.findViewById<RadioButton>(checkedId)
@@ -63,7 +64,7 @@ class CurrenciesFragment : Fragment() {
                 updateButtonColors(prevBaseId, checkedButton,baseCurrencyRadioGroup)
                 prevBaseId = checkedId
                 baseCurrency = checkedButton.text.toString()
-                //createPlot()
+                requestPastRates(2, baseCurrency, targetCurrency)
             }
 
         }
@@ -74,7 +75,7 @@ class CurrenciesFragment : Fragment() {
                 updateButtonColors(prevTargetId, checkedButton,targetCurrencyRadioGroup)
                 prevTargetId = checkedId
                 targetCurrency = checkedButton.text.toString()
-                //createPlot()
+                requestPastRates(2, baseCurrency, targetCurrency)
             }
         }
     }
@@ -101,6 +102,11 @@ class CurrenciesFragment : Fragment() {
             ) {
                 // If there is a response, update the list, else, keep it as it is
                 mPastExchangeRates = response.body()?.pastExchangeRates ?: mPastExchangeRates
+                mPlotEntries = mPastExchangeRates.mapIndexed { index, pastExchangeRateInfo ->
+                    Entry(index.toFloat(), pastExchangeRateInfo.rate )
+                }
+                createPlot()
+                //updatePlot()
             }
 
         })
@@ -111,9 +117,10 @@ class CurrenciesFragment : Fragment() {
         mChart.setTouchEnabled(true);
         mChart.setPinchZoom(true);
 
-        val entries1 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
+        //val entries1 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
 
-        val lineDataSet1 = LineDataSet(entries1, "Currency")
+
+        val lineDataSet1 = LineDataSet(mPlotEntries, "Currency")
         lineDataSet1.apply{
             color = Color.RED
             setDrawValues(false)
@@ -121,8 +128,8 @@ class CurrenciesFragment : Fragment() {
             setDrawIcons(false)
             enableDashedLine(10f, 5f, 0f)
             enableDashedHighlightLine(10f, 5f, 0f)
-            color = Color.DKGRAY
-            setCircleColor(Color.DKGRAY)
+            color = Color.WHITE
+            setCircleColor(Color.WHITE)
             lineWidth = 1f
             circleRadius = 3f
             setDrawCircleHole(false)
@@ -131,11 +138,18 @@ class CurrenciesFragment : Fragment() {
             formLineWidth = 1f
             formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
             formSize = 15f
-            fillColor = Color.DKGRAY
-
+            fillColor = Color.WHITE
         }
 
 
+        val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1)
+        val lineData = LineData(lineDataSets)
+        mChart.data = lineData
+        mChart.invalidate()
+    }
+
+    private fun updatePlot(){
+        val lineDataSet1 = LineDataSet(mPlotEntries, "Currency")
         val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1)
         val lineData = LineData(lineDataSets)
         mChart.data = lineData
