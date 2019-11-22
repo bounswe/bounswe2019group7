@@ -105,8 +105,13 @@ class CurrenciesFragment : Fragment() {
                 mPlotEntries = mPastExchangeRates.mapIndexed { index, pastExchangeRateInfo ->
                     Entry(index.toFloat(), pastExchangeRateInfo.rate )
                 }
-                createPlot()
-                //updatePlot()
+                if(::mChart.isInitialized){
+                    updatePlot()
+                }
+                else{
+                    createPlot()
+                }
+
             }
 
         })
@@ -122,7 +127,7 @@ class CurrenciesFragment : Fragment() {
 
         val lineDataSet1 = LineDataSet(mPlotEntries, "Currency")
         lineDataSet1.apply{
-            color = Color.RED
+            color = Color.WHITE
             setDrawValues(false)
             axisDependency = YAxis.AxisDependency.LEFT
             setDrawIcons(false)
