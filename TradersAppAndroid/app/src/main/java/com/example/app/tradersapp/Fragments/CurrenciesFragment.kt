@@ -32,9 +32,8 @@ class CurrenciesFragment : Fragment() {
     private var prevTargetId = 0
 
     private lateinit var mChart: LineChart
-    private var mPastExchangeRates = MutableList(3) { index -> PastExchangeRateInfo(1.0,5f, "dsjd") }
-   // private var mPastExchangeRates: MutableList<PastExchangeRateInfo> by Delegates.notNull<MutableList<PastExchangeRateInfo>>()
-    private lateinit var mPlotEntries: List<Entry>
+    private var mPastExchangeRates: MutableList<PastExchangeRateInfo>? = null
+    private var mPlotEntries: List<Entry>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,7 +95,7 @@ class CurrenciesFragment : Fragment() {
             ) {
                 // If there is a response, update the list, else, keep it as it is
                 mPastExchangeRates = response.body()?.pastExchangeRates ?: mPastExchangeRates
-                mPlotEntries = mPastExchangeRates.mapIndexed { index, pastExchangeRateInfo ->
+                mPlotEntries = mPastExchangeRates?.mapIndexed { index, pastExchangeRateInfo ->
                     Entry(index.toFloat(), pastExchangeRateInfo.rate )
                 }
                 if(!::mChart.isInitialized){
@@ -109,16 +108,15 @@ class CurrenciesFragment : Fragment() {
 
     private fun createPlot(){
         mChart = chart
-        mChart.setTouchEnabled(true);
-        mChart.setPinchZoom(true);
-
-        mChart.legend.textColor = Color.WHITE
-        mChart.description.isEnabled = false
-
-        mChart.xAxis.textColor = Color.WHITE
-        mChart.axisLeft.textColor = Color.WHITE
-        mChart.axisRight.textColor = Color.WHITE
-
+        mChart.apply{
+            setTouchEnabled(true)
+            setPinchZoom(true)
+            legend.textColor = Color.WHITE
+            description.isEnabled = false
+            xAxis.textColor = Color.WHITE
+            axisLeft.textColor = Color.WHITE
+            axisRight.textColor = Color.WHITE
+        }
     }
 
     private fun updatePlot(){
