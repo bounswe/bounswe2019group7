@@ -7,38 +7,35 @@ import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.example.app.tradersapp.Fragments.ArticleDetailFragment
-import com.example.app.tradersapp.Fragments.EventArticleHolder
-import com.example.app.tradersapp.Fragments.EventArticleModel
+import com.example.app.tradersapp.Fragments.*
 import com.example.app.tradersapp.RegistrationActivity.RegisterCallback.activity
 
 
-class EventArticleAdapter(private val list: List<EventArticleModel>, context: Context)
-        : RecyclerView.Adapter<EventArticleHolder>() {
+class EventAdapter(private val list: List<EventModel>, context: Context)
+        : RecyclerView.Adapter<EventHolder>() {
 
         val mContext = context
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventArticleHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventHolder {
             val inflater = LayoutInflater.from(parent.context)
-            return EventArticleHolder(inflater, parent)
+            return EventHolder(inflater, parent)
         }
 
-        override fun onBindViewHolder(holder: EventArticleHolder, position: Int) {
-            val eaModel: EventArticleModel = list[position]
+        override fun onBindViewHolder(holder: EventHolder, position: Int) {
+            val eaModel: EventModel = list[position]
             holder.bind(eaModel)
 
             holder.itemView.setOnClickListener {
-                val articleDetailFragment = ArticleDetailFragment()
+                val eventDetailFragment = EventDetailFragment()
                 val bundle = Bundle()
                 bundle.apply{
                     putInt("image", holder.eaImage!!.tag as Int)
                     putString("title", holder.eaTitle!!.text.toString())
                     putString("body", holder.eaBody!!.text.toString())
-                    putString("author", holder.articleAuthorName!!.text.toString())
                 }
-                articleDetailFragment.arguments = bundle
+                eventDetailFragment.arguments = bundle
 
                 val transaction = (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.nav_host_fragment, articleDetailFragment)
+                transaction.replace(R.id.nav_host_fragment, eventDetailFragment)
                 transaction.addToBackStack(null)
                 transaction.commit()
             }

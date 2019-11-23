@@ -4,13 +4,13 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
              android:background="@color/colorPrimaryDark"
-             tools:context=".Fragments.EventArticleFragment">
+             tools:context=".Fragments.ArticleFragment">
 
     <android.support.v7.widget.RecyclerView
-            android:id="@+id/eaList"
+            android:id="@+id/aList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/event_article_fragment" />
+            tools:listitem="@layout/article_fragment" />
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingButton"
