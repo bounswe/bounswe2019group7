@@ -42,7 +42,7 @@ public class ArticleController {
     public ArticlesResource getUserArticles(
             @RequestParam String userEmail
     ){
-        return articleService.getArticles(userEmail);
+        return articleService.getOtherUserArticles(userEmail);
     }
 
     @ApiOperation(value = "Get top articles of a user", response = ArticlesResource.class)
@@ -50,27 +50,25 @@ public class ArticleController {
     public ArticlesResource getUserTopArticles(
             @RequestParam String userEmail
     ){
-        return articleService.getTopArticles(userEmail);
+        return articleService.getOtherUserTopArticles(userEmail);
     }
 
     @ApiOperation(value = "Get current users articles ordered by time", response = ArticlesResource.class)
     @GetMapping("/self_articles")
     public ArticlesResource getSelfArticles(
-            @RequestHeader("Authorization") String token,
-            @RequestParam String selfEmail
+            @RequestHeader("Authorization") String token
     ) throws IllegalAccessException {
-        jwtUserChecker.resolveBasicToken(token);
-        return articleService.getArticles(selfEmail);
+        UUID userId = jwtUserChecker.resolveBasicToken(token);
+        return articleService.getSelfArticles(userId);
     }
 
     @ApiOperation(value = "Get current users top articles", response = ArticlesResource.class)
     @GetMapping("/self_top_articles")
     public ArticlesResource getSelfTopArticles(
-            @RequestHeader("Authorization") String token,
-            @RequestParam String selfEmail
+            @RequestHeader("Authorization") String token
     )throws IllegalAccessException{
-        jwtUserChecker.resolveBasicToken(token);
-        return articleService.getTopArticles(selfEmail);
+        UUID userId = jwtUserChecker.resolveBasicToken(token);
+        return articleService.getSelfTopArticles(userId);
     }
 
     @ApiOperation(value = "Get article by id", response = ArticleResource.class)
@@ -85,8 +83,8 @@ public class ArticleController {
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid ArticleDto articleDto
     ) throws IllegalAccessException{
-        jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.createArticle(articleDto);
+        UUID userId = jwtUserChecker.resolveBasicToken(token);
+        ArticleResource article = articleService.createArticle(userId, articleDto);
         return article;
     }
 
@@ -97,8 +95,8 @@ public class ArticleController {
             @RequestBody @Valid ArticleDto articleDto,
             @RequestParam UUID articleID
     )throws IllegalAccessException{
-        jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.updateArticle(articleDto,articleID);
+        UUID userId = jwtUserChecker.resolveBasicToken(token);
+        ArticleResource article = articleService.updateArticle(userId, articleDto, articleID);
         return article;
     }
 
@@ -109,10 +107,9 @@ public class ArticleController {
             @RequestParam Double score,
             @RequestParam UUID articleID
     )throws IllegalAccessException{
-        jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.givePoint(score,articleID);
+        UUID userId = jwtUserChecker.resolveBasicToken(token);
+        ArticleResource article = articleService.givePoint(score, articleID);
         return article;
     }
-
 
 }
