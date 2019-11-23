@@ -134,9 +134,9 @@ data class LoginInformation(
 )
 
 data class ArticleInformation(
-    val authorEmail: String,
-    val authorName: String,
-    val authorSurname: String,
+    val authorEmail: String?,
+    val authorName: String?,
+    val authorSurname: String?,
     val content: String,
     val title: String
 )
