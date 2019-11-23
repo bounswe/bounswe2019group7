@@ -32,6 +32,7 @@ class ArticleAdapter(private val list: List<ArticleModel>, context: Context)
                     putString("title", holder.aTitle!!.text.toString())
                     putString("body", holder.aBody!!.text.toString())
                     putString("author", holder.articleAuthorName!!.text.toString())
+                    putString("articleId", holder.articleId)
                 }
                 articleDetailFragment.arguments = bundle
 

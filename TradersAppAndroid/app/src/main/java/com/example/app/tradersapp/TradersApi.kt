@@ -94,7 +94,7 @@ interface ApiInterface {
 
     @POST("article/give_point")
     fun givePointToArticle(@Header("Authorization") token: String?,
-                           @Query("articleID") articleId: String,
+                           @Query("articleID") articleId: String?,
                            @Query("score") score: Double): retrofit2.Call<ArticleResponse>
 
     @POST("article/update")

@@ -67,7 +67,15 @@ class ArticleFragment() : Fragment() {
 
             override fun onResponse(call: Call<ArticlesListResponse>, response: Response<ArticlesListResponse>) {
                 allArticles = response.body()?.allArticles?.map {
-                    ArticleModel(imagePlaceholder, it.title, it.content, it.authorName, it.authorSurname, it.score, it.changeDate)
+                    ArticleModel(
+                        imagePlaceholder,
+                        it.title,
+                        it.content,
+                        it.authorName,
+                        it.authorSurname,
+                        it.score,
+                        it.changeDate,
+                        it.uuid)
                 } ?: allArticles
 
 
