@@ -68,7 +68,7 @@ public class UserProfileController {
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid TraderUserDto traderUserDto
     )throws IllegalAccessException{
-        UUID userID = jwtUserChecker.resolveBasicToken(token);
+        UUID userID = jwtUserChecker.resolveTraderToken(token);
         CompleteUserResource user = userProfileService.updateTraderProfile(userID, traderUserDto);
 
         return ResponseEntity.ok(user);
