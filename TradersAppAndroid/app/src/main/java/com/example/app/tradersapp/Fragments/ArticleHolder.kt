@@ -32,7 +32,7 @@ class ArticleHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.V
         aTitle?.text = item.title
         aImage?.setImageResource(item.image)
         aImage?.tag = item.image
-        articleAuthorName?.text = "Author: \n" + item.authorName + " " + item.authorSurname
+        articleAuthorName?.text =  item.authorName + " " + item.authorSurname
         articleScore?.rating = item.score.toFloat()
         articleId = item.articleId
     }
