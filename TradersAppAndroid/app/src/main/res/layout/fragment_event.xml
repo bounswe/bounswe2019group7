@@ -10,6 +10,6 @@
             android:id="@+id/eList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/article_fragment" />
+            tools:listitem="@layout/article_recycler_item" />
 
 </FrameLayout>

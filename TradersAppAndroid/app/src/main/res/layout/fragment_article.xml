@@ -10,7 +10,7 @@
             android:id="@+id/aList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/article_fragment" />
+            tools:listitem="@layout/article_recycler_item" />
 
     <android.support.design.widget.FloatingActionButton
             android:id="@+id/floatingButton"

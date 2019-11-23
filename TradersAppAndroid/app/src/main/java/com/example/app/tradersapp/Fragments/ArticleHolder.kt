@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.example.app.tradersapp.R
 
 
-class ArticleHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(R.layout.article_fragment,parent,false)) {
+class ArticleHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(R.layout.article_recycler_item,parent,false)) {
 
     var aImage: ImageView? = null
     var aTitle: TextView? = null
