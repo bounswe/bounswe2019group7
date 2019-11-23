@@ -40,8 +40,6 @@ class EventArticleAdapter(private val list: List<EventArticleModel>, context: Co
                 transaction.replace(R.id.nav_host_fragment, articleDetailFragment)
                 transaction.addToBackStack(null)
                 transaction.commit()
-
-
             }
         }
 

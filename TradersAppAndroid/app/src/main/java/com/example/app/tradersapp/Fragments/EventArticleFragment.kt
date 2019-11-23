@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -78,6 +79,13 @@ class EventArticleFragment() : Fragment() {
                 adapter = EventArticleAdapter(events, context)
             }
             //getAllEvents()
+        }
+        floatingButton.setOnClickListener {
+            val addArticleFragment = AddArticleFragment()
+            val transaction = activity!!.supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_fragment, addArticleFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
 
     }
