@@ -6,14 +6,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.ActionBarDrawerToggle
-import com.example.app.tradersapp.Fragments.CurrenciesFragment
+import com.example.app.tradersapp.Fragments.*
 
-import com.example.app.tradersapp.Fragments.EventArticleFragment
-
-import com.example.app.tradersapp.Fragments.HomeFragment
-import com.example.app.tradersapp.Fragments.ProfileFragment
 import kotlinx.android.synthetic.main.activity_homepage.*
-import kotlinx.android.synthetic.main.activity_homepage.view.*
 import java.util.*
 
 
@@ -73,12 +68,12 @@ class HomepageActivity : AppCompatActivity() {
                 }
 
                 R.id.action_articles -> {
-                    fragment = EventArticleFragment.newInstance(true)
+                    fragment = ArticleFragment.newInstance()
                     changeTitle("Economic Articles")
                 }
 
                 R.id.action_events -> {
-                    fragment = EventArticleFragment.newInstance(false)
+                    fragment = EventFragment.newInstance()
                     changeTitle("Economic Events")
                 }
 
