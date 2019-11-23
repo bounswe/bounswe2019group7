@@ -1,6 +1,5 @@
 package com.eyetrade.backend.model.entity;
 
-import jdk.internal.jline.internal.Nullable;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -27,7 +26,6 @@ public class Article {
     @Column(length = 1024)
     private String content;
 
-    @Nullable // maybe temporary for the deadline
     @Column(length = 256)
     private String contentAbstract;
 

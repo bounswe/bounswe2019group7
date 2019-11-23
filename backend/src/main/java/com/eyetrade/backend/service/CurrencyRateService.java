@@ -25,7 +25,7 @@ import static com.eyetrade.backend.utils.DateUtils.getDateXDaysAgoWithFormat;
  * on 17 Eki 2019
  */
 @Service
-public class CurrencyConverterService {
+public class CurrencyRateService {
 
     @Autowired
     private CurrencyRepository currencyRepository;
@@ -40,6 +40,10 @@ public class CurrencyConverterService {
                 findRate(converterDto.getOutputCurrencyType(), record) / findRate(converterDto.getInputCurrencyType(), record));
         resource.setAmount(resource.getRate() * converterDto.getAmount());
         return resource;
+    }
+
+    public CurrencyRecord findLastRecord(){
+        return currencyRecordService.updateIfCurrenciesExpiredAndGetLastRecord();
     }
 
     public Double findRate(CurrencyType type, CurrencyRecord record) {

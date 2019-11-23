@@ -25,7 +25,7 @@ public class PortfolioController {
     @Autowired
     private JwtUserChecker jwtUserChecker;
 
-    @ApiOperation(value = "Create a portfolio",response = PortfolioResource.class)
+    @ApiOperation(value = "Create a portfolio", response = PortfolioResource.class)
     @PostMapping("/create")
     public ResponseEntity<PortfolioResource> createPortfolio(
             @RequestHeader("Authorization") String token,
@@ -36,35 +36,27 @@ public class PortfolioController {
         return ResponseEntity.ok(portfolio);
     }
 
-    @ApiOperation(value = "Add currency to the portfolio", response = PortfolioResource.class)
-    @PostMapping("add_currency")
+    // TODO : User check must be added later
+    @ApiOperation(value = "Add currency to a portfolio", response = PortfolioResource.class)
+    @PostMapping("add_currency_to_portfolio")
     public ResponseEntity<PortfolioResource> addCurrency(
             @RequestHeader("Authorization") String token,
             @RequestHeader("BaseCurrencyType") CurrencyType baseCurrencyType,
             @RequestParam UUID portfolioID
     )throws IllegalAccessException{
-        UUID ownerID = jwtUserChecker.resolveBasicToken(token);
-        PortfolioResource portfolio = portfolioService.addCurrency(ownerID,baseCurrencyType,portfolioID);
+        jwtUserChecker.resolveBasicToken(token);
+        PortfolioResource portfolio = portfolioService.addCurrency(baseCurrencyType, portfolioID);
         return ResponseEntity.ok(portfolio);
     }
 
-    @ApiOperation(value = "Get current users portfolios", response = PortfoliosResource.class)
-    @GetMapping("/get_portfolios")
+    @ApiOperation(value = "Get current user's portfolios", response = PortfoliosResource.class)
+    @GetMapping("/get_self_portfolios")
     public ResponseEntity<PortfoliosResource> getPortfolios(
             @RequestHeader("Authorization") String token
     )throws IllegalAccessException{
-        UUID ownerID = jwtUserChecker.resolveBasicToken(token);
-        PortfoliosResource portfolios = portfolioService.getPortfolios(ownerID);
+        UUID ownerId = jwtUserChecker.resolveBasicToken(token);
+        PortfoliosResource portfolios = portfolioService.getPortfolios(ownerId);
         return ResponseEntity.ok(portfolios);
     }
 
-    @ApiOperation(value = "Get currency followings in the portfolio", response = CurrencyFollowingResource.class)
-    @GetMapping("/get_currencies")
-    public ResponseEntity<CurrencyFollowingResource> getCurrencies(
-            @RequestHeader("Authorization") String token,
-            @RequestParam String portfolioID
-    )throws IllegalAccessException{
-        jwtUserChecker.resolveBasicToken(token);
-        return ResponseEntity.ok(portfolioService.getCurrencies(portfolioID));
-    }
 }
