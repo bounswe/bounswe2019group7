@@ -25,25 +25,24 @@ class EventArticleAdapter(private val list: List<EventArticleModel>, context: Co
         override fun onBindViewHolder(holder: EventArticleHolder, position: Int) {
             val eaModel: EventArticleModel = list[position]
             holder.bind(eaModel)
-            var fragment: Fragment? = null
+
             holder.itemView.setOnClickListener {
-                // TODO: Open the article
                 val articleDetailFragment = ArticleDetailFragment()
                 val bundle = Bundle()
                 bundle.apply{
                     putInt("image", holder.eaImage!!.tag as Int)
                     putString("title", holder.eaTitle!!.text.toString())
                     putString("body", holder.eaBody!!.text.toString())
+                    putString("author", holder.articleAuthorName!!.text.toString())
                 }
                 articleDetailFragment.arguments = bundle
+
                 val transaction = (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.nav_host_fragment, articleDetailFragment)
                 transaction.addToBackStack(null)
                 transaction.commit()
             }
         }
-
         override fun getItemCount(): Int = list.size
-
     }
 

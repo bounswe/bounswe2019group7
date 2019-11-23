@@ -29,6 +29,8 @@ class EventArticleFragment() : Fragment() {
     val image5 = R.drawable.article5
     val image6 = R.drawable.article6
 
+    val imagePlaceholder = R.drawable.placeholder
+
     private var allArticles: List<EventArticleModel> = emptyList()
     private val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
 
@@ -101,16 +103,12 @@ class EventArticleFragment() : Fragment() {
     private fun getAllArticles(){
         retrofitService.getAllArticles().enqueue(object: Callback<ArticlesListResponse>{
             override fun onFailure(call: Call<ArticlesListResponse>, t: Throwable) {
-                Toast.makeText(
-                    activity,
-                    "Unexpected server error occurred. Please try again.",
-                    Toast.LENGTH_SHORT
-                ).show();
+                EyeTradeUtils.toastErrorMessage(activity as Context, t)
             }
 
             override fun onResponse(call: Call<ArticlesListResponse>, response: Response<ArticlesListResponse>) {
                 allArticles = response.body()?.allArticles?.map {
-                    EventArticleModel(image1, it.title, it.content, it.authorName, it.authorSurname, it.score, it.changeDate)
+                    EventArticleModel(imagePlaceholder, it.title, it.content, it.authorName, it.authorSurname, it.score, it.changeDate)
                 } ?: allArticles
 
 

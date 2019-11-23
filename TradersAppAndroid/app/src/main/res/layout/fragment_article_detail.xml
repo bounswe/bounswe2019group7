@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:text="Author: "
                 android:gravity="center"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="@id/eaImage"
                 app:layout_constraintRight_toRightOf="@id/eaImage"

@@ -25,8 +25,9 @@ class ArticleDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val bundle = this.arguments
         eaImage.setImageResource(bundle!!.getInt("image"))
-        eaTitle.text = bundle?.getString("title")
-        eaBody.text = bundle!!.getString("body")
+        eaTitle.text = bundle.getString("title")
+        eaBody.text = bundle.getString("body")
+        articleAuthorName.text = bundle.getString("author")
     }
 
 
