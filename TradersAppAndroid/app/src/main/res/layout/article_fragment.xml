@@ -8,7 +8,7 @@
         android:layout_height="wrap_content">
 
     <ImageView
-            android:id="@+id/eaImage"
+            android:id="@+id/aImage"
             android:layout_width="130dp"
             android:layout_height="250dp"
             android:layout_marginStart="24dp"
@@ -23,9 +23,9 @@
             android:text="Author: "
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="@id/eaImage"
-            app:layout_constraintRight_toRightOf="@id/eaImage"
-            app:layout_constraintTop_toBottomOf="@id/eaImage"/>
+            app:layout_constraintLeft_toLeftOf="@id/aImage"
+            app:layout_constraintRight_toRightOf="@id/aImage"
+            app:layout_constraintTop_toBottomOf="@id/aImage"/>
 
     <RatingBar
             android:id="@+id/articleRatingBar"
@@ -40,7 +40,7 @@
             app:layout_constraintTop_toBottomOf="@id/articleAuthorName"/>
 
     <TextView
-            android:id="@+id/eaTitle"
+            android:id="@+id/aTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
@@ -50,11 +50,11 @@
             android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/eaImage"
+            app:layout_constraintStart_toEndOf="@+id/aImage"
             app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-            android:id="@+id/eaBody"
+            android:id="@+id/aBody"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
@@ -66,7 +66,7 @@
             android:text="Event or article preview"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/eaImage"
-            app:layout_constraintTop_toBottomOf="@+id/eaTitle"/>
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/aImage"
+            app:layout_constraintTop_toBottomOf="@+id/aTitle"/>
 
 </android.support.constraint.ConstraintLayout>

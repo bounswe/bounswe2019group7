@@ -28,9 +28,9 @@ class ArticleAdapter(private val list: List<ArticleModel>, context: Context)
                 val articleDetailFragment = ArticleDetailFragment()
                 val bundle = Bundle()
                 bundle.apply{
-                    putInt("image", holder.eaImage!!.tag as Int)
-                    putString("title", holder.eaTitle!!.text.toString())
-                    putString("body", holder.eaBody!!.text.toString())
+                    putInt("image", holder.aImage!!.tag as Int)
+                    putString("title", holder.aTitle!!.text.toString())
+                    putString("body", holder.aBody!!.text.toString())
                     putString("author", holder.articleAuthorName!!.text.toString())
                 }
                 articleDetailFragment.arguments = bundle

@@ -24,9 +24,9 @@ class ArticleDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bundle = this.arguments
-        eaImage.setImageResource(bundle!!.getInt("image"))
-        eaTitle.text = bundle.getString("title")
-        eaBody.text = bundle.getString("body")
+        aImage.setImageResource(bundle!!.getInt("image"))
+        aTitle.text = bundle.getString("title")
+        aBody.text = bundle.getString("body")
         articleAuthorName.text = bundle.getString("author")
     }
 

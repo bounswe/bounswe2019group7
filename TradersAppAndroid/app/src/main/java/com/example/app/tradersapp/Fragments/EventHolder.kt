@@ -14,21 +14,21 @@ import kotlinx.android.synthetic.main.article_fragment.view.*
 
 class EventHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(R.layout.event_fragment,parent,false)) {
 
-    var eaImage: ImageView? = null
-    var eaTitle: TextView? = null
-    var eaBody: TextView? = null
+    var eImage: ImageView? = null
+    var eTitle: TextView? = null
+    var eBody: TextView? = null
 
     init {
-        eaImage = itemView.findViewById(R.id.eaImage)
-        eaTitle = itemView.findViewById(R.id.eaTitle)
-        eaBody = itemView.findViewById(R.id.eaBody)
+        eImage = itemView.findViewById(R.id.eImage)
+        eTitle = itemView.findViewById(R.id.eTitle)
+        eBody = itemView.findViewById(R.id.eBody)
     }
 
     fun bind(item: EventModel) {
-        eaBody?.text = item.body
-        eaTitle?.text = item.title
-        eaImage?.setImageResource(item.image)
-        eaImage?.tag = item.image
+        eBody?.text = item.body
+        eTitle?.text = item.title
+        eImage?.setImageResource(item.image)
+        eImage?.tag = item.image
     }
 
 }

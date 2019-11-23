@@ -11,25 +11,25 @@ import com.example.app.tradersapp.R
 
 class ArticleHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.ViewHolder(inflater.inflate(R.layout.article_fragment,parent,false)) {
 
-    var eaImage: ImageView? = null
-    var eaTitle: TextView? = null
-    var eaBody: TextView? = null
+    var aImage: ImageView? = null
+    var aTitle: TextView? = null
+    var aBody: TextView? = null
     var articleAuthorName: TextView? = null
     var articleScore: RatingBar
     var articleChangeDate: TextView? = null
     init {
-        eaImage = itemView.findViewById(R.id.eaImage)
-        eaTitle = itemView.findViewById(R.id.eaTitle)
-        eaBody = itemView.findViewById(R.id.eaBody)
+        aImage = itemView.findViewById(R.id.aImage)
+        aTitle = itemView.findViewById(R.id.aTitle)
+        aBody = itemView.findViewById(R.id.aBody)
         articleAuthorName = itemView.findViewById(R.id.articleAuthorName)
         articleScore = itemView.findViewById(R.id.articleRatingBar)
     }
 
     fun bind(item: ArticleModel) {
-        eaBody?.text = item.body
-        eaTitle?.text = item.title
-        eaImage?.setImageResource(item.image)
-        eaImage?.tag = item.image
+        aBody?.text = item.body
+        aTitle?.text = item.title
+        aImage?.setImageResource(item.image)
+        aImage?.tag = item.image
         articleAuthorName?.text = "Author: \n" + item.authorName + " " + item.authorSurname
         articleScore?.rating = item.score.toFloat()
     }

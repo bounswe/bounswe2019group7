@@ -28,9 +28,9 @@ class EventAdapter(private val list: List<EventModel>, context: Context)
                 val eventDetailFragment = EventDetailFragment()
                 val bundle = Bundle()
                 bundle.apply{
-                    putInt("image", holder.eaImage!!.tag as Int)
-                    putString("title", holder.eaTitle!!.text.toString())
-                    putString("body", holder.eaBody!!.text.toString())
+                    putInt("image", holder.eImage!!.tag as Int)
+                    putString("title", holder.eTitle!!.text.toString())
+                    putString("body", holder.eBody!!.text.toString())
                 }
                 eventDetailFragment.arguments = bundle
 

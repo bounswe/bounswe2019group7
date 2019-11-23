@@ -8,7 +8,7 @@
         android:layout_height="wrap_content">
 
     <ImageView
-            android:id="@+id/eaImage"
+            android:id="@+id/eImage"
             android:layout_width="130dp"
             android:layout_height="250dp"
             android:layout_marginStart="24dp"
@@ -17,7 +17,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-            android:id="@+id/eaTitle"
+            android:id="@+id/eTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
@@ -27,11 +27,11 @@
             android:textStyle="bold"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/eaImage"
+            app:layout_constraintStart_toEndOf="@+id/eImage"
             app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-            android:id="@+id/eaBody"
+            android:id="@+id/eBody"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
@@ -43,7 +43,7 @@
             android:text="Event or article preview"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/eaImage"
-            app:layout_constraintTop_toBottomOf="@+id/eaTitle"/>
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@+id/eImage"
+            app:layout_constraintTop_toBottomOf="@+id/eTitle"/>
 
 </android.support.constraint.ConstraintLayout>

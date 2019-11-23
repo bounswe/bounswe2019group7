@@ -9,6 +9,7 @@ import android.view.ViewGroup
 
 import com.example.app.tradersapp.R
 import kotlinx.android.synthetic.main.fragment_article_detail.*
+import kotlinx.android.synthetic.main.fragment_event_detail.*
 
 
 class EventDetailFragment : Fragment() {
@@ -24,9 +25,9 @@ class EventDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val bundle = this.arguments
-        eaImage.setImageResource(bundle!!.getInt("image"))
-        eaTitle.text = bundle.getString("title")
-        eaBody.text = bundle.getString("body")
+        eImage.setImageResource(bundle!!.getInt("image"))
+        eTitle.text = bundle.getString("title")
+        eBody.text = bundle.getString("body")
     }
 
 
