@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = {"/registration"})
-@Api(value = "Registration", tags = {"Operations Related With Registration"})
+@Api(value = "Registration", tags = {"Registration"})
 public class RegistrationController {
 
     @Autowired

@@ -21,7 +21,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/event")
-@Api(value = "Event", tags = {"Operations Related With Event"})
+@Api(value = "Event", tags = {"Events"})
 public class EventController {
 
     @Autowired

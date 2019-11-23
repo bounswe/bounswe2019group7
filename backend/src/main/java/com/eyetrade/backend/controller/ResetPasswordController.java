@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = {"/confirmation"})
-@Api(value = "Reset Password", tags = {"Operations Related With Password Reset"})
+@Api(value = "Reset Password", tags = {"Password Reset"})
 public class ResetPasswordController {
 
     @Autowired

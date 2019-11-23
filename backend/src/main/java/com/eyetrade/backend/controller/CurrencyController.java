@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by Emir Gökdemir
  * on 17 Eki 2019
  */
-@Api(value = "Currencies", tags = {"Operations Related With Currencies"})
+@Api(value = "Currencies", tags = {"Currencies"})
 @RestController
 @RequestMapping("/currency")
 public class CurrencyController {

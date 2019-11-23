@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 
-@Api(value = "User Profile", tags = {"User Profile operations"})
+@Api(value = "User Profile", tags = {"User Profile"})
 @RestController
 @RequestMapping("/user_profile")
 public class UserProfileController {

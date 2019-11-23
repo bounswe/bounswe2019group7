@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@Api(value = "Portfolio", tags = {"Portfolio related operations"})
+@Api(value = "Portfolio", tags = {"Portfolios"})
 @RestController
 @RequestMapping("/portfolio")
 public class PortfolioController {

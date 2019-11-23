@@ -18,7 +18,7 @@ import java.util.UUID;
  * Created by Emir Gökdemir
  * on 2 Kas 2019
  */
-@Api(value = "Currency Following", tags = {"Operations Related with Currency Following Relations"})
+@Api(value = "Currency Following", tags = {"Currency Following"})
 @RestController
 @RequestMapping("/currency_following")
 public class CurrencyFollowingController {

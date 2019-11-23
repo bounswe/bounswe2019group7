@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/article")
-@Api(value = "Article", tags = {"Operations related with articles"})
+@Api(value = "Article", tags = {"Articles"})
 public class ArticleController {
 
     @Autowired
