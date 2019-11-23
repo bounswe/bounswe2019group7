@@ -30,7 +30,14 @@ public class ArticleController {
         return articleService.getArticles();
     }
 
-    @ApiOperation(value = "Get all articles of a user", response = ArticlesResource.class)
+    @ApiOperation(value = "Get top articles", response = ArticlesResource.class)
+    @GetMapping("/top_articles")
+    public ArticlesResource getTopArticles(){
+        return articleService.getTopArticles();
+    }
+
+
+    @ApiOperation(value = "Get all articles of a user ordered by time", response = ArticlesResource.class)
     @GetMapping("/user_articles")
     public ArticlesResource getUserArticles(
             @RequestParam String userEmail
@@ -38,7 +45,15 @@ public class ArticleController {
         return articleService.getArticles(userEmail);
     }
 
-    @ApiOperation(value = "Get current users articles", response = ArticlesResource.class)
+    @ApiOperation(value = "Get top articles of a user", response = ArticlesResource.class)
+    @GetMapping("/user_top_articles")
+    public ArticlesResource getUserTopArticles(
+            @RequestParam String userEmail
+    ){
+        return articleService.getTopArticles(userEmail);
+    }
+
+    @ApiOperation(value = "Get current users articles ordered by time", response = ArticlesResource.class)
     @GetMapping("/self_articles")
     public ArticlesResource getSelfArticles(
             @RequestHeader("Authorization") String token,
@@ -46,6 +61,16 @@ public class ArticleController {
     ) throws IllegalAccessException {
         jwtUserChecker.resolveBasicToken(token);
         return articleService.getArticles(selfEmail);
+    }
+
+    @ApiOperation(value = "Get current users top articles", response = ArticlesResource.class)
+    @GetMapping("/self_top_articles")
+    public ArticlesResource getSelfTopArticles(
+            @RequestHeader("Authorization") String token,
+            @RequestParam String selfEmail
+    )throws IllegalAccessException{
+        jwtUserChecker.resolveBasicToken(token);
+        return articleService.getTopArticles(selfEmail);
     }
 
     @ApiOperation(value = "Get article by id", response = ArticleResource.class)
