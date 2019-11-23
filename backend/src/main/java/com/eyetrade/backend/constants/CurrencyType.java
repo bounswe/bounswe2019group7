@@ -4,5 +4,7 @@ public enum CurrencyType {
     USD,
     TRY,
     EUR,
-    GBP
+    GBP,
+    JPY,
+    CNY
 }

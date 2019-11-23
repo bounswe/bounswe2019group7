@@ -34,13 +34,13 @@ public class CurrencyController {
         return ResponseEntity.ok(result);
     }
 
-    @ApiOperation(value = "Takes the currency rates between two dates, target currency, amount of source currency; then it turns list of exchange rate and amounts", response = CurrencyIntervalResource.class)
+    @ApiOperation(value = "Takes the currency rates between two dates, target currency, amount of source currency; then it returns the list of exchange rate and amounts", response = CurrencyIntervalResource.class)
     @GetMapping("/take-rates-between-dates")
     public ResponseEntity<CurrencyIntervalResource> convertCurrency(CurrencyConverterIntervalDto dto) {
         return ResponseEntity.ok(currencyConverterService.findRateBetweenDates(dto));
     }
 
-    @ApiOperation(value = "Takes the currency rates last X days, with target currency, amount of source currency; then it turns list of exchange rate and amounts", response = CurrencyIntervalResource.class)
+    @ApiOperation(value = "Takes the currency rates last X days, with target currency, amount of source currency; then it returns the list of exchange rate and amounts", response = CurrencyIntervalResource.class)
     @GetMapping("/take-rates-last-days")
     public ResponseEntity<CurrencyLastDaysResource> convertCurrency(CurrencyConverterLastDaysDto dto) {
         return ResponseEntity.ok(currencyConverterService.findRateLastDays(dto));

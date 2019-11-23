@@ -52,6 +52,10 @@ public class CurrencyConverterService {
                 return record.getSterlingRate();
             case USD:
                 return record.getDollarRate();
+            case JPY:
+                return record.getJapanRate();
+            case CNY:
+                return record.getChinaRate();
             default:
                 throw new RuntimeException(NO_SUCH_CURRENCY_TYPES);
         }
@@ -82,4 +86,5 @@ public class CurrencyConverterService {
         }
         return resources;
     }
+
 }
