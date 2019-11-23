@@ -10,6 +10,9 @@ const Currency = () => import("@/views/Currency");
 const Events = () => import("@/views/Events");
 const ProfilePage = () => import("@/views/ProfilePage");
 const UserSettings = () => import("@/views/UserSettings");
+const Articles = () => import("@/views/Articles");
+const Article = () => import("@/views/Article");
+const ArticleForm = () => import("@/views/ArticleForm");
 
 const Colors = () => import("@/views/theme/Colors");
 const Typography = () => import("@/views/theme/Typography");
@@ -96,6 +99,21 @@ function configRoutes() {
           path: "events",
           name: "Events",
           component: Events
+        },
+        {
+          path: "articles",
+          name: "Articles",
+          component: Articles
+        },
+        {
+          path: "article/:id",
+          name: "Article",
+          component: Article
+        },
+        {
+          path: "articleForm",
+          name: "ArticleForm",
+          component: ArticleForm
         },
         {
           path: "theme",

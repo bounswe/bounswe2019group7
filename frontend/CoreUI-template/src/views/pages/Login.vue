@@ -125,6 +125,7 @@ export default {
       .then(response => {
         if(response.status == 200){
           this.$router.push("/dashboard");
+          document.getElementById('#tokenForUserID').val(response.token);
         } else {
           this.errors = [`An error occurred.`];
           this.isDisabled = false;

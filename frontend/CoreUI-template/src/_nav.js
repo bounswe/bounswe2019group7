@@ -17,9 +17,9 @@ export default {
     },
     {
       name: "Articles",
-      url: "",
+      url: "articles",
       icon: "icon-book-open",
-      attributes: { disabled: true }
+      attributes: { disabled: false }
     },
     {
       name: "Trade Indicies",
