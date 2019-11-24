@@ -5,13 +5,21 @@
         <b-card-body class="p-5 clearfix">
           <b-row>
             <b-col sm="4">
-              <div class="h2 text-primary mb-0 mt-2">{{item.role}}</div>
-              <img src="img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
-              <div class="h2 text-primary mb-0 mt-2">{{item.name}} {{item.surname}}</div>
-              <div class="text-muted font-weight-bold font-xs">Email: {{item.email}}</div>
-              <div
-                class="text-muted font-weight-bold font-xs"
-              >Country: {{item.city}} / {{item.country}}</div>
+              <div class="h2 text-primary mb-0 mt-2">{{ item.role }}</div>
+              <img
+                src="img/avatars/user.png"
+                class="img-avatar"
+                alt="admin@bootstrapmaster.com"
+              />
+              <div class="h2 text-primary mb-0 mt-2">
+                {{ item.name }} {{ item.surname }}
+              </div>
+              <div class="text-muted font-weight-bold font-xs">
+                Email: {{ item.email }}
+              </div>
+              <div class="text-muted font-weight-bold font-xs">
+                Country: {{ item.city }} / {{ item.country }}
+              </div>
             </b-col>
             <b-col sm="4">
               <b-card>
@@ -19,29 +27,43 @@
                   <i class="icon-pie-chart"></i>
                 </div>
                 <div class="h4 mb-0">28%</div>
-                <small class="text-muted text-uppercase font-weight-bold">Prediction Success Rate</small>
-                <b-progress height="{}" class="progress-xs mt-3 mb-0" :value="25" />
+                <small class="text-muted text-uppercase font-weight-bold"
+                  >Prediction Success Rate</small
+                >
+                <b-progress
+                  height="{}"
+                  class="progress-xs mt-3 mb-0"
+                  :value="25"
+                />
               </b-card>
-              <b-button size="lg" variant="primary" block>{{portfolio}}</b-button>
-              <b-button size="lg" variant="primary" v-if="seen" block>Create an Alarm</b-button>
+              <b-button size="lg" variant="primary" block>{{
+                portfolio
+              }}</b-button>
+              <b-button size="lg" variant="primary" v-if="seen" block
+                >Create an Alarm</b-button
+              >
             </b-col>
             <b-col sm="4">
-              <b-button size="lg" variant="primary" v-if="seen" block>Follow</b-button>
+              <b-button size="lg" variant="primary" v-if="seen" block
+                >Follow</b-button
+              >
               <br />
               <div class="brand-card" id="followersCard">
                 <div class="brand-card-header bg-twitter">
                   <i class="fa fa-eye"></i>
                   <div class="chart-wrapper">
-                    <social-box-chart-example :data="[65, 59, 84, 84, 51, 55, 40]" />
+                    <social-box-chart-example
+                      :data="[65, 59, 84, 84, 51, 55, 40]"
+                    />
                   </div>
                 </div>
                 <div class="brand-card-body">
                   <div>
-                    <div class="text-value">89k</div>
+                    <div class="text-value">{{ item.followerCount }}</div>
                     <div class="text-uppercase text-muted small">Followers</div>
                   </div>
                   <div>
-                    <div class="text-value">459</div>
+                    <div class="text-value">{{ item.followingCount }}</div>
                     <div class="text-uppercase text-muted small">Following</div>
                   </div>
                 </div>
@@ -54,28 +76,51 @@
     <b-row>
       <b-card :no-body="true" id="lowerCard">
         <b-card-body class="p-5 clearfix">
-          <router-link :to="{
-                path: './articleForm'
-              }">
+          <router-link
+            :to="{
+              path: './articleForm'
+            }"
+          >
             <b-button
               size="lg"
               variant="primary"
-              style="margin-bottom:1%"
+              style="margin-bottom:1%;"
               v-if="articleButton"
-            >Create an Article</b-button>
+              >Create an Article</b-button
+            >
           </router-link>
-
+          <b-button
+            size="lg"
+            variant="primary"
+            style="margin-bottom:1%; margin-left:1%"
+            v-if="seenTop"
+            v-on:click="showTopArticles"
+            >See Top Articles</b-button
+          >
+          <b-button
+            size="lg"
+            variant="primary"
+            style="margin-bottom:1%;  margin-left:1%"
+            v-if="seenAll"
+            v-on:click="showAllArticles"
+            >See All Articles</b-button
+          >
           <b-tabs>
             <b-tab title="Articles" active>
               <b-col lg="12">
-                <c-table :table-data="items" :fields="fields" caption="Article Tables">
+                <c-table
+                  :table-data="items"
+                  :fields="fields"
+                  caption="Article Tables"
+                >
                   <template v-slot:cell(details)="data">
                     <!-- `data.value` is the value after formatted by the Formatter -->
                     <a
                       :href="
                         `#${data.value.replace(/[^a-z]+/i, '-').toLowerCase()}`
                       "
-                    >{{ data.value }}</a>
+                      >{{ data.value }}</a
+                    >
                   </template>
                 </c-table>
               </b-col>
@@ -104,14 +149,16 @@ export default {
       itemsArray: someData(),
       fields: [
         { key: "title", label: "Title", sortable: true, formatter: "uuid" },
-        { key: "content", label: "Content" },
+        { key: "contentAbstract", label: "Absttact" },
         { key: "stringDate", label: "Publish Date" }
       ],
       item: [],
       seen: true,
       portfolio: "Portfolio",
       articleButton: false,
-      articles: []
+      articles: [],
+      seenTop: true,
+      seenAll: false
     };
   },
   components: {
@@ -119,8 +166,73 @@ export default {
     cTable
   },
   methods: {
-    click() {
-      // do nothing
+    showTopArticles() {
+      this.seenAll = true;
+      this.seenTop = false;
+      if (this.portfolio == "My Portfolio") {
+        this.$http
+          .get("http://100.26.202.213:8080/article/self_top_articles", {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          })
+          .then(
+            response => {
+              this.items = response.data.articles;
+            },
+            error => {
+              console.log("error");
+            }
+          );
+      } else {
+        this.$http
+          .get(
+            "http://100.26.202.213:8080/article/user_top_articles?userEmail=" +
+              this.$route.params.email
+          )
+          .then(
+            response => {
+              this.items = response.data.articles;
+            },
+            error => {
+              console.log("error");
+            }
+          );
+      }
+    },
+    showAllArticles() {
+      this.seenAll = false;
+      this.seenTop = true;
+      if (this.portfolio == "My Portfolio") {
+        this.$http
+          .get("http://100.26.202.213:8080/article/self_articles", {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          })
+          .then(
+            response => {
+              this.items = response.data.articles;
+            },
+            error => {
+              console.log("error");
+            }
+          );
+      } else {
+        this.$http
+          .get(
+            "http://100.26.202.213:8080/article/user_articles?userEmail=" +
+              this.$route.params.email
+          )
+          .then(
+            response => {
+              this.items = response.data.articles;
+            },
+            error => {
+              console.log("error");
+            }
+          );
+      }
     }
   },
   mounted() {
@@ -148,15 +260,11 @@ export default {
           }
         );
       this.$http
-        .get(
-          "http://100.26.202.213:8080/article/self_articles?selfEmail=" +
-            localStorage.getItem("email"),
-          {
-            headers: {
-              Authorization: localStorage.getItem("token")
-            }
+        .get("http://100.26.202.213:8080/article/self_articles", {
+          headers: {
+            Authorization: localStorage.getItem("token")
           }
-        )
+        })
         .then(
           response => {
             this.items = response.data.articles;

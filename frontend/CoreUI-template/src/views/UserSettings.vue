@@ -7,7 +7,7 @@
             <b-col sm="4">
               <img src="img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
               <div class="h2 text-primary mb-0 mt-2">{{name}} {{surname}}</div>
-              fdgh<c-switch class="mx-1" color="primary" checked variant="pill" />
+              <div class="h4 text-primary mb-0 mt-4">{{privacy}}<c-switch class="mx-1 mt-1" color="primary" variant="pill" id="private" @change="privacyCheck()"/></div>
             </b-col>
             <b-col sm="8">
               <b-form @submit="checkForm">
@@ -167,6 +167,7 @@ export default {
       name: "",
       surname: "",
       isTrader: true,
+      privacy: ""
     };
   },
   mounted() {
@@ -178,24 +179,28 @@ export default {
         })
         .then(
           response => {
+            this.form.city = response.data.city;
+            this.form.country = response.data.country;
+            this.form.email = response.data.email;
+            this.form.name = response.data.name;
+            this.form.phone = response.data.phone;
+            this.form.surname = response.data.surname;
+
             if(response.data.role == "BASIC_USER") {
               this.seen = false;
-              this.form.city = response.data.city;
-              this.form.country = response.data.country;
-              this.form.email = response.data.email;
-              this.form.name = response.data.name;
-              this.form.phone = response.data.phone;
-              this.form.surname = response.data.surname;
             }
             else {
-              this.form.city = response.data.city;
-              this.form.country = response.data.country;
-              this.form.email = response.data.email;
               this.form.iban = response.data.iban;
               this.form.identityNo = response.data.identityNo;
-              this.form.name = response.data.name;
-              this.form.phone = response.data.phone;
-              this.form.surname = response.data.surname;
+            }
+
+            if(response.data.privacyType == "PRIVATE_USER") {
+              document.getElementById('private').checked = false;
+              this.privacy = "Private Profile";
+            }
+            else {
+              document.getElementById('private').checked = true;
+              this.privacy = "Public Profile";
             }
             this.name = response.data.name;
             this.surname = response.data.surname;
@@ -229,7 +234,7 @@ export default {
           )
           .then(response => {
             if(response.status == 200){
-              this.$router.push("/userSettings");
+              this.$router.push("/profilePage");
             }else{
               this.errors = [`An error occurred.`];
               this.isDisabled = false;
@@ -258,7 +263,7 @@ export default {
           )
           .then(response => {
             if(response.status == 200){
-              this.$router.push("/userSettings");
+              this.$router.push("/profilePage");
             }else{
               this.errors = [`An error occurred.`];
               this.isDisabled = false;
@@ -266,7 +271,51 @@ export default {
           }
         )
       }
+    },
+    privacyCheck() {
+      console.log("hel");
+        if(document.getElementById('private').checked == true) {
+          this.privacy = "Public Profile";
+          console.log("trrr");
+          this.$http
+          .post("http://100.26.202.213:8080/user_profile/update_privacy", {},{
+            headers: {
+              Authorization: localStorage.getItem("token"),
+              privacy: "PUBLIC_USER"
+            }
+          })
+          .then(
+            response => {
+            },
+            error => {
+              console.log("eerror");
+            }
+          );
+        }
+        else {
+          this.privacy = "Private Profile";
+          this.$http
+          .post("http://100.26.202.213:8080/user_profile/update_privacy", {}, {
+            headers: {
+              Authorization: "" +localStorage.getItem("token"),
+              privacy: "PRIVATE_USER"
+            }
+          })
+          .then(
+            response => {
+            },
+            error => {
+              console.log("erdem");
+            }
+          );
+        }
     }
   }
 };
 </script>
+
+<style>
+.switch {
+  padding-top:1%
+}
+</style>

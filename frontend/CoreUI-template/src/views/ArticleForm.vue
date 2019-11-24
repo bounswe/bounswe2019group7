@@ -27,14 +27,25 @@
                     v-model="form.title"
                   />
                 </b-input-group>
+
                 <b-input-group class="mb-3">
                   <b-input-group-prepend>
                     <b-input-group-text>
-                      <i class="cui-align-center icons font-2xl d-block mt-4"></i>
+                      <i class="cui-align-center icons font-2xl d-block mt-1"></i>
+                    </b-input-group-text>
+                  </b-input-group-prepend>
+                  <b-form-textarea class="form-control" v-model="form.contentAbstract" :rows="5" placeholder="Abstract"></b-form-textarea>
+                </b-input-group>
+
+                <b-input-group class="mb-3">
+                  <b-input-group-prepend>
+                    <b-input-group-text>
+                      <i class="icons font-2xl d-block mt-5 cui-pencil"></i>
                     </b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-textarea class="form-control" v-model="form.content" :rows="9" placeholder="Content.."></b-form-textarea>
                 </b-input-group>
+                
                 <b-button :disabled="isDisabled" type="submit" variant="primary" class="pull-right">Save</b-button>
               </b-form>
             </b-col>
@@ -53,7 +64,7 @@ export default {
       errors: [],
       isDisabled: false,
       form: {
-        authorEmail: "",
+        contentAbstract: "",
         content: "",
         title: ""
         }
@@ -71,6 +82,9 @@ export default {
       if (!this.form.content) {
         this.errors.push("Content required.");
       }
+      if (!this.form.contentAbstract) {
+        this.errors.push("Content required.");
+      }
       if (this.errors.length) {
         return false;
       }
@@ -80,7 +94,7 @@ export default {
       this.$http
       .post('/article/create',
         {
-          authorEmail: localStorage.getItem("email"),
+          contentAbstract: this.form.contentAbstract,
           content: this.form.content,
           title: this.form.title
         }, {

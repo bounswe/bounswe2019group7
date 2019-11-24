@@ -1,5 +1,23 @@
 <template>
   <div class="animated fadeIn">
+    <div class="row" style="margin-bottom:1%">
+      <b-button
+        size="lg"
+        variant="primary"
+        block
+        v-if="seenTop"
+        v-on:click="showTopArticles"
+        >See Top Articles</b-button
+      >
+      <b-button
+        size="lg"
+        variant="primary"
+        block
+        v-if="seenAll"
+        v-on:click="showAllArticles"
+        >See All Articles</b-button
+      >
+    </div>
     <b
       class="row"
       style="justify-content: center;"
@@ -14,15 +32,20 @@
               :to="{
                 path: './article/' + item.uuid
               }"
-            >{{ item.title }}</router-link>
+              >{{ item.title }}</router-link
+            >
 
             <p hidden>{{ item.uuid }}</p>
             <div class="card-header-actions">
-              <b-badge variant="success">{{ item.authorName }} {{ item.authorSurname }}</b-badge>
+              <b-badge variant="success"
+                >{{ item.authorName }} {{ item.authorSurname }}</b-badge
+              >
             </div>
           </div>
-          {{ item.content }}
-          <p style="color:grey; text-align: end; font-size: smaller;">{{ item.stringDate }}</p>
+          {{ item.contentAbstract }}
+          <p style="color:grey; text-align: end; font-size: smaller;">
+            {{ item.stringDate }}
+          </p>
         </b-card>
       </b-col>
     </b>
@@ -43,8 +66,36 @@ export default {
   },
   data() {
     return {
-      items: []
+      items: [],
+      seenTop: true,
+      seenAll: false
     };
+  },
+  methods: {
+    showTopArticles() {
+      this.$http.get("/article/top_articles").then(
+        response => {
+          this.seenTop = false;
+          this.seenAll = true;
+          this.items = response.data.articles;
+        },
+        error => {
+          console.log("Error");
+        }
+      );
+    },
+    showAllArticles() {
+      this.$http.get("http://100.26.202.213:8080/article/articles").then(
+        response => {
+          this.seenTop = true;
+          this.seenAll = false;
+          this.items = response.data.articles;
+        },
+        error => {
+          console.log("Error");
+        }
+      );
+    }
   }
 };
 </script>
