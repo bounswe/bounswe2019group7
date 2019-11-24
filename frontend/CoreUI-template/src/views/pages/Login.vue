@@ -114,7 +114,6 @@ export default {
       } 
 
       this.isDisabled = true;
-      console.log(this.form.email);
       this.$http
       .post('login',
         {
@@ -127,7 +126,6 @@ export default {
           this.$router.push("/dashboard");
           localStorage.setItem('email', this.form.email);
           localStorage.setItem('password', this.form.password);
-          console.log(response.data.token);
           localStorage.setItem('token',response.data.token);
         } else {
           this.errors = [`An error occurred.`];
