@@ -126,6 +126,7 @@ interface ApiInterface {
         @Header("Authorization") token: String?,
         @Header("followingUserEmail") email: String?
     ): retrofit2.Call<MinimalUserResponse>
+
 }
 
 data class BasicUserInformation(
@@ -233,6 +234,7 @@ data class ArticleResponse(
     val score: Double,
     val title: String,
     val uuid: String
+
 )
 
 data class EventsListResponse(
@@ -259,4 +261,5 @@ data class HomeFeedResponse(
     val suggestedUsers: ArrayList<MinimalUserResponse>,
     val suggestedEvents: ArrayList<EventResponse>,
     val suggestedArticles: ArrayList<ArticleResponse>
+
 )

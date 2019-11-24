@@ -40,6 +40,7 @@ class AddArticleFragment : Fragment() {
             val token = (sp as SharedPreferences).getString("token", "")
             val title = titleEditText.text.toString()
             val body = bodyEditText.text.toString()
+
             retrofitService.getSelfProfileInformation(token).enqueue(object: Callback<SelfProfileInformationResponse>{
                 override fun onFailure(call: Call<SelfProfileInformationResponse>, t: Throwable) {
                     EyeTradeUtils.toastErrorMessage(activity as Context, t)

@@ -61,6 +61,7 @@ class HomepageActivity : AppCompatActivity() {
 
                 R.id.action_events -> {
                     fragment = EventFragment.newInstance()
+
                 }
 
                 R.id.action_profile -> {

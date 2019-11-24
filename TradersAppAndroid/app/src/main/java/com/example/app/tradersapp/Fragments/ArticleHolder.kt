@@ -19,6 +19,7 @@ class ArticleHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.V
     var articleChangeDate: TextView? = null
     var articleId: String? = null
     var aEmail: String? = null
+
     init {
         aImage = itemView.findViewById(R.id.aImage)
         aTitle = itemView.findViewById(R.id.aTitle)
@@ -37,6 +38,7 @@ class ArticleHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.V
         articleScore?.rating = item.score.toFloat()
         articleId = item.articleId
         aEmail = item.authorEmail
+
     }
 
 }
