@@ -233,7 +233,7 @@ export default {
       this.isDisabled = true;
 
       this.$http
-      .post('registration/register',
+      .post('registration/trader_register',
         {
           name: this.form.name,
           surname: this.form.surname,
