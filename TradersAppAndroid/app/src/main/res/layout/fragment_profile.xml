@@ -7,14 +7,15 @@
              tools:context=".Fragments.ProfileFragment">
 
     <ImageView
-      android:id="@+id/profilePic"
-      android:layout_width="120dp"
-      android:layout_height="120dp"
-      android:layout_alignParentTop="true"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="10dp"
-      android:padding="5dp"
-      app:srcCompat="@drawable/hansgraham" />
+            android:id="@+id/profilePic"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/hansgraham" />
 
     <TextView
       android:id="@+id/name"
