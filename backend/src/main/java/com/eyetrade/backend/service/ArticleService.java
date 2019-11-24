@@ -17,6 +17,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
+import static com.eyetrade.backend.constants.ErrorConstants.USER_CANNOT_GIVE_POINT_SELF;
+
 @Service
 public class ArticleService {
 
@@ -118,11 +120,14 @@ public class ArticleService {
         }
     }
 
-    public ArticleResource givePoint(Double score, UUID articleID){
+    public ArticleResource givePoint(Double score, UUID articleID,UUID userId){
         if(score < 0 || score > 5){
             throw new IllegalArgumentException(ErrorConstants.POINT_SHOULD_BE_INSIDE_RANGE);
         }
         Article article = articleRepository.getOne(articleID);
+        if (article.getAuthorEmail().equals(userRepository.findById(userId).getEmail())){
+            throw new IllegalArgumentException(USER_CANNOT_GIVE_POINT_SELF);
+        }
         int scoreCount = article.getGivenScoreCount();
         article.setScore((article.getScore() * scoreCount + score) / (scoreCount + 1));
         article.setGivenScoreCount(++scoreCount);

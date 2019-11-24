@@ -16,4 +16,5 @@ public class ErrorConstants {
     public static final String CURRENCIES_COULD_NOT_BE_UPDATED = "Currencies could not be updated ";
     public static final String POINT_SHOULD_BE_INSIDE_RANGE = "The given point should be inside [0,5] range.";
     public static final String EVENTS_CANNOT_BE_UPLOADED = "Events cannot be uploaded!";
+    public static final String USER_CANNOT_GIVE_POINT_SELF = "A user cannot give point to himself/herself!";
 }
