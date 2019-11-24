@@ -133,7 +133,23 @@ class ProfileFragment : Fragment() {
         //mDrawable.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.DST_OVER);
 
         followButton.setOnClickListener {
-            // TODO: Handle following feature
+            retrofitService.followUser(sp?.getString("token", null), otherEmail).enqueue(object: Callback<MinimalUserResponse>{
+                override fun onFailure(call: Call<MinimalUserResponse>, t: Throwable) {
+                    EyeTradeUtils.toastErrorMessage(context!!, t)
+                }
+
+                override fun onResponse(
+                    call: Call<MinimalUserResponse>,
+                    response: Response<MinimalUserResponse>
+                ) {
+                    if(response.code() == 200){
+                        Toast.makeText(context, "You are now following ${name.text}", Toast.LENGTH_SHORT).show()
+                    }else {
+                        Toast.makeText(context, "There was an error following ${name.text}", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            })
         }
 
         updateProfile.setOnClickListener {
@@ -142,6 +158,4 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
     }
-
-
 }

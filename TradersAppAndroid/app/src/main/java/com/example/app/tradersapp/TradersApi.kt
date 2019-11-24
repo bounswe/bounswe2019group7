@@ -117,6 +117,12 @@ interface ApiInterface {
 
     @GET("main_page/get_feed")
     fun getHomeFeed() : retrofit2.Call<HomeFeedResponse>
+
+    @POST("user_following/follow")
+    fun followUser(
+        @Header("Authorization") token: String?,
+        @Header("followingUserEmail") email: String?
+    ): retrofit2.Call<MinimalUserResponse>
 }
 
 data class BasicUserInformation(
