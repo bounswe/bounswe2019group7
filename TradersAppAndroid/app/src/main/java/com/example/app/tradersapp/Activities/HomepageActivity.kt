@@ -84,7 +84,6 @@ class HomepageActivity : AppCompatActivity() {
         // Default fragment
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.nav_host_fragment, HomeFragment())
-        transaction.addToBackStack(null)
         transaction.commit()
     }
 
