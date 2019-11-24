@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
-
-import com.example.app.tradersapp.R
+import android.widget.Toast
+import com.example.app.tradersapp.*
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -18,11 +18,11 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import kotlinx.android.synthetic.main.fragment_currencies.*
-import android.support.v4.content.ContextCompat
-import android.graphics.drawable.Drawable
-import com.github.mikephil.charting.utils.Utils.getSDKInt
-import android.graphics.DashPathEffect
-import com.github.mikephil.charting.utils.Utils
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 
 class CurrenciesFragment : Fragment() {
@@ -33,7 +33,10 @@ class CurrenciesFragment : Fragment() {
     private var prevTargetId = 0
 
     private lateinit var mChart: LineChart
+    private var mPastExchangeRates: MutableList<PastExchangeRateInfo>? = null
+    private var mPlotEntries: List<Entry>? = null
 
+    private var currencyIdPairs:Array<Pair<RadioButton,RadioButton>> = arrayOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,31 +49,65 @@ class CurrenciesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        currencyIdPairs =
+            arrayOf(
+                Pair(tryRb, tryRb2),
+                Pair(eurRb, eurRb2),
+                Pair(usdRb, usdRb2),
+                Pair(gbpRb, gbpRb2),
+                Pair(jpyRb, jpyRb2),
+                Pair(cnyRb, cnyRb2)
+            )
+
+
         prevBaseId = baseCurrencyRadioGroup.checkedRadioButtonId
         prevTargetId = targetCurrencyRadioGroup.checkedRadioButtonId
 
-        createPlot()
+        requestPastRates(2, baseCurrency, targetCurrency)
 
         baseCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             val checkedButton = group.findViewById<RadioButton>(checkedId)
+            if(!checkedButton.isPressed) return@setOnCheckedChangeListener
             if(checkedButton.text != targetCurrency){
                 updateButtonColors(prevBaseId, checkedButton,baseCurrencyRadioGroup)
                 prevBaseId = checkedId
                 baseCurrency = checkedButton.text.toString()
-                //createPlot()
+                requestPastRates(2, baseCurrency, targetCurrency)
+            }else{
+                swapBaseTarget()
             }
-
         }
 
         targetCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             val checkedButton = group.findViewById<RadioButton>(checkedId)
+            if(!checkedButton.isPressed) return@setOnCheckedChangeListener
             if(checkedButton.text != baseCurrency){
                 updateButtonColors(prevTargetId, checkedButton,targetCurrencyRadioGroup)
                 prevTargetId = checkedId
                 targetCurrency = checkedButton.text.toString()
-                //createPlot()
+                requestPastRates(7, baseCurrency, targetCurrency)   // Requesting for last 7 days right now
+            }else{
+                swapBaseTarget()
             }
         }
+    }
+
+    private fun swapBaseTarget(){
+        val basePair = currencyIdPairs.find { it.first.id == prevBaseId }
+        val targetPair = currencyIdPairs.find { it.second.id == prevTargetId }
+        val newBaseRb = targetPair!!.first
+        val newTargetRb = basePair!!.second
+
+        updateButtonColors(prevBaseId, newBaseRb, baseCurrencyRadioGroup)
+        updateButtonColors(prevTargetId, newTargetRb, targetCurrencyRadioGroup)
+        prevBaseId = newBaseRb.id
+        prevTargetId = newTargetRb.id
+        baseCurrency = newBaseRb.text.toString()
+        targetCurrency = newTargetRb.text.toString()
+
+        newBaseRb.isChecked = true
+        newTargetRb.isChecked = true
+        requestPastRates(7, baseCurrency, targetCurrency)
     }
 
     private fun updateButtonColors(previousCheckedId: Int, newlyCheckedButton: RadioButton, radioGroup: RadioGroup) {
@@ -78,41 +115,76 @@ class CurrenciesFragment : Fragment() {
         radioGroup.findViewById<RadioButton>(previousCheckedId).background = null
     }
 
+    private fun requestPastRates(lastdays: Int, sourceCurrency: String, targetCurrency: String){
+        val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+        retrofitService.getExchangeRateForPastDays(1f, lastdays, sourceCurrency, targetCurrency).enqueue(object: Callback<ExchangeRatePastDaysResponse>{
+            override fun onFailure(call: Call<ExchangeRatePastDaysResponse>, t: Throwable) {
+                Toast.makeText(
+                    activity,
+                    "Unexpected server error occurred. Please try again.",
+                    Toast.LENGTH_SHORT
+                ).show();
+            }
+
+            override fun onResponse(
+                call: Call<ExchangeRatePastDaysResponse>,
+                response: Response<ExchangeRatePastDaysResponse>
+            ) {
+                // If there is a response, update the list, else, keep it as it is
+                mPastExchangeRates = response.body()?.pastExchangeRates ?: mPastExchangeRates
+                mPlotEntries = mPastExchangeRates?.mapIndexed { index, pastExchangeRateInfo ->
+                    Entry(index.toFloat(), pastExchangeRateInfo.rate)
+                }
+                if(!::mChart.isInitialized){
+                    createPlot()
+                }
+                updatePlot()
+            }
+        })
+    }
+
     private fun createPlot(){
         mChart = chart
-        mChart.setTouchEnabled(true)
-        mChart.setPinchZoom(true)
+        mChart.apply{
+            setTouchEnabled(true)
+            setPinchZoom(true)
+            description.isEnabled = false
+            xAxis.isEnabled = false
+            axisRight.isEnabled = false
+            legend.textColor = Color.WHITE
+            description.textColor = Color.WHITE
+            axisLeft.textColor = Color.WHITE
+            axisLeft.textSize = 12f
+            axisLeft.setStartAtZero(true)
+            //description.text = "Change in last 7 days"
+            //description.textSize = 16f
+            legend.textSize = 12f
+            //description.setPosition(1f, 0f)
+        }
+    }
 
-        mChart.legend.textColor = Color.WHITE
-        mChart.description.isEnabled = false
-
-        mChart.xAxis.textColor = Color.WHITE
-        mChart.axisLeft.textColor = Color.WHITE
-        mChart.axisRight.textColor = Color.WHITE
-
-        val entries1 = mutableListOf(Entry(1f,2f), Entry(2f,2f),Entry(3f,5f),Entry(7f,2f))
-
-        val lineDataSet1 = LineDataSet(entries1, "Currency")
-        lineDataSet1.color = Color.RED
-        lineDataSet1.setDrawValues(false)
-        lineDataSet1.setAxisDependency(YAxis.AxisDependency.LEFT)
-
-        lineDataSet1.setDrawIcons(false)
-        lineDataSet1.enableDashedLine(10f, 5f, 0f)
-        lineDataSet1.enableDashedHighlightLine(10f, 5f, 0f)
-        lineDataSet1.setColor(Color.WHITE)
-        lineDataSet1.setCircleColor(Color.WHITE)
-        lineDataSet1.setLineWidth(1f)
-        lineDataSet1.setCircleRadius(3f)
-        lineDataSet1.setDrawCircleHole(false)
-        lineDataSet1.setValueTextSize(9f)
-        lineDataSet1.setDrawFilled(true)
-        lineDataSet1.setFormLineWidth(1f)
-        lineDataSet1.setFormLineDashEffect(DashPathEffect(floatArrayOf(10f, 5f), 0f))
-        lineDataSet1.setFormSize(15f)
-        lineDataSet1.setFillColor(Color.WHITE)
-        lineDataSet1.setValueTextColors(mutableListOf(Color.WHITE))
-
+    private fun updatePlot(){
+        val lineDataSet1 = LineDataSet(mPlotEntries, "$baseCurrency - $targetCurrency")
+        lineDataSet1.apply{
+            color = Color.RED
+            setDrawValues(true)
+            axisDependency = YAxis.AxisDependency.LEFT
+            setDrawIcons(false)
+            //enableDashedLine(10f, 5f, 0f)
+            //enableDashedHighlightLine(10f, 5f, 0f)
+            color = Color.WHITE
+            setCircleColor(Color.WHITE)
+            lineWidth = 2f
+            circleRadius = 3f
+            setDrawCircleHole(false)
+            valueTextSize = 16f
+            setDrawFilled(true)
+            //formLineWidth = 1f
+            //formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
+            //formSize = 15f
+            fillColor = Color.WHITE
+            setValueTextColors(mutableListOf(Color.WHITE))
+        }
 
         val lineDataSets: MutableList<ILineDataSet> = mutableListOf(lineDataSet1)
         val lineData = LineData(lineDataSets)
