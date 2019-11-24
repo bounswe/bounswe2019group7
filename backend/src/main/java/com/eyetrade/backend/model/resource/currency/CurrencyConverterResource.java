@@ -1,5 +1,6 @@
 package com.eyetrade.backend.model.resource.currency;
 
+import com.eyetrade.backend.constants.CurrencyType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,4 +16,6 @@ public class CurrencyConverterResource {
     private Double amount;
     private Double rate;
     private String date;
+    private CurrencyType inputCurrencyType;
+    private CurrencyType outputCurrencyType;
 }

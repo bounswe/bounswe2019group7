@@ -6,30 +6,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.annotation.Resource;
-
 /**
  * Created by Emir Gökdemir
  * on 24 Kas 2019
  */
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Resource
-public class TransactionResource {
+@Getter
+@Setter
+public class BuyTransactionResource {
 
     private CurrencyType boughtTypeCurrency;
 
-    private CurrencyType soldTypeCurrency;
+    private double boughtTypeInitialAmount;
 
-    private float boughtTypeInitialAmount;
+    private double boughtTypeLastAmount;
 
-    private float soldTypeInitialAmount;
+    public BuyTransactionResource(CurrencyType boughtTypeCurrency){
+        this.boughtTypeCurrency=boughtTypeCurrency;
+    }
 
-    private float boughtTypeLastAmount;
-
-    private float soldTypeLastAmount;
-
-    private float rate;
 }
