@@ -68,6 +68,13 @@ interface ApiInterface {
     fun getSelfProfileInformation(@Header("Authorization") token: String?): retrofit2.Call<SelfProfileInformationResponse>
 
     @Headers("Content-Type:application/json")
+    @GET("user_profile/other_profile")
+    fun getOtherProfileInformation(
+        @Header("Authorization") token: String?,
+        @Header("email") email: String?
+    ): retrofit2.Call<OtherProfileInformationResponse>
+
+    @Headers("Content-Type:application/json")
     @POST("user_profile/update_basic_profile")
     fun updateBasicUser(
         @Header("Authorization") token: String?,
@@ -170,6 +177,23 @@ data class PastExchangeRateInfo(
     val date: String
 )
 data class SelfProfileInformationResponse(
+    val name: String,
+    val surname: String,
+    val phone: String,
+    val email: String,
+    val city: String,
+    val country: String,
+    val locationX: Double,
+    val locationY: Double,
+    val identityNo: String,
+    val iban: String,
+    val role: String,
+    val privacyType: String,
+    val followerCount: Int,
+    val followingCount: Int
+)
+
+data class OtherProfileInformationResponse(
     val name: String,
     val surname: String,
     val phone: String,

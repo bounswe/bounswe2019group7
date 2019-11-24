@@ -16,10 +16,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.app.tradersapp.*
+import kotlinx.android.synthetic.main.currency_item.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Header
 
 class ProfileFragment : Fragment() {
 
@@ -38,32 +40,91 @@ class ProfileFragment : Fragment() {
 
         sp = PreferenceManager.getDefaultSharedPreferences(context)
 
-        val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-        retrofitService.getSelfProfileInformation(sp?.getString("token",null)).enqueue(object: Callback<SelfProfileInformationResponse>{
-            override fun onFailure(call: Call<SelfProfileInformationResponse>, t: Throwable) {
-                Log.i("ApiRequest", "Request failed: " + t.toString())
-                Toast.makeText(
-                    activity?.applicationContext,
-                    "Unexpected server error occurred. Please try again.",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        val retrofitService =
+            RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
 
-            override fun onResponse(call: Call<SelfProfileInformationResponse>, response: Response<SelfProfileInformationResponse>) {
-                if (response.code() == 200) {
-                    val body = response.body()
-                    name.text = body?.name + " " + body?.surname
-                    email.text = body?.email
-                }
-                else {
-                    Toast.makeText(activity?.applicationContext, "Not logged in.", Toast.LENGTH_SHORT).show()
-                }
-            }
+        val bundle = this.arguments
 
-        })
+        val otherEmail = bundle?.getString("email")
 
         val profileImage = profilePic
         val followButton = follow
+
+        if(otherEmail.isNullOrBlank()) { // self profile
+            followButton.visibility = View.GONE
+
+            retrofitService.getSelfProfileInformation(sp?.getString("token", null))
+                .enqueue(object : Callback<SelfProfileInformationResponse> {
+                    override fun onFailure(
+                        call: Call<SelfProfileInformationResponse>,
+                        t: Throwable
+                    ) {
+                        Log.i("ApiRequest", "Request failed: " + t.toString())
+                        Toast.makeText(
+                            activity?.applicationContext,
+                            "Unexpected server error occurred. Please try again.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    override fun onResponse(
+                        call: Call<SelfProfileInformationResponse>,
+                        response: Response<SelfProfileInformationResponse>
+                    ) {
+                        if (response.code() == 200) {
+                            val body = response.body()
+                            name.text = body?.name + " " + body?.surname
+                            email.text = body?.email
+                            followersText.text = body?.followerCount.toString()
+                            followingText.text = body?.followingCount.toString()
+                        } else {
+                            Toast.makeText(
+                                activity?.applicationContext,
+                                "Not logged in.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                })
+        }else{
+            updateProfile.visibility = View.GONE
+            retrofitService.getOtherProfileInformation(sp?.getString("token", null), otherEmail)
+                .enqueue(object : Callback<OtherProfileInformationResponse> {
+                    override fun onFailure(
+                        call: Call<OtherProfileInformationResponse>,
+                        t: Throwable
+                    ) {
+                        Log.i("ApiRequest", "Request failed: " + t.toString())
+                        Toast.makeText(
+                            activity?.applicationContext,
+                            "Unexpected server error occurred. Please try again.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    override fun onResponse(
+                        call: Call<OtherProfileInformationResponse>,
+                        response: Response<OtherProfileInformationResponse>
+                    ) {
+                        if (response.code() == 200) {
+                            val body = response.body()
+                            name.text = body?.name + " " + body?.surname
+                            email.text = body?.email
+                            followersText.text = body?.followerCount.toString()
+                            followingText.text = body?.followingCount.toString()
+                        } else {
+                            Toast.makeText(
+                                activity?.applicationContext,
+                                "User not found.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+                })
+        }
+
 
         val bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.hansgraham)
         val mDrawable: RoundedBitmapDrawable = RoundedBitmapDrawableFactory.create(resources,bitmap)
