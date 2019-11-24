@@ -6,8 +6,8 @@
           <b-row>
             <b-col sm="4">
               <img src="img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
-              <div class="h2 text-primary mb-0 mt-2">Name Surname</div>
-              <div class="text-muted text-uppercase font-weight-bold font-xs">(Required information)</div>
+              <div class="h2 text-primary mb-0 mt-2">{{name}} {{surname}}</div>
+              <div class="h4 text-primary mb-0 mt-4">{{privacy}}<c-switch class="mx-1 mt-1" color="primary" variant="pill" id="private" @change="privacyCheck()"/></div>
             </b-col>
             <b-col sm="8">
               <b-form @submit="checkForm">
@@ -63,31 +63,14 @@
 
                 <b-input-group class="mb-3">
                   <b-input-group-prepend>
-                    <b-input-group-text>
-                      <i class="icon-lock"></i>
-                    </b-input-group-text>
+                    <b-input-group-text><i class="fa fa-phone fa-lg"></i></b-input-group-text>
                   </b-input-group-prepend>
                   <b-form-input
-                    type="password"
+                    type="text"
                     class="form-control"
-                    placeholder="Password"
-                    autocomplete="new-password"
-                    v-model="form.password"
-                  />
-                </b-input-group>
-
-                <b-input-group class="mb-4">
-                  <b-input-group-prepend>
-                    <b-input-group-text>
-                      <i class="icon-lock"></i>
-                    </b-input-group-text>
-                  </b-input-group-prepend>
-                  <b-form-input
-                    type="password"
-                    class="form-control"
-                    placeholder="Repeat password"
-                    autocomplete="new-password"
-                    v-model="form.repeatPassword"
+                    placeholder="Phone"
+                    autocomplete="phone"
+                    v-model="form.phone"
                   />
                 </b-input-group>
 
@@ -100,26 +83,25 @@
                   <b-form-input
                     type="text"
                     class="form-control"
-                    placeholder="Location"
-                    autocomplete="location"
-                    v-model="form.location"
+                    placeholder="Country"
+                    autocomplete="country"
+                    v-model="form.country"
                   />
                 </b-input-group>
-
-                <b-form-group label="User Type:" label-for="userType" :label-cols="3">
-                  <b-form-radio-group
-                    id="userType"
-                    v-model="form.userType"
-                    :plain="true"
-                    :options="[
-                      {text: 'Trader ',value: '1'},
-                      {text: 'Basic User ',value: '2'}
-                    ]"
-                    checked="1"
-                    stacked
-                    v-on:change="changeUserType"
-                  ></b-form-radio-group>
-                </b-form-group>
+                <b-input-group class="mb-4">
+                  <b-input-group-prepend>
+                    <b-input-group-text>
+                      <i class="icon-location-pin"></i>
+                    </b-input-group-text>
+                  </b-input-group-prepend>
+                  <b-form-input
+                    type="text"
+                    class="form-control"
+                    placeholder="City"
+                    autocomplete="city"
+                    v-model="form.city"
+                  />
+                </b-input-group>
                 <div v-if="seen">
                   <b-input-group class="mb-4" id="creditCardDiv">
                     <b-input-group-prepend>
@@ -145,8 +127,8 @@
                       type="text"
                       class="form-control"
                       placeholder="Identity Number"
-                      autocomplete="identityNumber"
-                      v-model="form.identityNumber"
+                      autocomplete="identityNo"
+                      v-model="form.identityNo"
                     />
                   </b-input-group>
                 </div>
@@ -161,102 +143,179 @@
 </template>
 
 <script>
+import { Switch as cSwitch } from '@coreui/vue'
 export default {
-  name: "Forms",
+  name: 'switches',
+  components: {
+    cSwitch
+  },
   data: function() {
     return {
       seen: true,
       errors: [],
       isDisabled: false,
       form: {
-        name: "",
-        surname: "",
+        city: "",
+        country: "",
         email: "",
-        password: "",
-        repeatPassword: "",
-        location: "",
         iban: "",
-        identityNumber: "",
-        userType: 1
-        }
+        identityNo: "",
+        name: "",
+        phone: "",
+        surname: "",
+      },
+      name: "",
+      surname: "",
+      isTrader: true,
+      privacy: ""
     };
   },
+  mounted() {
+    this.$http
+        .get("http://100.26.202.213:8080/user_profile/self_profile", {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(
+          response => {
+            this.form.city = response.data.city;
+            this.form.country = response.data.country;
+            this.form.email = response.data.email;
+            this.form.name = response.data.name;
+            this.form.phone = response.data.phone;
+            this.form.surname = response.data.surname;
+
+            if(response.data.role == "BASIC_USER") {
+              this.seen = false;
+            }
+            else {
+              this.form.iban = response.data.iban;
+              this.form.identityNo = response.data.identityNo;
+            }
+
+            if(response.data.privacyType == "PRIVATE_USER") {
+              document.getElementById('private').checked = false;
+              this.privacy = "Private Profile";
+            }
+            else {
+              document.getElementById('private').checked = true;
+              this.privacy = "Public Profile";
+            }
+            this.name = response.data.name;
+            this.surname = response.data.surname;
+          },
+          error => {
+            console.log("eerror");
+          }
+        );
+  },
   methods: {
-    changeUserType() {
-      this.seen = !this.seen;
-    },
     checkForm(e) {
       
       e.preventDefault();
-      this.errors = [];
 
-      if (!this.form.name) {
-        this.errors.push("Name required.");
+      if(this.seen == false) {
+        this.$http
+          .post('/user_profile/update_basic_profile',
+            {
+              city: this.form.city,
+              country: this.form.country,
+              email: this.form.email,
+              name: this.form.name,
+              phone: this.form.phone,
+              surname: this.form.surname
+            },
+            {
+              headers: {
+                Authorization: localStorage.getItem("token")
+              }
+            }
+          )
+          .then(response => {
+            if(response.status == 200){
+              this.$router.push("/profilePage");
+            }else{
+              this.errors = [`An error occurred.`];
+              this.isDisabled = false;
+            }
+          }
+        )
       }
-      if (!this.form.surname) {
-        this.errors.push("Surname required.");
+      else {
+        this.$http
+          .post('/user_profile/update_trader_profile',
+            {
+              city: this.form.city,
+              country: this.form.country,
+              email: this.form.email,
+              iban: this.form.iban,
+              identityNo: this.form.identityNo,
+              name: this.form.name,
+              phone: this.form.phone,
+              surname: this.form.surname
+            },
+            {
+              headers: {
+                Authorization: localStorage.getItem("token")
+              }
+            }
+          )
+          .then(response => {
+            if(response.status == 200){
+              this.$router.push("/profilePage");
+            }else{
+              this.errors = [`An error occurred.`];
+              this.isDisabled = false;
+            }
+          }
+        )
       }
-      if (!this.form.email) {
-        this.errors.push("Email required.");
-      } else if (!this.validEmail(this.form.email)) {
-        this.errors.push("Valid email required.");
-      }
-      //password kontrolü
-      if (!this.form.password) {
-        this.errors.push("Password required.");
-      } else if (this.form.password != this.form.repeatPassword) {
-        this.errors.push("Passwords do not match.");
-      }
-
-      if(this.form.userType==1){
-        if (this.form.iban.length < 16 || this.form.iban.length > 18) {
-          this.errors.push("IBAN must have 16-18 characters.");
-        }
-
-        if (this.form.identityNumber.length != 11) {
-          this.errors.push("Identity number must have 11 characters.");
-        }
-      }
-
-      if (this.errors.length) {
-        return false;
-      }
-
-      this.isDisabled = true;
-
-      this.$http
-      .post('registration/register',
-        {
-          name: this.form.name,
-          surname: this.form.surname,
-          email: this.form.email,
-          password: this.form.password,
-          role: this.form.userType==1?"TRADER_USER":"BASIC_USER",
-          locationX: this.form.location,
-          locationY: this.form.location,
-          city: this.form.location,
-          iban: this.form.iban,
-          identityNo: this.form.identityNumber
-        }
-      )
-      .then(response => {
-        if(response.status == 200){
-          this.$router.push("login");
-        }else{
-          this.errors = [`An error occurred.`];
-          this.isDisabled = false;
-        }
-      },
-      error => {
-        this.errors = [`An error occurred: ${error.message}`];
-        this.isDisabled = false;
-        })
-
     },
-    validEmail: function(email) {
-      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return re.test(email);
+    privacyCheck() {
+      console.log("hel");
+        if(document.getElementById('private').checked == true) {
+          this.privacy = "Public Profile";
+          console.log("trrr");
+          this.$http
+          .post("http://100.26.202.213:8080/user_profile/update_privacy", {},{
+            headers: {
+              Authorization: localStorage.getItem("token"),
+              privacy: "PUBLIC_USER"
+            }
+          })
+          .then(
+            response => {
+            },
+            error => {
+              console.log("eerror");
+            }
+          );
+        }
+        else {
+          this.privacy = "Private Profile";
+          this.$http
+          .post("http://100.26.202.213:8080/user_profile/update_privacy", {}, {
+            headers: {
+              Authorization: "" +localStorage.getItem("token"),
+              privacy: "PRIVATE_USER"
+            }
+          })
+          .then(
+            response => {
+            },
+            error => {
+              console.log("erdem");
+            }
+          );
+        }
     }
   }
 };
 </script>
+
+<style>
+.switch {
+  padding-top:1%
+}
+</style>

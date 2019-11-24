@@ -86,7 +86,7 @@ function configRoutes() {
           component: Currency
         },
         {
-          path: "profilePage",
+          path: "profilePage/:email?",
           name: "Profile Page",
           component: ProfilePage
         },

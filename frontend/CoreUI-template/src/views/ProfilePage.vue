@@ -5,14 +5,20 @@
         <b-card-body class="p-5 clearfix">
           <b-row>
             <b-col sm="4">
+              <div class="h2 text-primary mb-0 mt-2">{{ item.role }}</div>
               <img
                 src="img/avatars/user.png"
                 class="img-avatar"
                 alt="admin@bootstrapmaster.com"
               />
-              <div class="h2 text-primary mb-0 mt-2">{{ info }}</div>
-              <div class="text-muted text-uppercase font-weight-bold font-xs">
-                (Required information)
+              <div class="h2 text-primary mb-0 mt-2">
+                {{ item.name }} {{ item.surname }}
+              </div>
+              <div class="text-muted font-weight-bold font-xs">
+                Email: {{ item.email }}
+              </div>
+              <div class="text-muted font-weight-bold font-xs">
+                Country: {{ item.city }} / {{ item.country }}
               </div>
             </b-col>
             <b-col sm="4">
@@ -30,13 +36,17 @@
                   :value="25"
                 />
               </b-card>
-              <b-button size="lg" variant="primary" block>Portfolios</b-button>
-              <b-button size="lg" variant="primary" block
+              <b-button size="lg" variant="primary" block>{{
+                portfolio
+              }}</b-button>
+              <b-button size="lg" variant="primary" v-if="seen" block
                 >Create an Alarm</b-button
               >
             </b-col>
             <b-col sm="4">
-              <b-button size="lg" variant="primary" block>Follow</b-button>
+              <b-button size="lg" variant="primary" v-if="seen" block
+                >Follow</b-button
+              >
               <br />
               <div class="brand-card" id="followersCard">
                 <div class="brand-card-header bg-twitter">
@@ -49,11 +59,11 @@
                 </div>
                 <div class="brand-card-body">
                   <div>
-                    <div class="text-value">89k</div>
+                    <div class="text-value">{{ item.followerCount }}</div>
                     <div class="text-uppercase text-muted small">Followers</div>
                   </div>
                   <div>
-                    <div class="text-value">459</div>
+                    <div class="text-value">{{ item.followingCount }}</div>
                     <div class="text-uppercase text-muted small">Following</div>
                   </div>
                 </div>
@@ -66,6 +76,35 @@
     <b-row>
       <b-card :no-body="true" id="lowerCard">
         <b-card-body class="p-5 clearfix">
+          <router-link
+            :to="{
+              path: './articleForm'
+            }"
+          >
+            <b-button
+              size="lg"
+              variant="primary"
+              style="margin-bottom:1%;"
+              v-if="articleButton"
+              >Create an Article</b-button
+            >
+          </router-link>
+          <b-button
+            size="lg"
+            variant="primary"
+            style="margin-bottom:1%; margin-left:1%"
+            v-if="seenTop"
+            v-on:click="showTopArticles"
+            >See Top Articles</b-button
+          >
+          <b-button
+            size="lg"
+            variant="primary"
+            style="margin-bottom:1%;  margin-left:1%"
+            v-if="seenAll"
+            v-on:click="showAllArticles"
+            >See All Articles</b-button
+          >
           <b-tabs>
             <b-tab title="Articles" active>
               <b-col lg="12">
@@ -98,81 +137,7 @@ import SocialBoxChartExample from "./dashboard/SocialBoxChartExample";
 import { shuffleArray } from "@/shared/utils";
 import cTable from "./base/Table.vue";
 
-const someData = () =>
-  shuffleArray([
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      description: "",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      description: "",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    },
-    {
-      title: "Samppa Nori",
-      publishDate: "2012/01/01",
-      details: "Member"
-    }
-  ]);
+const someData = () => shuffleArray([{}]);
 
 export default {
   name: "tables",
@@ -183,12 +148,17 @@ export default {
       items: someData,
       itemsArray: someData(),
       fields: [
-        { key: "title", label: "Title", sortable: true },
-        { key: "description" },
-        { key: "publishDate", label: "Publish Date" },
-        { key: "details", label: "See Details", formatter: "fullName" }
+        { key: "title", label: "Title", sortable: true, formatter: "uuid" },
+        { key: "contentAbstract", label: "Absttact" },
+        { key: "stringDate", label: "Publish Date" }
       ],
-      info: null
+      item: [],
+      seen: true,
+      portfolio: "Portfolio",
+      articleButton: false,
+      articles: [],
+      seenTop: true,
+      seenAll: false
     };
   },
   components: {
@@ -196,23 +166,150 @@ export default {
     cTable
   },
   methods: {
-    click() {
-      // do nothing
+    showTopArticles() {
+      this.seenAll = true;
+      this.seenTop = false;
+      if (this.portfolio == "My Portfolio") {
+        this.$http
+          .get("http://100.26.202.213:8080/article/self_top_articles", {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          })
+          .then(
+            response => {
+              this.items = response.data.articles;
+            },
+            error => {
+              console.log("error");
+            }
+          );
+      } else {
+        this.$http
+          .get(
+            "http://100.26.202.213:8080/article/user_top_articles?userEmail=" +
+              this.$route.params.email
+          )
+          .then(
+            response => {
+              this.items = response.data.articles;
+            },
+            error => {
+              console.log("error");
+            }
+          );
+      }
+    },
+    showAllArticles() {
+      this.seenAll = false;
+      this.seenTop = true;
+      if (this.portfolio == "My Portfolio") {
+        this.$http
+          .get("http://100.26.202.213:8080/article/self_articles", {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          })
+          .then(
+            response => {
+              this.items = response.data.articles;
+            },
+            error => {
+              console.log("error");
+            }
+          );
+      } else {
+        this.$http
+          .get(
+            "http://100.26.202.213:8080/article/user_articles?userEmail=" +
+              this.$route.params.email
+          )
+          .then(
+            response => {
+              this.items = response.data.articles;
+            },
+            error => {
+              console.log("error");
+            }
+          );
+      }
     }
   },
   mounted() {
+    if (this.$route.params.email == null) {
+      this.seen = !this.seen;
+      this.portfolio = "My Portfolio";
+      this.articleButton = true;
+      this.$http
+        .get("http://100.26.202.213:8080/user_profile/self_profile", {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(
+          response => {
+            this.item = response.data;
+            if (this.item.role == "BASIC_USER") {
+              this.item.role = "BASIC USER";
+            } else {
+              this.item.role = "TRADER";
+            }
+          },
+          error => {
+            console.log("eerror");
+          }
+        );
+      this.$http
+        .get("http://100.26.202.213:8080/article/self_articles", {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(
+          response => {
+            this.items = response.data.articles;
+          },
+          error => {
+            console.log("error");
+          }
+        );
+    } else {
+      this.$http
+        .get("http://100.26.202.213:8080/user_profile/other_profile", {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+            email: this.$route.params.email
+          }
+        })
+        .then(
+          response => {
+            this.item = response.data;
+            if (this.item.role == "BASIC_USER") {
+              this.item.role = "BASIC USER";
+            } else {
+              this.item.role = "TRADER";
+            }
+          },
+          error => {
+            console.log("eerror");
+          }
+        );
+      this.$http
+        .get(
+          "http://100.26.202.213:8080/article/user_articles?userEmail=" +
+            this.$route.params.email
+        )
+        .then(
+          response => {
+            this.items = response.data.articles;
+          },
+          error => {
+            console.log("error");
+          }
+        );
+    }
     let user = JSON.parse(localStorage.getItem("user"));
     console.log(user);
-    this.$http
-      .get("http://100.26.202.213:8080/user_profile/self_profile", 1)
-      .then(
-        response => {
-          info = response.name;
-        },
-        error => {
-          console.log("eerror");
-        }
-      );
   }
 };
 </script>
