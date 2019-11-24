@@ -40,34 +40,27 @@ class AddArticleFragment : Fragment() {
             val token = (sp as SharedPreferences).getString("token", "")
             val title = titleEditText.text.toString()
             val body = bodyEditText.text.toString()
-            retrofitService.getSelfProfileInformation(token).enqueue(object: Callback<SelfProfileInformationResponse>{
-                override fun onFailure(call: Call<SelfProfileInformationResponse>, t: Throwable) {
+
+
+
+            val requestBody = ArticleInformation(body, title)
+
+            retrofitService.createArticle(token, requestBody).enqueue(object: Callback<ArticleResponse>{
+                override fun onFailure(call: Call<ArticleResponse>, t: Throwable) {
                     EyeTradeUtils.toastErrorMessage(activity as Context, t)
                 }
 
-                override fun onResponse(
-                    call: Call<SelfProfileInformationResponse>,
-                    response: Response<SelfProfileInformationResponse>
-                ) {
-                    val resp = response.body()
-                    val requestBody = ArticleInformation(resp?.email, resp?.name, resp?.surname, body, title)
-
-                    retrofitService.createArticle(token, requestBody).enqueue(object: Callback<ArticleResponse>{
-                        override fun onFailure(call: Call<ArticleResponse>, t: Throwable) {
-                            EyeTradeUtils.toastErrorMessage(activity as Context, t)
-                        }
-
-                        override fun onResponse(call: Call<ArticleResponse>, response: Response<ArticleResponse>) {
-                            Toast.makeText(
-                                activity,
-                                "Your article is successfully published!",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            activity?.onBackPressed()    // close the fragment
-                        }
-                    })
+                override fun onResponse(call: Call<ArticleResponse>, response: Response<ArticleResponse>) {
+                    Toast.makeText(
+                        activity,
+                        "Your article is successfully published!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    activity?.onBackPressed()    // close the fragment
                 }
             })
         }
+
     }
 }
+
