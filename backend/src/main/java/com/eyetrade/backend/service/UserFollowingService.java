@@ -2,9 +2,9 @@ package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.mapper.UserMapper;
 import com.eyetrade.backend.model.entity.User;
-import com.eyetrade.backend.model.entity.UserFollowing;
+import com.eyetrade.backend.model.entity.UserFollowsUser;
 import com.eyetrade.backend.model.resource.user.MinimalUserResource;
-import com.eyetrade.backend.repository.UserFollowingRepository;
+import com.eyetrade.backend.repository.UserFollowsUserRepository;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class UserFollowingService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserFollowingRepository userFollowingRepository;
+    private UserFollowsUserRepository userFollowsUserRepository;
 
     @Autowired
     private NotificationService notificationService;
@@ -31,12 +31,12 @@ public class UserFollowingService {
         User follower = userRepository.findById(followerId);
         User following = userRepository.findByEmail(followingEmail);
         // create the relationship object
-        UserFollowing relation = new UserFollowing();
+        UserFollowsUser relation = new UserFollowsUser();
         relation.setFollower(follower);
         relation.setFollowing(following);
         relation.setTimestamp(new Date().getTime());
         // save it
-        userFollowingRepository.saveAndFlush(relation);
+        userFollowsUserRepository.saveAndFlush(relation);
         // create the notification
         notificationService.createNotification(follower, following);
         // return the response
@@ -45,12 +45,12 @@ public class UserFollowingService {
 
     // Get the count of the followings of the given user
     public long countFollowings(User follower){
-        return userFollowingRepository.countByFollower(follower);
+        return userFollowsUserRepository.countByFollower(follower);
     }
 
     // Get the count of the followers of the given user
     public long countFollowers(User following){
-        return userFollowingRepository.countByFollowing(following);
+        return userFollowsUserRepository.countByFollowing(following);
     }
 
     // Get the followers of the current user
@@ -79,9 +79,9 @@ public class UserFollowingService {
 
     private List<MinimalUserResource> getFollowers(User following){
         // Our user will be the following but we need her followers
-        List<UserFollowing> relations = userFollowingRepository.findByFollowing(following);
+        List<UserFollowsUser> relations = userFollowsUserRepository.findByFollowing(following);
         List<MinimalUserResource> followers = new ArrayList<>();
-        for(UserFollowing relation : relations){
+        for(UserFollowsUser relation : relations){
             MinimalUserResource follower = UserMapper.entityToMinimalUserResource(relation.getFollower());
             followers.add(follower);
         }
@@ -90,9 +90,9 @@ public class UserFollowingService {
 
     private List<MinimalUserResource> getFollowings(User follower){
         // Our user will be the follower but we need her followings
-        List<UserFollowing> relations = userFollowingRepository.findByFollower(follower);
+        List<UserFollowsUser> relations = userFollowsUserRepository.findByFollower(follower);
         List<MinimalUserResource> followings = new ArrayList<>();
-        for(UserFollowing relation : relations){
+        for(UserFollowsUser relation : relations){
             MinimalUserResource following = UserMapper.entityToMinimalUserResource(relation.getFollowing());
             followings.add(following);
         }

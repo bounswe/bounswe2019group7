@@ -25,7 +25,7 @@ import static com.eyetrade.backend.utils.DateUtils.getDateXDaysAgoWithFormat;
  * on 17 Eki 2019
  */
 @Service
-public class CurrencyConverterService {
+public class CurrencyRateService {
 
     @Autowired
     private CurrencyRepository currencyRepository;
@@ -42,6 +42,10 @@ public class CurrencyConverterService {
         return resource;
     }
 
+    public CurrencyRecord findLastRecord(){
+        return currencyRecordService.updateIfCurrenciesExpiredAndGetLastRecord();
+    }
+
     public Double findRate(CurrencyType type, CurrencyRecord record) {
         switch (type) {
             case TRY:
@@ -52,6 +56,10 @@ public class CurrencyConverterService {
                 return record.getSterlingRate();
             case USD:
                 return record.getDollarRate();
+            case JPY:
+                return record.getJapanRate();
+            case CNY:
+                return record.getChinaRate();
             default:
                 throw new RuntimeException(NO_SUCH_CURRENCY_TYPES);
         }
@@ -82,4 +90,5 @@ public class CurrencyConverterService {
         }
         return resources;
     }
+
 }

@@ -45,8 +45,11 @@ public class UserProfileService {
     }
 
     public CompleteUserResource updateBasicProfile(UUID userId, BasicUserDto newBasicUserDto){
+        User oldUser = userRepository.findById(userId);
         User updatedUser = UserMapper.basicUserDtoToEntity(newBasicUserDto);
-        updatedUser.setId(userId);
+        updatedUser.setId(oldUser.getId());
+        updatedUser.setPword(oldUser.getPword());
+        updatedUser.setConfirmed(oldUser.isConfirmed());
         userRepository.save(updatedUser);
         return UserMapper.entityToCompleteUserResource(updatedUser,
                 userFollowingService.countFollowers(updatedUser),
@@ -54,8 +57,11 @@ public class UserProfileService {
     }
 
     public CompleteUserResource updateTraderProfile(UUID userId, TraderUserDto newTraderUserDto){
+        User oldUser = userRepository.findById(userId);
         User updatedUser = UserMapper.traderUserDtoToEntity(newTraderUserDto);
-        updatedUser.setId(userId);
+        updatedUser.setId(oldUser.getId());
+        updatedUser.setPword(oldUser.getPword());
+        updatedUser.setConfirmed(oldUser.isConfirmed());
         userRepository.save(updatedUser);
         return UserMapper.entityToCompleteUserResource(updatedUser,
                 userFollowingService.countFollowers(updatedUser),
