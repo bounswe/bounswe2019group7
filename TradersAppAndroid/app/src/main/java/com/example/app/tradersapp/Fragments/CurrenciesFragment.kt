@@ -36,6 +36,8 @@ class CurrenciesFragment : Fragment() {
     private var mPastExchangeRates: MutableList<PastExchangeRateInfo>? = null
     private var mPlotEntries: List<Entry>? = null
 
+    private var currencyIdPairs:Array<Pair<RadioButton,RadioButton>> = arrayOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +49,17 @@ class CurrenciesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        currencyIdPairs =
+            arrayOf(
+                Pair(tryRb, tryRb2),
+                Pair(eurRb, eurRb2),
+                Pair(usdRb, usdRb2),
+                Pair(gbpRb, gbpRb2),
+                Pair(jpyRb, jpyRb2),
+                Pair(cnyRb, cnyRb2)
+            )
+
+
         prevBaseId = baseCurrencyRadioGroup.checkedRadioButtonId
         prevTargetId = targetCurrencyRadioGroup.checkedRadioButtonId
 
@@ -54,23 +67,47 @@ class CurrenciesFragment : Fragment() {
 
         baseCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             val checkedButton = group.findViewById<RadioButton>(checkedId)
+            if(!checkedButton.isPressed) return@setOnCheckedChangeListener
             if(checkedButton.text != targetCurrency){
                 updateButtonColors(prevBaseId, checkedButton,baseCurrencyRadioGroup)
                 prevBaseId = checkedId
                 baseCurrency = checkedButton.text.toString()
                 requestPastRates(2, baseCurrency, targetCurrency)
+            }else{
+                swapBaseTarget()
             }
         }
 
         targetCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             val checkedButton = group.findViewById<RadioButton>(checkedId)
+            if(!checkedButton.isPressed) return@setOnCheckedChangeListener
             if(checkedButton.text != baseCurrency){
                 updateButtonColors(prevTargetId, checkedButton,targetCurrencyRadioGroup)
                 prevTargetId = checkedId
                 targetCurrency = checkedButton.text.toString()
                 requestPastRates(7, baseCurrency, targetCurrency)   // Requesting for last 7 days right now
+            }else{
+                swapBaseTarget()
             }
         }
+    }
+
+    private fun swapBaseTarget(){
+        val basePair = currencyIdPairs.find { it.first.id == prevBaseId }
+        val targetPair = currencyIdPairs.find { it.second.id == prevTargetId }
+        val newBaseRb = targetPair!!.first
+        val newTargetRb = basePair!!.second
+
+        updateButtonColors(prevBaseId, newBaseRb, baseCurrencyRadioGroup)
+        updateButtonColors(prevTargetId, newTargetRb, targetCurrencyRadioGroup)
+        prevBaseId = newBaseRb.id
+        prevTargetId = newTargetRb.id
+        baseCurrency = newBaseRb.text.toString()
+        targetCurrency = newTargetRb.text.toString()
+
+        newBaseRb.isChecked = true
+        newTargetRb.isChecked = true
+        requestPastRates(7, baseCurrency, targetCurrency)
     }
 
     private fun updateButtonColors(previousCheckedId: Int, newlyCheckedButton: RadioButton, radioGroup: RadioGroup) {
