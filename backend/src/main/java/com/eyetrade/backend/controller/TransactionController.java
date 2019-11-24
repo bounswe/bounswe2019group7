@@ -4,7 +4,9 @@ import com.eyetrade.backend.model.dto.transaction.BuyTransactionDto;
 import com.eyetrade.backend.model.dto.transaction.ExchangeTransactionDto;
 import com.eyetrade.backend.model.resource.transaction.BuyTransactionResource;
 import com.eyetrade.backend.model.resource.transaction.ExchangeTransactionResource;
+import com.eyetrade.backend.model.resource.transaction.UserAccountResource;
 import com.eyetrade.backend.security.JwtResolver;
+import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.TransactionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,11 +30,21 @@ public class TransactionController {
     @Autowired
     private JwtResolver jwtResolver;
 
-    @ApiOperation(value = "A trader user can create trading account.", response = void.class)
+    @Autowired
+    private JwtUserChecker jwtUserChecker;
+
+    @ApiOperation(value = "A trader user can create trading account.", response = UserAccountResource.class)
     @GetMapping("/create_trading_account")
-    public ResponseEntity<String> createTradingAccount(@RequestHeader("Authorization") String token){
-        UUID userId=jwtResolver.getIdFromToken(token);
+    public ResponseEntity<UserAccountResource> createTradingAccount(@RequestHeader("Authorization") String token) throws IllegalAccessException{
+        UUID userId=jwtUserChecker.resolveTraderToken(token);
         return ResponseEntity.ok(service.createTradingAccount(userId));
+    }
+
+    @ApiOperation(value = "A trader user can access his/her trading account.", response = UserAccountResource.class)
+    @GetMapping("/get_trading_account")
+    public ResponseEntity<UserAccountResource> getTradingAccount(@RequestHeader("Authorization") String token){
+        UUID userId=jwtResolver.getIdFromToken(token);
+        return ResponseEntity.ok(service.getUserTradingAccount(userId));
     }
 
     @ApiOperation(value = "A user can buy fund with dto.", response = BuyTransactionResource.class)

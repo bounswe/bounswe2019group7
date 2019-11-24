@@ -16,6 +16,6 @@ public interface UserTradingAccountRepository extends JpaRepository<UserTradingA
 
     UserTradingAccount findUserTradingAccountById(UUID id);
 
-    UserTradingAccount findUserTradingAccountByUserId(User userId);
+    UserTradingAccount findUserTradingAccountByUser(User user);
 
 }
