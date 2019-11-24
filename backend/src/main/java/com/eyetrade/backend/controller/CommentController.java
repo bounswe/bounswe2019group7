@@ -18,7 +18,7 @@ import java.util.UUID;
  * on 24 Kas 2019
  */
 
-@Api(value = "Comments", tags = {"Operations Related with Comments of Article or Events"})
+@Api(value = "Comments", tags = {"Comments of Article or Events"})
 @RestController
 @RequestMapping("/comment_controller")
 public class CommentController {
