@@ -305,7 +305,7 @@ export default {
             response => {
             },
             error => {
-              console.log("erdem");
+              console.log("error");
             }
           );
         }
