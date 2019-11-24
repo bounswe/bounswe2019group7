@@ -1,8 +1,8 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.model.entity.EventRssFeed;
+import com.eyetrade.backend.model.resource.event.EventsResource;
 import com.eyetrade.backend.model.resource.event.EventResource;
-import com.eyetrade.backend.model.resource.event.EventResourceInstance;
 import com.eyetrade.backend.security.JwtUserChecker;
 import com.eyetrade.backend.service.EventRssReaderService;
 import com.eyetrade.backend.service.EventService;
@@ -40,21 +40,21 @@ public class EventController {
         return rssReaderService.readAndSaveFeed();
     }
 
-    @ApiOperation(value = "Rss element description", response = EventResourceInstance.class)
+    @ApiOperation(value = "Rss element description", response = EventResource.class)
     @GetMapping("/get_an_event")
-    public EventResourceInstance getEvent(@RequestParam UUID id) {
+    public EventResource getEvent(@RequestParam UUID id) {
         return eventService.getEvent(id);
     }
 
     @ApiOperation(value = "Get events order by time", response = List.class)
     @GetMapping("/get_events")
-    public EventResource getEvents() {
+    public EventsResource getEvents() {
         return eventService.getEvents();
     }
 
-    @ApiOperation(value = "Give point to an event over 5", response = EventResourceInstance.class)
+    @ApiOperation(value = "Give point to an event over 5", response = EventResource.class)
     @PostMapping("/give_point")
-    public EventResourceInstance givePoint(@RequestHeader("Authorization") String token, @RequestParam UUID id, @RequestParam Double score) throws IllegalAccessException {
+    public EventResource givePoint(@RequestHeader("Authorization") String token, @RequestParam UUID id, @RequestParam Double score) throws IllegalAccessException {
         jwtUserChecker.resolveBasicToken(token);
         return eventService.givePoint(id, score);
     }

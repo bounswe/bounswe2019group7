@@ -1,12 +1,11 @@
 package com.eyetrade.backend.model.resource.event;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.annotation.Resource;
-import java.util.UUID;
+import java.util.List;
 
 /**
  * Created by Emir Gökdemir
@@ -17,12 +16,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class EventResource {
-    private UUID guid;
-    private String title;
-    private String content;
-    private String stringDate;
-    private String link;
-    private Double score;
+public class EventsResource {
+    private List<EventResource> instances;
 }

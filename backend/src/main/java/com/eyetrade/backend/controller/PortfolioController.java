@@ -1,7 +1,6 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.constants.CurrencyType;
-import com.eyetrade.backend.model.resource.currency.CurrencyFollowingResource;
 import com.eyetrade.backend.model.resource.portfolio.PortfolioResource;
 import com.eyetrade.backend.model.resource.portfolio.PortfoliosResource;
 import com.eyetrade.backend.security.JwtUserChecker;
