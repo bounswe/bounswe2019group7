@@ -20,6 +20,9 @@
     <string name="currency_usd">USD</string>
     <string name="currency_eur">EUR</string>
     <string name="currency_gbp">GBP</string>
+    <string name="currency_jpy">JPY</string>
+    <string name="currency_cny">CNY</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

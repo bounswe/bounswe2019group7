@@ -1,18 +1,18 @@
 package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.constants.CurrencyType;
-import com.eyetrade.backend.model.entity.CurrencyFollowing;
+import com.eyetrade.backend.model.entity.CurrencyRecord;
+import com.eyetrade.backend.model.entity.PortfolioFollowsCurrency;
 import com.eyetrade.backend.model.entity.Portfolio;
-import com.eyetrade.backend.model.entity.User;
-import com.eyetrade.backend.model.resource.currency.CurrencyFollowingResource;
+import com.eyetrade.backend.model.resource.portfolio.PortfolioCurrencyPair;
 import com.eyetrade.backend.model.resource.portfolio.PortfolioResource;
 import com.eyetrade.backend.model.resource.portfolio.PortfoliosResource;
-import com.eyetrade.backend.repository.CurrencyFollowingRepository;
+import com.eyetrade.backend.repository.PortfolioFollowsCurrencyRepository;
 import com.eyetrade.backend.repository.PortfolioRepository;
-import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 import static com.eyetrade.backend.constants.ErrorConstants.FOLLOWING_RELATION_ALREADY_EXISTS;
@@ -23,54 +23,86 @@ import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 public class PortfolioService {
 
     @Autowired
+    private CurrencyRateService currencyRateService;
+
+    @Autowired
     private PortfolioRepository portfolioRepository;
 
     @Autowired
-    private CurrencyFollowingRepository followingRepository;
+    private PortfolioFollowsCurrencyRepository portfolioFollowsCurrencyRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CurrencyFollowingService currencyFollowingService;
-
-    public PortfolioResource createPortfolio(String portfolioName, UUID ownerID){
+    @Transactional
+    public PortfolioResource createPortfolio(String portfolioName, UUID ownerId){
         Portfolio portfolio = new Portfolio();
         portfolio.setName(portfolioName);
-        portfolio.setOwnerID(ownerID.toString());
+        portfolio.setOwnerId(ownerId);
         portfolioRepository.save(portfolio);
-        return new PortfolioResource(portfolio.getId(),portfolioName,ownerID.toString());
+        return new PortfolioResource(portfolio.getId(), portfolioName, ownerId, new ArrayList<>(), new ArrayList<>());
     }
 
-    public PortfolioResource addCurrency(UUID ownerID, CurrencyType currencyType, UUID portfolioID){
-        User user = userRepository.findById(ownerID);
-        if (followingRepository.existsByBaseCurrencyTypeAndFollower(currencyType,user)){
+    @Transactional
+    public PortfolioResource addCurrency(CurrencyType currencyType, UUID portfolioId){
+        if(portfolioFollowsCurrencyRepository.existsByBaseCurrencyTypeAndFollowerPortfolioId(currencyType, portfolioId)){
             throw new IllegalArgumentException(FOLLOWING_RELATION_ALREADY_EXISTS);
         }
-        CurrencyFollowing relation = new CurrencyFollowing();
-        relation.setFollower(user);
+        PortfolioFollowsCurrency relation = new PortfolioFollowsCurrency();
         relation.setBaseCurrencyType(currencyType);
-        relation.setPortfolioID(portfolioID.toString());
-        relation.setFollowingDate(dateTimeFormatter(new Date(),DB_DATE_TIME_FORMAT));
-        followingRepository.saveAndFlush(relation);
-        Portfolio portfolio = portfolioRepository.findPortfolioById(portfolioID);
-        return new PortfolioResource(portfolio.getId(),portfolio.getName(),ownerID.toString());
-
+        relation.setFollowerPortfolioId(portfolioId);
+        relation.setFollowingDate(dateTimeFormatter(new Date(), DB_DATE_TIME_FORMAT));
+        portfolioFollowsCurrencyRepository.save(relation);
+        Portfolio portfolio = portfolioRepository.findPortfolioById(portfolioId);
+        return createPortfolioResource(portfolio);
     }
 
-    public PortfoliosResource getPortfolios(UUID ownerID){
-        List<PortfolioResource> resources = new ArrayList<PortfolioResource>();
-        List<Portfolio> portfolios = portfolioRepository.findAllByOwnerID(ownerID.toString());
-
+    public PortfoliosResource getPortfolios(UUID ownerId){
+        List<PortfolioResource> resources = new ArrayList<>();
+        List<Portfolio> portfolios = portfolioRepository.findByOwnerId(ownerId);
         for(Portfolio portfolio: portfolios){
-            resources.add(new PortfolioResource(portfolio.getId(),portfolio.getName(),ownerID.toString()));
+            PortfolioResource resource = createPortfolioResource(portfolio);
+            resources.add(resource);
         }
-
         return new PortfoliosResource(resources);
     }
 
-    public CurrencyFollowingResource getCurrencies(String portfolioID){
-        return currencyFollowingService.getFollowings(portfolioID);
+    private PortfolioResource createPortfolioResource(Portfolio portfolio){
+        PortfolioResource portfolioResource = new PortfolioResource();
+        List<CurrencyType> currencies = getAllCurrenciesOfPortfolio(portfolio);
+        List<PortfolioCurrencyPair> currencyPairs = getAllPairsRelatedWithPortfolio(currencies);
+        portfolioResource.setId(portfolio.getId());
+        portfolioResource.setName(portfolio.getName());
+        portfolioResource.setOwnerId(portfolio.getOwnerId());
+        portfolioResource.setCurrencyTypes(currencies);
+        portfolioResource.setCurrencyPairs(currencyPairs);
+        return portfolioResource;
     }
+
+    private List<CurrencyType> getAllCurrenciesOfPortfolio(Portfolio portfolio){
+        List<CurrencyType> currencies = new ArrayList<>();
+        List<PortfolioFollowsCurrency> relations = portfolioFollowsCurrencyRepository.findByFollowerPortfolioId(portfolio.getId());
+        for(PortfolioFollowsCurrency relation : relations){
+            currencies.add(relation.getBaseCurrencyType());
+        }
+        return currencies;
+    }
+
+    private List<PortfolioCurrencyPair> getAllPairsRelatedWithPortfolio(List<CurrencyType> portfolioCurrencies){
+        List<PortfolioCurrencyPair> currencyPairs = new ArrayList<>();
+        CurrencyRecord lastRecord = currencyRateService.findLastRecord();
+        int n = portfolioCurrencies.size();
+        for(int i = 0; i < n; i++){
+            for(int j = i+1; j < n; j++){
+                CurrencyType firstType = portfolioCurrencies.get(i);
+                CurrencyType secondType = portfolioCurrencies.get(j);
+                double firstRate = currencyRateService.findRate(firstType, lastRecord);
+                double secondRate = currencyRateService.findRate(secondType, lastRecord);
+                PortfolioCurrencyPair pair = new PortfolioCurrencyPair(firstType, secondType, firstRate / secondRate);
+                currencyPairs.add(pair);
+            }
+        }
+        return currencyPairs;
+    }
+
+
+
 }
 

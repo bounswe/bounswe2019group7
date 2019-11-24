@@ -48,6 +48,8 @@ public class CurrencyRecordService {
         record.setEuroRate(rates.get(CurrencyType.EUR.toString()).doubleValue());
         record.setTurkishLiraRate(rates.get(CurrencyType.TRY.toString()).doubleValue());
         record.setSterlingRate(rates.get(CurrencyType.GBP.toString()).doubleValue());
+        record.setJapanRate(rates.get(CurrencyType.JPY.toString()).doubleValue());
+        record.setChinaRate(rates.get(CurrencyType.CNY.toString()).doubleValue());
         currencyRepository.save(record);
         return record;
     }
@@ -67,13 +69,12 @@ public class CurrencyRecordService {
         }
     }
 
-
     public CurrencyRecord updateIfCurrenciesExpiredAndGetLastRecord(){
-        CurrencyRecord record= currencyRepository.findLastRecord();
+        CurrencyRecord record = currencyRepository.findLastRecord();
         try{
-            if(record==null || checkExpired((new SimpleDateFormat(DB_DATE_TIME_FORMAT).parse(record.getDate())).getTime())){
+            if(record == null || checkExpired((new SimpleDateFormat(DB_DATE_TIME_FORMAT).parse(record.getDate())).getTime())){
                 try {
-                    record=getCurrencyRecord();
+                    record = getCurrencyRecord();
                 } catch (IOException e) {
                     throw new RuntimeException(CURRENCIES_COULD_NOT_BE_UPDATED);
                 }

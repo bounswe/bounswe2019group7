@@ -21,5 +21,6 @@ public class Portfolio {
     private String name;
 
     @Column(name = "owner_id")
-    private String ownerID;
+    private UUID ownerId; // the owner user's id
+
 }

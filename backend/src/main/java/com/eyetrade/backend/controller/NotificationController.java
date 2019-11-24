@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@Api(value = "Notifications", tags = {"Operations Related With Notifications"})
+@Api(value = "Notifications", tags = {"Notifications"})
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {

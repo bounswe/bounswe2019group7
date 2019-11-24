@@ -1,5 +1,6 @@
 package com.eyetrade.backend.model.entity;
 
+import com.eyetrade.backend.constants.CurrencyType;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,10 +10,15 @@ import java.util.UUID;
 
 import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
 
+/**
+ * Created by Emir Gökdemir
+ * on 2 Kas 2019
+ */
+
 @Data
 @Entity
-@Table(name="user_following")
-public class UserFollowing {
+@Table(name="portfolio_follows_currency")
+public class PortfolioFollowsCurrency {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "system-uuid")
@@ -21,17 +27,15 @@ public class UserFollowing {
     private UUID id;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "follower")
-    private User follower;
+    @Column(name = "portfolio_id")
+    private UUID followerPortfolioId;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "following")
-    private User following;
+    @Column(name = "base_currency_type")
+    private CurrencyType baseCurrencyType;
 
     @NotNull
-    @Column(name = "timestamp")
-    private Long timestamp;
+    @Column(name = "Date")
+    private String followingDate;
 
 }

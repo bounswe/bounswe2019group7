@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@Api(value = "User Following", tags = {"Operations Related with User Following Relations"})
+@Api(value = "User Following", tags = {"User Following"})
 @RestController
 @RequestMapping("/user_following")
 public class    UserFollowingController {
