@@ -232,19 +232,53 @@ export default {
 
       this.isDisabled = true;
 
-      this.$http
-      .post('registration/trader_register',
+      if(this.form.userType==1){
+        this.$http
+          .post('registration/trader_register',
+          {
+            name: this.form.name,
+            surname: this.form.surname,
+            email: this.form.email,
+            locationX: 0,
+            locationY: 0,
+            city: this.form.location,
+            iban: this.form.iban,
+            identityNo: this.form.identityNumber
+          },
+          {
+            headers: {
+              password: this.form.password
+            }
+          }
+        )
+        .then(response => {
+          if(response.status == 200){
+            this.$router.push("login");
+          }else{
+            this.errors = [`An error occurred.`];
+            this.isDisabled = false;
+          }
+        },
+        error => {
+          this.errors = [`An error occurred: ${error.message}`];
+          this.isDisabled = false;
+          })
+      }
+      else {
+        this.$http
+      .post('registration/basic_register',
         {
           name: this.form.name,
           surname: this.form.surname,
           email: this.form.email,
-          password: this.form.password,
-          role: this.form.userType==1?"TRADER_USER":"BASIC_USER",
-          locationX: this.form.location,
-          locationY: this.form.location,
-          city: this.form.location,
-          iban: this.form.iban,
-          identityNo: this.form.identityNumber
+          locationX: 0,
+          locationY: 0,
+          city: this.form.location
+        },
+        {
+          headers: {
+            password: this.form.password
+          }
         }
       )
       .then(response => {
@@ -259,6 +293,7 @@ export default {
         this.errors = [`An error occurred: ${error.message}`];
         this.isDisabled = false;
         })
+      }
 
     },
     validEmail: function(email) {

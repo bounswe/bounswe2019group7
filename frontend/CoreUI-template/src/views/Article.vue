@@ -3,18 +3,14 @@
     <b class="row" style="justify-content: center;" id="articleCard">
       <b-col sm="6" md="10">
         <b-card>
-          <div slot="header">
-            {{ item.title }}
-          </div>
+          <div slot="header">{{ item.title }}</div>
           <div class="row">
             <p>Title:</p>
             <p style="color:grey">{{ item.title }}</p>
           </div>
           <div class="row">
             Author:
-            <p style="color:grey">
-              {{ item.authorName }} {{ item.authorSurname }}
-            </p>
+            <p style="color:grey">{{ item.authorName }} {{ item.authorSurname }}</p>
           </div>
           <div class="row">
             Author Email:

@@ -1,7 +1,5 @@
 <template>
-  <router-view>
-    <input type="text" hidden id="tokenForUserID" />
-  </router-view>
+  <router-view></router-view>
 </template>
 
 <script>
