@@ -31,6 +31,7 @@
     "css-vars-ponyfill": "^2.0.2",
     "flag-icon-css": "^3.3.0",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.4.1",
     "perfect-scrollbar": "^1.4.0",
     "simple-line-icons": "^2.4.1",
     "vue": "^2.6.10",
@@ -48,7 +49,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "growl": "^1.10.5",
-    "https-proxy-agent": "^2.2.1",
+    "https-proxy-agent": "^2.2.4",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.6.10"

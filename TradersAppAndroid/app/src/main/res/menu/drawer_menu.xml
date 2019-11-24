@@ -4,66 +4,66 @@
     <item
             android:id="@+id/action_home"
             android:title="Home"
-            android:icon="@android:drawable/ic_dialog_map"
+            android:icon="@drawable/ic_home_black_24dp"
             />
     <item
             android:id="@+id/action_events"
             android:title="Events"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@drawable/ic_event_black_24dp"
             />
     <item
             android:id="@+id/action_articles"
             android:title="Articles"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@drawable/ic_paragraph_black_24dp"
             />
     <item
             android:id="@+id/action_trade_indices"
             android:title="Trade Indices"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@drawable/ic_compare_arrows_black_24dp"
             />
     <item
             android:id="@+id/action_stocks"
             android:title="Stocks"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@drawable/ic_show_chart_black_24dp"
             />
     <item
             android:id="@+id/action_commodities"
             android:title="Commodities"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@drawable/ic_style_black_24dp"
             />
     <item
             android:id="@+id/action_currencies"
             android:title="Currencies"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@drawable/ic_attach_money_black_24dp"
             />
 
     <item
             android:id="@+id/action_currency_converter"
             android:title="Currency Converter"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@drawable/ic_autorenew_black_24dp"
     />
 
     <item
             android:id="@+id/action_funds"
             android:title="Funds"
-            android:icon="@android:drawable/ic_menu_search"
+            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
             />
 
     <item
             android:id="@+id/action_cryptocurrencies"
             android:title="Cryptocurrencies"
-            android:icon="@android:drawable/ic_lock_idle_lock"
+            android:icon="@drawable/ic_vpn_key_black_24dp"
             />
 
     <item
             android:id="@+id/action_profile"
             android:title="My Profile"
-            android:icon="@android:drawable/ic_dialog_info"
+            android:icon="@drawable/ic_account_box_black_24dp"
             />
 
     <item
             android:id="@+id/action_help"
             android:title="Help"
-            android:icon="@android:drawable/ic_menu_help"
+            android:icon="@drawable/ic_help_black_24dp"
             />
 </menu>

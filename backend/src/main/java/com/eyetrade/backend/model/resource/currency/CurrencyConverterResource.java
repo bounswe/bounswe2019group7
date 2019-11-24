@@ -14,4 +14,5 @@ import lombok.Setter;
 public class CurrencyConverterResource {
     private Double amount;
     private Double rate;
+    private String date;
 }

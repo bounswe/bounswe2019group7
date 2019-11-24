@@ -17,6 +17,8 @@ import java.util.UUID;
 
 import static com.eyetrade.backend.constants.ErrorConstants.FOLLOWING_RELATION_ALREADY_EXISTS;
 import static com.eyetrade.backend.constants.ErrorConstants.NO_SUCH_FOLLOWING;
+import static com.eyetrade.backend.constants.GeneralConstants.DB_DATE_TIME_FORMAT;
+import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 
 /**
  * Created by Emir Gökdemir
@@ -47,7 +49,7 @@ public class CurrencyFollowingService {
         CurrencyFollowing relation = new CurrencyFollowing();
         relation.setFollower(follower);
         relation.setBaseCurrencyType(baseCurrencyType);
-        relation.setTimestamp(new Date().getTime());
+        relation.setFollowingDate(dateTimeFormatter(new Date(),DB_DATE_TIME_FORMAT));
         followingRepository.saveAndFlush(relation);
         return getFollowings(followerId);
     }

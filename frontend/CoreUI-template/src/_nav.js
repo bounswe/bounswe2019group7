@@ -1,41 +1,77 @@
 export default {
   items: [
     {
-      name: 'Home',
-      url: '/dashboard',
-      icon: 'icon-home',
-    }, 
+      name: "Home",
+      url: "/dashboard",
+      icon: "icon-home"
+    },
     {
-      name: 'Currency',
-      url: 'currency',
-      icon: 'icon-chart',
+      name: "Events",
+      url: "events",
+      icon: "icon-calendar",
       badge: {
-        variant: 'primary',
-        text: 'NEW'
+        variant: "primary",
+        text: "NEW"
       },
-      attributes: { disabled: false },
+      attributes: { disabled: false }
     },
     {
-      name: 'Events',
-      url: 'events',
-      icon: 'icon-calendar',
+      name: "Articles",
+      url: "articles",
+      icon: "icon-book-open",
+      attributes: { disabled: false }
+    },
+    {
+      name: "Trade Indicies",
+      url: "",
+      icon: "fa fa-money",
+      attributes: { disabled: true }
+    },
+    {
+      name: "Stocks",
+      url: "",
+      icon: "fa fa-pencil-square-o ",
+      attributes: { disabled: true }
+    },
+    {
+      name: "Commodities",
+      url: "",
+      icon: "fa fa-briefcase",
+      attributes: { disabled: true }
+    },
+    {
+      name: "Currency",
+      url: "currency",
+      icon: "icon-chart",
       badge: {
-        variant: 'primary',
-        text: 'NEW'
+        variant: "primary",
+        text: "NEW"
       },
-      attributes: { disabled: false },
+      attributes: { disabled: false }
     },
     {
-      name: 'Articles',
-      url: '',
-      icon: 'icon-book-open',
-      attributes: { disabled: true },
+      name: "Funds",
+      url: "",
+      icon: "fa fa-dollar",
+      attributes: { disabled: true }
     },
     {
-      name: 'Portfolios',
-      url: '',
-      icon: 'icon-graph',
-      attributes: { disabled: true },
+      name: "Cryptocurrencies",
+      url: "",
+      icon: "fa fa-bitcoin",
+      attributes: { disabled: true }
     },
+    {
+      name: "Help",
+      url: "",
+      icon: "fa fa-info",
+      attributes: { disabled: true }
+    },
+    {
+      name: "Portfolios",
+      url: "",
+      icon: "icon-graph",
+      attributes: { disabled: true }
+    }
   ]
-}
+};
