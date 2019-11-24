@@ -32,7 +32,7 @@ public class Comment {
     private User userId;
 
     @Column(name = "created_date")
-    private String date;
+    private String createdDate;
 
     private Boolean isBelongToArticle; // if false then it is belong to event
 
