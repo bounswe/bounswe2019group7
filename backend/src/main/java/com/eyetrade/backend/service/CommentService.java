@@ -42,13 +42,13 @@ public class CommentService {
 
     public List<CommentResource> getCommentsOfUser(UUID userId){
         User user=userRepository.findById(userId);
-        return mapper.entityToResource(repository.findCommentsByUserId(user));
+        return mapper.entityToResource(repository.findCommentsByUser(user));
     }
 
     public CommentResource postComment(CommentDto dto,UUID userId){
         Comment comment=mapper.dtoToEntity(dto);
         comment.setCreatedDate(dateTimeFormatter(new Date(),DB_DATE_TIME_FORMAT));
-        comment.setUserId(userRepository.findById(userId));
+        comment.setUser(userRepository.findById(userId));
         CommentResource resource=mapper.entityToResource(repository.save(comment));
         return resource;
     }
