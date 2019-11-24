@@ -115,6 +115,9 @@ interface ApiInterface {
                       @Body info: ArticleInformation,
                       @Query("articleID") articleId: String): retrofit2.Call<ArticleResponse>
 
+    @GET("event/get_events")
+    fun getAllEvents(): retrofit2.Call<EventsListResponse>
+
     @GET("main_page/get_feed")
     fun getHomeFeed() : retrofit2.Call<HomeFeedResponse>
 
