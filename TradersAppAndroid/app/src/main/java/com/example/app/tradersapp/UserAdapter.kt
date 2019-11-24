@@ -23,15 +23,15 @@ class UserAdapter(private val list: List<UserModel>, context: Context)
             holder.bind(uModel)
 
             holder.itemView.setOnClickListener {
-                val eventDetailFragment = ProfileFragment()
+                val profileFragment = ProfileFragment()
                 val bundle = Bundle()
                 bundle.apply{
                     putString("email", holder.uEmail)
                 }
-                eventDetailFragment.arguments = bundle
+                profileFragment.arguments = bundle
 
                 val transaction = (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.nav_host_fragment, eventDetailFragment)
+                transaction.replace(R.id.nav_host_fragment, profileFragment)
                 transaction.addToBackStack(null)
                 transaction.commit()
             }

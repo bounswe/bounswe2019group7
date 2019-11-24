@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory
 import android.util.Log
@@ -39,6 +40,12 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         sp = PreferenceManager.getDefaultSharedPreferences(context)
+
+        if(sp?.getString("token", null).isNullOrBlank()){
+            Toast.makeText(context, "Please login to view user profiles", Toast.LENGTH_SHORT).show()
+            (context as FragmentActivity).supportFragmentManager.popBackStack() //  go back
+            return
+        }
 
         val retrofitService =
             RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
