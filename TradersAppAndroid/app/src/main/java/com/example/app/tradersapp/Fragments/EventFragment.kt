@@ -1,27 +1,31 @@
 package com.example.app.tradersapp.Fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.app.tradersapp.EventAdapter
-import com.example.app.tradersapp.R
+import com.example.app.tradersapp.*
 import kotlinx.android.synthetic.main.fragment_event.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class EventFragment() : Fragment() {
-
+/*
     val image1: Int = R.drawable.article1
     val image2 = R.drawable.article2
     val image3 = R.drawable.article3
     val image4 = R.drawable.article4
     val image5 = R.drawable.article5
     val image6 = R.drawable.article6
-
+*/
     val imagePlaceholder = R.drawable.placeholder
 
-
+/*
     val events = listOf(
         EventModel(image6,"February 17 – Deadline For Investigation on U.S. Tariffs on Car Imports","In May 2018, the Trump administration announced that it would launch an official investigation under Section 232 on whether imports of automobiles and parts harm US national security. The deadline for providing the findings of this investigation carried out by USTR (US Trade Representative) is February 17." ),
         EventModel(image5,"March 1- Deadline for U.S.-China Trade War Ceasefire","On the sidelines of the G20 summit in Buenos Aires at the beginning of December 2018, the US president and his Chinese counterpart agreed on a “ceasefire” in the trade war between the two countries. Both sides agreed to not implement any further tariff increases during a 90 day period of negotiations on ensuring better intellectual property protection in China and actively combating technology theft."),
@@ -36,16 +40,16 @@ class EventFragment() : Fragment() {
         EventModel(image2,"November – Start of Terms of New European Commission and European Council President","Since all European Commission (EC) spots and the Presidency of the European Council are up for grabs as well, the choice of the next ECB President will be part of a package deal. The battle for political direction and proper member state representation of the world’s second largest economic area will go into its crucial phase after the EP election. It will not only bring arduous negotiations among member states but could also involve a struggle for the balance of power between member states and the EP. An inconclusive EP majority structure will come in handy for member state leaders whose aversion to the EP-driven Spitzenkandidaten process is well known. As a result, a compromise candidate – Michel Barnier has been mentioned frequently – and could eventually end up at the EC’s helm." )
 
     )
+*/
+
+    private var allEvents: List<EventModel> = emptyList()
+    private val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // TODO: Move this part into getAllEvents() once it's implemented
-        eList.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = EventAdapter(events, context)
-        }
-        //getAllEvents()
+        getAllEvents()
     }
 
     override fun onCreateView(
@@ -54,6 +58,32 @@ class EventFragment() : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_event, container, false)
+    }
+
+    private fun getAllEvents(){
+        retrofitService.getAllEvents().enqueue(object: Callback<EventsListResponse>{
+            override fun onFailure(call: Call<EventsListResponse>, t: Throwable) {
+                EyeTradeUtils.toastErrorMessage(activity as Context, t)
+            }
+
+            override fun onResponse(call: Call<EventsListResponse>, response: Response<EventsListResponse>) {
+                allEvents = response.body()?.allEvents?.map {
+                    EventModel(
+                        imagePlaceholder,
+                        it.title,
+                        it.content
+                        )
+                } ?: allEvents
+
+
+                eList.apply {
+                    layoutManager = LinearLayoutManager(activity)
+                    adapter = EventAdapter(allEvents, context)
+                    addItemDecoration(DividerItemDecoration(eList.context, LinearLayoutManager.VERTICAL))
+                }
+            }
+
+        })
     }
 
     companion object {
