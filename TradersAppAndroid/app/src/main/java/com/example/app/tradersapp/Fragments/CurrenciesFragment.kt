@@ -2,7 +2,6 @@ package com.example.app.tradersapp.Fragments
 
 
 import android.graphics.Color
-import android.graphics.DashPathEffect
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -59,7 +58,6 @@ class CurrenciesFragment : Fragment() {
                 baseCurrency = checkedButton.text.toString()
                 requestPastRates(2, baseCurrency, targetCurrency)
             }
-
         }
 
         targetCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -68,7 +66,7 @@ class CurrenciesFragment : Fragment() {
                 updateButtonColors(prevTargetId, checkedButton,targetCurrencyRadioGroup)
                 prevTargetId = checkedId
                 targetCurrency = checkedButton.text.toString()
-                requestPastRates(2, baseCurrency, targetCurrency)
+                requestPastRates(7, baseCurrency, targetCurrency)   // Requesting for last 7 days right now
             }
         }
     }
@@ -111,11 +109,17 @@ class CurrenciesFragment : Fragment() {
         mChart.apply{
             setTouchEnabled(true)
             setPinchZoom(true)
-            legend.textColor = Color.WHITE
             description.isEnabled = false
-            xAxis.textColor = Color.WHITE
+            xAxis.isEnabled = false
+            axisRight.isEnabled = false
+            legend.textColor = Color.WHITE
+            description.textColor = Color.WHITE
             axisLeft.textColor = Color.WHITE
-            axisRight.textColor = Color.WHITE
+            axisLeft.setStartAtZero(true)
+            //description.text = "Change in last 7 days"
+            //description.textSize = 16f
+            legend.textSize = 12f
+            //description.setPosition(1f, 0f)
         }
     }
 
@@ -123,21 +127,21 @@ class CurrenciesFragment : Fragment() {
         val lineDataSet1 = LineDataSet(mPlotEntries, "$baseCurrency - $targetCurrency")
         lineDataSet1.apply{
             color = Color.RED
-            setDrawValues(false)
+            setDrawValues(true)
             axisDependency = YAxis.AxisDependency.LEFT
             setDrawIcons(false)
-            enableDashedLine(10f, 5f, 0f)
-            enableDashedHighlightLine(10f, 5f, 0f)
+            //enableDashedLine(10f, 5f, 0f)
+            //enableDashedHighlightLine(10f, 5f, 0f)
             color = Color.WHITE
             setCircleColor(Color.WHITE)
-            lineWidth = 1f
+            lineWidth = 2f
             circleRadius = 3f
             setDrawCircleHole(false)
-            valueTextSize = 9f
+            valueTextSize = 16f
             setDrawFilled(true)
-            formLineWidth = 1f
-            formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
-            formSize = 15f
+            //formLineWidth = 1f
+            //formLineDashEffect = DashPathEffect(floatArrayOf(10f, 5f), 0f)
+            //formSize = 15f
             fillColor = Color.WHITE
             setValueTextColors(mutableListOf(Color.WHITE))
         }
