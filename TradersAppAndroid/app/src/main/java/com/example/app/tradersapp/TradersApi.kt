@@ -126,6 +126,7 @@ interface ApiInterface {
         @Header("Authorization") token: String?,
         @Header("followingUserEmail") email: String?
     ): retrofit2.Call<MinimalUserResponse>
+
 }
 
 data class BasicUserInformation(

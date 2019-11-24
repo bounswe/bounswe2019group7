@@ -60,7 +60,6 @@ class ArticleDetailFragment : Fragment() {
 
             })
         }
-
         articleAuthorName.setOnClickListener {
             val profileFragment = ProfileFragment()
             val profileBundle = Bundle()
@@ -74,6 +73,7 @@ class ArticleDetailFragment : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+
     }
 
 
