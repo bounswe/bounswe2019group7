@@ -16,18 +16,13 @@ class HomepageActivity : AppCompatActivity() {
 
     private var actionBar: ActionBar? = null
 
-    private val recentItemIds = Stack<Int>()
-    private val recentTitles = Stack<String>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
 
         setSupportActionBar(toolbar)
         actionBar = supportActionBar
-        actionBar?.title = "eyeTrade - Home"
-        recentItemIds.push(R.id.action_home)
-        recentTitles.push(actionBar?.title.toString())
+        actionBar?.title = "eyeTrade"
 
         val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
             this,
@@ -46,46 +41,33 @@ class HomepageActivity : AppCompatActivity() {
 
         // Set navigation view navigation item selected listener
         nav_view.setNavigationItemSelectedListener {
-            if(!recentItemIds.empty() && it.itemId == recentItemIds.peek()){
-                return@setNavigationItemSelectedListener false
-            }
-
             var fragment: Fragment? = null
 
             when (it.itemId) {
                 R.id.action_home -> {
                     fragment = HomeFragment()
-                    changeTitle("Home")
                 }
                 R.id.action_currencies -> {
                     fragment = CurrenciesFragment()
-                    changeTitle("Currencies")
                 }
 
                 R.id.action_currency_converter -> {
                     fragment = CurrencyConverterFragment()
-                    changeTitle("Currency Converter")
                 }
 
                 R.id.action_articles -> {
                     fragment = ArticleFragment.newInstance()
-                    changeTitle("Economic Articles")
                 }
 
                 R.id.action_events -> {
                     fragment = EventFragment.newInstance()
-                    changeTitle("Economic Events")
                 }
 
                 R.id.action_profile -> {
                     fragment = ProfileFragment()
-                    changeTitle("My Profile")
                 }
 
             }
-
-            recentItemIds.push(it.itemId)
-            recentTitles.push(actionBar?.title.toString())
 
             if (fragment != null) {
                 val transaction = supportFragmentManager.beginTransaction()
@@ -106,21 +88,12 @@ class HomepageActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    private fun changeTitle(s: String) {
-        actionBar?.title = "eyeTrade - $s"
-    }
-
     override fun onBackPressed() {
         if(drawer_layout.isDrawerOpen(GravityCompat.START)){
             drawer_layout.closeDrawer(GravityCompat.START)
             return
         }
         super.onBackPressed()
-        if(recentItemIds.empty()) return
-        recentTitles.pop()
-        if(!recentTitles.empty())
-            actionBar?.title = recentTitles.peek()
-        recentItemIds.pop()
     }
 
 }
