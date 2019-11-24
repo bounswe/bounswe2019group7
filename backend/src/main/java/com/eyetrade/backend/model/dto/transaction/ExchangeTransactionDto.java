@@ -1,4 +1,4 @@
-package com.eyetrade.backend.model.dto;
+package com.eyetrade.backend.model.dto.transaction;
 
 import com.eyetrade.backend.constants.CurrencyType;
 import lombok.AllArgsConstructor;
@@ -14,11 +14,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionDto {
+public class ExchangeTransactionDto {
 
     private CurrencyType boughtTypeCurrency;
 
     private CurrencyType soldTypeCurrency;
 
-    private float amount;
+    private Double amountOfSold;
 }
