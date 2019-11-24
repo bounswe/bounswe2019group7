@@ -38,4 +38,11 @@ public class CurrencyRecord {
 
     @Column(name = "sterling_rate")
     private Double sterlingRate; //GBP
+
+    @Column(name = "japan_rate")
+    private Double japanRate; //JPY
+
+    @Column(name = "china_rate")
+    private Double chinaRate; //CNY
+
 }

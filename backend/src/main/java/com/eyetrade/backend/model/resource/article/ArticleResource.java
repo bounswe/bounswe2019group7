@@ -17,6 +17,7 @@ public class ArticleResource {
     private UUID uuid;
     private String title;
     private String content;
+    private String contentAbstract;
     private String stringDate;
     private String changeDate;
     private Double score;

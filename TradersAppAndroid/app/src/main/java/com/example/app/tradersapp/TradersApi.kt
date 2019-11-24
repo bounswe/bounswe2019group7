@@ -57,9 +57,22 @@ interface ApiInterface {
                         @Query("outputCurrencyType") currency2: String,
                         @Query("amount") amount: Double = 1.0): retrofit2.Call<ExchangeRateResponse>
 
+    @GET("currency/take-rates-last-days")
+    fun getExchangeRateForPastDays(@Query("amount") amount: Float,
+                                   @Query("lastDays") lastDays: Int,
+                                   @Query("sourceCurrencyType") sourceCurrency: String,
+                                   @Query("targetCurrencyType") targetCurrency: String): retrofit2.Call<ExchangeRatePastDaysResponse>
+
     @Headers("Content-Type:application/json")
     @GET("user_profile/self_profile")
     fun getSelfProfileInformation(@Header("Authorization") token: String?): retrofit2.Call<SelfProfileInformationResponse>
+
+    @Headers("Content-Type:application/json")
+    @GET("user_profile/other_profile")
+    fun getOtherProfileInformation(
+        @Header("Authorization") token: String?,
+        @Header("email") email: String?
+    ): retrofit2.Call<OtherProfileInformationResponse>
 
     @Headers("Content-Type:application/json")
     @POST("user_profile/update_basic_profile")
@@ -102,6 +115,18 @@ interface ApiInterface {
                       @Body info: ArticleInformation,
                       @Query("articleID") articleId: String): retrofit2.Call<ArticleResponse>
 
+    @GET("event/get_events")
+    fun getAllEvents(): retrofit2.Call<EventsListResponse>
+
+    @GET("main_page/get_feed")
+    fun getHomeFeed() : retrofit2.Call<HomeFeedResponse>
+
+    @POST("user_following/follow")
+    fun followUser(
+        @Header("Authorization") token: String?,
+        @Header("followingUserEmail") email: String?
+    ): retrofit2.Call<MinimalUserResponse>
+
 }
 
 data class BasicUserInformation(
@@ -134,6 +159,9 @@ data class LoginInformation(
 )
 
 data class ArticleInformation(
+    val authorEmail: String?,
+    val authorName: String?,
+    val authorSurname: String?,
     val content: String,
     val title: String
 )
@@ -146,7 +174,36 @@ data class ExchangeRateResponse(
     val rate: Double
 )
 
+data class ExchangeRatePastDaysResponse(
+    @SerializedName("currencyConverterResources")
+    val pastExchangeRates: ArrayList<PastExchangeRateInfo>,
+    val startDate: String
+
+)
+
+data class PastExchangeRateInfo(
+    val amount: Double,  // actually we don't need this at all, can be removed later if it's possible
+    val rate: Float,
+    val date: String
+)
 data class SelfProfileInformationResponse(
+    val name: String,
+    val surname: String,
+    val phone: String,
+    val email: String,
+    val city: String,
+    val country: String,
+    val locationX: Double,
+    val locationY: Double,
+    val identityNo: String,
+    val iban: String,
+    val role: String,
+    val privacyType: String,
+    val followerCount: Int,
+    val followingCount: Int
+)
+
+data class OtherProfileInformationResponse(
     val name: String,
     val surname: String,
     val phone: String,
@@ -177,4 +234,32 @@ data class ArticleResponse(
     val score: Double,
     val title: String,
     val uuid: String
+
+)
+
+data class EventsListResponse(
+    @SerializedName("instances")
+    val allEvents: ArrayList<EventResponse>
+)
+
+data class EventResponse(
+    val content: String,
+    val guid: String,
+    val link: String,
+    val score: Double,
+    val stringDate: String,
+    val title: String
+)
+
+data class MinimalUserResponse(
+    val email: String,
+    val name: String,
+    val surname: String
+)
+
+data class HomeFeedResponse(
+    val suggestedUsers: ArrayList<MinimalUserResponse>,
+    val suggestedEvents: ArrayList<EventResponse>,
+    val suggestedArticles: ArrayList<ArticleResponse>
+
 )

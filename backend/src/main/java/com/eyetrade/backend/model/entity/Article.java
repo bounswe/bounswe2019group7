@@ -26,6 +26,9 @@ public class Article {
     @Column(length = 1024)
     private String content;
 
+    @Column(length = 256)
+    private String contentAbstract;
+
     @Column(name = "addition_date")
     private Date additionDate;
 

@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,20 @@ class ArticleDetailFragment : Fragment() {
 
             })
         }
+        articleAuthorName.setOnClickListener {
+            val profileFragment = ProfileFragment()
+            val profileBundle = Bundle()
+            profileBundle.apply{
+                putString("email", bundle.getString("email"))
+            }
+            profileFragment.arguments = profileBundle
+
+            val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_fragment, profileFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
     }
 
 

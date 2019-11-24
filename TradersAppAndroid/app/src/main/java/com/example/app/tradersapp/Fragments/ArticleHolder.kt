@@ -18,6 +18,8 @@ class ArticleHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.V
     var articleScore: RatingBar
     var articleChangeDate: TextView? = null
     var articleId: String? = null
+    var aEmail: String? = null
+
     init {
         aImage = itemView.findViewById(R.id.aImage)
         aTitle = itemView.findViewById(R.id.aTitle)
@@ -32,9 +34,11 @@ class ArticleHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.V
         aTitle?.text = item.title
         aImage?.setImageResource(item.image)
         aImage?.tag = item.image
-        articleAuthorName?.text =  item.authorName + " " + item.authorSurname
+        articleAuthorName?.text = "Author: \n" + item.authorName + " " + item.authorSurname
         articleScore?.rating = item.score.toFloat()
         articleId = item.articleId
+        aEmail = item.authorEmail
+
     }
 
 }
@@ -45,6 +49,7 @@ data class ArticleModel(
      val body: String,
      val authorName: String,
      val authorSurname: String,
+     val authorEmail: String,
      val score: Double,
      val changeDate: String,
      val articleId: String
