@@ -21,6 +21,8 @@ import kotlinx.android.synthetic.main.fragment_currencies.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 
 class CurrenciesFragment : Fragment() {
@@ -94,7 +96,7 @@ class CurrenciesFragment : Fragment() {
                 // If there is a response, update the list, else, keep it as it is
                 mPastExchangeRates = response.body()?.pastExchangeRates ?: mPastExchangeRates
                 mPlotEntries = mPastExchangeRates?.mapIndexed { index, pastExchangeRateInfo ->
-                    Entry(index.toFloat(), pastExchangeRateInfo.rate )
+                    Entry(index.toFloat(), pastExchangeRateInfo.rate)
                 }
                 if(!::mChart.isInitialized){
                     createPlot()
@@ -115,6 +117,7 @@ class CurrenciesFragment : Fragment() {
             legend.textColor = Color.WHITE
             description.textColor = Color.WHITE
             axisLeft.textColor = Color.WHITE
+            axisLeft.textSize = 12f
             axisLeft.setStartAtZero(true)
             //description.text = "Change in last 7 days"
             //description.textSize = 16f
