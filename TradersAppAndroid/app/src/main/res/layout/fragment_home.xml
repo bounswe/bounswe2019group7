@@ -5,7 +5,66 @@
         android:layout_height="match_parent"
         tools:context=".Fragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/homeGreeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:textSize="40sp" />
+
+            <TextView
+                    android:id="@+id/homeArticlesText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:text="Suggested Articles"
+                    android:textSize="32sp" />
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/homeArticleList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/article_recycler_item" />
+
+            <TextView
+                    android:id="@+id/homeEventsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:text="Suggested Events"
+                    android:textSize="32sp" />
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/homeEventList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/event_recycler_item" />
+
+            <TextView
+                    android:id="@+id/homeUsersText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:text="Suggested Users"
+                    android:textSize="32sp" />
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/homeUserList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/user_recycler_item" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </FrameLayout>
 

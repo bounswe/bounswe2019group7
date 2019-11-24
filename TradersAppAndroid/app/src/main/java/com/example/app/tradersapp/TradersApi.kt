@@ -102,6 +102,8 @@ interface ApiInterface {
                       @Body info: ArticleInformation,
                       @Query("articleID") articleId: String): retrofit2.Call<ArticleResponse>
 
+    @GET("main_page/get_feed")
+    fun getHomeFeed() : retrofit2.Call<HomeFeedResponse>
 }
 
 data class BasicUserInformation(
@@ -180,4 +182,25 @@ data class ArticleResponse(
     val score: Double,
     val title: String,
     val uuid: String
+)
+
+data class EventResponse(
+    val content: String,
+    val guid: String,
+    val link: String,
+    val score: Double,
+    val stringDate: String,
+    val title: String
+)
+
+data class MinimalUserResponse(
+    val email: String,
+    val name: String,
+    val surname: String
+)
+
+data class HomeFeedResponse(
+    val suggestedUsers: ArrayList<MinimalUserResponse>,
+    val suggestedEvents: ArrayList<EventResponse>,
+    val suggestedArticles: ArrayList<ArticleResponse>
 )
