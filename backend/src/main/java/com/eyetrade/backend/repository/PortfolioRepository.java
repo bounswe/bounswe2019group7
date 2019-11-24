@@ -12,7 +12,6 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, UUID> {
 
     Portfolio findPortfolioById(UUID uuid);
 
-    Portfolio findPortfolioByName(String name);
+    List<Portfolio> findByOwnerId(UUID ownerId);
 
-    List<Portfolio> findAllByOwnerID(String ownerID);
 }

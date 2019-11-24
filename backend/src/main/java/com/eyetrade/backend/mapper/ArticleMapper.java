@@ -2,18 +2,19 @@ package com.eyetrade.backend.mapper;
 
 import com.eyetrade.backend.model.dto.ArticleDto;
 import com.eyetrade.backend.model.entity.Article;
+import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.resource.article.ArticleResource;
 
 public class ArticleMapper {
 
-    public static Article articleDtoToEntity(ArticleDto articleDto){
+    public static Article articleDtoToEntity(ArticleDto articleDto, User user){
         Article article = new Article();
         article.setTitle(articleDto.getTitle());
         article.setContent(articleDto.getContent());
         article.setContentAbstract(articleDto.getContentAbstract());
-        article.setAuthorEmail(articleDto.getAuthorEmail());
-        article.setAuthorName(articleDto.getAuthorName());
-        article.setAuthorSurname(articleDto.getAuthorSurname());
+        article.setAuthorEmail(user.getEmail());
+        article.setAuthorName(user.getName());
+        article.setAuthorSurname(user.getSurname());
         return article;
     }
 

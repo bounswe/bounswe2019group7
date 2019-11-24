@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/login")
-@Api(value = "Login", tags = {"Operations Related With Login"})
+@Api(value = "Login", tags = {"Login"})
 public class LoginController {
 
     @Autowired

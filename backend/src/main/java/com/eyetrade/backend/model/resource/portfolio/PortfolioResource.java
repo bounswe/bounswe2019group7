@@ -1,20 +1,22 @@
 package com.eyetrade.backend.model.resource.portfolio;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.eyetrade.backend.constants.CurrencyType;
+import lombok.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.UUID;
 
 @Resource
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PortfolioResource {
-    private UUID uuid;
+
+    private UUID id;
     private String name;
-    private String ownerID;
+    private UUID ownerId;
+    private List<CurrencyType> currencyTypes;
+    private List<PortfolioCurrencyPair> currencyPairs;
+
 }
