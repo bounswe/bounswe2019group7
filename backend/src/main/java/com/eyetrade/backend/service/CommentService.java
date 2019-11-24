@@ -5,6 +5,7 @@ import com.eyetrade.backend.model.dto.CommentDto;
 import com.eyetrade.backend.model.entity.Comment;
 import com.eyetrade.backend.model.resource.comment.CommentResource;
 import com.eyetrade.backend.repository.CommentRepository;
+import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -29,18 +30,23 @@ public class CommentService {
 
     @Autowired
     private CommentMapper mapper;
+
+    @Autowired
+    private UserRepository userRepository;
     public CommentResource getComment(UUID commentId){
            return mapper.entityToResource(repository.findCommentById(commentId));
     }
 
     public List<CommentResource> getCommentsOfArticleOrEvent(UUID articleOrCommandId){
-            return mapper.entityToResource(repository.findCommentsByArticleOrEventId(articleOrCommandId));
+            return mapper.entityToResource(repository.findCommentsByArticleEventId(articleOrCommandId));
     }
 
-    public CommentResource postComment(CommentDto dto){
+    public CommentResource postComment(CommentDto dto,UUID userId){
         Comment comment=mapper.dtoToEntity(dto);
         comment.setCreatedDate(dateTimeFormatter(new Date(),DB_DATE_TIME_FORMAT));
-        return mapper.entityToResource(repository.save(comment));
+        comment.setUserId(userRepository.findById(userId));
+        CommentResource resource=mapper.entityToResource(repository.save(comment));
+        return resource;
     }
 
 }

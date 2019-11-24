@@ -26,12 +26,10 @@ public class CommentResource {
 
     private String content;
 
-    private String userEmail;
-
     private String createdDate;
 
     private Boolean isBelongToArticle;
 
-    private UUID articleOrEventId;
+    private UUID articleEventId;
 
 }

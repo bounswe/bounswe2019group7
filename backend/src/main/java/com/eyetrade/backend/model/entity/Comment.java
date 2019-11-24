@@ -36,5 +36,6 @@ public class Comment {
 
     private Boolean isBelongToArticle; // if false then it is belong to event
 
-    private UUID articleOrEventId;
+    private UUID articleEventId;
 }
+

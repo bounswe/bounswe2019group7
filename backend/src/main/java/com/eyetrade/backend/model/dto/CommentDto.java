@@ -23,6 +23,6 @@ public class CommentDto {
 
     private Boolean isBelongToArticle;
 
-    private UUID articleOrEventId;
+    private UUID articleEventId;
 
 }
