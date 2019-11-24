@@ -53,5 +53,11 @@ public class CommentController {
         return ResponseEntity.ok(service.getCommentsOfArticleOrEvent(articleOrEventId));
     }
 
+    @ApiOperation(value = "A user can access all comments about of himself/herself.", response = CommentResource.class)
+    @GetMapping("/get-comments-of-user")
+    public ResponseEntity<List<CommentResource>> getCommentsOfUser(@RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(service.getCommentsOfUser(jwtResolver.getIdFromToken(token)));
+    }
+
 
 }

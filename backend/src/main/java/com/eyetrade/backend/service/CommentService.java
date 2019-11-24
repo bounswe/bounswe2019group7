@@ -3,15 +3,13 @@ package com.eyetrade.backend.service;
 import com.eyetrade.backend.mapper.CommentMapper;
 import com.eyetrade.backend.model.dto.CommentDto;
 import com.eyetrade.backend.model.entity.Comment;
+import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.resource.comment.CommentResource;
 import com.eyetrade.backend.repository.CommentRepository;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -33,12 +31,18 @@ public class CommentService {
 
     @Autowired
     private UserRepository userRepository;
+
     public CommentResource getComment(UUID commentId){
            return mapper.entityToResource(repository.findCommentById(commentId));
     }
 
     public List<CommentResource> getCommentsOfArticleOrEvent(UUID articleOrCommandId){
             return mapper.entityToResource(repository.findCommentsByArticleEventId(articleOrCommandId));
+    }
+
+    public List<CommentResource> getCommentsOfUser(UUID userId){
+        User user=userRepository.findById(userId);
+        return mapper.entityToResource(repository.findCommentsByUserId(user));
     }
 
     public CommentResource postComment(CommentDto dto,UUID userId){
