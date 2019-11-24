@@ -22,7 +22,7 @@ class CurrencyConverterFragment : Fragment() {
     private var rate: Double by Delegates.notNull<Double>()
     private var currency1 = "EUR"
     private var currency2 = "USD"
-    private val currencies = listOf("TRY", "EUR", "USD", "GBP")
+    private val currencies = listOf("TRY", "EUR", "USD", "GBP", "JPY", "CNY")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_currency_converter, container, false)
