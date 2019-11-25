@@ -22,6 +22,12 @@ export default {
       attributes: { disabled: false }
     },
     {
+      name: "My Portfolios",
+      url: "portfolios",
+      icon: "icon-graph",
+      attributes: { disabled: false }
+    },
+    {
       name: "Trade Indicies",
       url: "",
       icon: "fa fa-money",
@@ -67,11 +73,5 @@ export default {
       icon: "fa fa-info",
       attributes: { disabled: true }
     },
-    {
-      name: "Portfolios",
-      url: "",
-      icon: "icon-graph",
-      attributes: { disabled: true }
-    }
   ]
 };
