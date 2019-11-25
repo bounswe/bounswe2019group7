@@ -63,7 +63,7 @@ class CurrenciesFragment : Fragment() {
         prevBaseId = baseCurrencyRadioGroup.checkedRadioButtonId
         prevTargetId = targetCurrencyRadioGroup.checkedRadioButtonId
 
-        requestPastRates(2, baseCurrency, targetCurrency)
+        requestPastRates(7, baseCurrency, targetCurrency)
 
         baseCurrencyRadioGroup.setOnCheckedChangeListener { group, checkedId ->
             val checkedButton = group.findViewById<RadioButton>(checkedId)
