@@ -7,6 +7,7 @@ const DefaultContainer = () => import("@/containers/DefaultContainer");
 // Views
 const Dashboard = () => import("@/views/Dashboard");
 const Currency = () => import("@/views/Currency");
+const CurrencyCharts = () => import("@/views/CurrencyCharts");
 const Events = () => import("@/views/Events");
 const ProfilePage = () => import("@/views/ProfilePage");
 const UserSettings = () => import("@/views/UserSettings");
@@ -84,6 +85,11 @@ function configRoutes() {
           path: "currency",
           name: "Currency",
           component: Currency
+        },
+        {
+          path: "currencyCharts",
+          name: "Currency Charts",
+          component: CurrencyCharts
         },
         {
           path: "profilePage/:email?",
