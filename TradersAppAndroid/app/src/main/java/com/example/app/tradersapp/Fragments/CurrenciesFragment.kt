@@ -155,7 +155,6 @@ class CurrenciesFragment : Fragment() {
             description.textColor = Color.WHITE
             axisLeft.textColor = Color.WHITE
             axisLeft.textSize = 12f
-            axisLeft.setStartAtZero(true)
             //description.text = "Change in last 7 days"
             //description.textSize = 16f
             legend.textSize = 12f
