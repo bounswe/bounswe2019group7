@@ -17,7 +17,7 @@ export default {
     },
     {
       name: "Articles",
-      url: "articles",
+      url: "/articles",
       icon: "icon-book-open",
       attributes: { disabled: false }
     },

@@ -108,7 +108,7 @@ public class ArticleController {
             @RequestParam UUID articleID
     )throws IllegalAccessException{
         UUID userId = jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.givePoint(score, articleID);
+        ArticleResource article = articleService.givePoint(score, articleID,userId);
         return article;
     }
 

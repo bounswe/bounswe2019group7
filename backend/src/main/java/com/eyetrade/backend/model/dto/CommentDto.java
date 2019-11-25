@@ -1,5 +1,6 @@
 package com.eyetrade.backend.model.dto;
 
+import com.eyetrade.backend.constants.CommentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class CommentDto {
 
     private String content;
 
-    private Boolean isBelongToArticle;
+    private CommentType commentType;
 
     private UUID articleEventId;
 

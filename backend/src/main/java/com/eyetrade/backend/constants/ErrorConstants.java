@@ -18,5 +18,5 @@ public class ErrorConstants {
     public static final String EVENTS_CANNOT_BE_UPLOADED = "Events cannot be uploaded!";
     public static final String NO_SUCH_TRADING_ACCOUNT = "There is no such trading Account!";
     public static final String A_USER_CAN_HAVE_ONLY_AN_ACCOUNT = "A user can have only an acoount!";
-
+    public static final String USER_CANNOT_GIVE_POINT_SELF = "A user cannot give point to himself/herself!";
 }

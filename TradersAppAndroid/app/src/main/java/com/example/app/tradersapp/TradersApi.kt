@@ -68,6 +68,13 @@ interface ApiInterface {
     fun getSelfProfileInformation(@Header("Authorization") token: String?): retrofit2.Call<SelfProfileInformationResponse>
 
     @Headers("Content-Type:application/json")
+    @GET("user_profile/other_profile")
+    fun getOtherProfileInformation(
+        @Header("Authorization") token: String?,
+        @Header("email") email: String?
+    ): retrofit2.Call<OtherProfileInformationResponse>
+
+    @Headers("Content-Type:application/json")
     @POST("user_profile/update_basic_profile")
     fun updateBasicUser(
         @Header("Authorization") token: String?,
@@ -107,6 +114,18 @@ interface ApiInterface {
     fun updateArticle(@Header("Authorization") token: String?,
                       @Body info: ArticleInformation,
                       @Query("articleID") articleId: String): retrofit2.Call<ArticleResponse>
+
+    @GET("event/get_events")
+    fun getAllEvents(): retrofit2.Call<EventsListResponse>
+
+    @GET("main_page/get_feed")
+    fun getHomeFeed() : retrofit2.Call<HomeFeedResponse>
+
+    @POST("user_following/follow")
+    fun followUser(
+        @Header("Authorization") token: String?,
+        @Header("followingUserEmail") email: String?
+    ): retrofit2.Call<MinimalUserResponse>
 
 }
 
@@ -184,6 +203,23 @@ data class SelfProfileInformationResponse(
     val followingCount: Int
 )
 
+data class OtherProfileInformationResponse(
+    val name: String,
+    val surname: String,
+    val phone: String,
+    val email: String,
+    val city: String,
+    val country: String,
+    val locationX: Double,
+    val locationY: Double,
+    val identityNo: String,
+    val iban: String,
+    val role: String,
+    val privacyType: String,
+    val followerCount: Int,
+    val followingCount: Int
+)
+
 data class ArticlesListResponse(
     @SerializedName("articles")
     val allArticles: ArrayList<ArticleResponse>
@@ -198,4 +234,32 @@ data class ArticleResponse(
     val score: Double,
     val title: String,
     val uuid: String
+
+)
+
+data class EventsListResponse(
+    @SerializedName("instances")
+    val allEvents: ArrayList<EventResponse>
+)
+
+data class EventResponse(
+    val content: String,
+    val guid: String,
+    val link: String,
+    val score: Double,
+    val stringDate: String,
+    val title: String
+)
+
+data class MinimalUserResponse(
+    val email: String,
+    val name: String,
+    val surname: String
+)
+
+data class HomeFeedResponse(
+    val suggestedUsers: ArrayList<MinimalUserResponse>,
+    val suggestedEvents: ArrayList<EventResponse>,
+    val suggestedArticles: ArrayList<ArticleResponse>
+
 )

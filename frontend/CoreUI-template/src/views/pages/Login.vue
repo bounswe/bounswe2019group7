@@ -114,7 +114,6 @@ export default {
       } 
 
       this.isDisabled = true;
-
       this.$http
       .post('login',
         {
@@ -125,7 +124,9 @@ export default {
       .then(response => {
         if(response.status == 200){
           this.$router.push("/dashboard");
-          document.getElementById('#tokenForUserID').val(response.token);
+          localStorage.setItem('email', this.form.email);
+          localStorage.setItem('password', this.form.password);
+          localStorage.setItem('token',response.data.token);
         } else {
           this.errors = [`An error occurred.`];
           this.isDisabled = false;

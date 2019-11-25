@@ -73,6 +73,7 @@ class ArticleFragment() : Fragment() {
                         it.content,
                         it.authorName,
                         it.authorSurname,
+                        it.authorEmail,
                         it.score,
                         it.changeDate,
                         it.uuid)

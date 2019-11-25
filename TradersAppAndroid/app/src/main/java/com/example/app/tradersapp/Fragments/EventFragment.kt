@@ -1,17 +1,22 @@
 package com.example.app.tradersapp.Fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.app.tradersapp.EventAdapter
-import com.example.app.tradersapp.R
+
+import com.example.app.tradersapp.*
 import kotlinx.android.synthetic.main.fragment_event.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class EventFragment() : Fragment() {
-
+/*
     val image1: Int = R.drawable.article1
     val image2 = R.drawable.article2
     val image3 = R.drawable.article3
@@ -19,8 +24,10 @@ class EventFragment() : Fragment() {
     val image5 = R.drawable.article5
     val image6 = R.drawable.article6
 
+*/
     val imagePlaceholder = R.drawable.placeholder
 
+/*
 
     val events = listOf(
         EventModel(image6,"February 17 – Deadline For Investigation on U.S. Tariffs on Car Imports","In May 2018, the Trump administration announced that it would launch an official investigation under Section 232 on whether imports of automobiles and parts harm US national security. The deadline for providing the findings of this investigation carried out by USTR (US Trade Representative) is February 17." ),
@@ -37,15 +44,15 @@ class EventFragment() : Fragment() {
 
     )
 
+*/
+
+    private var allEvents: List<EventModel> = emptyList()
+    private val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getAllEvents()
 
-        // TODO: Move this part into getAllEvents() once it's implemented
-        eList.apply {
-            layoutManager = LinearLayoutManager(activity)
-            adapter = EventAdapter(events, context)
-        }
-        //getAllEvents()
     }
 
     override fun onCreateView(
@@ -55,6 +62,33 @@ class EventFragment() : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_event, container, false)
     }
+
+    private fun getAllEvents(){
+        retrofitService.getAllEvents().enqueue(object: Callback<EventsListResponse>{
+            override fun onFailure(call: Call<EventsListResponse>, t: Throwable) {
+                EyeTradeUtils.toastErrorMessage(activity as Context, t)
+            }
+
+            override fun onResponse(call: Call<EventsListResponse>, response: Response<EventsListResponse>) {
+                allEvents = response.body()?.allEvents?.map {
+                    EventModel(
+                        imagePlaceholder,
+                        it.title,
+                        it.content
+                        )
+                } ?: allEvents
+
+
+                eList.apply {
+                    layoutManager = LinearLayoutManager(activity)
+                    adapter = EventAdapter(allEvents, context)
+                    addItemDecoration(DividerItemDecoration(eList.context, LinearLayoutManager.VERTICAL))
+                }
+            }
+
+        })
+    }
+
 
     companion object {
         @JvmStatic
