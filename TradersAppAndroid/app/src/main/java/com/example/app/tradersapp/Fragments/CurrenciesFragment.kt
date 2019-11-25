@@ -72,7 +72,7 @@ class CurrenciesFragment : Fragment() {
                 updateButtonColors(prevBaseId, checkedButton,baseCurrencyRadioGroup)
                 prevBaseId = checkedId
                 baseCurrency = checkedButton.text.toString()
-                requestPastRates(2, baseCurrency, targetCurrency)
+                requestPastRates(7, baseCurrency, targetCurrency)
             }else{
                 swapBaseTarget()
             }
