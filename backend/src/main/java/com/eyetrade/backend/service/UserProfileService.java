@@ -26,7 +26,7 @@ public class UserProfileService {
         User selfUser = userRepository.findById(selfId);
         return UserMapper.entityToCompleteUserResource(selfUser,
                 userFollowingService.countFollowers(selfUser),
-                userFollowingService.countFollowers(selfUser));
+                userFollowingService.countFollowings(selfUser));
     }
 
     public PartialUserResource getOtherProfile(UUID selfId, String otherUserEmail){
@@ -36,7 +36,7 @@ public class UserProfileService {
                 || userFollowingService.getSelfFollowings(selfUser.getId()).contains(otherUser)){
             return UserMapper.entityToPartialUserResource(otherUser,
                     userFollowingService.countFollowers(otherUser),
-                    userFollowingService.countFollowers(otherUser));
+                    userFollowingService.countFollowings(otherUser));
         }
         else{
             // you have no access for that user because it is private and you do not follow
@@ -53,7 +53,7 @@ public class UserProfileService {
         userRepository.save(updatedUser);
         return UserMapper.entityToCompleteUserResource(updatedUser,
                 userFollowingService.countFollowers(updatedUser),
-                userFollowingService.countFollowers(updatedUser));
+                userFollowingService.countFollowings(updatedUser));
     }
 
     public CompleteUserResource updateTraderProfile(UUID userId, TraderUserDto newTraderUserDto){
@@ -65,7 +65,7 @@ public class UserProfileService {
         userRepository.save(updatedUser);
         return UserMapper.entityToCompleteUserResource(updatedUser,
                 userFollowingService.countFollowers(updatedUser),
-                userFollowingService.countFollowers(updatedUser));
+                userFollowingService.countFollowings(updatedUser));
     }
 
     public CompleteUserResource updatePrivacy(UUID userId, PrivacyType privacy){
@@ -73,6 +73,6 @@ public class UserProfileService {
         user.setPrivacyType(privacy);
         return UserMapper.entityToCompleteUserResource(user,
                 userFollowingService.countFollowers(user),
-                userFollowingService.countFollowers(user));
+                userFollowingService.countFollowings(user));
     }
 }
