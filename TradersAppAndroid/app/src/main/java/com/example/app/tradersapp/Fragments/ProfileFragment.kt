@@ -132,11 +132,12 @@ class ProfileFragment : Fragment() {
                 })
         }
 
-
+        /*
         val bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.hansgraham)
         val mDrawable: RoundedBitmapDrawable = RoundedBitmapDrawableFactory.create(resources,bitmap)
         mDrawable.isCircular = true
         profileImage.setImageDrawable(mDrawable)
+        */
         //mDrawable.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.DST_OVER);
 
         followButton.setOnClickListener {
