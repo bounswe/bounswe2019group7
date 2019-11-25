@@ -58,6 +58,4 @@ public class CommentController {
     public ResponseEntity<List<CommentResource>> getCommentsOfUser(@RequestHeader("Authorization") String token){
         return ResponseEntity.ok(service.getCommentsOfUser(jwtResolver.getIdFromToken(token)));
     }
-
-
 }

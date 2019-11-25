@@ -39,6 +39,8 @@ public class CurrencyRateService {
         resource.setRate(
                 findRate(converterDto.getOutputCurrencyType(), record) / findRate(converterDto.getInputCurrencyType(), record));
         resource.setAmount(resource.getRate() * converterDto.getAmount());
+        resource.setInputCurrencyType(converterDto.getInputCurrencyType());
+        resource.setOutputCurrencyType(converterDto.getOutputCurrencyType());
         return resource;
     }
 
