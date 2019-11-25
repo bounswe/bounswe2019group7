@@ -22,6 +22,12 @@ export default {
       attributes: { disabled: false }
     },
     {
+      name: "My Portfolios",
+      url: "portfolios",
+      icon: "icon-graph",
+      attributes: { disabled: false }
+    },
+    {
       name: "Trade Indicies",
       url: "",
       icon: "fa fa-money",
@@ -43,10 +49,12 @@ export default {
       name: "Currency",
       url: "currency",
       icon: "icon-chart",
-      badge: {
-        variant: "primary",
-        text: "NEW"
-      },
+      attributes: { disabled: false }
+    },
+    {
+      name: "Currency Charts",
+      url: "currencyCharts",
+      icon: "icon-chart",
       attributes: { disabled: false }
     },
     {
@@ -67,11 +75,5 @@ export default {
       icon: "fa fa-info",
       attributes: { disabled: true }
     },
-    {
-      name: "Portfolios",
-      url: "",
-      icon: "icon-graph",
-      attributes: { disabled: true }
-    }
   ]
 };

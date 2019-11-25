@@ -15,8 +15,8 @@ public interface CurrencyRepository extends JpaRepository<CurrencyRecord, UUID> 
             nativeQuery = true)
     CurrencyRecord findLastRecord();
 
-    List<CurrencyRecord> findCurrencyRecordsByDateBetween(String startDate,String endDate);
+    List<CurrencyRecord> findCurrencyRecordsByDateBetweenOrderByDate(String startDate, String endDate);
 
-    List<CurrencyRecord> findCurrencyRecordsByDateAfter(String startDate);
+    List<CurrencyRecord> findCurrencyRecordsByDateAfterOrderByDate(String startDate);
 
 }

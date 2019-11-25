@@ -1,5 +1,6 @@
 package com.eyetrade.backend.model.resource.comment;
 
+import com.eyetrade.backend.constants.CommentType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class CommentResource {
 
     private String createdDate;
 
-    private Boolean isBelongToArticle;
+    private CommentType commentType;
 
     private UUID articleEventId;
 

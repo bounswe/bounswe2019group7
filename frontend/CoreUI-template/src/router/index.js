@@ -7,12 +7,14 @@ const DefaultContainer = () => import("@/containers/DefaultContainer");
 // Views
 const Dashboard = () => import("@/views/Dashboard");
 const Currency = () => import("@/views/Currency");
+const CurrencyCharts = () => import("@/views/CurrencyCharts");
 const Events = () => import("@/views/Events");
 const ProfilePage = () => import("@/views/ProfilePage");
 const UserSettings = () => import("@/views/UserSettings");
 const Articles = () => import("@/views/Articles");
 const Article = () => import("@/views/Article");
 const ArticleForm = () => import("@/views/ArticleForm");
+const Portfolios = () => import("@/views/Portfolios");
 
 const Colors = () => import("@/views/theme/Colors");
 const Typography = () => import("@/views/theme/Typography");
@@ -86,6 +88,11 @@ function configRoutes() {
           component: Currency
         },
         {
+          path: "currencyCharts",
+          name: "Currency Charts",
+          component: CurrencyCharts
+        },
+        {
           path: "profilePage/:email?",
           name: "Profile Page",
           component: ProfilePage
@@ -114,6 +121,11 @@ function configRoutes() {
           path: "articleForm",
           name: "ArticleForm",
           component: ArticleForm
+        },
+        {
+          path: "portfolios",
+          name: "Portfolios",
+          component: Portfolios
         },
         {
           path: "theme",

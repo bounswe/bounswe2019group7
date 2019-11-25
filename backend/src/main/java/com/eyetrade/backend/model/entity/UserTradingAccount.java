@@ -1,43 +1,41 @@
 package com.eyetrade.backend.model.entity;
 
-import com.eyetrade.backend.constants.CommentType;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import java.util.UUID;
 
+import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
 /**
  * Created by Emir Gökdemir
  * on 24 Kas 2019
  */
-
 @Data
 @Entity
-@Table(name = "comment")
-public class Comment {
+@Table(name="user_account")
+public class UserTradingAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
-    @Column(name = "id")
+    @Column(name = "id", length = ID_LENGTH)
     private UUID id;
 
-    private String title;
-
-    @Column(length = 1024)
-    private String content;
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "created_date")
-    private String createdDate;
+    private Double tryAmount=0.0;
 
-    @Enumerated(EnumType.STRING)
-    private CommentType commentType;
+    private Double usdAmount=0.0;
 
-    private UUID articleEventId;
+    private Double eurAmount=0.0;
+
+    private Double cnyAmount=0.0;
+
+    private Double jpyAmount=0.0;
+
+    private Double gbpAmount=0.0;
 }
-
