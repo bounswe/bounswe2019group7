@@ -36,9 +36,18 @@
                   :value="25"
                 />
               </b-card>
-              <b-button size="lg" variant="primary" block>{{
-                portfolio
-              }}</b-button>
+              <router-link
+                :to="{
+                  path: './portfolios'
+                }"
+              >
+                <b-button
+                  size="lg"
+                  variant="primary"
+                  block
+                  >{{portfolio}}</b-button
+                >
+              </router-link>
               <b-button size="lg" variant="primary" v-if="seen" block
                 >Create an Alarm</b-button
               >
@@ -149,7 +158,7 @@ export default {
       itemsArray: someData(),
       fields: [
         { key: "title", label: "Title", sortable: true, formatter: "uuid" },
-        { key: "contentAbstract", label: "Absttact" },
+        { key: "contentAbstract", label: "Abstract" },
         { key: "stringDate", label: "Publish Date" }
       ],
       item: [],
