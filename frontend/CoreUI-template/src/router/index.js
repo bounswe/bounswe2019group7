@@ -13,6 +13,7 @@ const UserSettings = () => import("@/views/UserSettings");
 const Articles = () => import("@/views/Articles");
 const Article = () => import("@/views/Article");
 const ArticleForm = () => import("@/views/ArticleForm");
+const Portfolios = () => import("@/views/Portfolios");
 
 const Colors = () => import("@/views/theme/Colors");
 const Typography = () => import("@/views/theme/Typography");
@@ -114,6 +115,11 @@ function configRoutes() {
           path: "articleForm",
           name: "ArticleForm",
           component: ArticleForm
+        },
+        {
+          path: "portfolios",
+          name: "Portfolios",
+          component: Portfolios
         },
         {
           path: "theme",
