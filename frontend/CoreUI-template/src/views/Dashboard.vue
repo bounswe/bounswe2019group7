@@ -110,7 +110,6 @@ export default {
     this.$http.get('/main_page/get_feed')
       .then((response) => {
         if (response.status == 200) {
-          console.log(response);
           this.events = response.data.suggestedEvents;
           this.users = response.data.suggestedUsers;
           this.articles = response.data.suggestedArticles;
