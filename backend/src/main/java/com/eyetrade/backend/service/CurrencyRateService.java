@@ -68,14 +68,14 @@ public class CurrencyRateService {
     }
 
     public CurrencyIntervalResource findRateBetweenDates(CurrencyConverterIntervalDto dto) {
-        List<CurrencyRecord> currencyRecords = currencyRepository.findCurrencyRecordsByDateBetween(dto.getStartDate(), dto.getEndDate());
+        List<CurrencyRecord> currencyRecords = currencyRepository.findCurrencyRecordsByDateBetweenOrderByDate(dto.getStartDate(), dto.getEndDate());
         List<CurrencyConverterResource> resources = mapListOfCurrencyRecords(currencyRecords, dto.getTargetCurrencyType(), dto.getSourceCurrencyType(), dto.getAmount());
         return new CurrencyIntervalResource(resources, dto.getStartDate(), dto.getEndDate());
     }
 
     public CurrencyLastDaysResource findRateLastDays(CurrencyConverterLastDaysDto dto) {
         String startDate=getDateXDaysAgoWithFormat(dto.getLastDays(), DB_DATE_TIME_FORMAT);
-        List<CurrencyRecord> currencyRecords = currencyRepository.findCurrencyRecordsByDateAfter(startDate);
+        List<CurrencyRecord> currencyRecords = currencyRepository.findCurrencyRecordsByDateAfterOrderByDate(startDate);
         List<CurrencyConverterResource> resources = mapListOfCurrencyRecords(currencyRecords, dto.getTargetCurrencyType(), dto.getSourceCurrencyType(), dto.getAmount());
         return new CurrencyLastDaysResource(resources,startDate,dto.getLastDays());
     }
@@ -83,11 +83,13 @@ public class CurrencyRateService {
     private List<CurrencyConverterResource> mapListOfCurrencyRecords(List<CurrencyRecord> currencyRecords,
                                                                      CurrencyType targetCurrency, CurrencyType sourceCurrency, Float amount) {
         List<CurrencyConverterResource> resources = new ArrayList<>();
-        CurrencyConverterResource resource = new CurrencyConverterResource();
         for (CurrencyRecord record : CollectionUtils.emptyIfNull(currencyRecords)) {
+            CurrencyConverterResource resource = new CurrencyConverterResource();
             resource.setDate(record.getDate());
             resource.setRate(findRate(targetCurrency, record) / findRate(sourceCurrency, record));
             resource.setAmount(resource.getRate() *amount);
+            resource.setInputCurrencyType(sourceCurrency);
+            resource.setOutputCurrencyType(targetCurrency);
             resources.add(resource);
         }
         return resources;
