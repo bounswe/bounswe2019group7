@@ -1,5 +1,6 @@
 package com.eyetrade.backend.model.entity;
 
+import com.eyetrade.backend.constants.CommentType;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -29,12 +30,13 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Column(name = "created_date")
     private String createdDate;
 
-    private Boolean isBelongToArticle; // if false then it is belong to event
+    @Enumerated(EnumType.STRING)
+    private CommentType commentType;
 
     private UUID articleEventId;
 }

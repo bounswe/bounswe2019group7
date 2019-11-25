@@ -30,7 +30,7 @@ public class CommentController {
     private CommentService service;
 
     @ApiOperation(value = "A user can comment on event or article with necessary informations.", response = CommentResource.class)
-    @PostMapping("/post-comment")
+    @PostMapping("/post_comment")
     public ResponseEntity<CommentResource> postComment(@RequestHeader("Authorization") String token,
                                                        @RequestBody CommentDto dto){
         UUID userId=jwtResolver.getIdFromToken(token);
@@ -38,7 +38,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "A user can access a comment on event or article with Comment ID.", response = CommentResource.class)
-    @GetMapping("/get-comment")
+    @GetMapping("/get_comment")
     public ResponseEntity<CommentResource> getComment(@RequestHeader("Authorization") String token,
                                                        @RequestParam UUID commentId){
         jwtResolver.getIdFromToken(token);
@@ -46,7 +46,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "A user can access all comments about an event or an article with Event or Article Id.", response = CommentResource.class)
-    @GetMapping("/get-comments-of-article")
+    @GetMapping("/get_comments_of_article")
     public ResponseEntity<List<CommentResource>> getCommentsOfArticleOrEvent(@RequestHeader("Authorization") String token,
                                                                             @RequestParam UUID articleOrEventId){
         jwtResolver.getIdFromToken(token);
@@ -54,7 +54,7 @@ public class CommentController {
     }
 
     @ApiOperation(value = "A user can access all comments about of himself/herself.", response = CommentResource.class)
-    @GetMapping("/get-comments-of-user")
+    @GetMapping("/get_comments_of_user")
     public ResponseEntity<List<CommentResource>> getCommentsOfUser(@RequestHeader("Authorization") String token){
         return ResponseEntity.ok(service.getCommentsOfUser(jwtResolver.getIdFromToken(token)));
     }
