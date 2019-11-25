@@ -35,6 +35,9 @@ export default {
         logout: function() {
             //TODO delete the cookie
             localStorage.removeItem("token");
+            localStorage.removeItem("notification");
+            localStorage.removeItem("email");
+            localStorage.removeItem("password");
             document.location.href = ""; //mainpage -- login
         },
       }
