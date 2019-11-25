@@ -19,8 +19,35 @@ export default {
   },
   methods: {
         notify: function() {
-            console.log("notify"); 
-            document.getElementById("ddown").innerHTML = "No Notifications."; 
+            var token = localStorage.getItem("token");
+            var http = new XMLHttpRequest();
+            http.open("GET", "http://100.26.202.213:8080/notification/self_notifications", true);
+            http.setRequestHeader('Authorization', token);
+            http.onreadystatechange = function () {
+                if (this.readyState === 4) {
+                    if ((this.status == 200) && (this.status < 300)) {
+                        var json_object = JSON.parse(this.responseText);
+                        var result = "";
+                        for(var i = 0; i<json_object.length;i++){
+                          result = "\n" + json_object[i].followerName + " " + json_object[i].followerSurname + " followed you." + result;
+                        }
+                        document.getElementById("ddown").innerHTML = result;
+                        
+                        if (localStorage.getItem("notification") != json_object.length){
+                          var old = localStorage.getItem("notification")
+                          localStorage.setItem("notification", json_object.length);
+                          if (old){
+                            document.getElementById("numberOfNotifications").innerHTML = json_object.length - old; 
+                          }else{
+                            document.getElementById("numberOfNotifications").innerHTML = json_object.length; 
+                          }
+                        } 
+                        
+                    }
+                }
+            };
+            http.send();
+            return '';
         },
         update: function() {
              document.getElementById("numberOfNotifications").innerHTML = ""; 
