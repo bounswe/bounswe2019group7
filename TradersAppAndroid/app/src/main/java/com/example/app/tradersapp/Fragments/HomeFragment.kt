@@ -18,10 +18,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.app.tradersapp.*
+import kotlinx.android.synthetic.main.activity_homepage.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.abs
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +33,7 @@ class HomeFragment : Fragment() {
     private var suggestedEvents: List<EventModel> = emptyList()
     private var suggestedUsers: List<UserModel> = emptyList()
 
+    val images = arrayOf(R.drawable.article1, R.drawable.article2, R.drawable.article3, R.drawable.article4, R.drawable.article5, R.drawable.article6)
 
     val imagePlaceholder = R.drawable.placeholder
 
@@ -44,6 +47,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        EyeTradeUtils.showSpinner(activity)
 
         sp = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -75,7 +80,7 @@ class HomeFragment : Fragment() {
                     // load home feed
                     suggestedArticles = body?.suggestedArticles?.map {
                         ArticleModel(
-                            imagePlaceholder,
+                            images[abs(it.uuid.hashCode())%images.size],
                             it.title,
                             it.content,
                             it.authorName,
@@ -88,7 +93,7 @@ class HomeFragment : Fragment() {
 
                     suggestedEvents = body?.suggestedEvents?.map {
                         EventModel(
-                            imagePlaceholder,
+                            images[abs(it.guid.hashCode())%images.size],
                             it.title,
                             it.content
                         )
@@ -117,6 +122,9 @@ class HomeFragment : Fragment() {
                         adapter = UserAdapter(suggestedUsers, context)
                         addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
                     }
+                    EyeTradeUtils.hideSpinner(activity)
+                }else{
+                    Toast.makeText(activity, "Could not get home feed: "+response.code(), Toast.LENGTH_SHORT).show()
                 }
             }
         })

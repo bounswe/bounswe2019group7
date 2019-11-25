@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.fragment_article.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.abs
 
 class ArticleFragment() : Fragment() {
 
@@ -38,9 +39,12 @@ class ArticleFragment() : Fragment() {
 
     )   */
 
+    val images = arrayOf(R.drawable.article1, R.drawable.article2, R.drawable.article3, R.drawable.article4, R.drawable.article5, R.drawable.article6)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        EyeTradeUtils.showSpinner(activity)
         getAllArticles()
         floatingButton.setOnClickListener {
             val addArticleFragment = AddArticleFragment()
@@ -68,7 +72,7 @@ class ArticleFragment() : Fragment() {
             override fun onResponse(call: Call<ArticlesListResponse>, response: Response<ArticlesListResponse>) {
                 allArticles = response.body()?.allArticles?.map {
                     ArticleModel(
-                        imagePlaceholder,
+                        images[abs(it.uuid.hashCode()) %images.size],
                         it.title,
                         it.content,
                         it.authorName,
@@ -85,6 +89,8 @@ class ArticleFragment() : Fragment() {
                     adapter = ArticleAdapter(allArticles, context)
                     addItemDecoration(DividerItemDecoration(aList.context, LinearLayoutManager.VERTICAL))
                 }
+
+                EyeTradeUtils.hideSpinner(activity)
             }
 
         })

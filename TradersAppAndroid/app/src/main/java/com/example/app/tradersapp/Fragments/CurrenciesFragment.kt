@@ -116,6 +116,8 @@ class CurrenciesFragment : Fragment() {
     }
 
     private fun requestPastRates(lastdays: Int, sourceCurrency: String, targetCurrency: String){
+
+        EyeTradeUtils.showSpinner(activity)
         val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
         retrofitService.getExchangeRateForPastDays(1f, lastdays, sourceCurrency, targetCurrency).enqueue(object: Callback<ExchangeRatePastDaysResponse>{
             override fun onFailure(call: Call<ExchangeRatePastDaysResponse>, t: Throwable) {
@@ -139,6 +141,7 @@ class CurrenciesFragment : Fragment() {
                     createPlot()
                 }
                 updatePlot()
+                EyeTradeUtils.hideSpinner(activity)
             }
         })
     }

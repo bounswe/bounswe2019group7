@@ -47,6 +47,8 @@ class ProfileFragment : Fragment() {
             return
         }
 
+        EyeTradeUtils.showSpinner(activity)
+
         val retrofitService =
             RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
 
@@ -84,6 +86,7 @@ class ProfileFragment : Fragment() {
                             email.text = body?.email
                             followersText.text = body?.followerCount.toString()
                             followingText.text = body?.followingCount.toString()
+                            EyeTradeUtils.hideSpinner(activity)
                         } else {
                             Toast.makeText(
                                 activity?.applicationContext,
@@ -120,6 +123,7 @@ class ProfileFragment : Fragment() {
                             email.text = body?.email
                             followersText.text = body?.followerCount.toString()
                             followingText.text = body?.followingCount.toString()
+                            EyeTradeUtils.hideSpinner(activity)
                         } else {
                             Toast.makeText(
                                 activity?.applicationContext,

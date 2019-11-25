@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.fragment_event.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.abs
 
 class EventFragment() : Fragment() {
 /*
@@ -25,6 +26,9 @@ class EventFragment() : Fragment() {
     val image6 = R.drawable.article6
 
 */
+
+    val images = arrayOf(R.drawable.article1, R.drawable.article2, R.drawable.article3, R.drawable.article4, R.drawable.article5, R.drawable.article6)
+
     val imagePlaceholder = R.drawable.placeholder
 
 /*
@@ -51,8 +55,8 @@ class EventFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        EyeTradeUtils.showSpinner(activity)
         getAllEvents()
-
     }
 
     override fun onCreateView(
@@ -72,7 +76,7 @@ class EventFragment() : Fragment() {
             override fun onResponse(call: Call<EventsListResponse>, response: Response<EventsListResponse>) {
                 allEvents = response.body()?.allEvents?.map {
                     EventModel(
-                        imagePlaceholder,
+                        images[abs(it.guid.hashCode())%images.size],
                         it.title,
                         it.content
                         )
@@ -84,6 +88,8 @@ class EventFragment() : Fragment() {
                     adapter = EventAdapter(allEvents, context)
                     addItemDecoration(DividerItemDecoration(eList.context, LinearLayoutManager.VERTICAL))
                 }
+
+                EyeTradeUtils.hideSpinner(activity)
             }
 
         })
