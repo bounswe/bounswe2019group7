@@ -56,6 +56,7 @@ class HomeFragment : Fragment() {
         retrofitService.getSelfProfileInformation(sp?.getString("token",null)).enqueue(object: Callback<SelfProfileInformationResponse>{
             override fun onFailure(call: Call<SelfProfileInformationResponse>, t: Throwable) {
                 Log.i("ApiRequest", "Request failed: " + t.toString())
+                homeGreeting.text = "Hi, Guest!"
             }
 
             override fun onResponse(call: Call<SelfProfileInformationResponse>, response: Response<SelfProfileInformationResponse>) {

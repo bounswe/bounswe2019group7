@@ -19,15 +19,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
-                    android:textSize="40sp" />
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:drawablePadding="10dp"
+                    android:text="Hi, User!"
+                    android:textSize="32sp" />
+
+            <View
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="11dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#666666" />
 
             <TextView
                     android:id="@+id/homeArticlesText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_paragraph_black_24dp"
+                    android:drawablePadding="10dp"
                     android:text="Suggested Articles"
-                    android:textSize="32sp" />
+                    android:textSize="24sp" />
+
+            <View
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="11dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#666666" />
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/homeArticleList"
@@ -40,8 +59,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_event_black_24dp"
+                    android:drawablePadding="10dp"
                     android:text="Suggested Events"
-                    android:textSize="32sp" />
+                    android:textSize="24sp" />
+
+            <View
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="11dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#666666" />
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/homeEventList"
@@ -54,8 +82,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:drawableStart="@drawable/ic_account_box_black_24dp"
+                    android:drawablePadding="10dp"
                     android:text="Suggested Users"
-                    android:textSize="32sp" />
+                    android:textSize="24sp" />
+
+            <View
+                    android:layout_marginTop="11dp"
+                    android:layout_marginBottom="11dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#666666" />
 
             <android.support.v7.widget.RecyclerView
                     android:id="@+id/homeUserList"
