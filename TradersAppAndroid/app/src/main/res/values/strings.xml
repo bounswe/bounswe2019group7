@@ -23,6 +23,9 @@
     <string name="currency_jpy">JPY</string>
     <string name="currency_cny">CNY</string>
 
+    <!-- Tab titles -->
+    <string name="articles_title">ARTICLES</string>
+    <string name="my_articles_title">MY ARTICLES</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

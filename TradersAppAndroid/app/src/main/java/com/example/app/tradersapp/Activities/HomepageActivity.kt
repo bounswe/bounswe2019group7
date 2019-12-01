@@ -56,7 +56,7 @@ class HomepageActivity : AppCompatActivity() {
                 }
 
                 R.id.action_articles -> {
-                    fragment = ArticleFragment.newInstance()
+                    fragment = ArticleBaseFragment.newInstance()
                 }
 
                 R.id.action_events -> {

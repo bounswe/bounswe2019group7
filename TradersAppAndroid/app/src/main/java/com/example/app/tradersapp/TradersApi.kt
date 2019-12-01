@@ -95,8 +95,7 @@ interface ApiInterface {
     fun getAllArticles(): retrofit2.Call<ArticlesListResponse>
 
     @GET("article/self_articles")
-    fun getSelfArticles(@Header("Authorization") token: String?,
-                        @Query("selfEmail") email: String): retrofit2.Call<ArticlesListResponse>
+    fun getSelfArticles(@Header("Authorization") token: String?): retrofit2.Call<ArticlesListResponse>
 
     @GET("article/user_articles")
     fun getUserArticles(@Query("userEmail") email: String): retrofit2.Call<ArticlesListResponse>
