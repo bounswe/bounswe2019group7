@@ -8,11 +8,8 @@ import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.app.tradersapp.ArticleAdapter
 import com.example.app.tradersapp.ArticleTabAdapter
-
 import com.example.app.tradersapp.R
-import kotlinx.android.synthetic.main.fragment_article.*
 import kotlinx.android.synthetic.main.fragment_article_base.*
 
 class ArticleBaseFragment : Fragment() {
@@ -35,8 +32,8 @@ class ArticleBaseFragment : Fragment() {
         mTabLayout = tabLayout
         mViewPager = viewPager
         mTabAdapter = ArticleTabAdapter(childFragmentManager)
-        mTabAdapter.addFragment(ArticleFragment.newInstance(false), "ARTICLES")
-        mTabAdapter.addFragment(ArticleFragment.newInstance(true), " MY ARTICLES")
+        mTabAdapter.addFragment(ArticleFragment.newInstance(false), getString(R.string.articles_title))
+        mTabAdapter.addFragment(ArticleFragment.newInstance(true), getString(R.string.my_articles_title))
         mViewPager.adapter = mTabAdapter
         mTabLayout.setupWithViewPager(mViewPager)
     }
