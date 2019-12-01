@@ -1,8 +1,12 @@
 package com.example.app.tradersapp.Fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -19,6 +23,7 @@ class ArticleFragment() : Fragment() {
 
     val imagePlaceholder = R.drawable.placeholder
 
+    private var sp: SharedPreferences? = null
     private var allArticles: List<ArticleModel> = emptyList()
     private val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
 
@@ -43,9 +48,9 @@ class ArticleFragment() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        sp = PreferenceManager.getDefaultSharedPreferences(activity)
         EyeTradeUtils.showSpinner(activity)
-        getAllArticles()
+        getArticles()
         floatingButton.setOnClickListener {
             val addArticleFragment = AddArticleFragment()
             val transaction = activity!!.supportFragmentManager.beginTransaction()
@@ -63,8 +68,13 @@ class ArticleFragment() : Fragment() {
         return inflater.inflate(R.layout.fragment_article, container, false)
     }
 
-    private fun getAllArticles(){
-        retrofitService.getAllArticles().enqueue(object: Callback<ArticlesListResponse>{
+    private fun getArticles(){
+        var func = retrofitService.getAllArticles()
+        if(arguments?.getBoolean("isSelfArticles") == true){
+            func = retrofitService.getSelfArticles(sp?.getString("token", ""))
+        }
+
+        func.enqueue(object: Callback<ArticlesListResponse>{
             override fun onFailure(call: Call<ArticlesListResponse>, t: Throwable) {
                 EyeTradeUtils.toastErrorMessage(activity as Context, t)
             }
@@ -98,7 +108,13 @@ class ArticleFragment() : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = ArticleFragment()
+        fun newInstance(isSelfProfile: Boolean): Fragment{
+            val f = ArticleFragment()
+            val bundle = Bundle(1)
+            bundle.putBoolean("isSelfArticles", isSelfProfile)
+            f.arguments = bundle
+            return f
+        }
     }
 
 }
