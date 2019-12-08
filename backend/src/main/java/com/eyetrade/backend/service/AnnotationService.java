@@ -9,10 +9,14 @@ import com.eyetrade.backend.model.resource.annotation.AnnotationResource;
 import com.eyetrade.backend.repository.AnnotationRepository;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
+
+import static com.eyetrade.backend.constants.ErrorConstants.USER_CANNOT_DELETE_ANOTHER_USERS_ANNOTATION;
 
 /**
  * Created by Emir Gökdemir
@@ -48,5 +52,16 @@ public class AnnotationService {
 
     public List<AnnotationResource> getAnnotationsOfArticleEvent(UUID articleEventId){
         return mapper.entityToResource(repository.findAnnotationsByArticleEventId(articleEventId));
+    }
+
+    @Transactional
+    @Modifying
+    public String deleteAnnotation(UUID annotationId,UUID userId) throws IllegalAccessException{
+        Annotation annotation=repository.getOne(annotationId);
+        if(!userId.equals(annotation.getUser().getId())){
+            throw new IllegalAccessException(USER_CANNOT_DELETE_ANOTHER_USERS_ANNOTATION);
+        }
+        repository.delete(annotation);
+        return "Successfully deleted!";
     }
 }
