@@ -1,5 +1,6 @@
 package com.eyetrade.backend.controller;
 
+import com.eyetrade.backend.constants.CommentType;
 import com.eyetrade.backend.model.dto.AnnotationDto;
 import com.eyetrade.backend.model.resource.annotation.AnnotationResource;
 import com.eyetrade.backend.security.JwtResolver;
@@ -43,8 +44,8 @@ public class AnnotationController {
 
     @ApiOperation(value = "Get annotations of an article or an event with article event id and token", response = AnnotationResource.class,responseContainer = "List")
     @GetMapping("/get_annotations_of_article_event")
-    public ResponseEntity<List<AnnotationResource>> getAnnotationsOfArticleEvent(@RequestParam UUID articleEventId) {
-        return ResponseEntity.ok(service.getAnnotationsOfArticleEvent(articleEventId));
+    public ResponseEntity<List<AnnotationResource>> getAnnotationsOfArticleEvent(@RequestParam UUID articleEventId,CommentType annotationType) {
+        return ResponseEntity.ok(service.getAnnotationsOfArticleEvent(articleEventId,annotationType));
     }
 
     @ApiOperation(value = "Get annotations of self user with token", response = AnnotationResource.class,responseContainer = "List")

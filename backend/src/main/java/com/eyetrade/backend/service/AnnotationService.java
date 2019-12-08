@@ -50,8 +50,8 @@ public class AnnotationService {
         return mapper.entityToResource(repository.findAnnotationsByUser(user));
     }
 
-    public List<AnnotationResource> getAnnotationsOfArticleEvent(UUID articleEventId){
-        return mapper.entityToResource(repository.findAnnotationsByArticleEventId(articleEventId));
+    public List<AnnotationResource> getAnnotationsOfArticleEvent(UUID articleEventId, CommentType annotationType){
+        return mapper.entityToResource(repository.findAnnotationsByArticleEventIdAndCommentType(articleEventId,annotationType));
     }
 
     @Transactional
