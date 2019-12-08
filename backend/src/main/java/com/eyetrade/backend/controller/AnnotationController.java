@@ -53,7 +53,7 @@ public class AnnotationController {
         return ResponseEntity.ok(service.getAnnotationsOfSelf(jwtResolver.getIdFromToken(token)));
     }
 
-    @ApiOperation(value = "Get annotations of self user with token", response = AnnotationResource.class,responseContainer = "List")
+    @ApiOperation(value = "Delete annotation of user with annotation id and token", response = String.class)
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteAnnotation(@RequestHeader("Authorization") String token,@RequestParam UUID annotationId) throws IllegalAccessException {
         return ResponseEntity.ok(service.deleteAnnotation(annotationId,jwtResolver.getIdFromToken(token)));
