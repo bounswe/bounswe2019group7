@@ -112,4 +112,6 @@ public class ArticleController {
         return article;
     }
 
+    // TODO: 8 Ara 2019 delete eklenecek
+
 }
