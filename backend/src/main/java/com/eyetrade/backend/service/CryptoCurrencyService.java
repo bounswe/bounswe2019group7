@@ -5,16 +5,12 @@ import com.eyetrade.backend.constants.CurrencyConstants;
 import com.eyetrade.backend.model.dto.currency.CryptoCurrencyConverterDto;
 import com.eyetrade.backend.model.dto.currency.CryptoCurrencyConverterIntervalDto;
 import com.eyetrade.backend.model.dto.currency.CryptoCurrencyConverterLastDaysDto;
-import com.eyetrade.backend.model.dto.currency.CurrencyConverterIntervalDto;
 import com.eyetrade.backend.model.entity.CryptoCurrencyRecord;
-import com.eyetrade.backend.model.entity.CurrencyRecord;
 import com.eyetrade.backend.model.resource.currency.CryptoCurrencyConverterResource;
 import com.eyetrade.backend.model.resource.currency.CryptoCurrencyIntervalResource;
 import com.eyetrade.backend.model.resource.currency.CryptoCurrencyLastDaysResource;
-import com.eyetrade.backend.model.resource.currency.CurrencyConverterResource;
 import com.eyetrade.backend.repository.CryptoCurrencyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -55,7 +51,7 @@ public class CryptoCurrencyService {
         return new CryptoCurrencyIntervalResource(resources, dto.getStartDate(), dto.getEndDate());
     }
 
-    public CryptoCurrencyLastDaysResource findRateLastDays(CryptoCurrencyConverterLastDaysDto dto) {
+    public CryptoCurrencyLastDaysResource getRatesLastDays(CryptoCurrencyConverterLastDaysDto dto) {
         String startDate = getDateXDaysAgoWithFormat(dto.getDayCount(), DB_DATE_TIME_FORMAT);
         List<CryptoCurrencyRecord> currencyRecords = cryptoCurrencyRepository.findCryptoCurrencyRecordsByDateAfterOrderByDate(startDate);
         List<CryptoCurrencyConverterResource> resources = new ArrayList<>();
