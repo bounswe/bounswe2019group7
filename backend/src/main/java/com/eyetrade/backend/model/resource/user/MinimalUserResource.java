@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 /**
  * Created by Emir Gökdemir
@@ -14,6 +15,8 @@ import javax.annotation.Resource;
 @Setter
 @Resource
 public class MinimalUserResource {
+
+    private UUID id;
 
     private String email;
 

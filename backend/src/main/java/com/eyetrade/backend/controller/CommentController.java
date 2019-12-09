@@ -64,4 +64,5 @@ public class CommentController {
     public ResponseEntity<String> getCommentsOfUser(@RequestHeader("Authorization") String token, @RequestParam UUID articleOrEventId) throws IllegalAccessException {
         return ResponseEntity.ok(service.deleteComment(articleOrEventId,jwtResolver.getIdFromToken(token)));
     }
+
 }

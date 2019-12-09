@@ -44,6 +44,7 @@ public class UserMapper {
 
     public static MinimalUserResource entityToMinimalUserResource(User user) {
         MinimalUserResource resource = new MinimalUserResource();
+        resource.setId(user.getId());
         resource.setEmail(user.getEmail());
         resource.setName(user.getName());
         resource.setSurname(user.getSurname());
