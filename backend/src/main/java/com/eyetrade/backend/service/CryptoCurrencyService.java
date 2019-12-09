@@ -2,6 +2,7 @@ package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.constants.CryptoCurrencyType;
 import com.eyetrade.backend.constants.CurrencyConstants;
+import com.eyetrade.backend.model.entity.CryptoCurrencyRecord;
 import com.eyetrade.backend.repository.CryptoCurrencyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
@@ -12,14 +13,20 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static com.eyetrade.backend.constants.GeneralConstants.DB_DATE_TIME_FORMAT;
+import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 
 @Service
 public class CryptoCurrencyService {
@@ -29,7 +36,23 @@ public class CryptoCurrencyService {
 
     @Autowired private CryptoCurrencyRepository cryptoCurrencyRepository;
 
-    private Map<?, ?> getExchangeRate(CryptoCurrencyType toCurrency) throws IOException, URISyntaxException {
+    @Transactional
+    @Scheduled(cron = "0 0 6 * * ?") //scheduled of every day at 6 am.
+    public CryptoCurrencyRecord getNewCryptoCurrencyRecord() throws IOException, URISyntaxException {
+        CryptoCurrencyRecord record = new CryptoCurrencyRecord();
+        // because of the api I have to make separate calls for each of the currency types
+        record.setBitcoin(getExchangeRate(CryptoCurrencyType.BTC));
+        record.setEthereum(getExchangeRate(CryptoCurrencyType.ETH));
+        record.setLitecoin(getExchangeRate(CryptoCurrencyType.LTC));
+        record.setMonero(getExchangeRate(CryptoCurrencyType.XMR));
+        record.setRipple(getExchangeRate(CryptoCurrencyType.XRP));
+        record.setZcash(getExchangeRate(CryptoCurrencyType.ZEC));
+        record.setDate(dateTimeFormatter(new Date(), DB_DATE_TIME_FORMAT));
+        cryptoCurrencyRepository.save(record);
+        return record;
+    }
+
+    private Double getExchangeRate(CryptoCurrencyType toCurrency) throws IOException, URISyntaxException {
         URI apiUri = new URIBuilder()
                 .setScheme("https")
                 .setHost(CurrencyConstants.CRYPTO_CURRENCY_API_HOST)
@@ -44,7 +67,9 @@ public class CryptoCurrencyService {
             HttpEntity entity = response.getEntity();
             InputStream content = entity.getContent();
             Map<?, ?> data = objectMapper.readValue(content, LinkedHashMap.class);
-            return data;
+            return ((Map<String, Number>) data.get("Realtime Currency Exchange Rate"))
+                    .get("5. Exchange Rate")
+                    .doubleValue();
         }
     }
 
