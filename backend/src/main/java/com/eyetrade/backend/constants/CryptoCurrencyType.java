@@ -5,6 +5,5 @@ public enum CryptoCurrencyType {
     ETH,
     XRP,
     LTC,
-    ZEC,
     XMR
 }

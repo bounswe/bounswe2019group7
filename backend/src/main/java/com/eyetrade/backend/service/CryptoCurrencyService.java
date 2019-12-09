@@ -2,6 +2,7 @@ package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.constants.CryptoCurrencyType;
 import com.eyetrade.backend.constants.CurrencyConstants;
+import com.eyetrade.backend.constants.GeneralConstants;
 import com.eyetrade.backend.model.dto.currency.CryptoCurrencyConverterDto;
 import com.eyetrade.backend.model.dto.currency.CryptoCurrencyConverterIntervalDto;
 import com.eyetrade.backend.model.dto.currency.CryptoCurrencyConverterLastDaysDto;
@@ -12,12 +13,13 @@ import com.eyetrade.backend.model.resource.currency.CryptoCurrencyLastDaysResour
 import com.eyetrade.backend.repository.CryptoCurrencyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -36,7 +38,14 @@ import static com.eyetrade.backend.utils.DateUtils.getDateXDaysAgoWithFormat;
 @Service
 public class CryptoCurrencyService {
 
-    private final CloseableHttpClient httpClient = HttpClients.createDefault();
+    private final RequestConfig httpConfig = RequestConfig.custom()
+            .setConnectTimeout(GeneralConstants.API_REQUEST_LONG_TIMEOUT)
+            .setConnectionRequestTimeout(GeneralConstants.API_REQUEST_LONG_TIMEOUT)
+            .setSocketTimeout(GeneralConstants.API_REQUEST_LONG_TIMEOUT)
+            .build();
+    private final CloseableHttpClient httpClient = HttpClientBuilder.create()
+            .setDefaultRequestConfig(httpConfig)
+            .build();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired private CryptoCurrencyRepository cryptoCurrencyRepository;
@@ -86,7 +95,7 @@ public class CryptoCurrencyService {
     }
 
     @Transactional
-    @Scheduled(cron = "0 0 6 * * ?") //scheduled of every day at 6 am.
+    @Scheduled(cron = "0 0 6 * * ?") //scheduled every day at 6 am.
     private CryptoCurrencyRecord getNewCryptoCurrencyRecord() throws IOException, URISyntaxException {
         CryptoCurrencyRecord record = new CryptoCurrencyRecord();
         // because of the api I have to make separate calls for each of the currency types
@@ -95,13 +104,25 @@ public class CryptoCurrencyService {
         record.setLitecoin(getExchangeRate(CryptoCurrencyType.LTC));
         record.setMonero(getExchangeRate(CryptoCurrencyType.XMR));
         record.setRipple(getExchangeRate(CryptoCurrencyType.XRP));
-        record.setZcash(getExchangeRate(CryptoCurrencyType.ZEC));
         record.setDate(dateTimeFormatter(new Date(), DB_DATE_TIME_FORMAT));
         cryptoCurrencyRepository.save(record);
         return record;
     }
 
     private Double getExchangeRate(CryptoCurrencyType toCurrency) throws IOException, URISyntaxException {
+        // TODO: We should decide what to do with that unstable api
+        // give 4 chance to the api
+        for(int i = 0; i < 3; i++){
+            try{
+                return getExchangeRateFromApi(toCurrency);
+            }
+            catch (Exception e) {
+            }
+        }
+        return getExchangeRateFromApi(toCurrency);
+    }
+
+    private Double getExchangeRateFromApi(CryptoCurrencyType toCurrency) throws URISyntaxException, IOException {
         URI apiUri = new URIBuilder()
                 .setScheme("https")
                 .setHost(CurrencyConstants.CRYPTO_CURRENCY_API_HOST)
@@ -111,14 +132,14 @@ public class CryptoCurrencyService {
                 .setParameter("to_currency", toCurrency.toString())
                 .setParameter("apikey", CurrencyConstants.CRYPTO_CURRENCY_API_KEY)
                 .build();
+
         HttpUriRequest request = new HttpGet(apiUri);
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             HttpEntity entity = response.getEntity();
             InputStream content = entity.getContent();
             Map<?, ?> data = objectMapper.readValue(content, LinkedHashMap.class);
-            return ((Map<String, Number>) data.get("Realtime Currency Exchange Rate"))
-                    .get("5. Exchange Rate")
-                    .doubleValue();
+            String rateInStr = ((Map<String, String>) data.get("Realtime Currency Exchange Rate")).get("5. Exchange Rate");
+            return Double.parseDouble(rateInStr);
         }
     }
 
@@ -136,11 +157,8 @@ public class CryptoCurrencyService {
         else if(type == CryptoCurrencyType.XMR){
             return record.getMonero();
         }
-        else if(type == CryptoCurrencyType.XRP){
+        else{ // XRP
             return record.getRipple();
-        }
-        else{
-            return record.getZcash();
         }
     }
 

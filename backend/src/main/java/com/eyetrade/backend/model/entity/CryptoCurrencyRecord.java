@@ -35,9 +35,6 @@ public class CryptoCurrencyRecord {
     @Column(name = "litecoin")
     private Double litecoin; // LTC
 
-    @Column(name = "zcash")
-    private Double zcash; // ZEC
-
     @Column(name = "monero")
     private Double monero; // XMR
 
