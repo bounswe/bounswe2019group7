@@ -3,10 +3,18 @@ package com.eyetrade.backend.service;
 import com.eyetrade.backend.constants.CryptoCurrencyType;
 import com.eyetrade.backend.constants.CurrencyConstants;
 import com.eyetrade.backend.model.dto.currency.CryptoCurrencyConverterDto;
+import com.eyetrade.backend.model.dto.currency.CryptoCurrencyConverterIntervalDto;
+import com.eyetrade.backend.model.dto.currency.CryptoCurrencyConverterLastDaysDto;
+import com.eyetrade.backend.model.dto.currency.CurrencyConverterIntervalDto;
 import com.eyetrade.backend.model.entity.CryptoCurrencyRecord;
+import com.eyetrade.backend.model.entity.CurrencyRecord;
 import com.eyetrade.backend.model.resource.currency.CryptoCurrencyConverterResource;
+import com.eyetrade.backend.model.resource.currency.CryptoCurrencyIntervalResource;
+import com.eyetrade.backend.model.resource.currency.CryptoCurrencyLastDaysResource;
+import com.eyetrade.backend.model.resource.currency.CurrencyConverterResource;
 import com.eyetrade.backend.repository.CryptoCurrencyRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -23,12 +31,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.eyetrade.backend.constants.GeneralConstants.DB_DATE_TIME_FORMAT;
 import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
+import static com.eyetrade.backend.utils.DateUtils.getDateXDaysAgoWithFormat;
 
 @Service
 public class CryptoCurrencyService {
@@ -38,14 +45,42 @@ public class CryptoCurrencyService {
 
     @Autowired private CryptoCurrencyRepository cryptoCurrencyRepository;
 
+    public CryptoCurrencyIntervalResource getRatesBetweenDates(CryptoCurrencyConverterIntervalDto dto) {
+        List<CryptoCurrencyRecord> currencyRecords = cryptoCurrencyRepository.findCryptoCurrencyRecordsByDateBetweenOrderByDate(dto.getStartDate(), dto.getEndDate());
+        List<CryptoCurrencyConverterResource> resources = new ArrayList<>();
+        for(CryptoCurrencyRecord record : currencyRecords){
+            CryptoCurrencyConverterResource resource = generateResource(record, dto.getSource(), dto.getTarget(), dto.getAmount());
+            resources.add(resource);
+        }
+        return new CryptoCurrencyIntervalResource(resources, dto.getStartDate(), dto.getEndDate());
+    }
+
+    public CryptoCurrencyLastDaysResource findRateLastDays(CryptoCurrencyConverterLastDaysDto dto) {
+        String startDate = getDateXDaysAgoWithFormat(dto.getDayCount(), DB_DATE_TIME_FORMAT);
+        List<CryptoCurrencyRecord> currencyRecords = cryptoCurrencyRepository.findCryptoCurrencyRecordsByDateAfterOrderByDate(startDate);
+        List<CryptoCurrencyConverterResource> resources = new ArrayList<>();
+        for(CryptoCurrencyRecord record : currencyRecords){
+            CryptoCurrencyConverterResource resource = generateResource(record, dto.getSource(), dto.getTarget(), dto.getAmount());
+            resources.add(resource);
+        }
+        return new CryptoCurrencyLastDaysResource(resources, startDate, dto.getDayCount());
+    }
+
     public CryptoCurrencyConverterResource convertCryptoCurrencies(CryptoCurrencyConverterDto dto) throws IOException, URISyntaxException {
-        CryptoCurrencyConverterResource resource = new CryptoCurrencyConverterResource();
         CryptoCurrencyRecord lastRecord = getLastCryptoCurrencyRecord();
-        resource.setSourceType(dto.getSource());
-        resource.setTargetType(dto.getTarget());
-        resource.setDate(lastRecord.getDate());
-        resource.setRate(findRate(lastRecord, dto.getTarget()) / findRate(lastRecord, dto.getSource()));
-        resource.setAmount(dto.getAmount() * resource.getRate());
+        return generateResource(lastRecord, dto.getSource(), dto.getTarget(), dto.getAmount());
+    }
+
+    private CryptoCurrencyConverterResource generateResource(CryptoCurrencyRecord record,
+                                                                    CryptoCurrencyType source,
+                                                                    CryptoCurrencyType target,
+                                                                    Double amount){
+        CryptoCurrencyConverterResource resource = new CryptoCurrencyConverterResource();
+        resource.setSourceType(source);
+        resource.setTargetType(target);
+        resource.setDate(record.getDate());
+        resource.setRate(findRate(record, target) / findRate(record, source));
+        resource.setAmount(amount * resource.getRate());
         return resource;
     }
 
