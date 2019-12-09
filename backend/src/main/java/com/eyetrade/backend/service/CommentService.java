@@ -8,12 +8,15 @@ import com.eyetrade.backend.model.resource.comment.CommentResource;
 import com.eyetrade.backend.repository.CommentRepository;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static com.eyetrade.backend.constants.ErrorConstants.USER_CANNOT_DELETE_ANOTHER_USERS_COMMENT;
 import static com.eyetrade.backend.constants.GeneralConstants.DB_DATE_TIME_FORMAT;
 import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 
@@ -51,6 +54,17 @@ public class CommentService {
         comment.setUser(userRepository.findById(userId));
         CommentResource resource=mapper.entityToResource(repository.save(comment));
         return resource;
+    }
+
+    @Modifying
+    @Transactional
+    public String deleteComment(UUID commentId,UUID userId) throws IllegalAccessException {
+        Comment comment=repository.getOne(commentId);
+        if(!comment.getUser().getId().equals(userId)){
+            throw new IllegalAccessException(USER_CANNOT_DELETE_ANOTHER_USERS_COMMENT);
+        }
+        repository.delete(comment);
+        return "Comment successfully deleted!";
     }
 
 }
