@@ -7,7 +7,7 @@
               header-tag="header"
               footer-tag="footer">
               <div slot="header">
-                <i class="fa fa-align-justify"></i><strong> Currency Converter</strong>
+                <i class="fa fa-align-justify"></i><strong> Cryptocurrency Converter</strong>
               </div>
               <div> 
                 <label>From:</label>
@@ -62,7 +62,7 @@
         };
       },
       methods: {
-        convert: function(event) {
+        convert: function(event) { //TODO
             var input_value = document.getElementById("amount").value; 
             var e = document.getElementById("from");
             var from = e.options[e.selectedIndex].text;

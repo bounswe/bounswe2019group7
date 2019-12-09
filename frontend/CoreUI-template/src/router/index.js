@@ -6,6 +6,7 @@ const DefaultContainer = () => import("@/containers/DefaultContainer");
 
 // Views
 const Dashboard = () => import("@/views/Dashboard");
+const CryptoCurrency = () => import("@/views/CryptoCurrency");
 const Currency = () => import("@/views/Currency");
 const CurrencyCharts = () => import("@/views/CurrencyCharts");
 const Events = () => import("@/views/Events");
@@ -81,6 +82,11 @@ function configRoutes() {
           path: "dashboard",
           name: "Dashboard",
           component: Dashboard
+        },
+        {
+          path: "cryptocurrency",
+          name: "CryptoCurrency",
+          component: CryptoCurrency
         },
         {
           path: "currency",
