@@ -147,7 +147,6 @@ export default {
           .then(
             response => {
               this.user=response.data;
-                console.log(this.user);
             });
   },
   methods: {
@@ -176,7 +175,6 @@ export default {
         );
     },
     postComment() {
-      console.log(this.item.uuid);
       this.$http
       .post('/comment_controller/post_comment',
       {
