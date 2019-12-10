@@ -7,25 +7,27 @@
               header-tag="header"
               footer-tag="footer">
               <div slot="header">
-                <i class="fa fa-align-justify"></i><strong> Currency Converter</strong>
+                <i class="fa fa-align-justify"></i><strong> Cryptocurrency Converter</strong>
               </div>
               <div> 
                 <label>From:</label>
-                <select id="from" class="form-control">
-                    <option value="price1">EUR</option>
-                    <option value="price2">GBP</option>
-                    <option value="price3">USD</option>
-                    <option value="price4">TRY</option>
+                <select id="source" class="form-control">
+                    <option value="price1">BTC</option>
+                    <option value="price2">ETH</option>
+                    <option value="price3">XRP</option>
+                    <option value="price4">LTC</option>
+                    <option value="price5">XMR</option>
                 </select>
               </div>
               <div id="empty-div"> </div>
               <div> 
                 <label>To:</label>
-                <select id="to" class="form-control">
-                    <option value="price5">EUR</option>
-                    <option value="price6">GBP</option>
-                    <option value="price7">USD</option>
-                    <option value="price8">TRY</option>
+                <select id="target" class="form-control">
+                    <option value="price6">BTC</option>
+                    <option value="price7">ETH</option>
+                    <option value="price8">XRP</option>
+                    <option value="price9">LTC</option>
+                    <option value="price10">XMR</option>
                 </select>
               </div>
               <div id="empty-div"> </div>
@@ -64,13 +66,14 @@
       methods: {
         convert: function(event) {
             var input_value = document.getElementById("amount").value; 
-            var e = document.getElementById("from");
+            var e = document.getElementById("source");
             var from = e.options[e.selectedIndex].text;
-            var e2 = document.getElementById("to");
+            var e2 = document.getElementById("target");
             var to = e2.options[e2.selectedIndex].text;
-            var params = "inputCurrencyType=" + from + "&outputCurrencyType=" + to + "&amount=" + input_value;
+            var params = "source=" + from + "&target=" + to + "&amount=" + input_value;
             var http = new XMLHttpRequest();
-            http.open("GET", "http://100.26.202.213:8080/currency/convert"+"?"+params, true);
+
+            http.open("GET", "http://100.26.202.213:8080/crypto_currency/convert"+"?"+params, true);
             http.setRequestHeader('inputCurrencyType', from);
             http.setRequestHeader('outputCurrencyType', to);
             http.setRequestHeader('amount', input_value);
@@ -83,6 +86,7 @@
                     }
                 }
             };
+            
             http.send();
             return '';
         },
