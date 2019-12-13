@@ -35,4 +35,8 @@ public class BuySellOrder {
     private Double soldAmount;
     private CurrencyType soldType;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
 }
