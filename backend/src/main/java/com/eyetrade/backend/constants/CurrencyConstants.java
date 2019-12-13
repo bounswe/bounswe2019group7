@@ -6,4 +6,14 @@ public class CurrencyConstants {
 
     public static final Integer CURRENCY_EXPIRE_TIME=86400000; //daily check
 
+    public static final String CRYPTO_CURRENCY_API_HOST = "www.alphavantage.co";
+
+    public static final String CRYPTO_CURRENCY_API_PATH = "/query";
+
+    public static final String CRYPTO_CURRENCY_API_EXCHANGE_FUNCTION = "CURRENCY_EXCHANGE_RATE";
+
+    public static final String CRYPTO_CURRENCY_API_BASE = "USD";
+
+    public static final String CRYPTO_CURRENCY_API_KEY = "YTGUWU0E3KNNKFMP";
+
 }
