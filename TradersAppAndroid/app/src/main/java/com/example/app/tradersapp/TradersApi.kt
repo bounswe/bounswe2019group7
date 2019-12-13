@@ -63,6 +63,17 @@ interface ApiInterface {
                                    @Query("sourceCurrencyType") sourceCurrency: String,
                                    @Query("targetCurrencyType") targetCurrency: String): retrofit2.Call<ExchangeRatePastDaysResponse>
 
+    @GET("crypto_currency/convert")
+    fun getExchangeRateCrypto(@Query("source") currency1: String,
+                            @Query("target") currency2: String,
+                            @Query("amount") amount: Double = 1.0): retrofit2.Call<ExchangeRateResponse>
+
+    @GET("crypto_currency/take-rates-last-days")
+    fun getExchangeRateCryptoPastDays(@Query("amount") amount: Float,
+                                      @Query("dayCount") lastDays: Int,
+                                      @Query("source") sourceCurrency: String,
+                                      @Query("target") targetCurrency: String): retrofit2.Call<CryptoExchangeRatePastDaysResponse>
+
     @Headers("Content-Type:application/json")
     @GET("user_profile/self_profile")
     fun getSelfProfileInformation(@Header("Authorization") token: String?): retrofit2.Call<SelfProfileInformationResponse>
@@ -177,6 +188,14 @@ data class ExchangeRatePastDaysResponse(
     @SerializedName("currencyConverterResources")
     val pastExchangeRates: ArrayList<PastExchangeRateInfo>,
     val startDate: String
+
+)
+
+data class CryptoExchangeRatePastDaysResponse(
+    @SerializedName("resources")
+    val pastExchangeRates: ArrayList<PastExchangeRateInfo>,
+    val startDate: String,
+    val dayCount: Int
 
 )
 
