@@ -69,7 +69,7 @@ interface ApiInterface {
                             @Query("amount") amount: Double = 1.0): retrofit2.Call<ExchangeRateResponse>
 
     @GET("crypto_currency/take-rates-last-days")
-    fun getExchangeRateCryptoPastDays(@Query("amount") amount: Float,
+    fun getExchangeRateCryptoForPastDays(@Query("amount") amount: Float,
                                       @Query("dayCount") lastDays: Int,
                                       @Query("source") sourceCurrency: String,
                                       @Query("target") targetCurrency: String): retrofit2.Call<CryptoExchangeRatePastDaysResponse>

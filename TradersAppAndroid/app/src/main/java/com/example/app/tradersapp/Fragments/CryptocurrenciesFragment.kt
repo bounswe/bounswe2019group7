@@ -117,9 +117,9 @@ class CryptocurrenciesFragment : Fragment() {
 
         EyeTradeUtils.showSpinner(activity)
         val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
-        retrofitService.getExchangeRateForPastDays(1f, lastdays, sourceCurrency, targetCurrency).enqueue(object:
-            Callback<ExchangeRatePastDaysResponse> {
-            override fun onFailure(call: Call<ExchangeRatePastDaysResponse>, t: Throwable) {
+        retrofitService.getExchangeRateCryptoForPastDays(1f, lastdays, sourceCurrency, targetCurrency).enqueue(object:
+            Callback<CryptoExchangeRatePastDaysResponse> {
+            override fun onFailure(call: Call<CryptoExchangeRatePastDaysResponse>, t: Throwable) {
                 Toast.makeText(
                     activity,
                     "Unexpected server error occurred. Please try again.",
@@ -128,8 +128,8 @@ class CryptocurrenciesFragment : Fragment() {
             }
 
             override fun onResponse(
-                call: Call<ExchangeRatePastDaysResponse>,
-                response: Response<ExchangeRatePastDaysResponse>
+                call: Call<CryptoExchangeRatePastDaysResponse>,
+                response: Response<CryptoExchangeRatePastDaysResponse>
             ) {
                 // If there is a response, update the list, else, keep it as it is
                 mPastExchangeRates = response.body()?.pastExchangeRates ?: mPastExchangeRates
