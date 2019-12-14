@@ -70,8 +70,8 @@ public class BuySellOrderService {
         repository.delete(order);
     }
 
-    protected List<BuySellOrderResource> getAllOrders(){
-        return mapper.entityToResource(repository.findAll());
+    protected List<BuySellOrderResource> getAllUncompletedOrders(){
+        return mapper.entityToResource(repository.findBuySellOrdersByIsCompletedFalse());
     }
 
 }

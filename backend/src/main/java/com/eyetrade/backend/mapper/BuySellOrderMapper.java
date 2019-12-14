@@ -17,4 +17,6 @@ public interface BuySellOrderMapper extends Converter<BuySellOrderDto, BuySellOr
 
     @InheritInverseConfiguration(name = "dtoToEntity")
     void dtoToEntityForUpdate(BuySellOrderDto dto, @MappingTarget BuySellOrder entity);
+
+    BuySellOrder resourceToEntity(BuySellOrderResource resource);
 }
