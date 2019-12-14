@@ -40,7 +40,7 @@ public class PortfolioController {
     }
 
     @ApiOperation(value = "Delete a portfolio", response = PortfolioResource.class)
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity deletePortfolio(
             @RequestHeader("Authorization") String token,
             @RequestParam UUID portfolioId

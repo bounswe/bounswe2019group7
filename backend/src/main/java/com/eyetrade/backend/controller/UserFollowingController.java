@@ -35,7 +35,7 @@ public class    UserFollowingController {
     }
 
     @ApiOperation(value = "A user's request to unfollow another user", response = MinimalUserResource.class)
-    @PostMapping("/unfollow")
+    @DeleteMapping("/unfollow")
     public ResponseEntity<MinimalUserResource> unfollow(
             @RequestHeader("Authorization") String token,
             @RequestHeader("followingUserEmail") String followingUserEmail

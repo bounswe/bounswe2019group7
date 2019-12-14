@@ -52,7 +52,7 @@ public class PortfolioService {
         // delete the portfolio
         portfolioRepository.deleteById(portfolioId);
         // delete the portfolio-currency relations
-        portfolioFollowsCurrencyRepository.deleteByPortfolioId(portfolioId);
+        portfolioFollowsCurrencyRepository.deleteByFollowerPortfolioId(portfolioId);
         return resource;
     }
 

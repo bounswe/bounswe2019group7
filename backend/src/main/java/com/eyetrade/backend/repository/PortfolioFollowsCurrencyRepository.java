@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public interface PortfolioFollowsCurrencyRepository extends JpaRepository<PortfolioFollowsCurrency, UUID> {
 
-    Long deleteByPortfolioId(UUID portfolioId);
+    Long deleteByFollowerPortfolioId(UUID portfolioId);
 
     List<PortfolioFollowsCurrency> findByFollowerPortfolioId(UUID portfolioId);
 

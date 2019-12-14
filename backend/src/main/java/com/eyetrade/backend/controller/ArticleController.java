@@ -122,7 +122,7 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "Delete an article", response = ArticleResource.class)
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity deleteArticle(
             @RequestHeader("Authorization") String token,
             @RequestParam UUID articleID
