@@ -8,6 +8,7 @@ import com.eyetrade.backend.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -55,20 +56,30 @@ public class ArticleController {
 
     @ApiOperation(value = "Get current users articles ordered by time", response = ArticlesResource.class)
     @GetMapping("/self_articles")
-    public ArticlesResource getSelfArticles(
+    public ResponseEntity getSelfArticles(
             @RequestHeader("Authorization") String token
-    ) throws IllegalAccessException {
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
-        return articleService.getSelfArticles(userId);
+    ){
+        try {
+            UUID userId = jwtUserChecker.resolveBasicToken(token);
+            return ResponseEntity.ok(articleService.getSelfArticles(userId));
+        }
+        catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "Get current users top articles", response = ArticlesResource.class)
     @GetMapping("/self_top_articles")
-    public ArticlesResource getSelfTopArticles(
+    public ResponseEntity getSelfTopArticles(
             @RequestHeader("Authorization") String token
-    )throws IllegalAccessException{
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
-        return articleService.getSelfTopArticles(userId);
+    ){
+        try {
+            UUID userId = jwtUserChecker.resolveBasicToken(token);
+            return ResponseEntity.ok(articleService.getSelfTopArticles(userId));
+        }
+        catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "Get article by id", response = ArticleResource.class)
@@ -79,50 +90,68 @@ public class ArticleController {
 
     @ApiOperation(value = "Create an article", response = ArticleResource.class)
     @PostMapping("/create")
-    public ArticleResource createArticle(
+    public ResponseEntity createArticle(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid ArticleDto articleDto
-    ) throws IllegalAccessException{
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.createArticle(userId, articleDto);
-        return article;
+    ) {
+        try{
+            UUID userId = jwtUserChecker.resolveBasicToken(token);
+            ArticleResource article = articleService.createArticle(userId, articleDto);
+            return ResponseEntity.ok(article);
+        }
+        catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "Update an article", response = ArticleResource.class)
     @PostMapping("/update")
-    public ArticleResource updateArticle(
+    public ResponseEntity updateArticle(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid ArticleDto articleDto,
             @RequestParam UUID articleID
-    )throws IllegalAccessException{
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.updateArticle(userId, articleDto, articleID);
-        return article;
+    ){
+        try{
+            UUID userId = jwtUserChecker.resolveBasicToken(token);
+            ArticleResource article = articleService.updateArticle(userId, articleDto, articleID);
+            return ResponseEntity.ok(article);
+        }
+        catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "Delete an article", response = ArticleResource.class)
     @PostMapping("/delete")
-    public ArticleResource deleteArticle(
+    public ResponseEntity deleteArticle(
             @RequestHeader("Authorization") String token,
             @RequestParam UUID articleID
-    )throws IllegalAccessException{
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.deleteArticle(userId, articleID);
-        return article;
+    ){
+        try{
+            UUID userId = jwtUserChecker.resolveBasicToken(token);
+            ArticleResource article = articleService.deleteArticle(userId, articleID);
+            return ResponseEntity.ok(article);
+        }
+        catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "Give a point to an article", response = ArticleResource.class)
     @PostMapping("/give_point")
-    public ArticleResource givePoint(
+    public ResponseEntity givePoint(
             @RequestHeader("Authorization") String token,
             @RequestParam Double score,
             @RequestParam UUID articleID
-    )throws IllegalAccessException{
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
-        ArticleResource article = articleService.givePoint(score, articleID,userId);
-        return article;
+    ){
+        try{
+            UUID userId = jwtUserChecker.resolveBasicToken(token);
+            ArticleResource article = articleService.givePoint(score, articleID,userId);
+            return ResponseEntity.ok(article);
+        }
+        catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-
-    // TODO: 8 Ara 2019 delete eklenecek
 
 }
