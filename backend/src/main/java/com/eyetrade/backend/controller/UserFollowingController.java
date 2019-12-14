@@ -34,6 +34,17 @@ public class    UserFollowingController {
         return ResponseEntity.ok(followingMinimalUserResource);
     }
 
+    @ApiOperation(value = "A user's request to unfollow another user", response = MinimalUserResource.class)
+    @PostMapping("/unfollow")
+    public ResponseEntity<MinimalUserResource> unfollow(
+            @RequestHeader("Authorization") String token,
+            @RequestHeader("followingUserEmail") String followingUserEmail
+    ) throws IllegalAccessException {
+        UUID userId = jwtUserChecker.resolveBasicToken(token);
+        MinimalUserResource followingMinimalUserResource = userFollowingService.unFollowUser(userId, followingUserEmail);
+        return ResponseEntity.ok(followingMinimalUserResource);
+    }
+
     @ApiOperation(
             value = "Get a user's followers. If an email is given we look for email owner's followers, " +
                     "otherwise we look for the request sender's followers",

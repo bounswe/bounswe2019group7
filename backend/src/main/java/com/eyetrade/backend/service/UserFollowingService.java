@@ -43,6 +43,19 @@ public class UserFollowingService {
         return UserMapper.entityToMinimalUserResource(following);
     }
 
+    @Transactional
+    public MinimalUserResource unFollowUser(UUID followerId, String followingEmail){
+        // find both of the users
+        User follower = userRepository.findById(followerId);
+        User following = userRepository.findByEmail(followingEmail);
+        // find the relationship object
+        UserFollowsUser relation = userFollowsUserRepository.findFirstByFollowerAndFollowing(follower, following);
+        // delete it
+        userFollowsUserRepository.delete(relation);
+        // return the response
+        return UserMapper.entityToMinimalUserResource(following);
+    }
+
     // Get the count of the followings of the given user
     public long countFollowings(User follower){
         return userFollowsUserRepository.countByFollower(follower);
