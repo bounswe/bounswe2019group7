@@ -38,6 +38,9 @@ public class CurrencyRecordService {
     @Autowired
     private CurrencyRepository currencyRepository;
 
+    @Autowired
+    private TransactionService transactionService;
+
     @Transactional
     @Scheduled(cron = "0 0 4 * * ?") //scheduled of every day at 4 am.
     public CurrencyRecord getCurrencyRecord() throws IOException {
@@ -51,6 +54,7 @@ public class CurrencyRecordService {
         record.setJapanRate(rates.get(CurrencyType.JPY.toString()).doubleValue());
         record.setChinaRate(rates.get(CurrencyType.CNY.toString()).doubleValue());
         currencyRepository.save(record);
+        transactionService.checkBuySellOrder();
         return record;
     }
 
