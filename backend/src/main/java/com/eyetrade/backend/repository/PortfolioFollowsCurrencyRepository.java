@@ -13,6 +13,8 @@ public interface PortfolioFollowsCurrencyRepository extends JpaRepository<Portfo
 
     Long deleteByFollowerPortfolioId(UUID portfolioId);
 
+    Long deleteByBaseCurrencyTypeAndFollowerPortfolioId(CurrencyType currency, UUID portfolioId);
+
     List<PortfolioFollowsCurrency> findByFollowerPortfolioId(UUID portfolioId);
 
     boolean existsByBaseCurrencyTypeAndFollowerPortfolioId(CurrencyType currency, UUID portfolioId);

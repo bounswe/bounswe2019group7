@@ -13,6 +13,7 @@ public class ErrorConstants {
     public static final String NO_SUCH_FOLLOWING = "There isn't exist such following relation";
     public static final String NO_SUCH_CURRENCY_TYPES = "There isn't exist such currency type";
     public static final String FOLLOWING_RELATION_ALREADY_EXISTS = "The following relation already exists.";
+    public static final String FOLLOWING_RELATION_NOT_EXISTS = "The following relation not exists.";
     public static final String CURRENCIES_COULD_NOT_BE_UPDATED = "Currencies could not be updated ";
     public static final String POINT_SHOULD_BE_INSIDE_RANGE = "The given point should be inside [0,5] range.";
     public static final String EVENTS_CANNOT_BE_UPLOADED = "Events cannot be uploaded!";

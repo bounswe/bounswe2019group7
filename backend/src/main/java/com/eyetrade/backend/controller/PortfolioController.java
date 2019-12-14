@@ -71,6 +71,22 @@ public class PortfolioController {
         }
     }
 
+    @ApiOperation(value = "Remove currency from a portfolio", response = PortfolioResource.class)
+    @DeleteMapping("remove_currency_from_portfolio")
+    public ResponseEntity removeCurrency(
+            @RequestHeader("Authorization") String token,
+            @RequestHeader("BaseCurrencyType") CurrencyType baseCurrencyType,
+            @RequestParam UUID portfolioID
+    ){
+        try {
+            jwtUserChecker.resolveBasicToken(token);
+            PortfolioResource portfolio = portfolioService.removeCurrency(baseCurrencyType, portfolioID);
+            return ResponseEntity.ok(portfolio);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @ApiOperation(value = "Get current user's portfolios", response = PortfoliosResource.class)
     @GetMapping("/get_self_portfolios")
     public ResponseEntity getPortfolios(
