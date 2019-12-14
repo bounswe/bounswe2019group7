@@ -7,12 +7,14 @@ import com.eyetrade.backend.model.dto.transaction.BuyTransactionDto;
 import com.eyetrade.backend.model.dto.transaction.ExchangeTransactionDto;
 import com.eyetrade.backend.model.entity.BuySellOrder;
 import com.eyetrade.backend.model.entity.CurrencyRecord;
+import com.eyetrade.backend.model.dto.transaction.SellTransactionDto;
 import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.entity.UserTradingAccount;
 import com.eyetrade.backend.model.resource.currency.CurrencyConverterResource;
 import com.eyetrade.backend.model.resource.transaction.BuySellOrderResource;
 import com.eyetrade.backend.model.resource.transaction.BuyTransactionResource;
 import com.eyetrade.backend.model.resource.transaction.ExchangeTransactionResource;
+import com.eyetrade.backend.model.resource.transaction.SellTransactionResource;
 import com.eyetrade.backend.model.resource.transaction.UserAccountResource;
 import com.eyetrade.backend.repository.BuySellOrderRepository;
 import com.eyetrade.backend.repository.UserRepository;
@@ -138,10 +140,19 @@ public class TransactionService {
     }
 
     @Transactional
+    public SellTransactionResource sellfund(SellTransactionDto dto, UUID userId){
+        SellTransactionResource resource= new SellTransactionResource();
+        BuyTransactionResource buyTransactionResource=buyFund(new BuyTransactionDto(dto.getSoldTypeCurrency(),-dto.getAmount()),userId);
+        resource.setSoldTypeInitialAmount(buyTransactionResource.getBoughtTypeInitialAmount());
+        resource.setSoldTypeLastAmount(buyTransactionResource.getBoughtTypeLastAmount());
+        resource.setSoldTypeCurrency(buyTransactionResource.getBoughtTypeCurrency());
+        return resource;
+    }
+
+    @Transactional
     public ExchangeTransactionResource exchangeFunds(ExchangeTransactionDto transactionDto, UUID userId) {
 
         ExchangeTransactionResource resource = new ExchangeTransactionResource();
-        UserTradingAccount account = repository.findUserTradingAccountByUser(userRepository.findById(userId));
         //Convert Currency
         CurrencyConverterDto converterDto = new CurrencyConverterDto();
         converterDto.setInputCurrencyType(transactionDto.getSoldTypeCurrency());

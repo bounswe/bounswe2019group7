@@ -2,8 +2,10 @@ package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.model.dto.transaction.BuyTransactionDto;
 import com.eyetrade.backend.model.dto.transaction.ExchangeTransactionDto;
+import com.eyetrade.backend.model.dto.transaction.SellTransactionDto;
 import com.eyetrade.backend.model.resource.transaction.BuyTransactionResource;
 import com.eyetrade.backend.model.resource.transaction.ExchangeTransactionResource;
+import com.eyetrade.backend.model.resource.transaction.SellTransactionResource;
 import com.eyetrade.backend.model.resource.transaction.UserAccountResource;
 import com.eyetrade.backend.security.JwtResolver;
 import com.eyetrade.backend.security.JwtUserChecker;
@@ -59,6 +61,14 @@ public class TransactionController {
         } else {
             return ResponseEntity.badRequest().body(FUND_IS_NOT_ENOUGH_FOR_THIS_OPERATION);
         }
+    }
+
+    @ApiOperation(value = "A user can sell fund with dto.", response = SellTransactionResource.class)
+    @PostMapping("/sell_transaction")
+    public ResponseEntity<SellTransactionResource> sellFund(@RequestHeader("Authorization") String token,
+                                                       @RequestBody SellTransactionDto dto){
+        UUID userId=jwtResolver.getIdFromToken(token);
+        return ResponseEntity.ok(service.sellfund(dto,userId));
     }
 
     @ApiOperation(value = "A user can buy fund with dto.", response = ExchangeTransactionResource.class)
