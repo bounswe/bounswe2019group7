@@ -27,7 +27,7 @@ public class LoginService {
         }
         else{
             String token = jwtGenerator.generateToken(user.getId());
-            return new LoginResource(token);
+            return new LoginResource(token,user.getId());
         }
     }
 
