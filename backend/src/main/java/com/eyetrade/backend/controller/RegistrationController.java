@@ -42,7 +42,11 @@ public class RegistrationController {
     @ApiOperation(value = "Confirm a registration by using the link from the user's confirmation mail", response = String.class)
     @GetMapping("/confirm_register")
     public ResponseEntity<String> confirmRegister(@RequestParam("token") String confirmationToken) {
-        registrationService.confirmRegister(confirmationToken);
+        try {
+            registrationService.confirmRegister(confirmationToken);
+        } catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok("Success");
     }
 

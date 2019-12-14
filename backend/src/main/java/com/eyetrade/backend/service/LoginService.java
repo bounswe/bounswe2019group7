@@ -18,12 +18,12 @@ public class LoginService {
     @Autowired
     private UserRepository userRepository;
 
-    public LoginResource login(LoginDto loginDto){
+    public LoginResource login(LoginDto loginDto) throws IllegalAccessException {
         String email = loginDto.getEmail();
         String password = loginDto.getPassword();
         User user = userRepository.findByEmailAndPword(email, password);
         if(user == null){
-            throw new RuntimeException(ErrorConstants.WRONG_EMAIL_OR_PASSWORD);
+            throw new IllegalAccessException(ErrorConstants.WRONG_EMAIL_OR_PASSWORD);
         }
         else{
             String token = jwtGenerator.generateToken(user.getId());

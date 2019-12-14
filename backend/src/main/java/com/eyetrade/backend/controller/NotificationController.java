@@ -37,10 +37,13 @@ public class NotificationController {
     @DeleteMapping("/delete_notification")
     public ResponseEntity<String> deleteNotification
             (@RequestHeader("Authorization") String token,
-             @RequestHeader("notification_id") UUID notificationId)
-            throws IllegalAccessException {
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
-        notificationService.deleteNotification(userId, notificationId);
+             @RequestHeader("notification_id") UUID notificationId) {
+        try {
+            UUID userId = jwtUserChecker.resolveBasicToken(token);
+            notificationService.deleteNotification(userId, notificationId);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok("Success");
     }
 
@@ -48,9 +51,9 @@ public class NotificationController {
             response = String.class)
     @DeleteMapping("/delete_self_notifications")
     public ResponseEntity<String> deleteAllSelfNotifications
-            (@RequestHeader("Authorization") String token)
-            throws IllegalAccessException {
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
+            (@RequestHeader("Authorization") String token) {
+        UUID userId = null;
+
         notificationService.deleteAllSelfNotifications(userId);
         return ResponseEntity.ok("Success");
     }
@@ -60,10 +63,13 @@ public class NotificationController {
     @PutMapping("/mark_notification")
     public ResponseEntity<String> setNotificationAsSeen
             (@RequestHeader("Authorization") String token,
-             @RequestHeader("notification_id") UUID notificationId)
-            throws IllegalAccessException {
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
-        notificationService.setNotificationAsSeen(userId, notificationId);
+             @RequestHeader("notification_id") UUID notificationId) {
+        try {
+            UUID userId = jwtUserChecker.resolveBasicToken(token);
+            notificationService.setNotificationAsSeen(userId, notificationId);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok("Success");
     }
 
@@ -71,10 +77,14 @@ public class NotificationController {
             response = String.class)
     @PutMapping("/mark_self_notifications")
     public ResponseEntity<String> setAllSelfNotificationAsSeen
-            (@RequestHeader("Authorization") String token)
-            throws IllegalAccessException {
-        UUID userId = jwtUserChecker.resolveBasicToken(token);
-        notificationService.setAllSelfNotificationAsSeen(userId);
+            (@RequestHeader("Authorization") String token) {
+        UUID userId;
+        try {
+            userId = jwtUserChecker.resolveBasicToken(token);
+            notificationService.setAllSelfNotificationAsSeen(userId);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok("Success");
     }
 

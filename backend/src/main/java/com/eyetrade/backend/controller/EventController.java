@@ -10,6 +10,7 @@ import com.sun.syndication.io.FeedException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,9 +55,16 @@ public class EventController {
 
     @ApiOperation(value = "Give point to an event over 5", response = EventResource.class)
     @PostMapping("/give_point")
-    public EventResource givePoint(@RequestHeader("Authorization") String token, @RequestParam UUID id, @RequestParam Double score) throws IllegalAccessException {
-        jwtUserChecker.resolveBasicToken(token);
-        return eventService.givePoint(id, score);
+    public ResponseEntity givePoint(@RequestHeader("Authorization") String token, @RequestParam UUID id, @RequestParam Double score) {
+        try {
+            jwtUserChecker.resolveBasicToken(token);
+            return ResponseEntity.ok(eventService.givePoint(id, score));
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
 }

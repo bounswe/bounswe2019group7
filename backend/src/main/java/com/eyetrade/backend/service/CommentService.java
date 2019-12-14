@@ -56,6 +56,8 @@ public class CommentService {
         return resource;
     }
 
+    // TODO: 14 Ara 2019 update
+
     @Modifying
     @Transactional
     public String deleteComment(UUID commentId,UUID userId) throws IllegalAccessException {

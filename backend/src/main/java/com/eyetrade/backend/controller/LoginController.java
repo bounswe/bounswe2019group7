@@ -22,9 +22,12 @@ public class LoginController {
 
     @ApiOperation(value = "Login with the username (email) and password", response = LoginResource.class)
     @PostMapping("")
-    public ResponseEntity<LoginResource> login(@RequestBody LoginDto loginDto){
-        LoginResource loginResource = loginService.login(loginDto);
-        return ResponseEntity.ok(loginResource);
+    public ResponseEntity login(@RequestBody LoginDto loginDto) {
+        try {
+            return ResponseEntity.ok(loginService.login(loginDto));
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }
