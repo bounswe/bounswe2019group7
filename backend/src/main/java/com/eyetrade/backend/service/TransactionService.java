@@ -104,7 +104,7 @@ public class TransactionService {
     }
 
     @Transactional
-    public SellTransactionResource selfund(SellTransactionDto dto, UUID userId){
+    public SellTransactionResource sellfund(SellTransactionDto dto, UUID userId){
         SellTransactionResource resource= new SellTransactionResource();
         BuyTransactionResource buyTransactionResource=buyFund(new BuyTransactionDto(dto.getSoldTypeCurrency(),-dto.getAmount()),userId);
         resource.setSoldTypeInitialAmount(buyTransactionResource.getBoughtTypeInitialAmount());

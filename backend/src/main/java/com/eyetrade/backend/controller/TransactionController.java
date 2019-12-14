@@ -59,10 +59,10 @@ public class TransactionController {
 
     @ApiOperation(value = "A user can sell fund with dto.", response = SellTransactionResource.class)
     @PostMapping("/sell_transaction")
-    public ResponseEntity<SellTransactionResource> buyFund(@RequestHeader("Authorization") String token,
+    public ResponseEntity<SellTransactionResource> sellFund(@RequestHeader("Authorization") String token,
                                                        @RequestBody SellTransactionDto dto){
         UUID userId=jwtResolver.getIdFromToken(token);
-        return ResponseEntity.ok(service.selfund(dto,userId));
+        return ResponseEntity.ok(service.sellfund(dto,userId));
     }
 
     @ApiOperation(value = "A user can buy fund with dto.", response = ExchangeTransactionResource.class)
