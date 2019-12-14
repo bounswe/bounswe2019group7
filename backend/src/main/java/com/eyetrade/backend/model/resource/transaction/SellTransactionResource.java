@@ -22,6 +22,8 @@ public class SellTransactionResource {
 
     private double soldTypeLastAmount;
 
+    private Boolean isSuccessful;
+
     public SellTransactionResource(CurrencyType soldTypeCurrency){
         this.soldTypeCurrency=soldTypeCurrency;
     }

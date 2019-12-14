@@ -65,10 +65,15 @@ public class TransactionController {
 
     @ApiOperation(value = "A user can sell fund with dto.", response = SellTransactionResource.class)
     @PostMapping("/sell_transaction")
-    public ResponseEntity<SellTransactionResource> sellFund(@RequestHeader("Authorization") String token,
+    public ResponseEntity sellFund(@RequestHeader("Authorization") String token,
                                                        @RequestBody SellTransactionDto dto){
         UUID userId=jwtResolver.getIdFromToken(token);
-        return ResponseEntity.ok(service.sellfund(dto,userId));
+        SellTransactionResource resource=service.sellfund(dto,userId);
+        if (resource.getIsSuccessful()) {
+            return ResponseEntity.ok(resource);
+        } else {
+            return ResponseEntity.badRequest().body(FUND_IS_NOT_ENOUGH_FOR_THIS_OPERATION);
+        }
     }
 
     @ApiOperation(value = "A user can buy fund with dto.", response = ExchangeTransactionResource.class)
@@ -85,7 +90,7 @@ public class TransactionController {
         }
     }
 
-    @ApiOperation(value = "Update buy sell orders method. It is created for only testing for development progress.", response = ExchangeTransactionResource.class)
+    @ApiOperation(value = "Update buy sell orders method. It is created for only testing for development progress.", response = void.class)
     @GetMapping("/update_orders")
     public void updateOrders() {
         service.checkBuySellOrder();

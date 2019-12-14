@@ -146,6 +146,7 @@ public class TransactionService {
         resource.setSoldTypeInitialAmount(buyTransactionResource.getBoughtTypeInitialAmount());
         resource.setSoldTypeLastAmount(buyTransactionResource.getBoughtTypeLastAmount());
         resource.setSoldTypeCurrency(buyTransactionResource.getBoughtTypeCurrency());
+        resource.setIsSuccessful(buyTransactionResource.getIsSuccessful());
         return resource;
     }
 
