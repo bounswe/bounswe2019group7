@@ -29,11 +29,15 @@ public class BuySellOrder {
 
     private Double boughtAmount=null;
 
+    @Enumerated(EnumType.STRING)
     private CurrencyType boughtType=null;
 
     //they will be null if only buy or only sell
     private Double soldAmount=null;
+    @Enumerated(EnumType.STRING)
     private CurrencyType soldType=null;
+
+    private Boolean isCompleted=false;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

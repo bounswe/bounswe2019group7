@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface BuySellOrderRepository extends JpaRepository<BuySellOrder, UUID> {
     List<BuySellOrder> findBuySellOrdersByUser(User user);
 
+    List<BuySellOrder> findBuySellOrdersByIsCompletedFalse();
+
 }

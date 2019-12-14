@@ -32,4 +32,6 @@ public class ExchangeTransactionResource {
     private Double soldTypeLastAmount;
 
     private Double rate;
+
+    private Boolean isSuccessful;
 }

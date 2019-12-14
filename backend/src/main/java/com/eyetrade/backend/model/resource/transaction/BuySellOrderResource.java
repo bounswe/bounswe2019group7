@@ -30,9 +30,12 @@ public class BuySellOrderResource {
 
     private CurrencyType boughtType;
 
-    private MinimalUserResource user;
-
     //they will be null if only buy or only sell
     private Double soldAmount;
     private CurrencyType soldType;
+
+    private MinimalUserResource user;
+
+    private Boolean isCompleted;
+
 }
