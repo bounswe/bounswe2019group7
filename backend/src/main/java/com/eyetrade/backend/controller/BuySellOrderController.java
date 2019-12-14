@@ -31,9 +31,11 @@ public class BuySellOrderController  {
     private BuySellOrderService service;
 
     @ApiOperation(value = "User can add buy or sell order of currency for a specific rate \n " +
-            "for buying with fund: soldType and soldAmount should be left as null \n" +
-            "for selling for fund: boughtType and boughtAmount should be left as null \n" +
-            "for exchange operation: both type should be filled.", response = BuySellOrderResource.class)
+            "   For buying with fund: soldType and soldAmount should be left as null \n" +
+            "   For selling for fund: boughtType and boughtAmount should be left as null \n" +
+            "   For exchange operation: both type should be filled.Rate should use as exchange rate (boughtTypeRate/SoldTypeRate)." +
+            " Amount should use as soldAmount.    For example: For selling 5 dollars and buying 4 euros your exchange rate should include 1.25" +
+            "and your amount should be 5", response = BuySellOrderResource.class)
     @PostMapping("/add")
     public ResponseEntity addBuySellOrder(@RequestHeader("Authorization") String token, @RequestBody BuySellOrderDto dto) {
         try {

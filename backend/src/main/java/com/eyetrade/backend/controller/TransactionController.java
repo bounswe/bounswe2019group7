@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.eyetrade.backend.constants.ErrorConstants.FUND_IS_NOT_ENOUGH_FOR_THIS_OPERATION;
+
 /**
  * Created by Emir Gökdemir
  * on 24 Kas 2019
@@ -35,33 +37,47 @@ public class TransactionController {
 
     @ApiOperation(value = "A trader user can create trading account.", response = UserAccountResource.class)
     @GetMapping("/create_trading_account")
-    public ResponseEntity<UserAccountResource> createTradingAccount(@RequestHeader("Authorization") String token) throws IllegalAccessException{
-        UUID userId=jwtUserChecker.resolveTraderToken(token);
+    public ResponseEntity<UserAccountResource> createTradingAccount(@RequestHeader("Authorization") String token) throws IllegalAccessException {
+        UUID userId = jwtUserChecker.resolveTraderToken(token);
         return ResponseEntity.ok(service.createTradingAccount(userId));
     }
 
     @ApiOperation(value = "A trader user can access his/her trading account.", response = UserAccountResource.class)
     @GetMapping("/get_trading_account")
-    public ResponseEntity<UserAccountResource> getTradingAccount(@RequestHeader("Authorization") String token){
-        UUID userId=jwtResolver.getIdFromToken(token);
+    public ResponseEntity<UserAccountResource> getTradingAccount(@RequestHeader("Authorization") String token) {
+        UUID userId = jwtResolver.getIdFromToken(token);
         return ResponseEntity.ok(service.getUserTradingAccount(userId));
     }
 
     @ApiOperation(value = "A user can buy fund with dto.", response = BuyTransactionResource.class)
     @PostMapping("/buy_transaction")
-    public ResponseEntity<BuyTransactionResource> buyFund(@RequestHeader("Authorization") String token,
-                                                       @RequestBody BuyTransactionDto dto){
-        UUID userId=jwtResolver.getIdFromToken(token);
-        return ResponseEntity.ok(service.buyFund(dto,userId));
+    public ResponseEntity buyFund(@RequestHeader("Authorization") String token,
+                                  @RequestBody BuyTransactionDto dto) {
+        BuyTransactionResource resource = service.buyFund(dto, jwtResolver.getIdFromToken(token));
+        if (resource.getIsSuccessful()) {
+            return ResponseEntity.ok(resource);
+        } else {
+            return ResponseEntity.badRequest().body(FUND_IS_NOT_ENOUGH_FOR_THIS_OPERATION);
+        }
     }
 
     @ApiOperation(value = "A user can buy fund with dto.", response = ExchangeTransactionResource.class)
     @PostMapping("/exchange_transaction")
-    public ResponseEntity<ExchangeTransactionResource> exchangeFunds(@RequestHeader("Authorization") String token,
-                                                                     @RequestBody ExchangeTransactionDto dto){
-        UUID userId=jwtResolver.getIdFromToken(token);
-        return ResponseEntity.ok(service.exchangeFunds(dto,userId));
+    public ResponseEntity exchangeFunds(@RequestHeader("Authorization") String token,
+                                        @RequestBody ExchangeTransactionDto dto) {
+        UUID userId = jwtResolver.getIdFromToken(token);
+        ExchangeTransactionResource resource = service.exchangeFunds(dto, userId);
+
+        if (resource.getIsSuccessful()) {
+            return ResponseEntity.ok(resource);
+        } else {
+            return ResponseEntity.badRequest().body(FUND_IS_NOT_ENOUGH_FOR_THIS_OPERATION);
+        }
     }
 
-
+    @ApiOperation(value = "Update buy sell orders method. It is created for only testing for development progress.", response = ExchangeTransactionResource.class)
+    @GetMapping("/update_orders")
+    public void updateOrders() {
+        service.checkBuySellOrder();
+    }
 }

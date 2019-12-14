@@ -24,4 +24,5 @@ public class ErrorConstants {
     public static final String USER_CANNOT_DELETE_ANOTHER_USERS_ORDER = "A user cannot delete another user's order!";
     public static final String USER_CANNOT_UPDATE_ANOTHER_USERS_ORDER = "A user cannot update another user's order!";
     public static final String MIN_RATE_CAN_NOT_BE_BIGGER_THAN_MAX = "Minimum Rate cannot be bigger than maximum rate";
+    public static final String FUND_IS_NOT_ENOUGH_FOR_THIS_OPERATION = "Fund is not enough!";
 }
