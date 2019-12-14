@@ -46,6 +46,40 @@
           </div>
         </b-card>
       </b-col>
+      <b-col sm="6" md="10">
+        <b-card>
+          <div slot="header">
+            <h3>Comments</h3>
+          </div>
+          <b-card v-for="comment in comments">
+            <div slot="header">
+             {{comment.title}}
+             <div class="card-header-actions">
+               <b-badge  variant="success">{{comment.createdDate}}</b-badge>
+             </div>
+            </div>
+            <p style="color:grey">{{comment.content}}</p>
+          </b-card>
+        </b-card>
+      </b-col>
+      <b-col sm="6" md="10">
+        <b-card>
+          <div slot="header">
+            <h3>Post a new Comment</h3>
+          </div>
+        <b-form @submit="postComment">
+          <b-input-group class="mb-3">
+            <b-input-group-prepend>
+              <b-input-group-text>
+                <i class="icons font-2xl d-block mt-5 cui-pencil"></i>
+              </b-input-group-text>
+            </b-input-group-prepend>
+            <b-form-textarea class="form-control" v-model="form.contentComment" :rows="5" placeholder="Write a comment..."></b-form-textarea>
+          </b-input-group>
+          <b-button :disabled="isDisabled" type="submit" variant="primary" class="pull-right">Comment</b-button>
+        </b-form>
+      </b-card>
+      </b-col>
     </b>
   </div>
 </template>
@@ -54,18 +88,32 @@ import router from "../router";
 import StarRating from "vue-star-rating";
 
 export default {
+  data() {
+    return {
+      item: [],
+      rating: 4.0,
+      isDisabled: false,
+      form: {
+        contentComment:""
+      },
+      comments:[],
+      user:[]
+
+    };
+  },
   components: {
     StarRating
   },
-  mounted() {
+   async mounted() {
+
     this.id = this.$route.params.id;
-    this.$http
+
+    await this.$http
       .get(
         "http://100.26.202.213:8080/article/article?id=" + this.$route.params.id
       )
       .then(
         response => {
-          console.log(response);
           this.item = response.data;
           this.rating = this.item.score;
         },
@@ -73,12 +121,33 @@ export default {
           console.log("Error");
         }
       );
-  },
-  data() {
-    return {
-      item: [],
-      rating: 4.0
-    };
+       this.$http
+      .get('/comment_controller/get_comments_of_article/?articleOrEventId='+this.item.uuid,
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        }
+      }
+      )
+      .then(response => {
+          if(response.status == 200){
+            this.comments=response.data;
+          }else{
+            this.errors = [`An error occurred.`];
+            this.isDisabled = false;
+          }
+        });
+
+         this.$http
+          .get("http://100.26.202.213:8080/user_profile/self_profile", {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          })
+          .then(
+            response => {
+              this.user=response.data;
+            });
   },
   methods: {
     setRating() {
@@ -104,7 +173,36 @@ export default {
             console.log("eerror");
           }
         );
+    },
+    postComment() {
+      this.$http
+      .post('/comment_controller/post_comment',
+      {
+        articleEventId:this.item.uuid,
+        commentType: "Article",
+        content: this.form.contentComment,
+        title: this.user.name+" "+this.user.surname
+      },
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        }
+      }
+      )
+      .then(response => {
+        if(response.status == 200){
+          location.reload();
+        }else{
+          this.errors = [`An error occurred.`];
+          this.isDisabled = false;
+        }
+      })
     }
   }
 };
 </script>
+<style>
+
+
+
+</style>
