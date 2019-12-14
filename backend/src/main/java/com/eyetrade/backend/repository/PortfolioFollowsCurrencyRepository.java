@@ -11,6 +11,8 @@ import java.util.UUID;
 @Repository
 public interface PortfolioFollowsCurrencyRepository extends JpaRepository<PortfolioFollowsCurrency, UUID> {
 
+    Long deleteByPortfolioId(UUID portfolioId);
+
     List<PortfolioFollowsCurrency> findByFollowerPortfolioId(UUID portfolioId);
 
     boolean existsByBaseCurrencyTypeAndFollowerPortfolioId(CurrencyType currency, UUID portfolioId);

@@ -1,6 +1,7 @@
 package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.constants.CurrencyType;
+import com.eyetrade.backend.constants.ErrorConstants;
 import com.eyetrade.backend.model.entity.CurrencyRecord;
 import com.eyetrade.backend.model.entity.PortfolioFollowsCurrency;
 import com.eyetrade.backend.model.entity.Portfolio;
@@ -38,6 +39,21 @@ public class PortfolioService {
         portfolio.setOwnerId(ownerId);
         portfolioRepository.save(portfolio);
         return new PortfolioResource(portfolio.getId(), portfolioName, ownerId, new ArrayList<>(), new ArrayList<>());
+    }
+
+    @Transactional
+    public PortfolioResource deletePortfolio(UUID portfolioId, UUID ownerId) throws IllegalAccessException {
+        Portfolio portfolio = portfolioRepository.findPortfolioById(portfolioId);
+        // check whether the portfolio belongs the user
+        if(ownerId != portfolio.getOwnerId()){
+            throw new IllegalAccessException(ErrorConstants.PORTFOLIO_DOES_NOT_BELONG_TO_USER);
+        }
+        PortfolioResource resource = createPortfolioResource(portfolio);
+        // delete the portfolio
+        portfolioRepository.deleteById(portfolioId);
+        // delete the portfolio-currency relations
+        portfolioFollowsCurrencyRepository.deleteByPortfolioId(portfolioId);
+        return resource;
     }
 
     @Transactional

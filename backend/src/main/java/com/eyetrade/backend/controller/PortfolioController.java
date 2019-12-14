@@ -32,7 +32,22 @@ public class PortfolioController {
     ){
         try {
             UUID ownerID = jwtUserChecker.resolveBasicToken(token);
-            PortfolioResource portfolio = portfolioService.createPortfolio(portfolioName,ownerID);
+            PortfolioResource portfolio = portfolioService.createPortfolio(portfolioName, ownerID);
+            return ResponseEntity.ok(portfolio);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Delete a portfolio", response = PortfolioResource.class)
+    @PostMapping("/delete")
+    public ResponseEntity deletePortfolio(
+            @RequestHeader("Authorization") String token,
+            @RequestParam UUID portfolioId
+    ){
+        try {
+            UUID ownerID = jwtUserChecker.resolveBasicToken(token);
+            PortfolioResource portfolio = portfolioService.deletePortfolio(portfolioId, ownerID);
             return ResponseEntity.ok(portfolio);
         } catch (IllegalAccessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
