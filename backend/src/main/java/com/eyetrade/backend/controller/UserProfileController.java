@@ -30,59 +30,79 @@ public class UserProfileController {
 
     @ApiOperation(value = "Return current users profile information", response = CompleteUserResource.class)
     @GetMapping("/self_profile")
-    public ResponseEntity<CompleteUserResource> getSelfProfile(
+    public ResponseEntity getSelfProfile(
             @RequestHeader("Authorization") String token
-    )  throws IllegalAccessException{
-        UUID userID = jwtUserChecker.resolveBasicToken(token);
-        CompleteUserResource user = userProfileService.getSelfProfile(userID);
-        return ResponseEntity.ok(user);
+    )  {
+        try {
+            UUID userID = jwtUserChecker.resolveBasicToken(token);
+            CompleteUserResource user = userProfileService.getSelfProfile(userID);
+            return ResponseEntity.ok(user);
+        } catch (IllegalAccessException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-
 
     @ApiOperation(value = "Return profile of a given user. If the user is private and you don't follow it then returns null",
             response = CompleteUserResource.class)
     @GetMapping("/other_profile")
-    public ResponseEntity<PartialUserResource> getOtherProfile(
+    public ResponseEntity getOtherProfile(
             @RequestHeader("Authorization") String token,
             @RequestHeader("email") String email
-    )throws IllegalAccessException{
-        UUID userID = jwtUserChecker.resolveBasicToken(token);
-        PartialUserResource user = userProfileService.getOtherProfile(userID, email);
-        return ResponseEntity.ok(user);
+    ){
+        try {
+            UUID userID = jwtUserChecker.resolveBasicToken(token);
+            PartialUserResource user = userProfileService.getOtherProfile(userID, email);
+            return ResponseEntity.ok(user);
+        } catch (IllegalAccessException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "Updates a basic profile with the given info", response = CompleteUserResource.class)
     @PostMapping("/update_basic_profile")
-    public ResponseEntity<CompleteUserResource> updateBasicUserProfile(
+    public ResponseEntity updateBasicUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid BasicUserDto basicUserDto
-    )throws IllegalAccessException{
-        UUID userID = jwtUserChecker.resolveBasicToken(token);
-        CompleteUserResource user = userProfileService.updateBasicProfile(userID, basicUserDto);
-        return ResponseEntity.ok(user);
+    ){
+        try {
+            UUID userID = jwtUserChecker.resolveBasicToken(token);
+            CompleteUserResource user = userProfileService.updateBasicProfile(userID, basicUserDto);
+            return ResponseEntity.ok(user);
+        } catch (IllegalAccessException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "Updates a trader profile with the given info", response = CompleteUserResource.class)
     @PostMapping("/update_trader_profile")
-    public ResponseEntity<CompleteUserResource> updateTraderUserProfile(
+    public ResponseEntity updateTraderUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestBody @Valid TraderUserDto traderUserDto
-    )throws IllegalAccessException{
-        UUID userID = jwtUserChecker.resolveTraderToken(token);
-        CompleteUserResource user = userProfileService.updateTraderProfile(userID, traderUserDto);
+    ){
+        try {
+            UUID userID = jwtUserChecker.resolveTraderToken(token);
+            CompleteUserResource user = userProfileService.updateTraderProfile(userID, traderUserDto);
+            return ResponseEntity.ok(user);
+        } catch (IllegalAccessException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
-        return ResponseEntity.ok(user);
     }
 
     @ApiOperation(value = "Updates a user's profile privacy", response = CompleteUserResource.class)
     @PostMapping("/update_privacy")
-    public ResponseEntity<CompleteUserResource> updateTraderUserProfile(
+    public ResponseEntity updateTraderUserProfile(
             @RequestHeader("Authorization") String token,
             @RequestHeader("privacy") PrivacyType privacy
-    )throws IllegalAccessException{
-        UUID userID = jwtUserChecker.resolveBasicToken(token);
-        CompleteUserResource user = userProfileService.updatePrivacy(userID, privacy);
-        return ResponseEntity.ok(user);
+    ){
+        try {
+            UUID userID = jwtUserChecker.resolveBasicToken(token);
+            CompleteUserResource user = userProfileService.updatePrivacy(userID, privacy);
+            return ResponseEntity.ok(user);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+
+        }
     }
 
 }

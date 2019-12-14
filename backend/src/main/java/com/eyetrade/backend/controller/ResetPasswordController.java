@@ -38,7 +38,12 @@ public class ResetPasswordController {
     @GetMapping("/reset_password")
     public ResponseEntity<String> resetPassword(@RequestParam("password") String password,
                                                               @RequestParam("token") String confirmationToken) {
-        resetPasswordService.resetPassword(password, confirmationToken);
+
+        try {
+            resetPasswordService.resetPassword(password, confirmationToken);
+        } catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
         return ResponseEntity.ok("success");
     }
 
