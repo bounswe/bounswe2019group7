@@ -1,6 +1,7 @@
 package com.eyetrade.backend.model.resource.transaction;
 
 import com.eyetrade.backend.constants.CurrencyType;
+import com.eyetrade.backend.model.resource.user.MinimalUserResource;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,8 @@ public class BuySellOrderResource {
     private Double boughtAmount;
 
     private CurrencyType boughtType;
+
+    private MinimalUserResource user;
 
     //they will be null if only buy or only sell
     private Double soldAmount;

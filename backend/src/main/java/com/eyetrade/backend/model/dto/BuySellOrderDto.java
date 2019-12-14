@@ -27,8 +27,6 @@ public class BuySellOrderDto {
 
     private CurrencyType boughtType;
 
-    private User user;
-
     //they will be null if only buy or only sell
     private Double soldAmount;
     private CurrencyType soldType;

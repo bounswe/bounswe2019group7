@@ -27,13 +27,13 @@ public class BuySellOrder {
 
     private Double maxRate=1000000.0;
 
-    private Double boughtAmount;
+    private Double boughtAmount=null;
 
-    private CurrencyType boughtType;
+    private CurrencyType boughtType=null;
 
     //they will be null if only buy or only sell
-    private Double soldAmount;
-    private CurrencyType soldType;
+    private Double soldAmount=null;
+    private CurrencyType soldType=null;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
