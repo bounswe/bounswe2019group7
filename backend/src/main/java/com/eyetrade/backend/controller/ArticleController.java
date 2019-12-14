@@ -100,6 +100,17 @@ public class ArticleController {
         return article;
     }
 
+    @ApiOperation(value = "Delete an article", response = ArticleResource.class)
+    @PostMapping("/delete")
+    public ArticleResource deleteArticle(
+            @RequestHeader("Authorization") String token,
+            @RequestParam UUID articleID
+    )throws IllegalAccessException{
+        UUID userId = jwtUserChecker.resolveBasicToken(token);
+        ArticleResource article = articleService.deleteArticle(userId, articleID);
+        return article;
+    }
+
     @ApiOperation(value = "Give a point to an article", response = ArticleResource.class)
     @PostMapping("/give_point")
     public ArticleResource givePoint(
