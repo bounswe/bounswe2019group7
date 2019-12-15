@@ -1,6 +1,7 @@
 package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.constants.CurrencyType;
+import com.eyetrade.backend.constants.ErrorConstants;
 import com.eyetrade.backend.model.entity.CurrencyRecord;
 import com.eyetrade.backend.model.entity.PortfolioFollowsCurrency;
 import com.eyetrade.backend.model.entity.Portfolio;
@@ -16,6 +17,7 @@ import javax.transaction.Transactional;
 import java.util.*;
 
 import static com.eyetrade.backend.constants.ErrorConstants.FOLLOWING_RELATION_ALREADY_EXISTS;
+import static com.eyetrade.backend.constants.ErrorConstants.FOLLOWING_RELATION_NOT_EXISTS;
 import static com.eyetrade.backend.constants.GeneralConstants.DB_DATE_TIME_FORMAT;
 import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 
@@ -41,15 +43,40 @@ public class PortfolioService {
     }
 
     @Transactional
-    public PortfolioResource addCurrency(CurrencyType currencyType, UUID portfolioId){
+    public PortfolioResource deletePortfolio(UUID portfolioId, UUID ownerId) throws IllegalAccessException {
+        Portfolio portfolio = portfolioRepository.findPortfolioById(portfolioId);
+        // check whether the portfolio belongs the user
+        if(ownerId != portfolio.getOwnerId()){
+            throw new IllegalAccessException(ErrorConstants.PORTFOLIO_DOES_NOT_BELONG_TO_USER);
+        }
+        PortfolioResource resource = createPortfolioResource(portfolio);
+        // delete the portfolio
+        portfolioRepository.deleteById(portfolioId);
+        // delete the portfolio-currency relations
+        portfolioFollowsCurrencyRepository.deleteByFollowerPortfolioId(portfolioId);
+        return resource;
+    }
+
+    @Transactional
+    public PortfolioResource addCurrency(CurrencyType currencyType, UUID portfolioId) throws IllegalAccessException {
         if(portfolioFollowsCurrencyRepository.existsByBaseCurrencyTypeAndFollowerPortfolioId(currencyType, portfolioId)){
-            throw new IllegalArgumentException(FOLLOWING_RELATION_ALREADY_EXISTS);
+            throw new IllegalAccessException(FOLLOWING_RELATION_ALREADY_EXISTS);
         }
         PortfolioFollowsCurrency relation = new PortfolioFollowsCurrency();
         relation.setBaseCurrencyType(currencyType);
         relation.setFollowerPortfolioId(portfolioId);
         relation.setFollowingDate(dateTimeFormatter(new Date(), DB_DATE_TIME_FORMAT));
         portfolioFollowsCurrencyRepository.save(relation);
+        Portfolio portfolio = portfolioRepository.findPortfolioById(portfolioId);
+        return createPortfolioResource(portfolio);
+    }
+
+    @Transactional
+    public PortfolioResource removeCurrency(CurrencyType currencyType, UUID portfolioId) throws IllegalAccessException {
+        if(!portfolioFollowsCurrencyRepository.existsByBaseCurrencyTypeAndFollowerPortfolioId(currencyType, portfolioId)){
+            throw new IllegalAccessException(FOLLOWING_RELATION_NOT_EXISTS);
+        }
+        portfolioFollowsCurrencyRepository.deleteByBaseCurrencyTypeAndFollowerPortfolioId(currencyType, portfolioId);
         Portfolio portfolio = portfolioRepository.findPortfolioById(portfolioId);
         return createPortfolioResource(portfolio);
     }
@@ -102,7 +129,4 @@ public class PortfolioService {
         return currencyPairs;
     }
 
-
-
 }
-

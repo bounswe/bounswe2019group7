@@ -1,7 +1,10 @@
 package com.eyetrade.backend.service;
 
+import com.eyetrade.backend.constants.ErrorConstants;
 import com.eyetrade.backend.constants.PrivacyType;
+import com.eyetrade.backend.constants.Role;
 import com.eyetrade.backend.mapper.UserMapper;
+import com.eyetrade.backend.model.dto.user.BasicToTraderDto;
 import com.eyetrade.backend.model.dto.user.BasicUserDto;
 import com.eyetrade.backend.model.dto.user.TraderUserDto;
 import com.eyetrade.backend.model.entity.User;
@@ -71,8 +74,24 @@ public class UserProfileService {
     public CompleteUserResource updatePrivacy(UUID userId, PrivacyType privacy){
         User user = userRepository.findById(userId);
         user.setPrivacyType(privacy);
+        userRepository.save(user);
         return UserMapper.entityToCompleteUserResource(user,
                 userFollowingService.countFollowers(user),
                 userFollowingService.countFollowings(user));
     }
+
+    public CompleteUserResource upgradeBasicToTrader(UUID userId, BasicToTraderDto dto) throws IllegalAccessException {
+        User user = userRepository.findById(userId);
+        if(user.getRole() == Role.TRADER_USER){
+            throw new IllegalAccessException(ErrorConstants.USER_IS_ALREADY_TRADER);
+        }
+        user.setRole(Role.TRADER_USER);
+        user.setIdentityNo(dto.getIdentityNo());
+        user.setIban(dto.getIban());
+        userRepository.save(user);
+        return UserMapper.entityToCompleteUserResource(user,
+                userFollowingService.countFollowers(user),
+                userFollowingService.countFollowings(user));
+    }
+
 }

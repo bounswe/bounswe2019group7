@@ -13,6 +13,7 @@ public class ErrorConstants {
     public static final String NO_SUCH_FOLLOWING = "There isn't exist such following relation";
     public static final String NO_SUCH_CURRENCY_TYPES = "There isn't exist such currency type";
     public static final String FOLLOWING_RELATION_ALREADY_EXISTS = "The following relation already exists.";
+    public static final String FOLLOWING_RELATION_NOT_EXISTS = "The following relation does not exists.";
     public static final String CURRENCIES_COULD_NOT_BE_UPDATED = "Currencies could not be updated ";
     public static final String POINT_SHOULD_BE_INSIDE_RANGE = "The given point should be inside [0,5] range.";
     public static final String EVENTS_CANNOT_BE_UPLOADED = "Events cannot be uploaded!";
@@ -25,4 +26,6 @@ public class ErrorConstants {
     public static final String USER_CANNOT_UPDATE_ANOTHER_USERS_ORDER = "A user cannot update another user's order!";
     public static final String MIN_RATE_CAN_NOT_BE_BIGGER_THAN_MAX = "Minimum Rate cannot be bigger than maximum rate";
     public static final String FUND_IS_NOT_ENOUGH_FOR_THIS_OPERATION = "Fund is not enough!";
+    public static final String PORTFOLIO_DOES_NOT_BELONG_TO_USER = "This portfolio does not belong to the user!";
+    public static final String USER_IS_ALREADY_TRADER = "This user is already a trader user!";
 }

@@ -120,6 +120,18 @@ public class ArticleService {
         }
     }
 
+    @Transactional
+    public ArticleResource deleteArticle(UUID userId, UUID articleId) throws IllegalAccessException {
+        User user = userRepository.findById(userId);
+        Article article = articleRepository.findArticleById(articleId);
+        if(!article.getAuthorEmail().equals(user.getEmail())){
+            throw new IllegalAccessException(ErrorConstants.NOT_AUTHORIZED_FOR_OPERATION);
+        }
+        ArticleResource resource = ArticleMapper.entityToArticleResource(article);
+        articleRepository.deleteById(articleId);
+        return resource;
+    }
+
     public ArticleResource givePoint(Double score, UUID articleID,UUID userId){
         if(score < 0 || score > 5){
             throw new IllegalArgumentException(ErrorConstants.POINT_SHOULD_BE_INSIDE_RANGE);

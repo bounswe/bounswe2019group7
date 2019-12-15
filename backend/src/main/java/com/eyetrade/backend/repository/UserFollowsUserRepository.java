@@ -11,6 +11,7 @@ import java.util.UUID;
 @Repository
 public interface UserFollowsUserRepository extends JpaRepository<UserFollowsUser, UUID> {
 
+    UserFollowsUser findFirstByFollowerAndFollowing(User follower, User following);
 
     List<UserFollowsUser> findByFollower(User follower);
 

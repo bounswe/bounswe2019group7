@@ -1,6 +1,7 @@
 package com.eyetrade.backend.controller;
 
 import com.eyetrade.backend.constants.PrivacyType;
+import com.eyetrade.backend.model.dto.user.BasicToTraderDto;
 import com.eyetrade.backend.model.dto.user.BasicUserDto;
 import com.eyetrade.backend.model.dto.user.TraderUserDto;
 import com.eyetrade.backend.model.resource.user.CompleteUserResource;
@@ -86,12 +87,11 @@ public class UserProfileController {
         } catch (IllegalAccessException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
     }
 
     @ApiOperation(value = "Updates a user's profile privacy", response = CompleteUserResource.class)
     @PostMapping("/update_privacy")
-    public ResponseEntity updateTraderUserProfile(
+    public ResponseEntity updateUserPrivacy(
             @RequestHeader("Authorization") String token,
             @RequestHeader("privacy") PrivacyType privacy
     ){
@@ -101,7 +101,21 @@ public class UserProfileController {
             return ResponseEntity.ok(user);
         } catch (IllegalAccessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
+    @ApiOperation(value = "Upgrades a basic user to trader user", response = CompleteUserResource.class)
+    @PostMapping("/upgrade_basic_to_trader")
+    public ResponseEntity upgradeBasicToTrader(
+            @RequestHeader("Authorization") String token,
+            @RequestBody @Valid BasicToTraderDto basicToTraderDto
+    ){
+        try {
+            UUID userId = jwtUserChecker.resolveBasicToken(token);
+            CompleteUserResource user = userProfileService.upgradeBasicToTrader(userId, basicToTraderDto);
+            return ResponseEntity.ok(user);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 

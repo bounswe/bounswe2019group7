@@ -32,7 +32,22 @@ public class PortfolioController {
     ){
         try {
             UUID ownerID = jwtUserChecker.resolveBasicToken(token);
-            PortfolioResource portfolio = portfolioService.createPortfolio(portfolioName,ownerID);
+            PortfolioResource portfolio = portfolioService.createPortfolio(portfolioName, ownerID);
+            return ResponseEntity.ok(portfolio);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Delete a portfolio", response = PortfolioResource.class)
+    @DeleteMapping("/delete")
+    public ResponseEntity deletePortfolio(
+            @RequestHeader("Authorization") String token,
+            @RequestParam UUID portfolioId
+    ){
+        try {
+            UUID ownerID = jwtUserChecker.resolveBasicToken(token);
+            PortfolioResource portfolio = portfolioService.deletePortfolio(portfolioId, ownerID);
             return ResponseEntity.ok(portfolio);
         } catch (IllegalAccessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -50,6 +65,22 @@ public class PortfolioController {
         try {
             jwtUserChecker.resolveBasicToken(token);
             PortfolioResource portfolio = portfolioService.addCurrency(baseCurrencyType, portfolioID);
+            return ResponseEntity.ok(portfolio);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Remove currency from a portfolio", response = PortfolioResource.class)
+    @DeleteMapping("remove_currency_from_portfolio")
+    public ResponseEntity removeCurrency(
+            @RequestHeader("Authorization") String token,
+            @RequestHeader("BaseCurrencyType") CurrencyType baseCurrencyType,
+            @RequestParam UUID portfolioID
+    ){
+        try {
+            jwtUserChecker.resolveBasicToken(token);
+            PortfolioResource portfolio = portfolioService.removeCurrency(baseCurrencyType, portfolioID);
             return ResponseEntity.ok(portfolio);
         } catch (IllegalAccessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
