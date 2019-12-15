@@ -120,6 +120,7 @@ public class ArticleService {
         }
     }
 
+    @Transactional
     public ArticleResource deleteArticle(UUID userId, UUID articleId) throws IllegalAccessException {
         User user = userRepository.findById(userId);
         Article article = articleRepository.findArticleById(articleId);
