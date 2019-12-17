@@ -144,7 +144,7 @@ interface ApiInterface {
     fun getAllCommentsOfArticleOrEvent(
         @Header("Authorization") token: String?,
         @Query("articleOrEventId") articleOrEventId: String
-    ): retrofit2.Call<CommentListResponse>
+    ): retrofit2.Call<List<CommentResponse>>
 
     @GET("comment_controller/get_comments_of_user")
     fun getSelfComments(

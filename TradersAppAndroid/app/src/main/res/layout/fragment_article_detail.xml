@@ -70,9 +70,16 @@
                 app:layout_constraintTop_toBottomOf="@id/articleAuthorName"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toTopOf="@id/rvComments"/>
 
-
+        <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rvComments"
+                tools:listitem="@layout/comment_recycler_item"
+                app:layout_constraintTop_toBottomOf="@id/aBody"
+                app:layout_constraintLeft_toLeftOf="parent">
+        </android.support.v7.widget.RecyclerView>
 
 
 </android.support.constraint.ConstraintLayout>
