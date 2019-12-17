@@ -16,6 +16,14 @@
             android:padding="5dp"
             app:srcCompat="@drawable/ic_account_circle_white_24dp" />
 
+
+    <Button
+            android:id="@+id/portfolios"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PORTFOLIOS" />
+
     <TextView
       android:id="@+id/name"
       android:layout_width="wrap_content"
@@ -113,6 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="#A9A9A9" />
+
 
     <Button
             android:id="@+id/follow"

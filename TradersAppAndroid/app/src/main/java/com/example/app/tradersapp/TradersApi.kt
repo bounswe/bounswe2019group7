@@ -262,3 +262,17 @@ data class HomeFeedResponse(
     val suggestedArticles: ArrayList<ArticleResponse>
 
 )
+
+data class CurrencyPairs(
+    val baseType: String,
+    val rate: Double,
+    val targetType: String
+)
+
+data class SelfPortfoliosResponse(
+    val currencyPairs: ArrayList<CurrencyPairs>,
+    val currencyTypes: ArrayList<String>,
+    val id: String,
+    val name: String,
+    val ownerId: String
+)
