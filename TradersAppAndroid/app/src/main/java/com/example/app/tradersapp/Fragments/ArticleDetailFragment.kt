@@ -14,8 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.app.tradersapp.*
-import kotlinx.android.synthetic.main.fragment_article.*
-
 import kotlinx.android.synthetic.main.fragment_article_detail.*
 import kotlinx.android.synthetic.main.fragment_article_detail.view.*
 import retrofit2.Call
@@ -77,7 +75,6 @@ class ArticleDetailFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                         getComments(token, articleId)
-                        //rvComments.adapter?.notifyDataSetChanged()
                     }
                 })
             }

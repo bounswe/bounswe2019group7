@@ -14,8 +14,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.app.tradersapp.*
 
-import kotlinx.android.synthetic.main.fragment_article_detail.*
-import kotlinx.android.synthetic.main.fragment_article_detail.view.*
 import kotlinx.android.synthetic.main.fragment_event_detail.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -75,7 +73,6 @@ class EventDetailFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()
                         getComments(token, eventId)
-                        //rvComments.adapter?.notifyDataSetChanged()
                     }
                 })
             }
