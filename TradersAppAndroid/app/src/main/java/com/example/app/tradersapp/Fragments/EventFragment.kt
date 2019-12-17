@@ -76,6 +76,7 @@ class EventFragment() : Fragment() {
             override fun onResponse(call: Call<EventsListResponse>, response: Response<EventsListResponse>) {
                 allEvents = response.body()?.allEvents?.map {
                     EventModel(
+                        it.guid,
                         images[abs(it.guid.hashCode())%images.size],
                         it.title,
                         it.content

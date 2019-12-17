@@ -94,6 +94,7 @@ class HomeFragment : Fragment() {
 
                     suggestedEvents = body?.suggestedEvents?.map {
                         EventModel(
+                            it.guid,
                             images[abs(it.guid.hashCode())%images.size],
                             it.title,
                             it.content
