@@ -17,6 +17,7 @@ import com.example.app.tradersapp.*
 import kotlinx.android.synthetic.main.fragment_article.*
 
 import kotlinx.android.synthetic.main.fragment_article_detail.*
+import kotlinx.android.synthetic.main.fragment_article_detail.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,6 +47,42 @@ class ArticleDetailFragment : Fragment() {
         articleAuthorName.text = bundle.getString("author")
         val token = sp?.getString("token", "")
         val articleId = bundle.getString("articleId")
+
+        addCommentButton.setOnClickListener {
+            if(addCommentEditText.text.isNullOrEmpty()){
+                Toast.makeText(
+                    activity,
+                    "Write a comment before sending it!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else{
+                retrofitService.addComment(
+                    token,
+                    CommentInformation(
+                        articleId,
+                        "Article",
+                        addCommentEditText.text.toString(),
+                        "Comment Title"
+                    )
+                ).enqueue(object: Callback<CommentResponse>{
+                    override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
+                        EyeTradeUtils.toastErrorMessage(RegistrationActivity.RegisterCallback.activity as Context, t)
+                    }
+
+                    override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
+                        Toast.makeText(
+                            activity,
+                            "Your comment has been saved successfully.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        getComments(token, articleId)
+                        //rvComments.adapter?.notifyDataSetChanged()
+                    }
+                })
+            }
+            }
+
 
         ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
 
@@ -78,16 +115,19 @@ class ArticleDetailFragment : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+        getComments(token, articleId)
+    }
 
+    private fun getComments(token: String?, articleId: String){
         retrofitService.getAllCommentsOfArticleOrEvent(token, articleId).enqueue(object: Callback<List<CommentResponse>>{
             override fun onFailure(call: Call<List<CommentResponse>>, t: Throwable) {
                 EyeTradeUtils.toastErrorMessage(activity as Context, t)
             }
 
             override fun onResponse(call: Call<List<CommentResponse>>, response: Response<List<CommentResponse>>) {
-                    allComments = response.body()?.map {
-                        CommentModel(it.content, it.createdDate, it.createdDate, it.createdDate, it.id)
-                    }?: emptyList()
+                allComments = response.body()?.map {
+                    CommentModel(it.articleEventId, it.content, it.createdDate, it.createdDate, it.createdDate, it.id)
+                }?: emptyList()
 
                 rvComments.apply {
                     layoutManager = LinearLayoutManager(activity)
@@ -98,8 +138,6 @@ class ArticleDetailFragment : Fragment() {
             }
 
         })
-
-
     }
 
 }

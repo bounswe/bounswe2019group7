@@ -29,6 +29,7 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
 }
 
 data class CommentModel(
+    val articleEventId: String,
     val body: String?,
     val authorName: String,
     val authorSurname: String,
