@@ -28,4 +28,5 @@ public class ErrorConstants {
     public static final String FUND_IS_NOT_ENOUGH_FOR_THIS_OPERATION = "Fund is not enough!";
     public static final String PORTFOLIO_DOES_NOT_BELONG_TO_USER = "This portfolio does not belong to the user!";
     public static final String USER_IS_ALREADY_TRADER = "This user is already a trader user!";
+    public static final String SEARCH_TEXT_IS_WRONG = "Search text is wrong!";
 }
