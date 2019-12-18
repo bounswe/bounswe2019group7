@@ -6,5 +6,11 @@ public enum CurrencyType {
     EUR,
     GBP,
     JPY,
-    CNY
+    CNY,
+    BTC,
+    ETH,
+    XRP,
+    LTC,
+    XMR
+
 }

@@ -45,4 +45,20 @@ public class CurrencyRecord {
     @Column(name = "china_rate")
     private Double chinaRate; //CNY
 
+    // The followings are rates of the crypto currencies with respect to EUR
+    @Column(name = "bitcoin")
+    private Double bitcoin; // BTC
+
+    @Column(name = "ethereum")
+    private Double ethereum; // ETH
+
+    @Column(name = "ripple")
+    private Double ripple; // XRP
+
+    @Column(name = "litecoin")
+    private Double litecoin; // LTC
+
+    @Column(name = "monero")
+    private Double monero; // XMR
+
 }
