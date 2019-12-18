@@ -1,6 +1,7 @@
 package com.eyetrade.backend.model.resource.comment;
 
 import com.eyetrade.backend.constants.CommentType;
+import com.eyetrade.backend.model.resource.user.MinimalUserResource;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +24,6 @@ public class CommentResource {
 
     private UUID id;
 
-    private String title;
-
     private String content;
 
     private String createdDate;
@@ -32,5 +31,7 @@ public class CommentResource {
     private CommentType commentType;
 
     private UUID articleEventId;
+
+    private MinimalUserResource minimalUserResource;
 
 }
