@@ -43,4 +43,16 @@ public class SearchController {
         }
     }
 
+    @ApiOperation(value = "Search articles with the wanted informations. Search will be this format:\n " +
+            "/search/article?search=(authorName:'Emir' AND authorSurname:'*emir*') OR authorEmail:'anka@test.com' \n" +
+            "if there is no parameter then result will return all articles", response = ArticleResource.class, responseContainer = "List")
+    @GetMapping("/article")
+    public ResponseEntity searchForArticles(@SearchSpec Specification<Article> specs) {
+        try {
+            return ResponseEntity.ok(service.searchArticles(specs)) ;
+        }catch (InvalidDataAccessApiUsageException exception){
+            return ResponseEntity.badRequest().body(SEARCH_TEXT_IS_WRONG);
+        }
+    }
+
 }

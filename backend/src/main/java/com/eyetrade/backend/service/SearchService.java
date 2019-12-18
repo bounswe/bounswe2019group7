@@ -37,4 +37,11 @@ public class SearchService {
         return userResources;
     }
 
+    public List<ArticleResource> searchArticles(Specification<Article> specs){
+        List<ArticleResource> articleResources=new ArrayList<>();
+        for (Article article:articleRepository.findAll(Specification.where(specs))){
+            articleResources.add(entityToArticleResource(article));
+        }
+        return articleResources;
+    }
 }
