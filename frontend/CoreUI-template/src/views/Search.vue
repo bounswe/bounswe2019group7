@@ -30,7 +30,7 @@
       methods: {
         search: function(event) {
             var textToSearch = document.getElementById("bar").value;
-            console.log(textToSearch);
+            //console.log(textToSearch);
 
             //TODO functionality
             return '';
