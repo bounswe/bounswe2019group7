@@ -134,6 +134,41 @@ public class TransactionService {
                     account.setJpyAmount(lastAmount);
                     resource.setIsSuccessful(true);
                 }break;
+            case XRP:
+                resource.setBoughtTypeInitialAmount(account.getRippleAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>0){
+                    account.setRippleAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
+            case XMR:
+                resource.setBoughtTypeInitialAmount(account.getMoneroAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>0){
+                    account.setMoneroAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
+            case ETH:
+                resource.setBoughtTypeInitialAmount(account.getEthereumAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>0){
+                    account.setEthereumAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
+            case BTC:
+                resource.setBoughtTypeInitialAmount(account.getBitcoinAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>0){
+                    account.setBitcoinAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
+            case LTC:
+                resource.setBoughtTypeInitialAmount(account.getLitecoinAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>0){
+                    account.setLitecoinAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
         }
         repository.saveAndFlush(account);
         return resource;
