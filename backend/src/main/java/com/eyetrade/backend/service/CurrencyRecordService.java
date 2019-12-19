@@ -60,11 +60,11 @@ public class CurrencyRecordService {
 
         Double dollarRate=record.getDollarRate();
         try {
-            record.setBitcoin(getCryptoCurrenciesExchangeRate(CryptoCurrencyType.BTC)/dollarRate);
-            record.setEthereum(getCryptoCurrenciesExchangeRate(CryptoCurrencyType.ETH)/dollarRate);
-            record.setLitecoin(getCryptoCurrenciesExchangeRate(CryptoCurrencyType.LTC)/dollarRate);
-            record.setMonero(getCryptoCurrenciesExchangeRate(CryptoCurrencyType.XMR)/dollarRate);
-            record.setRipple(getCryptoCurrenciesExchangeRate(CryptoCurrencyType.XRP)/dollarRate);
+            record.setBitcoin(dollarRate*getCryptoCurrenciesExchangeRate(CryptoCurrencyType.BTC));
+            record.setEthereum(dollarRate*getCryptoCurrenciesExchangeRate(CryptoCurrencyType.ETH));
+            record.setLitecoin(dollarRate*getCryptoCurrenciesExchangeRate(CryptoCurrencyType.LTC));
+            record.setMonero(dollarRate*getCryptoCurrenciesExchangeRate(CryptoCurrencyType.XMR));
+            record.setRipple(dollarRate*getCryptoCurrenciesExchangeRate(CryptoCurrencyType.XRP));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
