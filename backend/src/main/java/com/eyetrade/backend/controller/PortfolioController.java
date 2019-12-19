@@ -55,16 +55,17 @@ public class PortfolioController {
     }
 
     // TODO : User check must be added later
-    @ApiOperation(value = "Add currency to a portfolio", response = PortfolioResource.class)
-    @PostMapping("add_currency_to_portfolio")
-    public ResponseEntity addCurrency(
+    @ApiOperation(value = "Add currency pair to a portfolio", response = PortfolioResource.class)
+    @PostMapping("add_currency_pair_to_portfolio")
+    public ResponseEntity addCurrencyPair(
             @RequestHeader("Authorization") String token,
-            @RequestHeader("BaseCurrencyType") CurrencyType baseCurrencyType,
+            @RequestHeader("FirstCurrencyType") CurrencyType firstCurrencyType,
+            @RequestHeader("SecondCurrencyType") CurrencyType secondCurrencyType,
             @RequestParam UUID portfolioID
     ){
         try {
             jwtUserChecker.resolveBasicToken(token);
-            PortfolioResource portfolio = portfolioService.addCurrency(baseCurrencyType, portfolioID);
+            PortfolioResource portfolio = portfolioService.addCurrencyPair(firstCurrencyType, secondCurrencyType, portfolioID);
             return ResponseEntity.ok(portfolio);
         } catch (IllegalAccessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -72,15 +73,16 @@ public class PortfolioController {
     }
 
     @ApiOperation(value = "Remove currency from a portfolio", response = PortfolioResource.class)
-    @DeleteMapping("remove_currency_from_portfolio")
-    public ResponseEntity removeCurrency(
+    @DeleteMapping("remove_currency_pair_from_portfolio")
+    public ResponseEntity removeCurrencyPair(
             @RequestHeader("Authorization") String token,
-            @RequestHeader("BaseCurrencyType") CurrencyType baseCurrencyType,
+            @RequestHeader("FirstCurrencyType") CurrencyType firstCurrencyType,
+            @RequestHeader("SecondCurrencyType") CurrencyType secondCurrencyType,
             @RequestParam UUID portfolioID
     ){
         try {
             jwtUserChecker.resolveBasicToken(token);
-            PortfolioResource portfolio = portfolioService.removeCurrency(baseCurrencyType, portfolioID);
+            PortfolioResource portfolio = portfolioService.removeCurrencyPair(firstCurrencyType, secondCurrencyType, portfolioID);
             return ResponseEntity.ok(portfolio);
         } catch (IllegalAccessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
