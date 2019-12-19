@@ -31,8 +31,12 @@ public class PortfolioFollowsCurrency {
     private UUID followerPortfolioId;
 
     @NotNull
-    @Column(name = "base_currency_type")
-    private CurrencyType baseCurrencyType;
+    @Column(name = "first_currency_type")
+    private CurrencyType firstCurrencyType;
+
+    @NotNull
+    @Column(name = "second_currency_type")
+    private CurrencyType secondCurrencyType;
 
     @NotNull
     @Column(name = "Date")
