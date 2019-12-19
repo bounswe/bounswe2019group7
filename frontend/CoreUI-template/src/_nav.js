@@ -70,6 +70,12 @@ export default {
       attributes: { disabled: false }
     },
     {
+      name: "Search",
+      url: "search",
+      icon: "fa fa-search",
+      attributes: { disabled: false }
+    },
+    {
       name: "Help",
       url: "",
       icon: "fa fa-info",
