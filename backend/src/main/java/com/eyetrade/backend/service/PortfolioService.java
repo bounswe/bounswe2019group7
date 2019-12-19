@@ -39,7 +39,7 @@ public class PortfolioService {
         portfolio.setName(portfolioName);
         portfolio.setOwnerId(ownerId);
         portfolioRepository.save(portfolio);
-        return new PortfolioResource(portfolio.getId(), portfolioName, ownerId, new ArrayList<>(), new ArrayList<>());
+        return new PortfolioResource(portfolio.getId(), portfolioName, ownerId, new ArrayList<>());
     }
 
     @Transactional
@@ -58,12 +58,13 @@ public class PortfolioService {
     }
 
     @Transactional
-    public PortfolioResource addCurrency(CurrencyType currencyType, UUID portfolioId) throws IllegalAccessException {
-        if(portfolioFollowsCurrencyRepository.existsByBaseCurrencyTypeAndFollowerPortfolioId(currencyType, portfolioId)){
+    public PortfolioResource addCurrencyPair(CurrencyType currencyType1, CurrencyType currencyType2, UUID portfolioId) throws IllegalAccessException {
+        if(portfolioFollowsCurrencyRepository.existsByFirstCurrencyTypeAndSecondCurrencyTypeAndFollowerPortfolioId(currencyType1, currencyType2, portfolioId)){
             throw new IllegalAccessException(FOLLOWING_RELATION_ALREADY_EXISTS);
         }
         PortfolioFollowsCurrency relation = new PortfolioFollowsCurrency();
-        relation.setBaseCurrencyType(currencyType);
+        relation.setFirstCurrencyType(currencyType1);
+        relation.setSecondCurrencyType(currencyType2);
         relation.setFollowerPortfolioId(portfolioId);
         relation.setFollowingDate(dateTimeFormatter(new Date(), DB_DATE_TIME_FORMAT));
         portfolioFollowsCurrencyRepository.save(relation);
@@ -72,11 +73,11 @@ public class PortfolioService {
     }
 
     @Transactional
-    public PortfolioResource removeCurrency(CurrencyType currencyType, UUID portfolioId) throws IllegalAccessException {
-        if(!portfolioFollowsCurrencyRepository.existsByBaseCurrencyTypeAndFollowerPortfolioId(currencyType, portfolioId)){
+    public PortfolioResource removeCurrencyPair(CurrencyType currencyType1, CurrencyType currencyType2, UUID portfolioId) throws IllegalAccessException {
+        if(!portfolioFollowsCurrencyRepository.existsByFirstCurrencyTypeAndSecondCurrencyTypeAndFollowerPortfolioId(currencyType1, currencyType2, portfolioId)){
             throw new IllegalAccessException(FOLLOWING_RELATION_NOT_EXISTS);
         }
-        portfolioFollowsCurrencyRepository.deleteByBaseCurrencyTypeAndFollowerPortfolioId(currencyType, portfolioId);
+        portfolioFollowsCurrencyRepository.deleteByFirstCurrencyTypeAndSecondCurrencyTypeAndFollowerPortfolioId(currencyType1, currencyType2, portfolioId);
         Portfolio portfolio = portfolioRepository.findPortfolioById(portfolioId);
         return createPortfolioResource(portfolio);
     }
@@ -93,38 +94,25 @@ public class PortfolioService {
 
     private PortfolioResource createPortfolioResource(Portfolio portfolio){
         PortfolioResource portfolioResource = new PortfolioResource();
-        List<CurrencyType> currencies = getAllCurrenciesOfPortfolio(portfolio);
-        List<PortfolioCurrencyPair> currencyPairs = getAllPairsRelatedWithPortfolio(currencies);
         portfolioResource.setId(portfolio.getId());
         portfolioResource.setName(portfolio.getName());
         portfolioResource.setOwnerId(portfolio.getOwnerId());
-        portfolioResource.setCurrencyTypes(currencies);
-        portfolioResource.setCurrencyPairs(currencyPairs);
+        portfolioResource.setCurrencyPairs(getAllPairsRelatedWithPortfolio(portfolio.getId()));
         return portfolioResource;
     }
 
-    private List<CurrencyType> getAllCurrenciesOfPortfolio(Portfolio portfolio){
-        List<CurrencyType> currencies = new ArrayList<>();
-        List<PortfolioFollowsCurrency> relations = portfolioFollowsCurrencyRepository.findByFollowerPortfolioId(portfolio.getId());
-        for(PortfolioFollowsCurrency relation : relations){
-            currencies.add(relation.getBaseCurrencyType());
-        }
-        return currencies;
-    }
-
-    private List<PortfolioCurrencyPair> getAllPairsRelatedWithPortfolio(List<CurrencyType> portfolioCurrencies){
+    private List<PortfolioCurrencyPair> getAllPairsRelatedWithPortfolio(UUID portfolioId){
         List<PortfolioCurrencyPair> currencyPairs = new ArrayList<>();
+        List<PortfolioFollowsCurrency> relations = portfolioFollowsCurrencyRepository.findByFollowerPortfolioId(portfolioId);
         CurrencyRecord lastRecord = currencyRateService.findLastRecord();
-        int n = portfolioCurrencies.size();
+        int n = relations.size();
         for(int i = 0; i < n; i++){
-            for(int j = i+1; j < n; j++){
-                CurrencyType firstType = portfolioCurrencies.get(i);
-                CurrencyType secondType = portfolioCurrencies.get(j);
-                double firstRate = currencyRateService.findRate(firstType, lastRecord);
-                double secondRate = currencyRateService.findRate(secondType, lastRecord);
-                PortfolioCurrencyPair pair = new PortfolioCurrencyPair(firstType, secondType, firstRate / secondRate);
-                currencyPairs.add(pair);
-            }
+            CurrencyType firstType = relations.get(i).getFirstCurrencyType();
+            CurrencyType secondType = relations.get(i).getSecondCurrencyType();
+            double firstRate = currencyRateService.findRate(firstType, lastRecord);
+            double secondRate = currencyRateService.findRate(secondType, lastRecord);
+            PortfolioCurrencyPair pair = new PortfolioCurrencyPair(firstType, secondType, firstRate / secondRate);
+            currencyPairs.add(pair);
         }
         return currencyPairs;
     }
