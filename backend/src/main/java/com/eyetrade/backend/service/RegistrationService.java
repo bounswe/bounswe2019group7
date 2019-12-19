@@ -2,8 +2,10 @@ package com.eyetrade.backend.service;
 
 import com.eyetrade.backend.model.dto.user.BasicUserDto;
 import com.eyetrade.backend.model.dto.user.TraderUserDto;
+import com.eyetrade.backend.model.entity.PredictionCountOfUser;
 import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.resource.user.CompleteUserResource;
+import com.eyetrade.backend.repository.PredictionCountRepository;
 import com.eyetrade.backend.repository.UserRepository;
 import com.eyetrade.backend.security.JwtResolver;
 import com.eyetrade.backend.constants.ErrorConstants;
@@ -25,6 +27,9 @@ public class RegistrationService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PredictionCountRepository predictionCountRepository;
 
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
@@ -49,6 +54,7 @@ public class RegistrationService {
     @Transactional
     public CompleteUserResource save(User user) {
         userRepository.saveAndFlush(user);
+        predictionCountRepository.saveAndFlush(new PredictionCountOfUser(user.getId()));
         // TODO: Sending email generates errors for now, so I commented it
         //confirmationTokenService.sendActivationToken(user);
         // for a new register user follower and followings are 0
@@ -65,7 +71,5 @@ public class RegistrationService {
         user.setConfirmed(true);
         userRepository.save(user);
     }
-
-
 
 }
