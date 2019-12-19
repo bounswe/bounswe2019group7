@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 /**
@@ -23,8 +24,7 @@ public class Comment {
     @Column(name = "id")
     private UUID id;
 
-    private String title;
-
+    @NotNull
     @Column(length = 1024)
     private String content;
 
