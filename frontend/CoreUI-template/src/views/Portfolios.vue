@@ -196,7 +196,6 @@ export default {
       }
       )
       .then(response => {
-        console.log("yes");
         if(response.status == 200){
           location.reload();
         }
@@ -220,7 +219,6 @@ export default {
       .then(
         response => {
           if(response.status==200){
-          console.log(response);
           this.portfolios = response.data.portfolios;
         }
         },
