@@ -46,7 +46,7 @@ public class PortfolioService {
     public PortfolioResource deletePortfolio(UUID portfolioId, UUID ownerId) throws IllegalAccessException {
         Portfolio portfolio = portfolioRepository.findPortfolioById(portfolioId);
         // check whether the portfolio belongs the user
-        if(ownerId != portfolio.getOwnerId()){
+        if( !portfolio.getOwnerId().equals(ownerId)){
             throw new IllegalAccessException(ErrorConstants.PORTFOLIO_DOES_NOT_BELONG_TO_USER);
         }
         PortfolioResource resource = createPortfolioResource(portfolio);

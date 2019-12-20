@@ -53,7 +53,7 @@ public class PredictionService {
         if(!prediction.getPredictorId().equals(userId)){
             throw new IllegalAccessException(ErrorConstants.CAN_NOT_DELETE_OTHER_USERS_PREDICTION);
         }
-        if(prediction.getStatus() != PredictionStatus.future){
+        if(!prediction.getStatus().equals(PredictionStatus.future)){
             throw new IllegalAccessException(ErrorConstants.CAN_NOT_DELETE_EVALUATED_PREDICTION);
         }
         predictionRepository.deleteById(predictionId);
