@@ -2,9 +2,11 @@ package com.example.app.tradersapp
 
 import android.app.Activity
 import android.content.Context
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_homepage.*
 
@@ -28,5 +30,6 @@ class EyeTradeUtils {
             activity?.spinner?.visibility = View.GONE
             activity?.nav_host_fragment?.visibility = View.VISIBLE
         }
+
     }
 }

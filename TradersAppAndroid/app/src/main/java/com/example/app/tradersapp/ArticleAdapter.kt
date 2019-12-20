@@ -2,13 +2,13 @@ package com.example.app.tradersapp
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.example.app.tradersapp.Fragments.*
-import com.example.app.tradersapp.RegistrationActivity.RegisterCallback.activity
+import com.example.app.tradersapp.Fragments.ArticleDetailFragment
+import com.example.app.tradersapp.Fragments.ArticleHolder
+import com.example.app.tradersapp.Fragments.ArticleModel
 
 
 class ArticleAdapter(private val list: List<ArticleModel>, context: Context)
