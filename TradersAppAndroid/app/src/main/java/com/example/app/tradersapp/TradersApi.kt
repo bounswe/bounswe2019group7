@@ -283,7 +283,8 @@ data class EventResponse(
 data class MinimalUserResponse(
     val email: String,
     val name: String,
-    val surname: String
+    val surname: String,
+    val id: String?
 )
 
 data class HomeFeedResponse(
@@ -299,7 +300,8 @@ data class CommentResponse(
     val content: String,
     val createdDate: String,
     val id: String,
-    val title: String
+    @SerializedName("minimalUserResource")
+    val userInfo: MinimalUserResponse
 )
 
 data class CommentListResponse(

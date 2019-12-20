@@ -123,7 +123,7 @@ class ArticleDetailFragment : Fragment() {
 
             override fun onResponse(call: Call<List<CommentResponse>>, response: Response<List<CommentResponse>>) {
                 allComments = response.body()?.map {
-                    CommentModel(it.articleEventId, it.content, it.createdDate, it.createdDate, it.createdDate, it.id)
+                    CommentModel(it.articleEventId, it.content, it.userInfo.name, it.userInfo.surname, it.createdDate, it.id)
                 }?: emptyList()
 
                 rvComments.apply {
