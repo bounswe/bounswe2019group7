@@ -74,6 +74,7 @@ class ArticleDetailFragment : Fragment() {
                             "Your comment has been saved successfully.",
                             Toast.LENGTH_SHORT
                         ).show()
+                        addCommentEditText.text = null
                         getComments(token, articleId)
                     }
                 })

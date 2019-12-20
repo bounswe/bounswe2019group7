@@ -23,7 +23,7 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
     fun bind(item: CommentModel) {
         commentBody?.text = item.body
         commentAuthorName?.text = item.authorName + " " + item.authorSurname
-        commentChangeDate?.text = item.changeDate
+        commentChangeDate?.text = item.changeDate.substring(0, 10)     // Only show the date, not the hour
     }
 
 }
