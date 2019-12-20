@@ -5,10 +5,13 @@ import com.eyetrade.backend.constants.PredictionStatus;
 import lombok.Data;
 
 import javax.annotation.Resource;
+import java.util.UUID;
 
 @Resource
 @Data
 public class PredictionResource {
+
+    private UUID id;
 
     private String targetDayForPrediction;
 

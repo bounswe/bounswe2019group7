@@ -33,10 +33,15 @@ public class PredictionCountOfUser {
     @Column(name = "fail_count")
     private long failCount;
 
+    @NotNull
+    @Column(name = "future_count")
+    private long futureCount; // count of the predictions that are not concluded yet
+
     public PredictionCountOfUser(UUID userId){
         this.userId = userId;
         this.successCount = 0;
         this.failCount = 0;
+        this.futureCount = 0;
     }
 
 }

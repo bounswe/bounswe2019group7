@@ -30,6 +30,7 @@ public class PredictionMapper {
 
     public static PredictionResource entityToResource(Prediction prediction){
         PredictionResource resource = new PredictionResource();
+        resource.setId(prediction.getId());
         resource.setTargetDayForPrediction(prediction.getTargetDayForPrediction());
         resource.setLowerBoundOfPredictedRate(prediction.getLowerBoundOfPredictedRate());
         resource.setUpperBoundOfPredictedRate(prediction.getUpperBoundOfPredictedRate());
