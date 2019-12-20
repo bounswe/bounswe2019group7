@@ -1,6 +1,6 @@
 package com.eyetrade.backend.model.entity;
 
-import com.eyetrade.backend.constants.CurrencyType;
+
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,15 +10,10 @@ import java.util.UUID;
 
 import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
 
-/**
- * Created by Emir Gökdemir
- * on 2 Kas 2019
- */
-
 @Data
 @Entity
-@Table(name="portfolio_follows_currency")
-public class PortfolioFollowsCurrency {
+@Table(name="prediction_count_of_user", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"})})
+public class PredictionCountOfUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO,generator = "system-uuid")
@@ -27,19 +22,19 @@ public class PortfolioFollowsCurrency {
     private UUID id;
 
     @NotNull
-    @Column(name = "portfolio_id")
-    private UUID followerPortfolioId;
+    @Column(name = "user_id")
+    private UUID userId;
 
     @NotNull
-    @Column(name = "first_currency_type")
-    private CurrencyType firstCurrencyType;
+    @Column(name = "success_count")
+    private long successCount;
 
     @NotNull
-    @Column(name = "second_currency_type")
-    private CurrencyType secondCurrencyType;
+    @Column(name = "fail_count")
+    private long failCount;
 
     @NotNull
-    @Column(name = "Date")
-    private String followingDate;
+    @Column(name = "future_count")
+    private long futureCount; // count of the predictions that are not concluded yet
 
 }

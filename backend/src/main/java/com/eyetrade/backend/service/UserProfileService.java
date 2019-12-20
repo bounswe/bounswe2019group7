@@ -7,9 +7,11 @@ import com.eyetrade.backend.mapper.UserMapper;
 import com.eyetrade.backend.model.dto.user.BasicToTraderDto;
 import com.eyetrade.backend.model.dto.user.BasicUserDto;
 import com.eyetrade.backend.model.dto.user.TraderUserDto;
+import com.eyetrade.backend.model.entity.PredictionCountOfUser;
 import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.resource.user.CompleteUserResource;
 import com.eyetrade.backend.model.resource.user.PartialUserResource;
+import com.eyetrade.backend.repository.PredictionCountRepository;
 import com.eyetrade.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,23 +25,30 @@ public class UserProfileService {
     private UserRepository userRepository;
 
     @Autowired
+    private PredictionCountRepository predictionCountRepository;
+
+    @Autowired
     private UserFollowingService userFollowingService;
 
     public CompleteUserResource getSelfProfile(UUID selfId){
         User selfUser = userRepository.findById(selfId);
+        PredictionCountOfUser predictionCount = predictionCountRepository.findPredictionCountOfUserByUserId(selfId);
         return UserMapper.entityToCompleteUserResource(selfUser,
                 userFollowingService.countFollowers(selfUser),
-                userFollowingService.countFollowings(selfUser));
+                userFollowingService.countFollowings(selfUser),
+                predictionCount);
     }
 
     public PartialUserResource getOtherProfile(UUID selfId, String otherUserEmail){
         User selfUser = userRepository.findById(selfId);
         User otherUser = userRepository.findByEmail(otherUserEmail);
+        PredictionCountOfUser predictionCount = predictionCountRepository.findPredictionCountOfUserByUserId(otherUser.getId());
         if(otherUser.getPrivacyType() == PrivacyType.PUBLIC_USER
                 || userFollowingService.getSelfFollowings(selfUser.getId()).contains(otherUser)){
             return UserMapper.entityToPartialUserResource(otherUser,
                     userFollowingService.countFollowers(otherUser),
-                    userFollowingService.countFollowings(otherUser));
+                    userFollowingService.countFollowings(otherUser),
+                    predictionCount);
         }
         else{
             // you have no access for that user because it is private and you do not follow
@@ -56,7 +65,8 @@ public class UserProfileService {
         userRepository.save(updatedUser);
         return UserMapper.entityToCompleteUserResource(updatedUser,
                 userFollowingService.countFollowers(updatedUser),
-                userFollowingService.countFollowings(updatedUser));
+                userFollowingService.countFollowings(updatedUser),
+                predictionCountRepository.findPredictionCountOfUserByUserId(userId));
     }
 
     public CompleteUserResource updateTraderProfile(UUID userId, TraderUserDto newTraderUserDto){
@@ -68,7 +78,8 @@ public class UserProfileService {
         userRepository.save(updatedUser);
         return UserMapper.entityToCompleteUserResource(updatedUser,
                 userFollowingService.countFollowers(updatedUser),
-                userFollowingService.countFollowings(updatedUser));
+                userFollowingService.countFollowings(updatedUser),
+                predictionCountRepository.findPredictionCountOfUserByUserId(userId));
     }
 
     public CompleteUserResource updatePrivacy(UUID userId, PrivacyType privacy){
@@ -77,7 +88,8 @@ public class UserProfileService {
         userRepository.save(user);
         return UserMapper.entityToCompleteUserResource(user,
                 userFollowingService.countFollowers(user),
-                userFollowingService.countFollowings(user));
+                userFollowingService.countFollowings(user),
+                predictionCountRepository.findPredictionCountOfUserByUserId(userId));
     }
 
     public CompleteUserResource upgradeBasicToTrader(UUID userId, BasicToTraderDto dto) throws IllegalAccessException {
@@ -91,7 +103,8 @@ public class UserProfileService {
         userRepository.save(user);
         return UserMapper.entityToCompleteUserResource(user,
                 userFollowingService.countFollowers(user),
-                userFollowingService.countFollowings(user));
+                userFollowingService.countFollowings(user),
+                predictionCountRepository.findPredictionCountOfUserByUserId(userId));
     }
 
 }

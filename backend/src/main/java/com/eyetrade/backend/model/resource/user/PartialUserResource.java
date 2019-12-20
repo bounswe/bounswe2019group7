@@ -1,6 +1,7 @@
 package com.eyetrade.backend.model.resource.user;
 
 import com.eyetrade.backend.constants.Role;
+import com.eyetrade.backend.model.resource.prediction.PredictionCountResource;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +25,7 @@ public class PartialUserResource extends MinimalUserResource {
     private long followerCount;
 
     private long followingCount;
+
+    private PredictionCountResource predictionCount;
 
 }
