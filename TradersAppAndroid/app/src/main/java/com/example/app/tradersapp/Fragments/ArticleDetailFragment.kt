@@ -40,9 +40,6 @@ class ArticleDetailFragment : Fragment() {
         aBody.text = bundle.getString("body")
         articleAuthorName.text = bundle.getString("author")
 
-        // Annotation handler
-        aBody.customSelectionActionModeCallback = AnnotationsActionModeCallback(aBody, context)
-
         ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             val token = sp?.getString("token", "")
             val articleId = bundle.getString("articleId")
@@ -75,12 +72,6 @@ class ArticleDetailFragment : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
-
-    }
-
-    private fun switchToAnnotationMode(){
-        aBody.isTextSelectable.or(true)
-        // Get all annotations of the article/event and highlight them
 
     }
 
