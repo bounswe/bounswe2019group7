@@ -36,6 +36,9 @@ public class PredictionService {
 
     @Transactional
     public PredictionResource makePrediction(PredictionDto dto, UUID userId){
+        if(dto.getLowerBoundOfPredictedRate() > dto.getUpperBoundOfPredictedRate()){
+            throw new IllegalArgumentException(ErrorConstants.PREDICTION_INTERVAL_INVALID);
+        }
         Prediction prediction = PredictionMapper.dtoToEntity(dto, userId);
         predictionRepository.saveAndFlush(prediction);
         PredictionCountOfUser predictionCount = predictionCountRepository.findPredictionCountOfUserByUserId(userId);
@@ -47,7 +50,7 @@ public class PredictionService {
     @Transactional
     public void deletePrediction(UUID predictionId, UUID userId) throws IllegalAccessException {
         Prediction prediction = predictionRepository.findPredictionById(predictionId);
-        if(prediction.getPredictorId() != userId){
+        if(!prediction.getPredictorId().equals(userId)){
             throw new IllegalAccessException(ErrorConstants.CAN_NOT_DELETE_OTHER_USERS_PREDICTION);
         }
         if(prediction.getStatus() != PredictionStatus.future){

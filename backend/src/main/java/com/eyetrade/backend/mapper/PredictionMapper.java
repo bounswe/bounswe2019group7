@@ -74,4 +74,13 @@ public class PredictionMapper {
         return resource;
     }
 
+    public static PredictionCountOfUser createPredictionCount(UUID userId){
+        PredictionCountOfUser predictionCountOfUser = new PredictionCountOfUser();
+        predictionCountOfUser.setUserId(userId);
+        predictionCountOfUser.setSuccessCount(0);
+        predictionCountOfUser.setFailCount(0);
+        predictionCountOfUser.setFutureCount(0);
+        return predictionCountOfUser;
+    }
+
 }

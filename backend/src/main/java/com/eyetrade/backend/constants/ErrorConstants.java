@@ -31,4 +31,5 @@ public class ErrorConstants {
     public static final String SEARCH_TEXT_IS_WRONG = "Search text is wrong!";
     public static final String CAN_NOT_DELETE_OTHER_USERS_PREDICTION = "You can not delete another user's prediction!";
     public static final String CAN_NOT_DELETE_EVALUATED_PREDICTION = "You can not delete an evaluated prediction!";
+    public static final String PREDICTION_INTERVAL_INVALID = "The prediction interval is invalid!";
 }
