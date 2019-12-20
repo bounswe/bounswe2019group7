@@ -8,7 +8,9 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_currency_converter.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +24,7 @@ class CurrencyConverterFragment : Fragment() {
     private var rate: Double by Delegates.notNull<Double>()
     private var currency1 = "EUR"
     private var currency2 = "USD"
-    private val currencies = listOf("TRY", "EUR", "USD", "GBP", "JPY", "CNY")
+    private val currencies = listOf("TRY", "EUR", "USD", "GBP", "JPY", "CNY", "ETH", "BTC", "XRP", "LTC", "XMR")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_currency_converter, container, false)
