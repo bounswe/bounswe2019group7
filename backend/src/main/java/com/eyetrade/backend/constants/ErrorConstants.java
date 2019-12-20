@@ -29,4 +29,6 @@ public class ErrorConstants {
     public static final String PORTFOLIO_DOES_NOT_BELONG_TO_USER = "This portfolio does not belong to the user!";
     public static final String USER_IS_ALREADY_TRADER = "This user is already a trader user!";
     public static final String SEARCH_TEXT_IS_WRONG = "Search text is wrong!";
+    public static final String CAN_NOT_DELETE_OTHER_USERS_PREDICTION = "You can not delete another user's prediction!";
+    public static final String CAN_NOT_DELETE_EVALUATED_PREDICTION = "You can not delete an evaluated prediction!";
 }

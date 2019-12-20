@@ -10,6 +10,8 @@ import java.util.UUID;
 @Repository
 public interface PredictionRepository extends JpaRepository<Prediction, UUID> {
 
+    Prediction findPredictionById(UUID id);
+
     List<Prediction> findPredictionByTargetDayForPrediction(String targetDate);
 
     List<Prediction> findPredictionByPredictorId(UUID predictorId);

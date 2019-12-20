@@ -1,5 +1,7 @@
 package com.eyetrade.backend.service;
 
+import com.eyetrade.backend.constants.ErrorConstants;
+import com.eyetrade.backend.constants.PredictionStatus;
 import com.eyetrade.backend.mapper.PredictionMapper;
 import com.eyetrade.backend.model.dto.PredictionDto;
 import com.eyetrade.backend.model.entity.Prediction;
@@ -43,7 +45,14 @@ public class PredictionService {
     }
 
     @Transactional
-    public void deletePrediction(UUID predictionId, UUID userId){
+    public void deletePrediction(UUID predictionId, UUID userId) throws IllegalAccessException {
+        Prediction prediction = predictionRepository.findPredictionById(predictionId);
+        if(prediction.getPredictorId() != userId){
+            throw new IllegalAccessException(ErrorConstants.CAN_NOT_DELETE_OTHER_USERS_PREDICTION);
+        }
+        if(prediction.getStatus() != PredictionStatus.future){
+            throw new IllegalAccessException(ErrorConstants.CAN_NOT_DELETE_EVALUATED_PREDICTION);
+        }
         predictionRepository.deleteById(predictionId);
         PredictionCountOfUser predictionCount = predictionCountRepository.findPredictionCountOfUserByUserId(userId);
         predictionCount.setFutureCount(predictionCount.getFutureCount() - 1);
@@ -55,7 +64,13 @@ public class PredictionService {
     }
 
     public PredictionsResource getPredictionsOfUser(String email){
-        UUID userId = userRepository.findByEmail(email).getId();
+        UUID userId;
+        try{
+            userId = userRepository.findByEmail(email).getId();
+        }
+        catch (Exception e){
+            throw new IllegalArgumentException(ErrorConstants.USER_NOT_EXIST);
+        }
         return getPredictions(userId);
     }
 
