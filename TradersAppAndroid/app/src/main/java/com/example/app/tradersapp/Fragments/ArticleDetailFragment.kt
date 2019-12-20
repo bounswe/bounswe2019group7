@@ -50,7 +50,7 @@ class ArticleDetailFragment : Fragment() {
             if(addCommentEditText.text.isNullOrEmpty()){
                 Toast.makeText(
                     activity,
-                    "Write a comment before sending it!",
+                    "Write a comment to send it!",
                     Toast.LENGTH_SHORT
                 ).show()
             }

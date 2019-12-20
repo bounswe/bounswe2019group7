@@ -22,7 +22,7 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
 
     fun bind(item: CommentModel) {
         commentBody?.text = item.body
-        commentAuthorName?.text = "Comment Owner: \n" + item.authorName + " " + item.authorSurname
+        commentAuthorName?.text = item.authorName + " " + item.authorSurname
         commentChangeDate?.text = item.changeDate
     }
 
