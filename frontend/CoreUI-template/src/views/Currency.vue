@@ -73,12 +73,12 @@
       },
       methods: {
         convert: function(event) {
-            var input_value = document.getElementById("amount").value; 
+            var input = document.getElementById("amount").value; 
             var e = document.getElementById("from");
             var from = e.options[e.selectedIndex].text;
             var e2 = document.getElementById("to");
             var to = e2.options[e2.selectedIndex].text;
-            var params = "inputCurrencyType=" + from + "&outputCurrencyType=" + to + "&amount=" + input_value;
+            var params = "inputCurrencyType=" + from + "&outputCurrencyType=" + to + "&amount=" + input;
             var http = new XMLHttpRequest();
             http.open("GET", "http://100.26.202.213:8080/currency/convert"+"?"+params, true);
             http.setRequestHeader('inputCurrencyType', from);
@@ -103,14 +103,15 @@
 <style>
     #wrapper{
       display: block;
-      margin-top: 10%;;
-      margin-left: 25%;
-      margin-right: 25%;
+      margin-top: 8%;;
+      margin-left: 28%;
+      margin-right: 28%;
       width: 100%;
     }
     #empty-div{
+      text-align:center;
       display: block;
-      margin-bottom: 0.5cm;
+      margin-bottom: 0.45cm;
     }
     #convert-div{
         text-align:center;
