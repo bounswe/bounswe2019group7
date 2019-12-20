@@ -7,9 +7,8 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.support.v7.view.ActionMode
+import android.view.*
 import android.widget.Toast
 import com.example.app.tradersapp.*
 
@@ -40,6 +39,9 @@ class ArticleDetailFragment : Fragment() {
         aTitle.text = bundle.getString("title")
         aBody.text = bundle.getString("body")
         articleAuthorName.text = bundle.getString("author")
+
+        // Annotation handler
+        aBody.customSelectionActionModeCallback = AnnotationsActionModeCallback(aBody, context)
 
         ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
             val token = sp?.getString("token", "")
@@ -76,5 +78,10 @@ class ArticleDetailFragment : Fragment() {
 
     }
 
+    private fun switchToAnnotationMode(){
+        aBody.isTextSelectable.or(true)
+        // Get all annotations of the article/event and highlight them
+
+    }
 
 }

@@ -65,6 +65,7 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="32dp"
                 android:ellipsize="end"
+                android:textIsSelectable="true"
                 android:text="Event or article preview"
                 android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@id/articleAuthorName"
