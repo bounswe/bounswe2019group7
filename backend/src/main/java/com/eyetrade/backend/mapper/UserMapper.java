@@ -3,8 +3,10 @@ package com.eyetrade.backend.mapper;
 import com.eyetrade.backend.constants.PrivacyType;
 import com.eyetrade.backend.constants.Role;
 import com.eyetrade.backend.model.dto.user.TraderUserDto;
+import com.eyetrade.backend.model.entity.PredictionCountOfUser;
 import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.dto.user.BasicUserDto;
+import com.eyetrade.backend.model.resource.prediction.PredictionCountResource;
 import com.eyetrade.backend.model.resource.user.CompleteUserResource;
 import com.eyetrade.backend.model.resource.user.MinimalUserResource;
 import com.eyetrade.backend.model.resource.user.PartialUserResource;
@@ -51,7 +53,7 @@ public class UserMapper {
         return resource;
     }
 
-    public static PartialUserResource entityToPartialUserResource(User user, long followerCount, long followingCount){
+    public static PartialUserResource entityToPartialUserResource(User user, long followerCount, long followingCount, PredictionCountOfUser predictionCount){
         PartialUserResource resource = new PartialUserResource();
         resource.setId(user.getId());
         resource.setEmail(user.getEmail());
@@ -65,10 +67,11 @@ public class UserMapper {
         resource.setRole(user.getRole());
         resource.setFollowerCount(followerCount);
         resource.setFollowingCount(followingCount);
+        resource.setPredictionCount(PredictionMapper.predictionCountToResource(predictionCount));
         return resource;
     }
 
-    public static CompleteUserResource entityToCompleteUserResource(User user, long followerCount, long followingCount){
+    public static CompleteUserResource entityToCompleteUserResource(User user, long followerCount, long followingCount, PredictionCountOfUser predictionCount){
         CompleteUserResource resource = new CompleteUserResource();
         resource.setId(user.getId());
         resource.setEmail(user.getEmail());
@@ -82,6 +85,7 @@ public class UserMapper {
         resource.setRole(user.getRole());
         resource.setFollowerCount(followerCount);
         resource.setFollowingCount(followingCount);
+        resource.setPredictionCount(PredictionMapper.predictionCountToResource(predictionCount));
 
         resource.setPhone(user.getPhone());
         resource.setPrivacyType(user.getPrivacyType());

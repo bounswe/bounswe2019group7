@@ -4,6 +4,8 @@ import com.eyetrade.backend.constants.GeneralConstants;
 import com.eyetrade.backend.constants.PredictionStatus;
 import com.eyetrade.backend.model.dto.PredictionDto;
 import com.eyetrade.backend.model.entity.Prediction;
+import com.eyetrade.backend.model.entity.PredictionCountOfUser;
+import com.eyetrade.backend.model.resource.prediction.PredictionCountResource;
 import com.eyetrade.backend.model.resource.prediction.PredictionResource;
 import com.eyetrade.backend.model.resource.prediction.PredictionsResource;
 import com.eyetrade.backend.utils.DateUtils;
@@ -61,6 +63,15 @@ public class PredictionMapper {
         predictionsObject.setFailedPredictions(failedPredictions);
         predictionsObject.setFuturePredictions(futurePredictions);
         return predictionsObject;
+    }
+
+    public static PredictionCountResource predictionCountToResource(PredictionCountOfUser predictionCount){
+        PredictionCountResource resource = new PredictionCountResource();
+        resource.setSuccessCount(predictionCount.getSuccessCount());
+        resource.setFailCount(predictionCount.getFailCount());
+        resource.setFutureCount(predictionCount.getFutureCount());
+        resource.setTotalCount(predictionCount.getSuccessCount() + predictionCount.getFailCount() + predictionCount.getFutureCount());
+        return resource;
     }
 
 }
