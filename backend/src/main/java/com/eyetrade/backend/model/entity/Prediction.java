@@ -1,6 +1,7 @@
 package com.eyetrade.backend.model.entity;
 
 import com.eyetrade.backend.constants.CurrencyType;
+import com.eyetrade.backend.constants.PredictionStatus;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -38,15 +39,19 @@ public class Prediction {
     private double upperBoundOfPredictedRate;
 
     @NotNull
-    @Column(name = "first_currency_type")
-    private CurrencyType firstCurrencyType;
+    @Column(name = "dividend_currency_type")
+    private CurrencyType dividendCurrencyType;
 
     @NotNull
-    @Column(name = "second_currency_type")
-    private CurrencyType secondCurrencyType;
+    @Column(name = "divisor_currency_type")
+    private CurrencyType divisorCurrencyType;
 
     @NotNull
     @Column(name = "prediction_date")
     private String predictionDate;
+
+    @NotNull
+    @Column(name = "status")
+    private PredictionStatus status;
 
 }
