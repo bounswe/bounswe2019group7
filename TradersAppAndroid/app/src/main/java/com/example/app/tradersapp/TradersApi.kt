@@ -157,6 +157,36 @@ interface ApiInterface {
         @Header("Authorization") token: String?
     ): retrofit2.Call<AnnotationListResponse>
 
+
+    // Requests related to comments
+    @DELETE("comment_controller/delete_comment")
+    fun deleteComment(
+        @Header("Authorization") token: String?,
+        @Query("articleOrEventId") articleOrEventId: String
+    )
+
+    @GET("comment_controller/get_comment")
+    fun getComment(
+        @Header("Authorization") token: String?,
+        @Query("commentId") commentId: String
+    ): retrofit2.Call<CommentResponse>
+
+    @GET("comment_controller/get_comments_of_article")
+    fun getAllCommentsOfArticleOrEvent(
+        @Header("Authorization") token: String?,
+        @Query("articleOrEventId") articleOrEventId: String
+    ): retrofit2.Call<List<CommentResponse>>
+
+    @GET("comment_controller/get_comments_of_user")
+    fun getSelfComments(
+        @Header("Authorization") token: String?
+    ): retrofit2.Call<CommentListResponse>
+
+    @POST("comment_controller/post_comment")
+    fun addComment(
+        @Header("Authorization") token: String?,
+        @Body info: CommentInformation
+    ): retrofit2.Call<CommentResponse>
 }
 
 data class BasicUserInformation(
@@ -284,7 +314,8 @@ data class EventResponse(
 data class MinimalUserResponse(
     val email: String,
     val name: String,
-    val surname: String
+    val surname: String,
+    val id: String?
 )
 
 data class HomeFeedResponse(
@@ -292,6 +323,27 @@ data class HomeFeedResponse(
     val suggestedEvents: ArrayList<EventResponse>,
     val suggestedArticles: ArrayList<ArticleResponse>
 
+)
+
+data class CommentResponse(
+    val articleEventId: String,
+    val commentType: String,
+    val content: String,
+    val createdDate: String,
+    val id: String,
+    @SerializedName("minimalUserResource")
+    val userInfo: MinimalUserResponse
+)
+
+data class CommentListResponse(
+    val comments: ArrayList<CommentResponse>
+)
+
+data class CommentInformation(
+    val articleEventId: String,
+    val commentType: String,
+    val content: String,
+    val title: String
 )
 
 data class AnnotationInformation(

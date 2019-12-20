@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".Fragments.CryptocurrenciesFragment">
+
+    <TextView
+            android:id="@+id/baseCurrencyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="32dp"
+            android:gravity="center"
+            android:text="Select a parity"
+            android:textColor="@color/White"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <LinearLayout
+            android:id="@+id/linearContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/baseCurrencyText">
+
+        <RadioGroup
+                android:id="@+id/baseCurrencyRadioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:checkedButton="@id/btcRb">
+            <RadioButton
+                    android:id="@+id/btcRb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button"
+                    android:button="@null"
+                    android:text="@string/currency_btc"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+            <RadioButton
+                    android:id="@+id/ethRb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button_transparent"
+                    android:button="@null"
+                    android:text="@string/currency_eth"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+            <RadioButton
+                    android:id="@+id/xrpRb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button_transparent"
+                    android:button="@null"
+                    android:text="@string/currency_xrp"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+            <RadioButton
+                    android:id="@+id/ltcRb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button_transparent"
+                    android:button="@null"
+                    android:text="@string/currency_ltc"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+            <RadioButton
+                    android:id="@+id/xmrRb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button_transparent"
+                    android:button="@null"
+                    android:text="@string/currency_xmr"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+        </RadioGroup>
+
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:textStyle="bold"
+                android:src="@drawable/arrow_white_24dp"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+
+        <RadioGroup
+                android:id="@+id/targetCurrencyRadioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:checkedButton="@id/ethRb2">
+
+            <RadioButton
+                    android:id="@+id/btcRb2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button_transparent"
+                    android:button="@null"
+                    android:text="@string/currency_btc"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+            <RadioButton
+                    android:id="@+id/ethRb2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button"
+                    android:button="@null"
+                    android:text="@string/currency_eth"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+            <RadioButton
+                    android:id="@+id/xrpRb2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button_transparent"
+                    android:button="@null"
+                    android:text="@string/currency_xrp"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+            <RadioButton
+                    android:id="@+id/ltcRb2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button_transparent"
+                    android:button="@null"
+                    android:text="@string/currency_ltc"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+            <RadioButton
+                    android:id="@+id/xmrRb2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@drawable/round_button_transparent"
+                    android:button="@null"
+                    android:text="@string/currency_xmr"
+                    android:textAlignment="center"
+                    android:textSize="18sp"/>
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+
+
+    <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="30dp" app:layout_constraintTop_toBottomOf="@id/linearContainer">
+
+    </com.github.mikephil.charting.charts.LineChart>
+
+</android.support.constraint.ConstraintLayout>

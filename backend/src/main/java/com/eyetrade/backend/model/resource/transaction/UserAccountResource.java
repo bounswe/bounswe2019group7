@@ -32,4 +32,14 @@ public class UserAccountResource {
     private Double jpyAmount;
 
     private Double gbpAmount;
+
+    private Double bitcoinAmount; // BTC
+
+    private Double ethereumAmount; // ETH
+
+    private Double rippleAmount; // XRP
+
+    private Double litecoinAmount; // LTC
+
+    private Double moneroAmount;
 }

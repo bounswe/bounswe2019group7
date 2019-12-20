@@ -23,6 +23,13 @@
     <string name="currency_jpy">JPY</string>
     <string name="currency_cny">CNY</string>
 
+    <!-- Cryptocurrency names -->
+    <string name="currency_btc">BTC</string>
+    <string name="currency_eth">ETH</string>
+    <string name="currency_xrp">XRP</string>
+    <string name="currency_ltc">LTC</string>
+    <string name="currency_xmr">XMR</string>
+
     <!-- Tab titles -->
     <string name="articles_title">ARTICLES</string>
     <string name="my_articles_title">MY ARTICLES</string>

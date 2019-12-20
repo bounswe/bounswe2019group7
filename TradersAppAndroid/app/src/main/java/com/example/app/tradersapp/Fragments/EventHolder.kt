@@ -30,6 +30,7 @@ class EventHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.Vie
 }
 
 data class EventModel(
+     val eventId: String,
      val image: Int,
      val title: String,
      val body: String

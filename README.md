@@ -17,7 +17,7 @@ This is the project repository of group 7 for CmpE352 course. Check out our [wik
 
 Oğuzhan Kırlar
 
-[Alihan Çelikcan](https://github.com/bounswe/bounswe2019group7/wiki/Alihan-Çelikcan) 
+[Alihan Çelikcan(Communicator)](https://github.com/bounswe/bounswe2019group7/wiki/Alihan-Çelikcan) 
 
 [Alican Şafak Özdek](https://github.com/bounswe/bounswe2019group7/wiki/Alican-Şafak-Özdek)
 
@@ -27,7 +27,7 @@ Mehmet Hakan Kurtoğlu
 
 [Kemal Duru](https://github.com/bounswe/bounswe2019group7/wiki/Kemal-Duru)
 
-
+## Former Members
 
 [Ahmet Emir Kocaağa](https://github.com/bounswe/bounswe2019group7/wiki/Ahmet-Emir-Kocaağa)
 
