@@ -16,16 +16,26 @@
                     <option value="price2">GBP</option>
                     <option value="price3">USD</option>
                     <option value="price4">TRY</option>
+                    <option value="price5">BTC</option>
+                    <option value="price6">ETH</option>
+                    <option value="price7">XRP</option>
+                    <option value="price8">LTC</option>
+                    <option value="price9">XMR</option>
                 </select>
               </div>
               <div id="empty-div"> </div>
               <div> 
                 <label>To:</label>
                 <select id="to" class="form-control">
-                    <option value="price5">EUR</option>
-                    <option value="price6">GBP</option>
-                    <option value="price7">USD</option>
-                    <option value="price8">TRY</option>
+                    <option value="price11">EUR</option>
+                    <option value="price12">GBP</option>
+                    <option value="price13">USD</option>
+                    <option value="price14">TRY</option>
+                    <option value="price15">BTC</option>
+                    <option value="price16">ETH</option>
+                    <option value="price17">XRP</option>
+                    <option value="price18">LTC</option>
+                    <option value="price19">XMR</option>
                 </select>
               </div>
               <div id="empty-div"> </div>
