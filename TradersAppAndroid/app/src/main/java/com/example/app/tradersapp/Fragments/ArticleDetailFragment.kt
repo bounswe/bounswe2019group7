@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.example.app.tradersapp.*
 import kotlinx.android.synthetic.main.fragment_article_detail.*
@@ -74,13 +75,13 @@ class ArticleDetailFragment : Fragment() {
                             "Your comment has been saved successfully.",
                             Toast.LENGTH_SHORT
                         ).show()
+                        addCommentEditText.hideKeyboard()
                         addCommentEditText.text = null
                         getComments(token, articleId)
                     }
                 })
             }
-            }
-
+        }
 
         ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
 
@@ -115,6 +116,12 @@ class ArticleDetailFragment : Fragment() {
         }
         getComments(token, articleId)
     }
+
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
 
     private fun getComments(token: String?, articleId: String){
         retrofitService.getAllCommentsOfArticleOrEvent(token, articleId).enqueue(object: Callback<List<CommentResponse>>{

@@ -53,6 +53,8 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:id="@+id/addCommentHolder2"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@id/eBody"
@@ -74,6 +76,10 @@
         <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:id="@+id/rvComments2"
                 tools:listitem="@layout/comment_recycler_item"
                 app:layout_constraintTop_toBottomOf="@id/addCommentHolder2"

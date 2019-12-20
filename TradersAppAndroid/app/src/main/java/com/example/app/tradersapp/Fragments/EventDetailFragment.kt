@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.example.app.tradersapp.*
 
@@ -72,12 +73,20 @@ class EventDetailFragment : Fragment() {
                             "Your comment has been saved successfully.",
                             Toast.LENGTH_SHORT
                         ).show()
+                        addCommentEditText2.hideKeyboard()
+                        addCommentEditText2.text = null
                         getComments(token, eventId)
                     }
                 })
             }
         }
         getComments(token, eventId)
+
+    }
+
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
     }
 
     private fun getComments(token: String?, articleId: String){
@@ -89,7 +98,7 @@ class EventDetailFragment : Fragment() {
 
             override fun onResponse(call: Call<List<CommentResponse>>, response: Response<List<CommentResponse>>) {
                 allComments = response.body()?.map {
-                    CommentModel(it.articleEventId, it.content, it.createdDate, it.createdDate, it.createdDate, it.id)
+                    CommentModel(it.articleEventId, it.content, it.userInfo.name, it.userInfo.surname, it.createdDate, it.id)
                 }?: emptyList()
 
                 rvComments2.apply {
