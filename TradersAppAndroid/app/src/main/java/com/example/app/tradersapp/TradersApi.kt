@@ -150,12 +150,12 @@ interface ApiInterface {
     fun getAllAnnotationsOfArticleOrEvent(
         @Query("annotationType") annotationType: String,
         @Query("articleEventId") articleEventId: String
-    ): retrofit2.Call<AnnotationListResponse>
+    ): retrofit2.Call<List<AnnotationResponse>>
 
     @GET("annotation/get_annotations_of_self")
     fun getSelfAnnotations(
         @Header("Authorization") token: String?
-    ): retrofit2.Call<AnnotationListResponse>
+    ): retrofit2.Call<List<AnnotationResponse>>
 
 
     // Requests related to comments
@@ -360,7 +360,7 @@ data class AnnotationResponse(
     val content: String,
     val firstChar: Int,
     val lastChar: Int,
-    val id: Int,
+    val id: String,
     val user: AnnotationUserModel
 
 )
@@ -373,5 +373,5 @@ data class AnnotationUserModel(
 )
 
 data class AnnotationListResponse(
-    val annotations: ArrayList<AnnotationResponse>
+    val annotations: List<AnnotationResponse>
 )

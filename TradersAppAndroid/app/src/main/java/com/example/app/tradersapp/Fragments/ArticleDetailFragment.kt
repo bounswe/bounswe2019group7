@@ -3,12 +3,16 @@ package com.example.app.tradersapp.Fragments
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +31,8 @@ class ArticleDetailFragment : Fragment() {
     private val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
     private var sp: SharedPreferences? = null
     private var allComments: List<CommentModel> = emptyList()
+    private var allAnnotations: List<AnnotationResponse> = emptyList()
+    private var isInAnnotationMode = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +52,21 @@ class ArticleDetailFragment : Fragment() {
         articleAuthorName.text = bundle.getString("author")
         val token = sp?.getString("token", "")
         val articleId = bundle.getString("articleId")
+
+        aBody.customSelectionActionModeCallback = AnnotationsActionModeCallback(aBody, context, token, retrofitService, articleId)
+
+        showAnnotationsButton.setOnClickListener {
+            if(isInAnnotationMode){
+                aBody.isTextSelectable.and(false)
+                showAnnotationsButton.text = "SWITCH TO ANNOTATION MODE"
+                isInAnnotationMode = false
+            }
+            else{
+                showAnnotationsButton.text = "SWITCH TO READING MODE"
+                switchToAnnotationMode(articleId)
+                isInAnnotationMode = true
+            }
+        }
 
         addCommentButton.setOnClickListener {
             if(addCommentEditText.text.isNullOrEmpty()){
@@ -140,6 +161,35 @@ class ArticleDetailFragment : Fragment() {
                     addItemDecoration(DividerItemDecoration(rvComments.context, LinearLayoutManager.VERTICAL))
                 }
 
+            }
+
+        })
+
+    }
+    private fun switchToAnnotationMode(articleId: String){
+        aBody.isTextSelectable.or(true)
+        // Get all annotations and highlight the text accordingly.
+        getAllAnnotations(articleId)
+
+    }
+
+    private fun highlightText(startIndex: Int, endIndex: Int){
+        val textToSpan: Spannable = SpannableString(aBody.text)
+        textToSpan.setSpan(ForegroundColorSpan(Color.YELLOW), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        aBody.text = textToSpan
+    }
+
+    private fun getAllAnnotations(articleId: String){
+        retrofitService.getAllAnnotationsOfArticleOrEvent("Article", articleId).enqueue(object: Callback<List<AnnotationResponse>>{
+            override fun onFailure(call: Call<List<AnnotationResponse>>, t: Throwable) {
+                EyeTradeUtils.toastErrorMessage(context!!, t)
+            }
+
+            override fun onResponse(call: Call<List<AnnotationResponse>>, response: Response<List<AnnotationResponse>>) {
+                allAnnotations = response.body() ?: emptyList()
+                for(annotation in allAnnotations){
+                    highlightText(annotation.firstChar, annotation.lastChar)
+                }
             }
 
         })
