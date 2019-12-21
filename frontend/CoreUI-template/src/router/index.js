@@ -17,6 +17,8 @@ const Articles = () => import("@/views/Articles");
 const Article = () => import("@/views/Article");
 const ArticleForm = () => import("@/views/ArticleForm");
 const Portfolios = () => import("@/views/Portfolios");
+const Predictions = () => import("@/views/Predictions");
+const OtherPredictions = () => import("@/views/OtherPredictions");
 
 const Colors = () => import("@/views/theme/Colors");
 const Typography = () => import("@/views/theme/Typography");
@@ -138,6 +140,16 @@ function configRoutes() {
           path: "portfolios",
           name: "Portfolios",
           component: Portfolios
+        },
+        {
+          path: "predictions",
+          name: "Predictions",
+          component: Predictions
+        },
+        {
+          path: "otherPredictions/:email?",
+          name: "OtherPredictions",
+          component: OtherPredictions
         },
         {
           path: "theme",
