@@ -28,6 +28,12 @@ export default {
       attributes: { disabled: false }
     },
     {
+      name: "My Predictions",
+      url: "predictions",
+      icon: "icon-graph",
+      attributes: { disabled: false }
+    },
+    {
       name: "Trade Indicies",
       url: "",
       icon: "fa fa-money",
