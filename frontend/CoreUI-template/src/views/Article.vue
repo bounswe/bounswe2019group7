@@ -20,9 +20,12 @@
           </div>
           <div class="row">
             Author:
-            <p style="color:grey">
-              {{ item.authorName }} {{ item.authorSurname }}
-            </p>
+            <router-link
+              :to="{
+                path:'/profilePage/' + item.authorEmail
+              }"
+              >{{ item.authorName }} {{ item.authorSurname }}<br></br></router-link
+            >
           </div>
           <div class="row">
             Author Email:
@@ -53,9 +56,23 @@
           </div>
           <b-card v-for="comment in comments">
             <div slot="header">
-             {{comment.title}}
+              <router-link
+                :to="{
+                  path: '/profilePage/' + comment.minimalUserResource.email
+                }"
+                v-if="!ableToDeleteComment(comment.minimalUserResource.id)"
+                >{{comment.minimalUserResource.name}} {{comment.minimalUserResource.surname}}</router-link
+              >
+              <router-link
+                :to="{
+                  path: '/profilePage/'
+                }"
+                v-if="ableToDeleteComment(comment.minimalUserResource.id)"
+                >{{comment.minimalUserResource.name}} {{comment.minimalUserResource.surname}}</router-link
+              >
              <div class="card-header-actions">
                <b-badge  variant="success">{{comment.createdDate}}</b-badge>
+                 <b-button v-on:click="deleteComment(comment.id)"  v-if="ableToDeleteComment(comment.minimalUserResource.id)" variant="danger" style="margin-left:5px">Delete</b-button>
              </div>
             </div>
             <p style="color:grey">{{comment.content}}</p>
@@ -181,7 +198,6 @@ export default {
         articleEventId:this.item.uuid,
         commentType: "Article",
         content: this.form.contentComment,
-        title: this.user.name+" "+this.user.surname
       },
       {
         headers: {
@@ -197,6 +213,33 @@ export default {
           this.isDisabled = false;
         }
       })
+    },
+    "deleteComment": function deleteComment(commentID) {
+      this.$http
+      .delete('/comment_controller/delete_comment',
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+        params: {
+          articleOrEventId  : commentID,
+        }
+      }
+      )
+      .then(response => {
+        if(response.status == 200){
+          location.reload();
+        }
+        else{
+          this.errors = [`An error occurred.`];
+          this.isDisabled = false;
+        }
+      })
+
+    },
+    "ableToDeleteComment": function teableToDeleteCommentst(ownerID){
+      return (ownerID==this.user.id);
+
     }
   }
 };
