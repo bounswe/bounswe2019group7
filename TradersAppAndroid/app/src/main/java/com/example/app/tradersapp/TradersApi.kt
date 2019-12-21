@@ -139,7 +139,7 @@ interface ApiInterface {
     fun deleteAnnotation(
         @Header("Authorization") token: String?,
         @Query("annotationId") annotationId: String
-    )
+    ): retrofit2.Call<ResponseBody>
 
     @GET("annotation/get")
     fun getAnnotationById(

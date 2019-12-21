@@ -16,14 +16,17 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.PopupWindow
 import android.widget.Toast
 import com.example.app.tradersapp.*
 import kotlinx.android.synthetic.main.fragment_article_detail.*
 import kotlinx.android.synthetic.main.fragment_article_detail.view.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +40,7 @@ class ArticleDetailFragment : Fragment() {
     private var allAnnotations: List<AnnotationResponse> = emptyList()
     private var isInAnnotationMode = false
     private var isInSelfAnnotationMode = false
+    private var articleId: String = ""
 
     private var body: String = ""
 
@@ -58,7 +62,7 @@ class ArticleDetailFragment : Fragment() {
         aBody.text = body
         articleAuthorName.text = bundle.getString("author")
         val token = sp?.getString("token", "")
-        val articleId = bundle.getString("articleId")
+        articleId = bundle.getString("articleId")
 
         aBody.customSelectionActionModeCallback = AnnotationsActionModeCallback(
             aBody, context, token, retrofitService, articleId, annotationBody = addCommentEditText, allAnnotations = allAnnotations)
@@ -218,7 +222,7 @@ class ArticleDetailFragment : Fragment() {
                 else{
                     for(annotation in allAnnotations){
                         if(startIndex == annotation.firstChar){
-                            
+                            deleteAnnotation(annotation.id)
                         }
                     }
 
@@ -226,7 +230,9 @@ class ArticleDetailFragment : Fragment() {
             }
         }
         textToSpan.setSpan(clickableSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        textToSpan.setSpan(ForegroundColorSpan(Color.YELLOW), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        if(!isInSelfAnnotationMode){
+            textToSpan.setSpan(ForegroundColorSpan(Color.YELLOW), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
 
         aBody.text = textToSpan
         aBody.movementMethod = LinkMovementMethod.getInstance()
@@ -243,6 +249,7 @@ class ArticleDetailFragment : Fragment() {
             }
 
             override fun onResponse(call: Call<List<AnnotationResponse>>, response: Response<List<AnnotationResponse>>) {
+                revertHighlightText()
                 allAnnotations = response.body() ?: emptyList()
                 for(annotation in allAnnotations){
                     highlightText(annotation.firstChar, annotation.lastChar)
@@ -269,4 +276,30 @@ class ArticleDetailFragment : Fragment() {
 
         })
     }
+
+    private fun deleteAnnotation(annotationId: String){
+        retrofitService.deleteAnnotation(sp?.getString("token", ""), annotationId).enqueue(object: Callback<ResponseBody>{
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                EyeTradeUtils.toastErrorMessage(activity as Context, t)
+            }
+
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                Toast.makeText(
+                    context,
+                    "Annotation is successfully deleted",
+                    Toast.LENGTH_LONG
+                ).show()
+                getAllAnnotations(articleId)
+            }
+
+        })
+    }
+
+   /* private fun openPopup(){
+        val inflater: LayoutInflater = activity?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView: View = inflater.inflate(R.layout.popup_window, null)
+
+        val popupWindow = PopupWindow(popupView)
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+    } */
 }
