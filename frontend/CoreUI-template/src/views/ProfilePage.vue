@@ -38,7 +38,7 @@
               </b-card>
               <router-link
                 :to="{
-                  path: './portfolios'
+                  path: '/portfolios'
                 }"
               >
                 <b-button
@@ -48,14 +48,29 @@
                   >{{portfolio}}</b-button
                 >
               </router-link>
-              <b-button size="lg" variant="primary" v-if="seen" block
-                >Create an Alarm</b-button
+
+              <router-link
+                :to="{
+                  path: '/otherPredictions/'+ item.email
+                }"
               >
+                <b-button
+                  size="lg"
+                  v-if="seen"
+                  variant="primary"
+                  style="margin-top:5px"
+                  block
+                  >Predictions</b-button
+                >
+              </router-link>
+
             </b-col>
             <b-col sm="4">
-              <b-button size="lg" variant="primary" v-if="seen" block
+              <b-button v-on:click="followUser(item.email)" v-if="seen" size="md" variant="primary" block
                 >Follow</b-button
               >
+              <b-button v-on:click="unfollowUser(item.email)" v-if="seen" size="md" variant="danger" block
+                >Unfollow</b-button>
               <br />
               <div class="brand-card" id="followersCard">
                 <div class="brand-card-header bg-twitter">
@@ -69,11 +84,29 @@
                 <div class="brand-card-body">
                   <div>
                     <div class="text-value">{{ item.followerCount }}</div>
-                    <div class="text-uppercase text-muted small">Followers</div>
+                    <div class="d-flex flex-column text-md-center">
+                      <div>
+                        <b-btn v-on:click="getFollowers(item.email)"  id="popoverButton-sync" variant="primary" >Followers</b-btn>
+                      </div>
+                      <div class="p-2">
+                        <b-popover placement="bottom" show.sync="show" target="popoverButton-sync" title="Followers">
+                          <strong v-for="item in this.usersFollowers">{{item.name}} {{item.surname}} <br></br></strong>
+                        </b-popover>
+                      </div>
+                    </div>
                   </div>
                   <div>
                     <div class="text-value">{{ item.followingCount }}</div>
-                    <div class="text-uppercase text-muted small">Following</div>
+                    <div class="d-flex flex-column text-md-center">
+                      <div>
+                        <b-btn v-on:click="getFollowings(item.email)"  id="popoverButton-sync2" variant="primary" >Followings</b-btn>
+                      </div>
+                      <div class="p-2">
+                        <b-popover placement="bottom" show.sync="getFollowings" target="popoverButton-sync2" title="Followings">
+                          <strong v-for="item in this.usersFollowings">{{item.name}} {{item.surname}} <br></br></strong>
+                        </b-popover>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -139,6 +172,7 @@
       </b-card>
     </b-row>
   </div>
+
 </template>
 
 <script>
@@ -167,7 +201,11 @@ export default {
       articleButton: false,
       articles: [],
       seenTop: true,
-      seenAll: false
+      seenAll: false,
+      usersFollowers:[],
+      usersFollowings:[],
+      show: false
+
     };
   },
   components: {
@@ -242,9 +280,87 @@ export default {
             }
           );
       }
+    },
+    followUser(email) {
+      this.$http
+      .post('/user_following/follow',
+      {},
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          followingUserEmail :email
+        }
+      }
+      )
+      .then(response => {
+        if(response.status == 200){
+          location.reload();
+        }else{
+          this.errors = [`An error occurred.`];
+          this.isDisabled = false;
+        }
+      })
+    },
+    unfollowUser(email) {
+      this.$http
+      .delete('/user_following/unfollow',
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          followingUserEmail :email
+        }
+      }
+      )
+      .then(response => {
+        if(response.status == 200){
+          location.reload();
+        }else{
+          this.errors = [`An error occurred.`];
+          this.isDisabled = false;
+        }
+      })
+    },
+    getFollowers(mail){
+      this.$http
+      .get('/user_following/get_followers',
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          otherUserEmail: mail
+        }
+      }
+      )
+      .then(response => {
+        if(response.status == 200){
+          this.usersFollowers=response.data;
+        }else{
+          this.errors = [`An error occurred.`];
+          this.isDisabled = false;
+        }
+      })
+    },
+    getFollowings(mail){
+      this.$http
+      .get('/user_following/get_followings',
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          otherUserEmail: mail
+        }
+      }
+      )
+      .then(response => {
+        if(response.status == 200){
+          this.usersFollowings=response.data;
+        }else{
+          this.errors = [`An error occurred.`];
+          this.isDisabled = false;
+        }
+      })
     }
+
   },
-  mounted() {
+   mounted() {
     if (this.$route.params.email == null) {
       this.seen = !this.seen;
       this.portfolio = "My Portfolio";
@@ -258,11 +374,7 @@ export default {
         .then(
           response => {
             this.item = response.data;
-            if (this.item.role == "BASIC_USER") {
-              this.item.role = "BASIC USER";
-            } else {
-              this.item.role = "TRADER";
-            }
+
           },
           error => {
             console.log("eerror");
@@ -293,11 +405,6 @@ export default {
         .then(
           response => {
             this.item = response.data;
-            if (this.item.role == "BASIC_USER") {
-              this.item.role = "BASIC USER";
-            } else {
-              this.item.role = "TRADER";
-            }
           },
           error => {
             console.log("eerror");
@@ -318,7 +425,6 @@ export default {
         );
     }
     let user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
   }
 };
 </script>
