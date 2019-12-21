@@ -20,9 +20,7 @@
           </div>
           <div class="row">
             Author:
-            <p style="color:grey">
-              {{ item.authorName }} {{ item.authorSurname }}
-            </p>
+            <p style="color:grey">{{ item.authorName }} {{ item.authorSurname }}</p>
           </div>
           <div class="row">
             Author Email:
