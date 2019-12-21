@@ -36,6 +36,7 @@ class ArticleDetailFragment : Fragment() {
     private var allComments: List<CommentModel> = emptyList()
     private var allAnnotations: List<AnnotationResponse> = emptyList()
     private var isInAnnotationMode = false
+    private var isInSelfAnnotationMode = false
 
     private var body: String = ""
 
@@ -59,8 +60,6 @@ class ArticleDetailFragment : Fragment() {
         val token = sp?.getString("token", "")
         val articleId = bundle.getString("articleId")
 
-        showAnnotationContentsWhenLongPressed()
-
         aBody.customSelectionActionModeCallback = AnnotationsActionModeCallback(
             aBody, context, token, retrofitService, articleId, annotationBody = addCommentEditText, allAnnotations = allAnnotations)
 
@@ -71,6 +70,11 @@ class ArticleDetailFragment : Fragment() {
             else{
                 switchToAnnotationMode(articleId)
             }
+        }
+
+        myAnnotationsButton.setOnClickListener {
+            isInSelfAnnotationMode = true
+            getSelfAnnotationsInArticleOrEvent(articleId)
         }
 
         addCommentButton.setOnClickListener {
@@ -172,6 +176,7 @@ class ArticleDetailFragment : Fragment() {
 
     }
     private fun switchToReadingMode(){
+        isInSelfAnnotationMode = false
         aBody.setTextIsSelectable(false)
         showAnnotationsButton.text = "SWITCH TO ANNOTATION MODE"
         isInAnnotationMode = false
@@ -181,6 +186,7 @@ class ArticleDetailFragment : Fragment() {
         addCommentEditText.hint = "Write your comment here"
     }
     private fun switchToAnnotationMode(articleId: String){
+        isInSelfAnnotationMode = false
         isInAnnotationMode = true
         showAnnotationsButton.text = "SWITCH TO READING MODE"
         getAllAnnotations(articleId)   // Get all annotations and highlight the text accordingly.
@@ -193,21 +199,30 @@ class ArticleDetailFragment : Fragment() {
 
     private fun highlightText(startIndex: Int, endIndex: Int){
         val textToSpan: Spannable = SpannableString(aBody.text)
-        textToSpan.setSpan(ForegroundColorSpan(Color.YELLOW), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         val clickableSpan = object : ClickableSpan(){
             override fun onClick(widget: View) {
-                var annotationContent = ""
-                for(annotation in allAnnotations){
-                    if(startIndex == annotation.firstChar){
-                        annotationContent += "\n" + annotation.user.name + " " + annotation.user.surname + ": " + annotation.content + "\n"
+                if(!isInSelfAnnotationMode){
+                    var annotationContent = ""
+                    for(annotation in allAnnotations){
+                        if(startIndex == annotation.firstChar){
+                            annotationContent += "\n" + annotation.user.name + " " + annotation.user.surname + ": " + annotation.content + "\n"
+                        }
                     }
-                }
 
-                Toast.makeText(
-                    context,
-                    annotationContent,
-                    Toast.LENGTH_LONG
-                ).show()
+                    Toast.makeText(
+                        context,
+                        annotationContent,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                else{
+                    for(annotation in allAnnotations){
+                        if(startIndex == annotation.firstChar){
+                            
+                        }
+                    }
+
+                }
             }
         }
         textToSpan.setSpan(clickableSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -237,21 +252,21 @@ class ArticleDetailFragment : Fragment() {
         })
     }
 
-    private fun showAnnotationContentsWhenLongPressed(){
-        val ss: SpannableString = SpannableString(aBody.text.toString())
-        val clickableSpan = object : ClickableSpan(){
-            override fun onClick(widget: View) {
-                Toast.makeText(
-                    context,
-                    "ANNOTATED STRING IS CLICKED",
-                    Toast.LENGTH_SHORT
-                ).show()
+    private fun getSelfAnnotationsInArticleOrEvent(articleId: String){
+        retrofitService.getSelfAnnotations(sp?.getString("token", "")).enqueue(object: Callback<List<AnnotationResponse>>{
+            override fun onFailure(call: Call<List<AnnotationResponse>>, t: Throwable) {
+                EyeTradeUtils.toastErrorMessage(context!!, t)
             }
-        }
-        for(annotation in allAnnotations){
-            ss.setSpan(clickableSpan, annotation.firstChar, annotation.lastChar, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
-        aBody.text = ss
-    }
 
+            override fun onResponse(call: Call<List<AnnotationResponse>>, response: Response<List<AnnotationResponse>>) {
+                val selfAnnotations = response.body() ?: emptyList()
+                for(annotation in selfAnnotations){
+                    if(annotation.articleEventId == articleId){
+                        highlightText(annotation.firstChar, annotation.lastChar)
+                    }
+                }
+            }
+
+        })
+    }
 }
