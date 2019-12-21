@@ -57,7 +57,7 @@
 
         <Button
                 android:id="@+id/showAnnotationsButton"
-                android:text="SHOW ANNOTATIONS"
+                android:text="SWITCH TO ANNOTATION MODE"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:layout_width="wrap_content"
@@ -77,7 +77,8 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="32dp"
                 android:ellipsize="end"
-                android:textIsSelectable="true"
+                android:textIsSelectable="false"
+                android:clickable="true"
                 android:text="Event or article preview"
                 android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@id/articleAuthorName"
@@ -99,7 +100,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/addCommentEditText"
-                        android:layout_weight="1"/>
+                        android:hint="Write your comment here"
+                        android:layout_weight="2"/>
                 <Button android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

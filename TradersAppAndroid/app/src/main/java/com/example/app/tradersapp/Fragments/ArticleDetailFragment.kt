@@ -12,6 +12,9 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +37,8 @@ class ArticleDetailFragment : Fragment() {
     private var allAnnotations: List<AnnotationResponse> = emptyList()
     private var isInAnnotationMode = false
 
+    private var body: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,23 +53,23 @@ class ArticleDetailFragment : Fragment() {
         val bundle = this.arguments
         aImage.setImageResource(bundle!!.getInt("image"))
         aTitle.text = bundle.getString("title")
-        aBody.text = bundle.getString("body")
+        body  =  bundle.getString("body")
+        aBody.text = body
         articleAuthorName.text = bundle.getString("author")
         val token = sp?.getString("token", "")
         val articleId = bundle.getString("articleId")
 
-        aBody.customSelectionActionModeCallback = AnnotationsActionModeCallback(aBody, context, token, retrofitService, articleId)
+        showAnnotationContentsWhenLongPressed()
+
+        aBody.customSelectionActionModeCallback = AnnotationsActionModeCallback(
+            aBody, context, token, retrofitService, articleId, annotationBody = addCommentEditText, allAnnotations = allAnnotations)
 
         showAnnotationsButton.setOnClickListener {
             if(isInAnnotationMode){
-                aBody.isTextSelectable.and(false)
-                showAnnotationsButton.text = "SWITCH TO ANNOTATION MODE"
-                isInAnnotationMode = false
+                switchToReadingMode()
             }
             else{
-                showAnnotationsButton.text = "SWITCH TO READING MODE"
                 switchToAnnotationMode(articleId)
-                isInAnnotationMode = true
             }
         }
 
@@ -166,17 +171,54 @@ class ArticleDetailFragment : Fragment() {
         })
 
     }
+    private fun switchToReadingMode(){
+        aBody.setTextIsSelectable(false)
+        showAnnotationsButton.text = "SWITCH TO ANNOTATION MODE"
+        isInAnnotationMode = false
+        revertHighlightText()
+
+        addCommentButton.visibility = View.VISIBLE
+        addCommentEditText.hint = "Write your comment here"
+    }
     private fun switchToAnnotationMode(articleId: String){
-        aBody.isTextSelectable.or(true)
-        // Get all annotations and highlight the text accordingly.
-        getAllAnnotations(articleId)
+        isInAnnotationMode = true
+        showAnnotationsButton.text = "SWITCH TO READING MODE"
+        getAllAnnotations(articleId)   // Get all annotations and highlight the text accordingly.
+        aBody.setTextIsSelectable(true)
+
+        addCommentButton.visibility = View.GONE
+        addCommentEditText.hint = "Write your annotation here"
 
     }
 
     private fun highlightText(startIndex: Int, endIndex: Int){
         val textToSpan: Spannable = SpannableString(aBody.text)
         textToSpan.setSpan(ForegroundColorSpan(Color.YELLOW), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val clickableSpan = object : ClickableSpan(){
+            override fun onClick(widget: View) {
+                var annotationContent = ""
+                for(annotation in allAnnotations){
+                    if(startIndex == annotation.firstChar){
+                        annotationContent += "\n" + annotation.user.name + " " + annotation.user.surname + ": " + annotation.content + "\n"
+                    }
+                }
+
+                Toast.makeText(
+                    context,
+                    annotationContent,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+        textToSpan.setSpan(clickableSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textToSpan.setSpan(ForegroundColorSpan(Color.YELLOW), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
         aBody.text = textToSpan
+        aBody.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun revertHighlightText(){
+        aBody.text = body
     }
 
     private fun getAllAnnotations(articleId: String){
@@ -193,6 +235,23 @@ class ArticleDetailFragment : Fragment() {
             }
 
         })
+    }
+
+    private fun showAnnotationContentsWhenLongPressed(){
+        val ss: SpannableString = SpannableString(aBody.text.toString())
+        val clickableSpan = object : ClickableSpan(){
+            override fun onClick(widget: View) {
+                Toast.makeText(
+                    context,
+                    "ANNOTATED STRING IS CLICKED",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+        for(annotation in allAnnotations){
+            ss.setSpan(clickableSpan, annotation.firstChar, annotation.lastChar, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+        aBody.text = ss
     }
 
 }
