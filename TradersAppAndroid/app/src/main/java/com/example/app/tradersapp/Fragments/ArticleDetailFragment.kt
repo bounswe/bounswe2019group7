@@ -65,7 +65,7 @@ class ArticleDetailFragment : Fragment() {
         articleId = bundle.getString("articleId")
 
         aBody.customSelectionActionModeCallback = AnnotationsActionModeCallback(
-            aBody, context, token, retrofitService, articleId, annotationBody = addCommentEditText, allAnnotations = allAnnotations)
+            aBody, context, token, retrofitService, articleId, annotationBody = addCommentEditText, allAnnotations = allAnnotations, annotationType = "Article")
 
         showAnnotationsButton.setOnClickListener {
             if(isInAnnotationMode){
@@ -77,6 +77,7 @@ class ArticleDetailFragment : Fragment() {
         }
 
         myAnnotationsButton.setOnClickListener {
+            revertHighlightText()
             isInSelfAnnotationMode = true
             getSelfAnnotationsInArticleOrEvent(articleId)
         }
@@ -208,7 +209,7 @@ class ArticleDetailFragment : Fragment() {
                 if(!isInSelfAnnotationMode){
                     var annotationContent = ""
                     for(annotation in allAnnotations){
-                        if(startIndex == annotation.firstChar){
+                        if(startIndex == annotation.firstChar && endIndex == annotation.lastChar){
                             annotationContent += "\n" + annotation.user.name + " " + annotation.user.surname + ": " + annotation.content + "\n"
                         }
                     }
@@ -221,7 +222,7 @@ class ArticleDetailFragment : Fragment() {
                 }
                 else{
                     for(annotation in allAnnotations){
-                        if(startIndex == annotation.firstChar){
+                        if(startIndex == annotation.firstChar && endIndex == annotation.lastChar){
                             deleteAnnotation(annotation.id)
                         }
                     }
@@ -267,10 +268,20 @@ class ArticleDetailFragment : Fragment() {
 
             override fun onResponse(call: Call<List<AnnotationResponse>>, response: Response<List<AnnotationResponse>>) {
                 val selfAnnotations = response.body() ?: emptyList()
+                allAnnotations = selfAnnotations
+                var isEmpty = true
                 for(annotation in selfAnnotations){
                     if(annotation.articleEventId == articleId){
+                        isEmpty = false
                         highlightText(annotation.firstChar, annotation.lastChar)
                     }
+                }
+                if(isEmpty){
+                    Toast.makeText(
+                        context,
+                        "You don't have any annotations for this article.",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
 
@@ -289,7 +300,14 @@ class ArticleDetailFragment : Fragment() {
                     "Annotation is successfully deleted",
                     Toast.LENGTH_LONG
                 ).show()
-                getAllAnnotations(articleId)
+                if(!isInSelfAnnotationMode){
+                    getAllAnnotations(articleId)
+                }
+                else{
+                    revertHighlightText()
+                    getSelfAnnotationsInArticleOrEvent(articleId)
+                }
+
             }
 
         })

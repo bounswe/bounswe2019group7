@@ -61,7 +61,7 @@ class EventDetailFragment : Fragment() {
         eventId = bundle.getString("eventId")
 
         eBody.customSelectionActionModeCallback = AnnotationsActionModeCallback(
-            eBody, context, token, retrofitService, eventId, annotationBody = addCommentEditText2, allAnnotations = allAnnotations)
+            eBody, context, token, retrofitService, eventId, annotationBody = addCommentEditText2, allAnnotations = allAnnotations, annotationType = "Event")
 
         showAnnotationsButton2.setOnClickListener {
             if(isInAnnotationMode){
@@ -73,6 +73,7 @@ class EventDetailFragment : Fragment() {
         }
 
         myAnnotationsButton2.setOnClickListener {
+            revertHighlightText()
             isInSelfAnnotationMode = true
             getSelfAnnotationsInArticleOrEvent(eventId)
         }
@@ -173,7 +174,7 @@ class EventDetailFragment : Fragment() {
                 if(!isInSelfAnnotationMode){
                     var annotationContent = ""
                     for(annotation in allAnnotations){
-                        if(startIndex == annotation.firstChar){
+                        if(startIndex == annotation.firstChar && endIndex == annotation.lastChar){
                             annotationContent += "\n" + annotation.user.name + " " + annotation.user.surname + ": " + annotation.content + "\n"
                         }
                     }
@@ -185,8 +186,8 @@ class EventDetailFragment : Fragment() {
                     ).show()
                 }
                 else{
-                    for(annotation in allAnnotations){
-                        if(startIndex == annotation.firstChar){
+                    for(annotation in allAnnotations ){
+                        if(startIndex == annotation.firstChar && endIndex == annotation.lastChar){
                             deleteAnnotation(annotation.id)
                         }
                     }
@@ -208,7 +209,7 @@ class EventDetailFragment : Fragment() {
     }
 
     private fun getAllAnnotations(eventId: String){
-        retrofitService.getAllAnnotationsOfArticleOrEvent("Article", eventId).enqueue(object: Callback<List<AnnotationResponse>>{
+        retrofitService.getAllAnnotationsOfArticleOrEvent("Event", eventId).enqueue(object: Callback<List<AnnotationResponse>>{
             override fun onFailure(call: Call<List<AnnotationResponse>>, t: Throwable) {
                 EyeTradeUtils.toastErrorMessage(context!!, t)
             }
@@ -232,10 +233,20 @@ class EventDetailFragment : Fragment() {
 
             override fun onResponse(call: Call<List<AnnotationResponse>>, response: Response<List<AnnotationResponse>>) {
                 val selfAnnotations = response.body() ?: emptyList()
+                allAnnotations = selfAnnotations
+                var isEmpty = true
                 for(annotation in selfAnnotations){
                     if(annotation.articleEventId == eventId){
+                        isEmpty = false
                         highlightText(annotation.firstChar, annotation.lastChar)
                     }
+                }
+                if(isEmpty){
+                    Toast.makeText(
+                        context,
+                        "You don't have any annotations for this event.",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
 
@@ -254,9 +265,14 @@ class EventDetailFragment : Fragment() {
                     "Annotation is successfully deleted",
                     Toast.LENGTH_LONG
                 ).show()
-                getAllAnnotations(eventId)
+                if(!isInSelfAnnotationMode){
+                    getAllAnnotations(eventId)
+                }
+                else{
+                    revertHighlightText()
+                    getSelfAnnotationsInArticleOrEvent(eventId)
+                }
             }
-
         })
     }
 

@@ -23,7 +23,9 @@ class AnnotationsActionModeCallback(val bodyTextView: TextView,
                                     val retrofitService: ApiInterface,
                                     val articleEventId: String,
                                     val annotationBody: EditText,
-                                    var allAnnotations: List<AnnotationResponse>
+                                    var allAnnotations: List<AnnotationResponse>,
+                                    val annotationType: String
+
 ) : android.view.ActionMode.Callback {
     override fun onActionItemClicked(mode: android.view.ActionMode?, item: MenuItem?): Boolean {
         if(annotationBody.text.isNullOrEmpty()){
@@ -39,7 +41,7 @@ class AnnotationsActionModeCallback(val bodyTextView: TextView,
 
         retrofitService.addAnnotation(token,
             AnnotationInformation(articleEventId,
-                "Article" ,
+                annotationType ,
                 annotationBody.text.toString(),
                 startIndex,
                 endIndex)).enqueue(object: Callback<AnnotationResponse>{
@@ -87,7 +89,7 @@ class AnnotationsActionModeCallback(val bodyTextView: TextView,
             override fun onClick(widget: View) {
                 var annotationContent = ""
                 for(annotation in allAnnotations){
-                    if(startIndex == annotation.firstChar){
+                    if(startIndex == annotation.firstChar && endIndex == annotation.lastChar){
                         annotationContent += "\n" + annotation.user.name + " " + annotation.user.surname + ": " + annotation.content + "\n"
                     }
                 }
