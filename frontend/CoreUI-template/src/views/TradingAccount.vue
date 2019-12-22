@@ -70,13 +70,26 @@
                     <div class="text-uppercase text-muted small">Chinese Yuan</div>
                   </div>
                   <div>
-                    <b-button
-                      type="button"
-                      variant="primary"
-                      @click="openModal('CNY')"
-                      class="mr-1"
-                    >Buy</b-button>
-                    <div class="text-uppercase text-muted small">Click to Buy Chinese Yuan</div>
+                    <b-row>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="success"
+                          @click="openModal('CNY')"
+                          class="mr-1"
+                        >Buy</b-button>
+                        <div class="text-uppercase text-muted small">Click to Buy Chinese Yuan</div>
+                      </b-col>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="danger"
+                          @click="openSellModal('CNY')"
+                          class="mr-1"
+                        >Sell</b-button>
+                        <div class="text-uppercase text-muted small">Click to Sell Chinese Yuan</div>
+                      </b-col>
+                    </b-row>
                   </div>
                 </div>
               </div>
@@ -95,13 +108,26 @@
                     <div class="text-uppercase text-muted small">Euro</div>
                   </div>
                   <div>
-                    <b-button
-                      type="button"
-                      variant="primary"
-                      @click="openModal('EUR')"
-                      class="mr-1"
-                    >Buy</b-button>
-                    <div class="text-uppercase text-muted small">Click to Buy Euro</div>
+                    <b-row>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="success"
+                          @click="openModal('EUR')"
+                          class="mr-1"
+                        >Buy</b-button>
+                        <div class="text-uppercase text-muted small">Click to Buy Euro</div>
+                      </b-col>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="danger"
+                          @click="openSellModal('EUR')"
+                          class="mr-1"
+                        >Sell</b-button>
+                        <div class="text-uppercase text-muted small">Click to Sell Euro</div>
+                      </b-col>
+                    </b-row>
                   </div>
                 </div>
               </div>
@@ -120,13 +146,26 @@
                     <div class="text-uppercase text-muted small">Pound</div>
                   </div>
                   <div>
-                    <b-button
-                      type="button"
-                      variant="primary"
-                      @click="openModal('GBP')"
-                      class="mr-1"
-                    >Buy</b-button>
-                    <div class="text-uppercase text-muted small">Click to Buy Pound</div>
+                    <b-row>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="success"
+                          @click="openModal('GBP')"
+                          class="mr-1"
+                        >Buy</b-button>
+                        <div class="text-uppercase text-muted small">Click to Buy Pound</div>
+                      </b-col>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="danger"
+                          @click="openSellModal('GBP')"
+                          class="mr-1"
+                        >Sell</b-button>
+                        <div class="text-uppercase text-muted small">Click to Sell Pound</div>
+                      </b-col>
+                    </b-row>
                   </div>
                 </div>
               </div>
@@ -147,13 +186,26 @@
                     <div class="text-uppercase text-muted small">Japanese Yen</div>
                   </div>
                   <div>
-                    <b-button
-                      type="button"
-                      variant="primary"
-                      @click="openModal('JPY')"
-                      class="mr-1"
-                    >Buy</b-button>
-                    <div class="text-uppercase text-muted small">Click to Buy Japanese Yen</div>
+                    <b-row>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="success"
+                          @click="openModal('JPY')"
+                          class="mr-1"
+                        >Buy</b-button>
+                        <div class="text-uppercase text-muted small">Click to Buy Japanese Yen</div>
+                      </b-col>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="danger"
+                          @click="openSellModal('JPY')"
+                          class="mr-1"
+                        >Sell</b-button>
+                        <div class="text-uppercase text-muted small">Click to Sell Japanese Yen</div>
+                      </b-col>
+                    </b-row>
                   </div>
                 </div>
               </div>
@@ -172,13 +224,26 @@
                     <div class="text-uppercase text-muted small">Turkish Lira</div>
                   </div>
                   <div>
-                    <b-button
-                      type="button"
-                      variant="primary"
-                      @click="openModal('TRY')"
-                      class="mr-1"
-                    >Buy</b-button>
-                    <div class="text-uppercase text-muted small">Click to Buy Turkish Lira</div>
+                    <b-row>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="success"
+                          @click="openModal('TRY')"
+                          class="mr-1"
+                        >Buy</b-button>
+                        <div class="text-uppercase text-muted small">Click to Buy Turkish Lira</div>
+                      </b-col>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="danger"
+                          @click="openSellModal('TRY')"
+                          class="mr-1"
+                        >Sell</b-button>
+                        <div class="text-uppercase text-muted small">Click to Sell Turkish Lira</div>
+                      </b-col>
+                    </b-row>
                   </div>
                 </div>
               </div>
@@ -197,13 +262,26 @@
                     <div class="text-uppercase text-muted small">Dollar</div>
                   </div>
                   <div>
-                    <b-button
-                      type="button"
-                      variant="primary"
-                      @click="openModal('USD')"
-                      class="mr-1"
-                    >Buy</b-button>
-                    <div class="text-uppercase text-muted small">Click to Buy Dollar</div>
+                    <b-row>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="success"
+                          @click="openModal('USD')"
+                          class="mr-1"
+                        >Buy</b-button>
+                        <div class="text-uppercase text-muted small">Click to Buy Dollar</div>
+                      </b-col>
+                      <b-col sm="6">
+                        <b-button
+                          type="button"
+                          variant="danger"
+                          @click="openSellModal('USD')"
+                          class="mr-1"
+                        >Sell</b-button>
+                        <div class="text-uppercase text-muted small">Click to Sell Dollar</div>
+                      </b-col>
+                    </b-row>
                   </div>
                 </div>
               </div>
@@ -213,7 +291,7 @@
       </b-card>
     </b-row>
 
-    <!-- Modal-->
+    <!-- Modal Buy-->
     <b-modal
       title="Buy"
       variant="primary"
@@ -309,7 +387,44 @@
           size="lg"
           variant="primary"
           v-on:click="buyTransaction()"
-        >MAKE A TRANSACTION</b-button>
+        >MAKE TRANSACTION</b-button>
+      </b-form>
+    </b-modal>
+
+    <!-- Modal Sell-->
+    <b-modal
+      title="Sell"
+      variant="danger"
+      header-bg-variant="danger"
+      content-class="border-danger"
+      v-model="dangerModal"
+      @ok="dangerModal = false"
+    >
+      <b-form>
+        <b-input-group class="mb-4">
+          <b-input-group-prepend>
+            <b-input-group-text style="height:69%">
+              <i class="icon-key"></i>
+              <p class="ml-2 mb-2 mt-2">Amount</p>
+            </b-input-group-text>
+          </b-input-group-prepend>
+          <b-form-input
+            type="number"
+            class="form-control"
+            placeholder="Amount"
+            autocomplete="amount"
+            v-model.number="formSell.amount"
+          />
+        </b-input-group>
+        <div
+          class="text-uppercase text-muted small"
+        >Total: {{formSellCurrencySymbol}} {{formSell.amount}}</div>
+        <b-button
+          class="btn-block"
+          size="lg"
+          variant="danger"
+          v-on:click="sellTransaction()"
+        >MAKE TRANSACTION</b-button>
       </b-form>
     </b-modal>
   </div>
@@ -333,6 +448,10 @@ export default {
         cvv: "",
         expiredDate: ""
       },
+      formSell: {
+        amount: 0,
+        soldTypeCurrency: ""
+      },
       primaryModal: false,
       cnySymbol: "元",
       eurSymbol: "€",
@@ -342,7 +461,9 @@ export default {
       dollarSymbol: "$",
       formCurrencySymbol: "",
       expiredYear: "",
-      expiredMonth: ""
+      expiredMonth: "",
+      dangerModal: false,
+      formSellCurrencySymbol: ""
     };
   },
   components: {
@@ -388,6 +509,25 @@ export default {
       });
       this.$nextTick();
     },
+    openSellModal(currencyType) {
+      this.dangerModal = true;
+      this.$nextTick(function() {
+        if (currencyType == "CNY") {
+          this.formSellCurrencySymbol = this.cnySymbol;
+        } else if (currencyType == "EUR") {
+          this.formSellCurrencySymbol = this.eurSymbol;
+        } else if (currencyType == "GBP") {
+          this.formSellCurrencySymbol = this.poundSymbol;
+        } else if (currencyType == "JPY") {
+          this.formSellCurrencySymbol = this.jpySymbol;
+        } else if (currencyType == "TRY") {
+          this.formSellCurrencySymbol = this.turkishLiraSymbol;
+        } else if (currencyType == "USD") {
+          this.formSellCurrencySymbol = this.dollarSymbol;
+        }
+        this.formSell.soldTypeCurrency = currencyType;
+      });
+    },
     buyTransaction() {
       this.form.expiredDate = this.expiredMonth + this.expiredYear;
       this.$http
@@ -420,8 +560,36 @@ export default {
                 this.item = response.data;
               });
             this.form.amount = 0;
-          } else {
-            console.log("olmadı");
+          }
+        });
+    },
+    sellTransaction() {
+      this.$http
+        .post(
+          "/sell_transaction",
+          {
+            amount: this.formSell.amount,
+            soldTypeCurrency: this.formSell.soldTypeCurrency
+          },
+          {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          }
+        )
+        .then(response => {
+          if (response.status == 200) {
+            this.dangerModal = false;
+            this.$http
+              .get("/get_trading_account", {
+                headers: {
+                  Authorization: localStorage.getItem("token")
+                }
+              })
+              .then(response => {
+                this.item = response.data;
+              });
+            this.formSell.amount = 0;
           }
         });
     }
