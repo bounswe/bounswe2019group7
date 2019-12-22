@@ -20,41 +20,110 @@
       <b-card :no-body="true" id="lowerCard" v-if="lowerCardSeen">
         <b-card-body class="p-5 clearfix">
           <div class="h2 text-primary mb-4 mt-2">YOUR TRADING ACCOUNT</div>
-          <b-row>
-            <b class="col-lg-6">
-              <b-input-group class="mb-4" id="creditCardDiv">
-                <b-input-group-prepend>
-                  <b-input-group-text style="height:69%">
-                    <i class="icon-credit-card"></i>
-                    <p class="ml-2 mb-2 mt-2">CREDIT CARD NUMBER</p>
-                  </b-input-group-text>
-                </b-input-group-prepend>
-                <b-form-input
-                  type="text"
-                  class="form-control"
-                  placeholder="IBAN"
-                  autocomplete="iban"
-                  v-model="form.iban"
-                />
-              </b-input-group>
-            </b>
-            <b class="col-lg-6">
-              <b-input-group class="mb-4" id="creditCardDiv">
-                <b-input-group-prepend>
-                  <b-input-group-text style="height:69%">
-                    <i class="icon-key"></i>
-                    <p class="ml-2 mb-2 mt-2">CVV</p>
-                  </b-input-group-text>
-                </b-input-group-prepend>
-                <b-form-input
-                  type="text"
-                  class="form-control"
-                  placeholder="CVV"
-                  autocomplete="iban"
-                />
-              </b-input-group>
-            </b>
-          </b-row>
+          <b-form id="exchangeForm">
+            <b-row>
+              <b class="col-lg-3">
+                <b-input-group class="mb-4">
+                  <b-input-group-prepend>
+                    <b-input-group-text style="height:34px">
+                      <p class="mb-2 mt-2">Bought Currency Type</p>
+                    </b-input-group-text>
+                  </b-input-group-prepend>
+                  <b-form-select
+                    id="boughtCurrency"
+                    :plain="true"
+                    :options="[ 
+                    {
+                        value:'CNY',
+                        text: 'CNY'
+                    },{
+                        value:'EUR',
+                        text: 'EUR'
+                    },{
+                        value:'GBP',
+                        text: 'GBP'
+                    },{
+                        value:'JPY',
+                        text: 'JPY'
+                    },{
+                        value:'TRY',
+                        text: 'TRY'
+                    },{
+                        value:'USD',
+                        text: 'USD'
+                    }]"
+                    v-model="formExchange.boughtTypeCurrency"
+                    @change="changeBoughtType($event)"
+                  ></b-form-select>
+                </b-input-group>
+              </b>
+              <b class="col-lg-3">
+                <b-input-group class="mb-4">
+                  <b-input-group-prepend>
+                    <b-input-group-text style="height:34px">
+                      <p class="mb-2 mt-2">Sold Currency Type</p>
+                    </b-input-group-text>
+                  </b-input-group-prepend>
+                  <b-form-select
+                    id="soldCurrency"
+                    :plain="true"
+                    :options="[ 
+                    {
+                        value:'CNY',
+                        disabled: disabledCny,
+                        text: 'CNY'
+                    },{
+                        value:'EUR',
+                        disabled: disabledEur,
+                        text: 'EUR'
+                    },{
+                        value:'GBP',
+                        disabled: disabledGbp,
+                        text: 'GBP'
+                    },{
+                        value:'JPY',
+                        disabled: disabledJpy,
+                        text: 'JPY'
+                    },{
+                        value:'TRY',
+                        disabled: disabledTry,
+                        text: 'TRY'
+                    },{
+                        value:'USD',
+                        disabled: disabledUsd,
+                        text: 'USD'
+                    }]"
+                    v-model="formExchange.soldTypeCurrency"
+                  ></b-form-select>
+                </b-input-group>
+              </b>
+              <b class="col-lg-3">
+                <b-input-group class="mb-4">
+                  <b-input-group-prepend>
+                    <b-input-group-text style="height:69%">
+                      <p class="ml-2 mb-2 mt-2">Amount</p>
+                    </b-input-group-text>
+                  </b-input-group-prepend>
+                  <b-form-input
+                    type="number"
+                    class="form-control"
+                    placeholder="Amount"
+                    autocomplete="amount"
+                    v-model.number="formExchange.amount"
+                  />
+                </b-input-group>
+              </b>
+              <b class="col-lg-3">
+                <b-button
+                  class="btn-block"
+                  size="lg"
+                  variant="primary"
+                  v-on:click="exchangeTransaction()"
+                >EXCHANGE TRANSACTION</b-button>
+              </b>
+            </b-row>
+          </b-form>
+
           <b-row>
             <b class="col-sm-6 col-lg-4">
               <div class="brand-card" id="followersCard">
@@ -452,6 +521,11 @@ export default {
         amount: 0,
         soldTypeCurrency: ""
       },
+      formExchange: {
+        amountOfSold: 0,
+        boughtTypeCurrency: "",
+        soldTypeCurrency: ""
+      },
       primaryModal: false,
       cnySymbol: "元",
       eurSymbol: "€",
@@ -463,7 +537,13 @@ export default {
       expiredYear: "",
       expiredMonth: "",
       dangerModal: false,
-      formSellCurrencySymbol: ""
+      formSellCurrencySymbol: "",
+      disabledCny: false,
+      disabledEur: false,
+      disabledGbp: false,
+      disabledJpy: false,
+      disabledTry: false,
+      disabledUsd: false
     };
   },
   components: {
@@ -558,6 +638,24 @@ export default {
               })
               .then(response => {
                 this.item = response.data;
+                this.item.cnyAmount = (
+                  Math.round(this.item.cnyAmount * 100) / 100
+                ).toFixed(2);
+                this.item.eurAmount = (
+                  Math.round(this.item.eurAmount * 100) / 100
+                ).toFixed(2);
+                this.item.gbpAmount = (
+                  Math.round(this.item.gbpAmount * 100) / 100
+                ).toFixed(2);
+                this.item.jpyAmount = (
+                  Math.round(this.item.jpyAmount * 100) / 100
+                ).toFixed(2);
+                this.item.tryAmount = (
+                  Math.round(this.item.tryAmount * 100) / 100
+                ).toFixed(2);
+                this.item.usdAmount = (
+                  Math.round(this.item.usdAmount * 100) / 100
+                ).toFixed(2);
               });
             this.form.amount = 0;
           }
@@ -588,8 +686,90 @@ export default {
               })
               .then(response => {
                 this.item = response.data;
+                this.item.cnyAmount = (
+                  Math.round(this.item.cnyAmount * 100) / 100
+                ).toFixed(2);
+                this.item.eurAmount = (
+                  Math.round(this.item.eurAmount * 100) / 100
+                ).toFixed(2);
+                this.item.gbpAmount = (
+                  Math.round(this.item.gbpAmount * 100) / 100
+                ).toFixed(2);
+                this.item.jpyAmount = (
+                  Math.round(this.item.jpyAmount * 100) / 100
+                ).toFixed(2);
+                this.item.tryAmount = (
+                  Math.round(this.item.tryAmount * 100) / 100
+                ).toFixed(2);
+                this.item.usdAmount = (
+                  Math.round(this.item.usdAmount * 100) / 100
+                ).toFixed(2);
               });
             this.formSell.amount = 0;
+          }
+        });
+    },
+    changeBoughtType(event) {
+      if (this.formExchange.boughtTypeCurrency == "CNY") {
+        this.disabledCny = true;
+      } else if (this.formExchange.boughtTypeCurrency == "EUR") {
+        this.disabledEur = true;
+      } else if (this.formExchange.boughtTypeCurrency == "GBP") {
+        this.disabledGbp = true;
+      } else if (this.formExchange.boughtTypeCurrency == "JPY") {
+        this.disabledJpy = true;
+      } else if (this.formExchange.boughtTypeCurrency == "TRY") {
+        this.disabledTry = true;
+      } else if (this.formExchange.boughtTypeCurrency == "USD") {
+        this.disabledUsd = true;
+      }
+    },
+    exchangeTransaction() {
+      this.$http
+        .post(
+          "/exchange_transaction",
+          {
+            amountOfSold: this.formExchange.amount,
+            boughtTypeCurrency: this.formExchange.boughtTypeCurrency,
+            soldTypeCurrency: this.formExchange.soldTypeCurrency
+          },
+          {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          }
+        )
+        .then(response => {
+          if (response.status == 200) {
+            this.dangerModal = false;
+            this.$http
+              .get("/get_trading_account", {
+                headers: {
+                  Authorization: localStorage.getItem("token")
+                }
+              })
+              .then(response => {
+                this.item = response.data;
+                this.item.cnyAmount = (
+                  Math.round(this.item.cnyAmount * 100) / 100
+                ).toFixed(2);
+                this.item.eurAmount = (
+                  Math.round(this.item.eurAmount * 100) / 100
+                ).toFixed(2);
+                this.item.gbpAmount = (
+                  Math.round(this.item.gbpAmount * 100) / 100
+                ).toFixed(2);
+                this.item.jpyAmount = (
+                  Math.round(this.item.jpyAmount * 100) / 100
+                ).toFixed(2);
+                this.item.tryAmount = (
+                  Math.round(this.item.tryAmount * 100) / 100
+                ).toFixed(2);
+                this.item.usdAmount = (
+                  Math.round(this.item.usdAmount * 100) / 100
+                ).toFixed(2);
+              });
+            this.formExchange.amount = 0;
           }
         });
     }
@@ -604,6 +784,24 @@ export default {
       .then(
         response => {
           this.item = response.data;
+          this.item.cnyAmount = (
+            Math.round(this.item.cnyAmount * 100) / 100
+          ).toFixed(2);
+          this.item.eurAmount = (
+            Math.round(this.item.eurAmount * 100) / 100
+          ).toFixed(2);
+          this.item.gbpAmount = (
+            Math.round(this.item.gbpAmount * 100) / 100
+          ).toFixed(2);
+          this.item.jpyAmount = (
+            Math.round(this.item.jpyAmount * 100) / 100
+          ).toFixed(2);
+          this.item.tryAmount = (
+            Math.round(this.item.tryAmount * 100) / 100
+          ).toFixed(2);
+          this.item.usdAmount = (
+            Math.round(this.item.usdAmount * 100) / 100
+          ).toFixed(2);
           this.upperCardSeen = false;
           this.lowerCardSeen = true;
         },
@@ -643,5 +841,10 @@ export default {
 #followersCard {
   margin-top: 2%;
   height: 73%;
+}
+#exchangeForm {
+  border: 3px solid #20a8d8;
+  padding: 1%;
+  padding-bottom: 0;
 }
 </style>
