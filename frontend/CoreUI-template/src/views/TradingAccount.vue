@@ -70,7 +70,12 @@
                     <div class="text-uppercase text-muted small">Chinese Yuan</div>
                   </div>
                   <div>
-                    <b-button type="button" variant="primary" class="mr-1">Buy</b-button>
+                    <b-button
+                      type="button"
+                      variant="primary"
+                      @click="openModal('CNY')"
+                      class="mr-1"
+                    >Buy</b-button>
                     <div class="text-uppercase text-muted small">Click to Buy Chinese Yuan</div>
                   </div>
                 </div>
@@ -90,8 +95,13 @@
                     <div class="text-uppercase text-muted small">Euro</div>
                   </div>
                   <div>
-                    <div class="text-value"></div>
-                    <div class="text-uppercase text-muted small">Following</div>
+                    <b-button
+                      type="button"
+                      variant="primary"
+                      @click="openModal('EUR')"
+                      class="mr-1"
+                    >Buy</b-button>
+                    <div class="text-uppercase text-muted small">Click to Buy Euro</div>
                   </div>
                 </div>
               </div>
@@ -110,8 +120,13 @@
                     <div class="text-uppercase text-muted small">Pound</div>
                   </div>
                   <div>
-                    <div class="text-value"></div>
-                    <div class="text-uppercase text-muted small">Following</div>
+                    <b-button
+                      type="button"
+                      variant="primary"
+                      @click="openModal('GBP')"
+                      class="mr-1"
+                    >Buy</b-button>
+                    <div class="text-uppercase text-muted small">Click to Buy Pound</div>
                   </div>
                 </div>
               </div>
@@ -132,8 +147,13 @@
                     <div class="text-uppercase text-muted small">Japanese Yen</div>
                   </div>
                   <div>
-                    <div class="text-value"></div>
-                    <div class="text-uppercase text-muted small">Following</div>
+                    <b-button
+                      type="button"
+                      variant="primary"
+                      @click="openModal('JPY')"
+                      class="mr-1"
+                    >Buy</b-button>
+                    <div class="text-uppercase text-muted small">Click to Buy Japanese Yen</div>
                   </div>
                 </div>
               </div>
@@ -152,8 +172,13 @@
                     <div class="text-uppercase text-muted small">Turkish Lira</div>
                   </div>
                   <div>
-                    <div class="text-value"></div>
-                    <div class="text-uppercase text-muted small">Following</div>
+                    <b-button
+                      type="button"
+                      variant="primary"
+                      @click="openModal('TRY')"
+                      class="mr-1"
+                    >Buy</b-button>
+                    <div class="text-uppercase text-muted small">Click to Buy Turkish Lira</div>
                   </div>
                 </div>
               </div>
@@ -172,8 +197,13 @@
                     <div class="text-uppercase text-muted small">Dollar</div>
                   </div>
                   <div>
-                    <div class="text-value"></div>
-                    <div class="text-uppercase text-muted small">Following</div>
+                    <b-button
+                      type="button"
+                      variant="primary"
+                      @click="openModal('USD')"
+                      class="mr-1"
+                    >Buy</b-button>
+                    <div class="text-uppercase text-muted small">Click to Buy Dollar</div>
                   </div>
                 </div>
               </div>
@@ -183,7 +213,7 @@
       </b-card>
     </b-row>
 
-    <!-- 
+    <!-- Modal-->
     <b-modal
       title="Buy"
       variant="primary"
@@ -205,24 +235,59 @@
             class="form-control"
             placeholder="IBAN"
             autocomplete="iban"
-            v-model="form.iban"
+            v-model="form.creditCardNumber"
           />
         </b-input-group>
-        <b-input-group class="mb-4">
-          <b-input-group-prepend>
-            <b-input-group-text style="height:69%">
-              <i class="icon-key"></i>
-              <p class="ml-2 mb-2 mt-2">CVV</p>
-            </b-input-group-text>
-          </b-input-group-prepend>
-          <b-form-input
-            type="text"
-            class="form-control"
-            placeholder="CVV"
-            autocomplete="cvv"
-            v-model="form.cvv"
-          />
-        </b-input-group>
+        <b-row>
+          <b-col sm="4">
+            <b-input-group class="mb-4">
+              <b-input-group-prepend>
+                <b-input-group-text style="height:69%">
+                  <i class="icon-key"></i>
+                  <p class="ml-2 mb-2 mt-2">CVV</p>
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-input
+                type="text"
+                class="form-control"
+                placeholder="CVV"
+                autocomplete="cvv"
+                v-model="form.cvv"
+              />
+            </b-input-group>
+          </b-col>
+          <b-col sm="4">
+            <b-input-group class="mb-4">
+              <b-input-group-prepend>
+                <b-input-group-text style="height:34px">
+                  <p class="mb-2 mt-2">Month</p>
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-select
+                id="month"
+                :plain="true"
+                :options="['01','02','03','04','05','06','07','08','09','10','11','12']"
+                v-model="expiredMonth"
+              ></b-form-select>
+            </b-input-group>
+          </b-col>
+          <b-col sm="4">
+            <b-input-group class="mb-4">
+              <b-input-group-prepend>
+                <b-input-group-text style="height:34px">
+                  <p class="mb-2 mt-2">Year</p>
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-select
+                id="year"
+                :plain="true"
+                :options="['19','20','21','22','23','24','25','26','27','28','29','30','31']"
+                v-model="expiredYear"
+              ></b-form-select>
+            </b-input-group>
+          </b-col>
+        </b-row>
+
         <b-input-group class="mb-4">
           <b-input-group-prepend>
             <b-input-group-text style="height:69%">
@@ -231,17 +296,22 @@
             </b-input-group-text>
           </b-input-group-prepend>
           <b-form-input
-            type="text"
+            type="number"
             class="form-control"
             placeholder="Amount"
             autocomplete="amount"
-            v-model="form.amount"
+            v-model.number="form.amount"
           />
         </b-input-group>
-        <div class="text-uppercase text-muted small">Total: 元 {{form.amount}}</div>
+        <div class="text-uppercase text-muted small">Total: {{formCurrencySymbol}} {{form.amount}}</div>
+        <b-button
+          class="btn-block"
+          size="lg"
+          variant="primary"
+          v-on:click="buyTransaction()"
+        >MAKE A TRANSACTION</b-button>
       </b-form>
     </b-modal>
-    -->
   </div>
 </template>
 
@@ -264,8 +334,15 @@ export default {
         expiredDate: ""
       },
       primaryModal: false,
-      currentSymbol: "",
-      currentTransaction: ""
+      cnySymbol: "元",
+      eurSymbol: "€",
+      poundSymbol: "£",
+      jpySymbol: "円",
+      turkishLiraSymbol: "₺",
+      dollarSymbol: "$",
+      formCurrencySymbol: "",
+      expiredYear: "",
+      expiredMonth: ""
     };
   },
   components: {
@@ -290,17 +367,64 @@ export default {
             this.lowerCardSeen = true;
           }
         );
-    }
-    /*
-    esra() {
+    },
+    openModal(currencyType) {
       this.primaryModal = true;
       this.$nextTick(function() {
-        this.form.boughtTypeCurrency = "CYN";
-        this.currentSymbol = "tl";
-        this.currentTransaction = "Chinese Yuan";
+        if (currencyType == "CNY") {
+          this.formCurrencySymbol = this.cnySymbol;
+        } else if (currencyType == "EUR") {
+          this.formCurrencySymbol = this.eurSymbol;
+        } else if (currencyType == "GBP") {
+          this.formCurrencySymbol = this.poundSymbol;
+        } else if (currencyType == "JPY") {
+          this.formCurrencySymbol = this.jpySymbol;
+        } else if (currencyType == "TRY") {
+          this.formCurrencySymbol = this.turkishLiraSymbol;
+        } else if (currencyType == "USD") {
+          this.formCurrencySymbol = this.dollarSymbol;
+        }
+        this.form.boughtTypeCurrency = currencyType;
       });
       this.$nextTick();
-    }*/
+    },
+    buyTransaction() {
+      this.form.expiredDate = this.expiredMonth + this.expiredYear;
+      this.$http
+        .post(
+          "/buy_transaction",
+          {
+            amount: this.form.amount,
+            boughtTypeCurrency: this.form.boughtTypeCurrency,
+            creditCardNumber: this.form.creditCardNumber,
+            cvv: this.form.cvv,
+            expiredDate: this.form.expiredDate
+          },
+          {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          }
+        )
+        .then(response => {
+          if (response.status == 200) {
+            this.primaryModal = false;
+            const boughtTypeLastAmount = response.boughtTypeLastAmount;
+            this.$http
+              .get("/get_trading_account", {
+                headers: {
+                  Authorization: localStorage.getItem("token")
+                }
+              })
+              .then(response => {
+                this.item = response.data;
+              });
+            this.form.amount = 0;
+          } else {
+            console.log("olmadı");
+          }
+        });
+    }
   },
   mounted() {
     this.$http
@@ -328,7 +452,7 @@ export default {
       })
       .then(
         response => {
-          this.form.iban = response.data.iban;
+          this.form.creditCardNumber = response.data.iban;
         },
         error => {
           console.log("eerror");
