@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 @Data
@@ -52,9 +53,9 @@ public class Article {
     private Integer givenScoreCount =0;
 
     public String toStringForSearch() {
-        return  "title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", authorName='" + authorName + '\'' +
-                ", authorSurname='" + authorSurname;
+        return  (" " + title  +
+                "  " + content +
+                " " + authorName  +
+                " " + authorSurname).toLowerCase(Locale.ENGLISH);
     }
 }

@@ -3,6 +3,7 @@ package com.eyetrade.backend.controller;
 import com.eyetrade.backend.model.entity.Article;
 import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.resource.article.ArticleResource;
+import com.eyetrade.backend.model.resource.search.BasicSearchResource;
 import com.eyetrade.backend.model.resource.user.MinimalUserResource;
 import com.eyetrade.backend.service.SearchService;
 import com.sipios.springsearch.anotation.SearchSpec;
@@ -12,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.eyetrade.backend.constants.ErrorConstants.SEARCH_TEXT_IS_WRONG;
 
@@ -37,8 +36,8 @@ public class SearchController {
     @GetMapping("/user")
     public ResponseEntity searchForUsers(@SearchSpec Specification<User> specs) {
         try {
-            return ResponseEntity.ok(service.searchUser(specs)) ;
-        }catch (InvalidDataAccessApiUsageException exception){
+            return ResponseEntity.ok(service.searchUser(specs));
+        } catch (InvalidDataAccessApiUsageException exception) {
             return ResponseEntity.badRequest().body(SEARCH_TEXT_IS_WRONG);
         }
     }
@@ -46,13 +45,19 @@ public class SearchController {
     @ApiOperation(value = "Search articles with the wanted informations. Search will be this format:\n " +
             "/search/article?search=(authorName:'Emir' AND authorSurname:'*emir*') OR authorEmail:'anka@test.com' \n" +
             "if there is no parameter then result will return all articles", response = ArticleResource.class, responseContainer = "List")
-    @GetMapping("/article")
+    @GetMapping("/advanced/article")
     public ResponseEntity searchForArticles(@SearchSpec Specification<Article> specs) {
         try {
-            return ResponseEntity.ok(service.searchArticles(specs)) ;
-        }catch (InvalidDataAccessApiUsageException exception){
+            return ResponseEntity.ok(service.searchArticles(specs));
+        } catch (InvalidDataAccessApiUsageException exception) {
             return ResponseEntity.badRequest().body(SEARCH_TEXT_IS_WRONG);
         }
+    }
+
+    @ApiOperation(value = "Search articles,events and users with a String.", response = BasicSearchResource.class, responseContainer = "List")
+    @GetMapping("/basic/{searching_word}")
+    public ResponseEntity searchWithWord(@PathVariable("searching_word") String searchingWord) {
+            return ResponseEntity.ok(service.searchWithWord(searchingWord));
     }
 
 }

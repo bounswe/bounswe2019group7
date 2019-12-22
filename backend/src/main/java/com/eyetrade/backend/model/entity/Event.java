@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -46,8 +47,7 @@ public class Event {
     private Integer givenScoreCount =0;
 
     public String toStringForSearch() {
-        return "Event{" +
-                "title='" + title + '\'' +
-                ", content='" + content;
+        return (" " + title +
+                " " + content).toLowerCase(Locale.ENGLISH);
     }
 }
