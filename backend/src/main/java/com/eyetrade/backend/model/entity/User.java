@@ -79,4 +79,11 @@ public class User {
     @Column(name = "confirmed")
     private boolean confirmed;
 
+    public String toStringForSearch() {
+        return "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city ;
+    }
 }
