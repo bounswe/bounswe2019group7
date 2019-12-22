@@ -75,7 +75,7 @@ class EventDetailFragment : Fragment() {
         myAnnotationsButton2.setOnClickListener {
             revertHighlightText()
             isInSelfAnnotationMode = true
-            getSelfAnnotationsInArticleOrEvent(eventId)
+            getSelfAnnotationsInArticleOrEvent(eventId,false)
         }
 
         addCommentButton2.setOnClickListener {
@@ -225,7 +225,7 @@ class EventDetailFragment : Fragment() {
         })
     }
 
-    private fun getSelfAnnotationsInArticleOrEvent(eventId: String){
+    private fun getSelfAnnotationsInArticleOrEvent(eventId: String, isCalledAfterDeletion: Boolean){
         retrofitService.getSelfAnnotations(sp?.getString("token", "")).enqueue(object: Callback<List<AnnotationResponse>>{
             override fun onFailure(call: Call<List<AnnotationResponse>>, t: Throwable) {
                 EyeTradeUtils.toastErrorMessage(context!!, t)
@@ -241,7 +241,7 @@ class EventDetailFragment : Fragment() {
                         highlightText(annotation.firstChar, annotation.lastChar)
                     }
                 }
-                if(isEmpty){
+                if(isEmpty && !isCalledAfterDeletion){
                     Toast.makeText(
                         context,
                         "You don't have any annotations for this event.",
@@ -270,7 +270,7 @@ class EventDetailFragment : Fragment() {
                 }
                 else{
                     revertHighlightText()
-                    getSelfAnnotationsInArticleOrEvent(eventId)
+                    getSelfAnnotationsInArticleOrEvent(eventId, true)
                 }
             }
         })

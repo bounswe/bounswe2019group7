@@ -16,12 +16,10 @@ import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.PopupWindow
 import android.widget.Toast
 import com.example.app.tradersapp.*
 import kotlinx.android.synthetic.main.fragment_article_detail.*
@@ -79,7 +77,7 @@ class ArticleDetailFragment : Fragment() {
         myAnnotationsButton.setOnClickListener {
             revertHighlightText()
             isInSelfAnnotationMode = true
-            getSelfAnnotationsInArticleOrEvent(articleId)
+            getSelfAnnotationsInArticleOrEvent(articleId, false)
         }
 
         addCommentButton.setOnClickListener {
@@ -260,7 +258,7 @@ class ArticleDetailFragment : Fragment() {
         })
     }
 
-    private fun getSelfAnnotationsInArticleOrEvent(articleId: String){
+    private fun getSelfAnnotationsInArticleOrEvent(articleId: String, isCalledAfterDeletion: Boolean){
         retrofitService.getSelfAnnotations(sp?.getString("token", "")).enqueue(object: Callback<List<AnnotationResponse>>{
             override fun onFailure(call: Call<List<AnnotationResponse>>, t: Throwable) {
                 EyeTradeUtils.toastErrorMessage(context!!, t)
@@ -276,7 +274,7 @@ class ArticleDetailFragment : Fragment() {
                         highlightText(annotation.firstChar, annotation.lastChar)
                     }
                 }
-                if(isEmpty){
+                if(isEmpty && !isCalledAfterDeletion){
                     Toast.makeText(
                         context,
                         "You don't have any annotations for this article.",
@@ -305,7 +303,7 @@ class ArticleDetailFragment : Fragment() {
                 }
                 else{
                     revertHighlightText()
-                    getSelfAnnotationsInArticleOrEvent(articleId)
+                    getSelfAnnotationsInArticleOrEvent(articleId, true)
                 }
 
             }
