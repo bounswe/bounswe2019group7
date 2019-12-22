@@ -50,4 +50,11 @@ public class Article {
 
     @Column(name = "score_number")
     private Integer givenScoreCount =0;
+
+    public String toStringForSearch() {
+        return  "title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", authorName='" + authorName + '\'' +
+                ", authorSurname='" + authorSurname;
+    }
 }

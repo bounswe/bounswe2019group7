@@ -16,7 +16,6 @@ import java.util.UUID;
  */
 @Entity
 @Data
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "event")
@@ -45,4 +44,10 @@ public class Event {
 
     @Column(name = "score_number")
     private Integer givenScoreCount =0;
+
+    public String toStringForSearch() {
+        return "Event{" +
+                "title='" + title + '\'' +
+                ", content='" + content;
+    }
 }
