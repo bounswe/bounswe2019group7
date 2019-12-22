@@ -31,9 +31,15 @@ public class SearchController {
     private SearchService service;
 
     @ApiOperation(value = "Search users with the wanted informations. Search will be this format:\n " +
-            "/search/user?search=name:'Emir' AND city:'Erzurum' \n" +
-            "if there is no parameter then result will return all users", response = MinimalUserResource.class, responseContainer = "List")
-    @GetMapping("/user")
+            "/search/user?search=name:'Emir' AND city:'Erzurum' \n  " +
+            "if there is no parameter then result will return all users The equal operation, using the : operator\n  " +
+            "The not equal operation, using the ! operator\n    " +
+            "The greater than and less than operators, respectively > and <\n   " +
+            "The starts with/ends with/contains operator, using *. It acts like the bash * expension.\n   " +
+            "The AND operator.\n    " +
+            "The OR operator.\n " +
+            "Parenthesis can be used for grouping.", response = MinimalUserResource.class, responseContainer = "List")
+    @GetMapping("/advanced/user")
     public ResponseEntity searchForUsers(@SearchSpec Specification<User> specs) {
         try {
             return ResponseEntity.ok(service.searchUser(specs));
