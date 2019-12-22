@@ -45,7 +45,7 @@ public class CommentController {
         return ResponseEntity.ok(service.getComment(commentId));
     }
 
-    @ApiOperation(value = "A user can access all comments about an event or an article with Event or Article Id.", response = CommentResource.class)
+    @ApiOperation(value = "A user can access all comments about an event or an article with Event or Article Id.", response = CommentResource.class, responseContainer = "List")
     @GetMapping("/get_comments_of_article")
     public ResponseEntity<List<CommentResource>> getCommentsOfArticleOrEvent(@RequestHeader("Authorization") String token,
                                                                             @RequestParam UUID articleOrEventId){
@@ -53,7 +53,7 @@ public class CommentController {
         return ResponseEntity.ok(service.getCommentsOfArticleOrEvent(articleOrEventId));
     }
 
-    @ApiOperation(value = "A user can access all comments about of himself/herself.", response = CommentResource.class)
+    @ApiOperation(value = "A user can access all comments about of himself/herself.", response = CommentResource.class ,responseContainer = "List")
     @GetMapping("/get_comments_of_user")
     public ResponseEntity<List<CommentResource>> getCommentsOfUser(@RequestHeader("Authorization") String token){
         return ResponseEntity.ok(service.getCommentsOfUser(jwtResolver.getIdFromToken(token)));
@@ -61,9 +61,19 @@ public class CommentController {
 
     @ApiOperation(value = "A user can delete his/her your own comment with comment id and token.", response = String.class)
     @DeleteMapping("/delete_comment")
-    public ResponseEntity getCommentsOfUser(@RequestHeader("Authorization") String token, @RequestParam UUID articleOrEventId)  {
+    public ResponseEntity deleteComment(@RequestHeader("Authorization") String token, @RequestParam UUID articleOrEventId)  {
         try {
             return ResponseEntity.ok(service.deleteComment(articleOrEventId,jwtResolver.getIdFromToken(token)));
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "A user can change content of his/her your own comment with commentDto, comment id and token.", response = CommentResource.class)
+    @PutMapping("/update_comment")
+    public ResponseEntity updateComment(@RequestHeader("Authorization") String token, @RequestParam String newContent, @RequestParam UUID articleOrEventId)  {
+        try {
+            return ResponseEntity.ok(service.updateComment(newContent,articleOrEventId,jwtResolver.getIdFromToken(token)));
         } catch (IllegalAccessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
