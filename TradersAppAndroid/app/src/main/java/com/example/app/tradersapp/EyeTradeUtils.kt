@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_homepage.*
 
 class EyeTradeUtils {
     companion object {
+
         fun toastErrorMessage(context: Context, t: Throwable){
             Log.i("ApiRequest", "Request failed: " + t.toString())
             Toast.makeText(

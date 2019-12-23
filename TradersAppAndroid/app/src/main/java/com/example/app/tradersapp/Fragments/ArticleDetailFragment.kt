@@ -34,7 +34,7 @@ class ArticleDetailFragment : Fragment() {
 
     private val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
     private var sp: SharedPreferences? = null
-    private var allComments: List<CommentModel> = emptyList()
+    private var allComments: MutableList<CommentModel> = mutableListOf()
     private var allAnnotations: List<AnnotationResponse> = emptyList()
     private var isInAnnotationMode = false
     private var isInSelfAnnotationMode = false
@@ -99,7 +99,7 @@ class ArticleDetailFragment : Fragment() {
                     )
                 ).enqueue(object: Callback<CommentResponse>{
                     override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
-                        EyeTradeUtils.toastErrorMessage(RegistrationActivity.RegisterCallback.activity as Context, t)
+                        EyeTradeUtils.toastErrorMessage(activity?.applicationContext as Context, t)
                     }
 
                     override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
@@ -164,8 +164,8 @@ class ArticleDetailFragment : Fragment() {
 
             override fun onResponse(call: Call<List<CommentResponse>>, response: Response<List<CommentResponse>>) {
                 allComments = response.body()?.map {
-                    CommentModel(it.articleEventId, it.content, it.userInfo.name, it.userInfo.surname, it.createdDate, it.id)
-                }?: emptyList()
+                    CommentModel(it.articleEventId, it.content, it.userInfo.name, it.userInfo.surname, it.userInfo.id, it.createdDate, it.id)
+                } as MutableList<CommentModel> ?: mutableListOf<CommentModel>()
 
                 rvComments.apply {
                     layoutManager = LinearLayoutManager(activity)
