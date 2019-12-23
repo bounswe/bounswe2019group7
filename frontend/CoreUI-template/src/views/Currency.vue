@@ -49,30 +49,7 @@
               </div>
               <div id="empty-div"> </div>
               <div id="result">
-              </div>
-
-               <b-tabs>
-            <b-tab title="Articles" active>
-              <b-col lg="12">
-                <c-table
-                  :table-data="items"
-                  :fields="fields"
-                  caption="Article Tables"
-                >
-                  <template v-slot:cell(details)="data">
-                    <!-- `data.value` is the value after formatted by the Formatter -->
-                    <a
-                      :href="
-                        `#${data.value.replace(/[^a-z]+/i, '-').toLowerCase()}`
-                      "
-                      >{{ data.value }}</a
-                    >
-                  </template>
-                </c-table>
-              </b-col>
-            </b-tab>
-          </b-tabs>
-              
+              </div> 
             </b-card>
           </b-col>
         </b-row>
