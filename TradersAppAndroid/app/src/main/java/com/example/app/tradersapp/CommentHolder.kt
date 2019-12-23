@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import okhttp3.ResponseBody
@@ -20,6 +21,8 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
     var commentAuthorName: TextView? = null
     var commentChangeDate: TextView? = null
     var deleteComment: Button? = null
+    var updateComment: Button? = null
+    var updateCommentEditText: EditText? = null
     var commentId: String? = null
     var userId: String? = null
 
@@ -29,6 +32,8 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
         commentAuthorName = itemView.findViewById(R.id.commentAuthorTv)
         commentChangeDate = itemView.findViewById(R.id.commentDateTv)
         deleteComment = itemView.findViewById(R.id.deleteCommentButton)
+        updateComment = itemView.findViewById(R.id.updateCommentButton)
+        updateCommentEditText = itemView.findViewById(R.id.updateCommentEditText)
     }
 
     fun bind(item: CommentModel, context: Context) {

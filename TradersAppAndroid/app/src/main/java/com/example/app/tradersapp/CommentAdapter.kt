@@ -34,11 +34,11 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
         val sp = PreferenceManager.getDefaultSharedPreferences(mContext)
         if(holder.userId != sp.getString("userId","")){
             holder.deleteComment?.visibility = View.INVISIBLE
+            holder.updateComment?.visibility = View.INVISIBLE
         }
         else{
+            val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
             holder.deleteComment?.setOnClickListener {
-
-                val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
                 retrofitService.deleteComment(sp.getString("token", ""), holder.commentId).enqueue(object: Callback<ResponseBody>{
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         EyeTradeUtils.toastErrorMessage(mContext, t)
@@ -55,6 +55,14 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
                     }
                 })
 
+            }
+
+            holder.updateComment?.setOnClickListener {
+                holder.commentBody?.visibility = View.GONE
+                holder.updateCommentEditText?.visibility = View.VISIBLE
+                holder.updateCommentEditText?.setText(holder.commentBody?.text)
+
+                // call update comment function
             }
 
         }
