@@ -33,7 +33,7 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
         holder.bind(commentModel, mContext)
         val sp = PreferenceManager.getDefaultSharedPreferences(mContext)
         if(holder.userId != sp.getString("userId","")){
-            holder.deleteComment?.visibility = View.GONE
+            holder.deleteComment?.visibility = View.INVISIBLE
         }
         else{
             holder.deleteComment?.setOnClickListener {
@@ -56,7 +56,7 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
                 })
 
             }
-            
+
         }
 
     }

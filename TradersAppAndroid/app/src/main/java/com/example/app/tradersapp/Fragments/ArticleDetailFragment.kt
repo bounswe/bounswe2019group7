@@ -66,7 +66,7 @@ class ArticleDetailFragment : Fragment() {
                     )
                 ).enqueue(object: Callback<CommentResponse>{
                     override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
-                        EyeTradeUtils.toastErrorMessage(RegistrationActivity.RegisterCallback.activity as Context, t)
+                        EyeTradeUtils.toastErrorMessage(activity?.applicationContext as Context, t)
                     }
 
                     override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
