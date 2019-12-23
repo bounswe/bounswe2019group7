@@ -187,6 +187,13 @@ interface ApiInterface {
         @Header("Authorization") token: String?,
         @Body info: CommentInformation
     ): retrofit2.Call<CommentResponse>
+
+    @PUT("comment_controller/update_comment")
+    fun updateComment(
+        @Header("Authorization") token: String?,
+        @Query("articleOrEventId") commentId: String?,
+        @Query("newContent") newContent: String
+    ): retrofit2.Call<CommentResponse>
 }
 
 data class BasicUserInformation(

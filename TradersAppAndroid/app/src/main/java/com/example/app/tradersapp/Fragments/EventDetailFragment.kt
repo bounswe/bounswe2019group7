@@ -131,7 +131,7 @@ class EventDetailFragment : Fragment() {
 
             override fun onResponse(call: Call<List<CommentResponse>>, response: Response<List<CommentResponse>>) {
                 allComments = response.body()?.map {
-                    CommentModel(it.articleEventId, it.content, it.userInfo.name, it.userInfo.surname, it.userInfo.id, it.createdDate, it.id)
+                    CommentModel(it.articleEventId, it.content, it.userInfo.name, it.userInfo.surname, it.userInfo.id, it.userInfo.email, it.createdDate, it.id)
                 } as MutableList<CommentModel> ?: mutableListOf<CommentModel>()
 
                 rvComments2.apply {
