@@ -62,6 +62,12 @@
             />
 
     <item
+            android:id="@+id/action_notifications"
+            android:title="Notifications"
+            android:icon="@drawable/ic_vpn_key_black_24dp"
+            />
+
+    <item
             android:id="@+id/action_help"
             android:title="Help"
             android:icon="@drawable/ic_help_black_24dp"

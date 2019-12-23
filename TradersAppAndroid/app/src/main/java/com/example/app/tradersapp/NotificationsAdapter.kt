@@ -1,12 +1,13 @@
 package com.example.app.tradersapp
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 
-class NotificationsAdapter: RecyclerView.Adapter<NotificationsAdapter.NotificationssViewHolder>() {
-    lateinit var items: List<SelfNotificationsResponse>
+class NotificationsAdapter(private val items: List<SelfNotificationsResponse>,  context: Context): RecyclerView.Adapter<NotificationsAdapter.NotificationssViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationssViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -29,8 +30,9 @@ class NotificationsAdapter: RecyclerView.Adapter<NotificationsAdapter.Notificati
 
 
         fun bind(notificationsResponse: SelfNotificationsResponse) {
-
             newFollowerName.text = notificationsResponse.followerName
+            notificationsResponse.seen = true
         }
     }
+
 }

@@ -159,10 +159,11 @@ interface ApiInterface {
         @Body info: CommentInformation
     ): retrofit2.Call<CommentResponse>
 
+    // Notifications
     @GET("notification/self_notifications")
     fun getSelfNotifications(
         @Header ("Authorization") token: String?
-    ): retrofit2.Call<SelfNotificationsResponse>
+    ): retrofit2.Call<MutableList<SelfNotificationsResponse>>
 
     @DELETE("notification/delete_notification")
     fun deleteNotification(
@@ -187,9 +188,6 @@ interface ApiInterface {
     )
 
 }
-
-
-
 
 data class BasicUserInformation(
     val name: String,
@@ -354,5 +352,5 @@ data class SelfNotificationsResponse(
     val followerSurname: String,
     val id: String,
     val notificationDate: Date,
-    val seen: Boolean
+    var seen: Boolean
 )
