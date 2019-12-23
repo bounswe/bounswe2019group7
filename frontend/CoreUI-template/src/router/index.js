@@ -6,7 +6,6 @@ const DefaultContainer = () => import("@/containers/DefaultContainer");
 
 // Views
 const Dashboard = () => import("@/views/Dashboard");
-const CryptoCurrency = () => import("@/views/CryptoCurrency");
 const Currency = () => import("@/views/Currency");
 const CurrencyCharts = () => import("@/views/CurrencyCharts");
 const Search = () => import("@/views/Search");
@@ -19,7 +18,7 @@ const ArticleForm = () => import("@/views/ArticleForm");
 const Portfolios = () => import("@/views/Portfolios");
 const Predictions = () => import("@/views/Predictions");
 const OtherPredictions = () => import("@/views/OtherPredictions");
-
+const TradingAccount = () => import("@/views/TradingAccount");
 const Colors = () => import("@/views/theme/Colors");
 const Typography = () => import("@/views/theme/Typography");
 
@@ -87,11 +86,6 @@ function configRoutes() {
           component: Dashboard
         },
         {
-          path: "cryptocurrency",
-          name: "CryptoCurrency",
-          component: CryptoCurrency
-        },
-        {
           path: "currency",
           name: "Currency",
           component: Currency
@@ -150,6 +144,11 @@ function configRoutes() {
           path: "otherPredictions/:email?",
           name: "OtherPredictions",
           component: OtherPredictions
+        },
+        {
+          path: "tradingAccount",
+          name: "TradingAccount",
+          component: TradingAccount
         },
         {
           path: "theme",

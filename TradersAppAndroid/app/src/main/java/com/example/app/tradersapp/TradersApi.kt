@@ -127,12 +127,43 @@ interface ApiInterface {
     ): retrofit2.Call<MinimalUserResponse>
 
 
+    /* Requests related to annotations.
+     */
+    @POST("annotation/add")
+    fun addAnnotation(
+        @Header("Authorization") token: String?,
+        @Body info: AnnotationInformation
+    ): retrofit2.Call<AnnotationResponse>
+
+    @DELETE("annotation/delete")
+    fun deleteAnnotation(
+        @Header("Authorization") token: String?,
+        @Query("annotationId") annotationId: String
+    ): retrofit2.Call<ResponseBody>
+
+    @GET("annotation/get")
+    fun getAnnotationById(
+        @Query("annotationId") annotationId: String
+    ): retrofit2.Call<AnnotationResponse>
+
+    @GET("annotation/get_annotations_of_article_event")
+    fun getAllAnnotationsOfArticleOrEvent(
+        @Query("annotationType") annotationType: String,
+        @Query("articleEventId") articleEventId: String
+    ): retrofit2.Call<List<AnnotationResponse>>
+
+    @GET("annotation/get_annotations_of_self")
+    fun getSelfAnnotations(
+        @Header("Authorization") token: String?
+    ): retrofit2.Call<List<AnnotationResponse>>
+
+
     // Requests related to comments
     @DELETE("comment_controller/delete_comment")
     fun deleteComment(
         @Header("Authorization") token: String?,
-        @Query("articleOrEventId") articleOrEventId: String
-    )
+        @Query("articleOrEventId") articleOrEventId: String?
+    ): retrofit2.Call<ResponseBody>
 
     @GET("comment_controller/get_comment")
     fun getComment(
@@ -155,6 +186,13 @@ interface ApiInterface {
     fun addComment(
         @Header("Authorization") token: String?,
         @Body info: CommentInformation
+    ): retrofit2.Call<CommentResponse>
+
+    @PUT("comment_controller/update_comment")
+    fun updateComment(
+        @Header("Authorization") token: String?,
+        @Query("articleOrEventId") commentId: String?,
+        @Query("newContent") newContent: String
     ): retrofit2.Call<CommentResponse>
 }
 
@@ -196,7 +234,8 @@ data class ArticleInformation(
 )
 
 data class LoginResponse(
-    val token: String
+    val token: String,
+    val userId: String
 )
 
 data class ExchangeRateResponse(
@@ -313,4 +352,34 @@ data class CommentInformation(
     val commentType: String,
     val content: String,
     val title: String
+)
+
+data class AnnotationInformation(
+    val articleEventId: String,
+    val commentType: String,
+    val content: String,
+    val firstChar: Int,
+    val lastChar: Int
+)
+
+data class AnnotationResponse(
+    val articleEventId: String,
+    val commentType: String,
+    val content: String,
+    val firstChar: Int,
+    val lastChar: Int,
+    val id: String,
+    val user: AnnotationUserModel
+
+)
+
+data class AnnotationUserModel(
+    val email: String,
+    val id: String,
+    val name: String,
+    val surname: String
+)
+
+data class AnnotationListResponse(
+    val annotations: List<AnnotationResponse>
 )
