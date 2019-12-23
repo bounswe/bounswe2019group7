@@ -16,6 +16,7 @@ const Articles = () => import("@/views/Articles");
 const Article = () => import("@/views/Article");
 const ArticleForm = () => import("@/views/ArticleForm");
 const Portfolios = () => import("@/views/Portfolios");
+const TradingAccount = () => import("@/views/TradingAccount");
 
 const Colors = () => import("@/views/theme/Colors");
 const Typography = () => import("@/views/theme/Typography");
@@ -132,6 +133,11 @@ function configRoutes() {
           path: "portfolios",
           name: "Portfolios",
           component: Portfolios
+        },
+        {
+          path: "tradingAccount",
+          name: "TradingAccount",
+          component: TradingAccount
         },
         {
           path: "theme",
