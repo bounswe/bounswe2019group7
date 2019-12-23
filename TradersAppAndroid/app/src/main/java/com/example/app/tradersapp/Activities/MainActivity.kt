@@ -1,22 +1,13 @@
 package com.example.app.tradersapp
 
-import android.app.Notification
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.preference.PreferenceManager
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.NotificationManagerCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import com.example.app.tradersapp.Activities.NotificationActivity
-import com.google.firebase.messaging.RemoteMessage
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -82,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    public fun displayNotification() {
+   /* public fun displayNotification() {
         val newMessageNotification = Notification.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.notification_icon)
             .setContentTitle("One new follower")
@@ -93,10 +84,7 @@ class MainActivity : AppCompatActivity() {
         with(NotificationManagerCompat.from(this)) {
             notificationManager.notify(NOTIFICATION_ID, newMessageNotification)
         }
-
-
-
-    }
+    }*/
 
     private fun openHomePage() {
         val intent = Intent(this, HomepageActivity::class.java)
@@ -109,9 +97,5 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun openNotificationsPage() {
-        val intent = Intent(this, NotificationActivity::class.java)
-        startActivity(intent)
-    }
 }
 

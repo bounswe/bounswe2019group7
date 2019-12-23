@@ -159,17 +159,15 @@ interface ApiInterface {
         @Body info: CommentInformation
     ): retrofit2.Call<CommentResponse>
 
-
-    // Requests related to notifications
     @GET("notification/self_notifications")
     fun getSelfNotifications(
         @Header ("Authorization") token: String?
     ): retrofit2.Call<SelfNotificationsResponse>
 
-    @DELETE("notification/delete_otification")
+    @DELETE("notification/delete_notification")
     fun deleteNotification(
         @Header("Authorization") token: String?,
-        @Query("notification_id") notification_id: String
+        @Header("notification_id") notification_id: String
     )
 
     @DELETE("notification/delete_self_notifications")
@@ -177,8 +175,16 @@ interface ApiInterface {
         @Header("Authorization") token: String?
     )
 
-    
+    @PUT("notification/mark_notification")
+    fun markNotification(
+        @Header("Authorization") token: String?,
+        @Header ("notification_id") notification_id: String
+    )
 
+    @PUT("notification/mark_self_notifications")
+    fun markSelfNotifications(
+        @Header("Authorization") token: String?
+    )
 
 }
 
