@@ -130,13 +130,13 @@ interface ApiInterface {
     fun getFollowers(
         @Header("Authorization") token: String?,
         @Header("otherUserEmail") email: String?
-    ): retrofit2.Call<MinimalUserResponse>
+    ): retrofit2.Call<List<MinimalUserResponse>>
 
     @GET("user_following/get_followings")
     fun getFollowings(
         @Header("Authorization") token: String?,
         @Header("otherUserEmail") email: String?
-    ): retrofit2.Call<MinimalUserResponse>
+    ): retrofit2.Call<List<MinimalUserResponse>>
 
     @DELETE("user_following/unfollow")
     fun unfollow(

@@ -27,6 +27,7 @@ import retrofit2.http.Header
 class ProfileFragment : Fragment() {
 
     private var sp:SharedPreferences?=null
+    private var followersCount = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +58,7 @@ class ProfileFragment : Fragment() {
         val otherEmail = bundle?.getString("email")
 
         val followButton = follow
+        val unfollowButton = unfollow
 
         if(otherEmail.isNullOrBlank()) { // self profile
             followButton.visibility = View.GONE
@@ -137,13 +139,25 @@ class ProfileFragment : Fragment() {
                 })
         }
 
-        /*
-        val bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.hansgraham)
-        val mDrawable: RoundedBitmapDrawable = RoundedBitmapDrawableFactory.create(resources,bitmap)
-        mDrawable.isCircular = true
-        profileImage.setImageDrawable(mDrawable)
-        */
-        //mDrawable.setColorFilter(ContextCompat.getColor(context, R.color.colorAccent), PorterDuff.Mode.DST_OVER);
+        // Get the followers of the profile, if this user is already in the list, don't allow to follow again
+        retrofitService.getFollowers(sp?.getString("token", null), otherEmail).enqueue(object: Callback<List<MinimalUserResponse>>{
+            override fun onFailure(call: Call<List<MinimalUserResponse>>, t: Throwable) {
+                EyeTradeUtils.toastErrorMessage(activity!!.applicationContext, t)
+            }
+
+            override fun onResponse(call: Call<List<MinimalUserResponse>>, response: Response<List<MinimalUserResponse>>) {
+                val list = response.body()!!
+                followersCount = list.size
+                val thisUserId = sp?.getString("userId", null)
+                for(user in list){
+                    if(user.id == thisUserId){  // Already following
+                        follow.visibility = View.GONE
+                        unfollowButton.visibility = View.VISIBLE
+                        break
+                    }
+                }
+            }
+        })
 
         followButton.setOnClickListener {
             retrofitService.followUser(sp?.getString("token", null), otherEmail).enqueue(object: Callback<MinimalUserResponse>{
@@ -156,10 +170,31 @@ class ProfileFragment : Fragment() {
                     response: Response<MinimalUserResponse>
                 ) {
                     if(response.code() == 200){
+                        follow.visibility = View.GONE
+                        unfollow.visibility = View.VISIBLE
+                        followersText.text = (followersCount + 1).toString()
+                        followersCount += 1
                         Toast.makeText(context, "You are now following ${name.text}", Toast.LENGTH_SHORT).show()
                     }else {
                         Toast.makeText(context, "There was an error following ${name.text}", Toast.LENGTH_SHORT).show();
                     }
+                }
+
+            })
+        }
+
+        unfollowButton.setOnClickListener {
+            retrofitService.unfollow(sp?.getString("token", null), otherEmail).enqueue(object: Callback<MinimalUserResponse>{
+                override fun onFailure(call: Call<MinimalUserResponse>, t: Throwable) {
+                    EyeTradeUtils.toastErrorMessage(activity!!.applicationContext, t)
+                }
+
+                override fun onResponse(call: Call<MinimalUserResponse>, response: Response<MinimalUserResponse>) {
+                    followersText.text = (followersCount - 1).toString()
+                    followersCount -= 1
+                    unfollowButton.visibility = View.GONE
+                    followButton.visibility = View.VISIBLE
+                    Toast.makeText(context, "You are not following ${name.text} anymore", Toast.LENGTH_SHORT).show()
                 }
 
             })
