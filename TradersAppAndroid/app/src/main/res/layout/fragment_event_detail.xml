@@ -33,6 +33,30 @@
                 app:layout_constraintLeft_toLeftOf="@id/eImage"
                 app:layout_constraintRight_toRightOf="@id/eImage"/>
 
+        <Button
+                android:id="@+id/showAnnotationsButton2"
+                android:text="SWITCH TO ANNOTATION MODE"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf= "@id/myAnnotationsButton2"
+                app:layout_constraintTop_toBottomOf="@id/eTitle"
+                app:layout_constraintBottom_toTopOf="@id/eBody"/>
+
+        <Button
+                android:id="@+id/myAnnotationsButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="MY ANNOTATIONS"
+                app:layout_constraintBottom_toTopOf="@id/eBody"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/showAnnotationsButton2"
+                app:layout_constraintTop_toBottomOf="@id/eTitle"/>
+
         <TextView
                 android:id="@+id/eBody"
                 android:layout_width="0dp"
@@ -43,6 +67,8 @@
                 android:layout_marginBottom="32dp"
                 android:ellipsize="end"
                 android:maxLines="15"
+                android:textIsSelectable="false"
+                android:clickable="true"
                 android:text="Event or article preview"
                 android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@id/eTitle"

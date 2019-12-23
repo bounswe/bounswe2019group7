@@ -55,6 +55,30 @@
                 app:layout_constraintRight_toRightOf="@id/aImage"
                 app:layout_constraintTop_toBottomOf="@id/aTitle"/>
 
+        <Button
+                android:id="@+id/showAnnotationsButton"
+                android:text="SWITCH TO ANNOTATION MODE"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf= "@id/myAnnotationsButton"
+                app:layout_constraintTop_toBottomOf="@id/articleAuthorName"
+                app:layout_constraintBottom_toTopOf="@id/aBody"/>
+
+        <Button
+                android:id="@+id/myAnnotationsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="MY ANNOTATIONS"
+                app:layout_constraintBottom_toTopOf="@id/aBody"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/showAnnotationsButton"
+                app:layout_constraintTop_toBottomOf="@id/articleAuthorName"/>
+
 
         <TextView
                 android:id="@+id/aBody"
@@ -65,6 +89,8 @@
                 android:layout_marginEnd="18dp"
                 android:layout_marginBottom="32dp"
                 android:ellipsize="end"
+                android:textIsSelectable="false"
+                android:clickable="true"
                 android:text="Event or article preview"
                 android:textSize="15sp"
                 app:layout_constraintTop_toBottomOf="@id/articleAuthorName"
@@ -86,7 +112,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:id="@+id/addCommentEditText"
-                        android:layout_weight="1"/>
+                        android:hint="Write your comment here"
+                        android:layout_weight="2"/>
                 <Button android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
