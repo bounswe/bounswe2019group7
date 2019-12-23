@@ -59,10 +59,48 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
 
             holder.updateComment?.setOnClickListener {
                 holder.commentBody?.visibility = View.GONE
+                holder.updateComment?.visibility = View.GONE
+                holder.approveUpdateButton?.visibility = View.VISIBLE
                 holder.updateCommentEditText?.visibility = View.VISIBLE
                 holder.updateCommentEditText?.setText(holder.commentBody?.text)
 
-                // call update comment function
+
+                holder.approveUpdateButton?.setOnClickListener {
+                    retrofitService.updateComment(
+                        sp.getString("token", ""),
+                        holder.commentId,
+                        holder.updateCommentEditText?.text.toString()). enqueue(object: Callback<CommentResponse>{
+                        override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
+                            EyeTradeUtils.toastErrorMessage(mContext, t)
+                        }
+
+                        override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
+                            val resp = response.body()
+                            val commentModel = CommentModel(
+                                resp?.articleEventId,
+                                resp?.content,
+                                resp?.userInfo?.name,
+                                resp?.userInfo?.surname,
+                                resp?.userInfo?.id,
+                                resp?.createdDate,
+                                resp?.id)
+                            list.removeAll{it.id == holder.commentId}
+                            list.add(0,commentModel)
+                            notifyDataSetChanged()
+                            Toast.makeText(
+                                mContext,
+                                "Your comment has been successfully updated!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            holder.approveUpdateButton?.visibility = View.GONE
+                            holder.updateComment?.visibility = View.VISIBLE
+                            holder.updateCommentEditText?.visibility = View.GONE
+                            holder.commentBody?.visibility = View.VISIBLE
+                        }
+
+                    })
+                }
+
             }
 
         }

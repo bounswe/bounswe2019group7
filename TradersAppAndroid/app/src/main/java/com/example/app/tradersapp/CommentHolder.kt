@@ -23,6 +23,7 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
     var deleteComment: Button? = null
     var updateComment: Button? = null
     var updateCommentEditText: EditText? = null
+    var approveUpdateButton: Button? = null
     var commentId: String? = null
     var userId: String? = null
 
@@ -34,12 +35,13 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
         deleteComment = itemView.findViewById(R.id.deleteCommentButton)
         updateComment = itemView.findViewById(R.id.updateCommentButton)
         updateCommentEditText = itemView.findViewById(R.id.updateCommentEditText)
+        approveUpdateButton = itemView.findViewById(R.id.approveUpdateButton)
     }
 
     fun bind(item: CommentModel, context: Context) {
         commentBody?.text = item.body
         commentAuthorName?.text = item.authorName + " " + item.authorSurname
-        commentChangeDate?.text = item.changeDate.substring(0, 10)     // Only show the date, not the hour
+        commentChangeDate?.text = item.changeDate?.substring(0, 10)     // Only show the date, not the hour
         userId = item.userId
         commentId = item.id
     }
@@ -47,11 +49,11 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
 }
 
 data class CommentModel(
-    val articleEventId: String,
+    val articleEventId: String?,
     val body: String?,
-    val authorName: String,
-    val authorSurname: String,
+    val authorName: String?,
+    val authorSurname: String?,
     val userId: String?,
-    val changeDate: String,
-    val id: String
+    val changeDate: String?,
+    val id: String?
 )

@@ -48,4 +48,13 @@
             android:layout_height="16dp"
             android:id="@+id/updateCommentButton"
             android:layout_weight="0.2"/>
+
+    <Button android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:background="@drawable/ic_done_green_24dp"
+            android:layout_height="16dp"
+            android:id="@+id/approveUpdateButton"
+            android:visibility="gone"
+            android:layout_weight="0.2"/>
 </LinearLayout>
