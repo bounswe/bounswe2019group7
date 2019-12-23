@@ -49,8 +49,7 @@
               </div>
               <div id="empty-div"> </div>
               <div id="result">
-              </div>
-              
+              </div> 
             </b-card>
           </b-col>
         </b-row>
