@@ -2,11 +2,13 @@ package com.example.app.tradersapp
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.opengl.Visibility
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.app.tradersapp.RegistrationActivity.RegisterCallback.activity
@@ -29,9 +31,12 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
     override fun onBindViewHolder(holder: CommentHolder, position: Int) {
         val commentModel: CommentModel = list[position]
         holder.bind(commentModel, mContext)
-        holder.deleteComment?.setOnClickListener {
-            val sp = PreferenceManager.getDefaultSharedPreferences(mContext)
-            if(holder.userId == sp.getString("userId","")){
+        val sp = PreferenceManager.getDefaultSharedPreferences(mContext)
+        if(holder.userId != sp.getString("userId","")){
+            holder.deleteComment?.visibility = View.GONE
+        }
+        else{
+            holder.deleteComment?.setOnClickListener {
 
                 val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
                 retrofitService.deleteComment(sp.getString("token", ""), holder.commentId).enqueue(object: Callback<ResponseBody>{
@@ -51,14 +56,9 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
                 })
 
             }
-            else{
-                Toast.makeText(
-                    mContext,
-                    "You cannot delete other people's comments!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            
         }
+
     }
     override fun getItemCount(): Int = list.size
 
