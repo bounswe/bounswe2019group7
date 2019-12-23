@@ -79,7 +79,7 @@ import router from "../router";
       name: "Search",
       data: function() {
         return {
-          selected: [], // Must be an array reference!
+          selected: [],
           show: true,
           items: someData,
           itemsArray: someData(),
@@ -107,7 +107,6 @@ import router from "../router";
       methods: {
         search: function(event) {
             var that = this;
-            console.log(that)
             var textToSearch = document.getElementById("bar").value;
             this.$http.get('/search/basic/' + textToSearch)
               .then((response) => {
