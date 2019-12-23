@@ -25,7 +25,7 @@ class EventDetailFragment : Fragment() {
 
     private val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
     private var sp: SharedPreferences? = null
-    private var allComments: List<CommentModel> = emptyList()
+    private var allComments: MutableList<CommentModel> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,7 +99,7 @@ class EventDetailFragment : Fragment() {
             override fun onResponse(call: Call<List<CommentResponse>>, response: Response<List<CommentResponse>>) {
                 allComments = response.body()?.map {
                     CommentModel(it.articleEventId, it.content, it.userInfo.name, it.userInfo.surname, it.userInfo.id, it.createdDate, it.id)
-                }?: emptyList()
+                } as MutableList<CommentModel> ?: mutableListOf<CommentModel>()
 
                 rvComments2.apply {
                     layoutManager = LinearLayoutManager(activity)

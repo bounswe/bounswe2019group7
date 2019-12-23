@@ -131,8 +131,8 @@ interface ApiInterface {
     @DELETE("comment_controller/delete_comment")
     fun deleteComment(
         @Header("Authorization") token: String?,
-        @Query("articleOrEventId") articleOrEventId: String
-    )
+        @Query("articleOrEventId") articleOrEventId: String?
+    ): retrofit2.Call<ResponseBody>
 
     @GET("comment_controller/get_comment")
     fun getComment(
