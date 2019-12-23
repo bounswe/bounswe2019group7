@@ -18,8 +18,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CommentDto {
 
-    private String title;
-
     private String content;
 
     private CommentType commentType;

@@ -64,9 +64,9 @@ export default {
       attributes: { disabled: true }
     },
     {
-      name: "Cryptocurrencies",
-      url: "cryptocurrency",
-      icon: "fa fa-bitcoin",
+      name: "Search",
+      url: "search",
+      icon: "fa fa-search",
       attributes: { disabled: false }
     },
     {

@@ -62,6 +62,16 @@ public class CurrencyRateService {
                 return record.getJapanRate();
             case CNY:
                 return record.getChinaRate();
+            case BTC:
+                return record.getBitcoin();
+            case ETH:
+                return record.getEthereum();
+            case LTC:
+                return record.getLitecoin();
+            case XMR:
+                return record.getMonero();
+            case XRP:
+                return record.getRipple();
             default:
                 throw new RuntimeException(NO_SUCH_CURRENCY_TYPES);
         }

@@ -6,10 +6,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.ActionBarDrawerToggle
+import com.example.app.tradersapp.Fragments.CryptocurrenciesFragment
 import com.example.app.tradersapp.Fragments.*
 
 import kotlinx.android.synthetic.main.activity_homepage.*
-import java.util.*
 
 
 class HomepageActivity : AppCompatActivity() {
@@ -53,6 +53,10 @@ class HomepageActivity : AppCompatActivity() {
 
                 R.id.action_currency_converter -> {
                     fragment = CurrencyConverterFragment()
+                }
+
+                R.id.action_cryptocurrencies -> {
+                    fragment = CryptocurrenciesFragment()
                 }
 
                 R.id.action_articles -> {

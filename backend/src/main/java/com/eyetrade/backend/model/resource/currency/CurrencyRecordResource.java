@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.annotation.Resource;
 
@@ -31,5 +30,15 @@ public class CurrencyRecordResource {
     private Double japanRate; //JPY
 
     private Double chinaRate; //CNY
+
+    private Double bitcoin; // BTC
+
+    private Double ethereum; // ETH
+
+    private Double ripple; // XRP
+
+    private Double litecoin; // LTC
+
+    private Double monero; // XMR
 
 }

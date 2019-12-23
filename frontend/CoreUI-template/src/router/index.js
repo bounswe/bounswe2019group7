@@ -6,9 +6,9 @@ const DefaultContainer = () => import("@/containers/DefaultContainer");
 
 // Views
 const Dashboard = () => import("@/views/Dashboard");
-const CryptoCurrency = () => import("@/views/CryptoCurrency");
 const Currency = () => import("@/views/Currency");
 const CurrencyCharts = () => import("@/views/CurrencyCharts");
+const Search = () => import("@/views/Search");
 const Events = () => import("@/views/Events");
 const ProfilePage = () => import("@/views/ProfilePage");
 const UserSettings = () => import("@/views/UserSettings");
@@ -84,11 +84,6 @@ function configRoutes() {
           component: Dashboard
         },
         {
-          path: "cryptocurrency",
-          name: "CryptoCurrency",
-          component: CryptoCurrency
-        },
-        {
           path: "currency",
           name: "Currency",
           component: Currency
@@ -97,6 +92,11 @@ function configRoutes() {
           path: "currencyCharts",
           name: "Currency Charts",
           component: CurrencyCharts
+        },
+        {
+          path: "search",
+          name: "Search",
+          component: Search
         },
         {
           path: "profilePage/:email?",

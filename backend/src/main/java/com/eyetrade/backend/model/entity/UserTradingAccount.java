@@ -38,4 +38,14 @@ public class UserTradingAccount {
     private Double jpyAmount=0.0;
 
     private Double gbpAmount=0.0;
+
+    private Double bitcoinAmount=0.0; // BTC
+
+    private Double ethereumAmount=0.0; // ETH
+
+    private Double rippleAmount=0.0; // XRP
+
+    private Double litecoinAmount=0.0; // LTC
+
+    private Double moneroAmount=0.0; // XMR
 }

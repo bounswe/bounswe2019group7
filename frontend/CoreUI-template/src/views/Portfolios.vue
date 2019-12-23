@@ -5,7 +5,7 @@
           <b-row style="justify-content:center">
             <b-col sm="5" lg="5">
               <b-form @submit="createPortfolio">
-                <h2>Create a new Portfolio</h2>
+                <h3 align="center">Create a new Portfolio</h3>
                 <b-input-group class="mb-3">
                   <b-input-group-prepend>
                     <b-input-group-text>
@@ -26,23 +26,25 @@
           </b-row>
         </b-card-body>
       </b-card>
-      <h1 align="center">My Portfolios</h1>
+      <h3 align="center">My Portfolios</h3>
       <b
         class="row"
         style="justify-content: center;"
-        id="articleCard"
+        id="portfolioCard"
         v-for="portfolio in portfolios":key="portfolio.id"
       >
         <b-col sm="6" md="9">
           <b-card>
             <div slot="header">
-              <h1>{{ portfolio.name }}</h1>
+
+
+              {{ portfolio.name }}
               <div class="card-header-actions">
-                <b-badge  v-for="currency in portfolio.currencyTypes" variant="success">{{ currency}}</b-badge>
+                <b-button v-on:click="deletePortfolio(portfolio.id)"  variant="danger">Delete</b-button>
               </div>
             </div>
             <div style="margin-bottom:20px;">
-              <h5>Add a new Trading Equipment:</h5>
+              <h6>Select a base Trading Equipment:</h6>
               <select v-bind:id="portfolio.name" class="form-control">
                   <option value="price1">USD</option>
                   <option value="price2">TRY</option>
@@ -50,8 +52,27 @@
                   <option value="price4">GBP</option>
                   <option value="price5">JPY</option>
                   <option value="price6">CNY</option>
+                  <option value="price6">BTC</option>
+                  <option value="price6">ETH</option>
+                  <option value="price6">XRP</option>
+                  <option value="price6">LTC</option>
+                  <option value="price6">XMR</option>
               </select>
-              <b-button v-on:click="addTradingEquipment(portfolio.id,portfolio.name)"variant="primary" class="pull-right">Add to Portfolio</b-button>
+              <h6 style="margin-top:5px">Select a target Trading Equipment:</h6>
+              <select v-bind:id="portfolio.id" class="form-control" >
+                  <option value="price1">USD</option>
+                  <option value="price2">TRY</option>
+                  <option value="price3">EUR</option>
+                  <option value="price4">GBP</option>
+                  <option value="price5">JPY</option>
+                  <option value="price6">CNY</option>
+                  <option value="price6">BTC</option>
+                  <option value="price6">ETH</option>
+                  <option value="price6">XRP</option>
+                  <option value="price6">LTC</option>
+                  <option value="price6">XMR</option>
+              </select>
+              <b-button v-on:click="addTradingEquipment(portfolio.id,portfolio.name)"variant="primary" class="pull-right" style="margin-top:5px">Add to Portfolio</b-button>
             </div>
             <b-row class="Currencies">
               <b-col v-for="item in portfolio.currencyPairs" sm="6" lg="3">
@@ -59,6 +80,7 @@
                   <b-card-body align="center"class="pb-0">
                     <h5 class="mb-0">{{item.targetType}}/{{item.baseType}}</h5>
                     <h6>{{item.rate.toFixed(4)}}</h6>
+                    <b-button v-on:click="deleteTradingEquipment(item.targetType,item.baseType,portfolio.id)"variant="danger" class="pb-0">Delete</b-button>
                   </b-card-body>
                 </b-card>
               </b-col>
@@ -107,15 +129,18 @@ export default {
 
     },
     "addTradingEquipment": function addTradingEquipment(portfolioID,portfolioName) {
-      var currencies=(document.getElementById(portfolioName));
-      var baseCurrency = currencies.options[currencies.selectedIndex].text;
+      var base_currencies=(document.getElementById(portfolioName));
+      var baseCurrency = base_currencies.options[base_currencies.selectedIndex].text;
+      var target_currencies=(document.getElementById(portfolioID));
+      var targetCurrency = target_currencies.options[target_currencies.selectedIndex].text;
       this.$http
-      .post('/portfolio/add_currency_to_portfolio',
+      .post('/portfolio/add_currency_pair_to_portfolio',
       {},
       {
         headers: {
           Authorization: localStorage.getItem("token"),
-          BaseCurrencyType: baseCurrency,
+          FirstCurrencyType: targetCurrency,
+          SecondCurrencyType:baseCurrency
         },
         params: {
           portfolioID : portfolioID,
@@ -126,6 +151,55 @@ export default {
         if(response.status == 200){
           this.$router.go("/portfolios");
         }else{
+          this.errors = [`An error occurred.`];
+          this.isDisabled = false;
+        }
+      })
+
+    },
+    "deleteTradingEquipment": function deleteTradingEquipment(targetType,baseType,portfolioID) {
+      this.$http
+      .delete('/portfolio/remove_currency_pair_from_portfolio',
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          FirstCurrencyType: baseType,
+          SecondCurrencyType:targetType
+        },
+        params: {
+          portfolioID : portfolioID,
+        }
+      }
+      )
+      .then(response => {
+
+        if(response.status == 200){
+          location.reload();
+        }
+        else{
+          this.errors = [`An error occurred.`];
+          this.isDisabled = false;
+        }
+      })
+
+    },
+    "deletePortfolio": function deletePortfolio(portfolioID) {
+      this.$http
+      .delete('/portfolio/delete',
+      {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+        params: {
+          portfolioId : portfolioID,
+        }
+      }
+      )
+      .then(response => {
+        if(response.status == 200){
+          location.reload();
+        }
+        else{
           this.errors = [`An error occurred.`];
           this.isDisabled = false;
         }

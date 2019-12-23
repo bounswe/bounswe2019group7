@@ -28,8 +28,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-import static com.eyetrade.backend.constants.ErrorConstants.A_USER_CAN_HAVE_ONLY_AN_ACCOUNT;
-import static com.eyetrade.backend.constants.ErrorConstants.NO_SUCH_TRADING_ACCOUNT;
+import static com.eyetrade.backend.constants.ErrorConstants.*;
 
 /**
  * Created by Emir Gökdemir
@@ -72,7 +71,7 @@ public class TransactionService {
     }
 
     @Transactional
-    public UserAccountResource getUserTradingAccount(UUID userId) {
+    public UserAccountResource getUserTradingAccount(UUID userId) throws IllegalArgumentException {
         User user = userRepository.findById(userId);
         UserTradingAccount account = repository.findUserTradingAccountByUser(user);
         if (account == null) {
@@ -82,7 +81,7 @@ public class TransactionService {
     }
 
     @Transactional
-    public BuyTransactionResource buyFund(BuyTransactionDto transactionDto, UUID userId) {
+    public BuyTransactionResource buyFund(BuyTransactionDto transactionDto, UUID userId) throws IllegalArgumentException {
         User user = userRepository.findById(userId);
         UserTradingAccount account = repository.findUserTradingAccountByUser(user);
         Double lastAmount=0.0;
@@ -94,7 +93,7 @@ public class TransactionService {
             case EUR:
                 resource.setBoughtTypeInitialAmount(account.getEurAmount());
                 lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
-                if(lastAmount>0){
+                if(lastAmount>=0){
                     account.setEurAmount(lastAmount);
                     resource.setIsSuccessful(true);
                 }
@@ -102,38 +101,78 @@ public class TransactionService {
             case TRY:
                 resource.setBoughtTypeInitialAmount(account.getTryAmount());
                 lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
-                if(lastAmount>0){
+                if(lastAmount>=0){
                     account.setTryAmount(lastAmount);
                     resource.setIsSuccessful(true);
                 }break;
             case USD:
                 resource.setBoughtTypeInitialAmount(account.getUsdAmount());
                 lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
-                if(lastAmount>0){
+                if(lastAmount>=0){
                     account.setUsdAmount(lastAmount);
                     resource.setIsSuccessful(true);
                 }break;
             case CNY:
                 resource.setBoughtTypeInitialAmount(account.getCnyAmount());
                 lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
-                if(lastAmount>0){
+                if(lastAmount>=0){
                     account.setCnyAmount(lastAmount);
                     resource.setIsSuccessful(true);
                 } break;
             case GBP:
                 resource.setBoughtTypeInitialAmount(account.getGbpAmount());
                 lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
-                if(lastAmount>0){
+                if(lastAmount>=0){
                     account.setGbpAmount(lastAmount);
                     resource.setIsSuccessful(true);
                 }break;
             case JPY:
                 resource.setBoughtTypeInitialAmount(account.getJpyAmount());
                 lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
-                if(lastAmount>0){
+                if(lastAmount>=0){
                     account.setJpyAmount(lastAmount);
                     resource.setIsSuccessful(true);
                 }break;
+            case XRP:
+                resource.setBoughtTypeInitialAmount(account.getRippleAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>=0){
+                    account.setRippleAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
+            case XMR:
+                resource.setBoughtTypeInitialAmount(account.getMoneroAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>=0){
+                    account.setMoneroAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
+            case ETH:
+                resource.setBoughtTypeInitialAmount(account.getEthereumAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>=0){
+                    account.setEthereumAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
+            case BTC:
+                resource.setBoughtTypeInitialAmount(account.getBitcoinAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>=0){
+                    account.setBitcoinAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
+            case LTC:
+                resource.setBoughtTypeInitialAmount(account.getLitecoinAmount());
+                lastAmount=resource.getBoughtTypeInitialAmount() + transactionDto.getAmount();
+                if(lastAmount>=0){
+                    account.setLitecoinAmount(lastAmount);
+                    resource.setIsSuccessful(true);
+                }break;
+        }
+        if (resource.getIsSuccessful()){
+            resource.setBoughtTypeLastAmount(lastAmount);
+        } else {
+            throw new IllegalArgumentException(FUND_IS_NOT_ENOUGH_FOR_THIS_OPERATION);
         }
         repository.saveAndFlush(account);
         return resource;

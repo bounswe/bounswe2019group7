@@ -16,7 +16,6 @@ public class PortfolioResource {
     private UUID id;
     private String name;
     private UUID ownerId;
-    private List<CurrencyType> currencyTypes;
     private List<PortfolioCurrencyPair> currencyPairs;
 
 }
