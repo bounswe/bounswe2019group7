@@ -88,6 +88,12 @@ interface ApiInterface {
         @Body info: TraderUserInformation
     ): retrofit2.Call<ResponseBody>
 
+    @POST("user_profile/update_privacy")
+    fun updatePrivacy(
+        @Header("Authorization") token: String?,
+        @Header("privacy") privacy: String?
+    ): retrofit2.Call<SelfProfileInformationResponse>
+
     @GET("article/article")
     fun getArticleById(@Query("id") articleId: String): retrofit2.Call<ArticleResponse>
 
