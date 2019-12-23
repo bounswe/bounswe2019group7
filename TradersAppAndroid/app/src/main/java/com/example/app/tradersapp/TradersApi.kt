@@ -126,6 +126,24 @@ interface ApiInterface {
         @Header("followingUserEmail") email: String?
     ): retrofit2.Call<MinimalUserResponse>
 
+    @GET("user_following/get_followers")
+    fun getFollowers(
+        @Header("Authorization") token: String?,
+        @Header("otherUserEmail") email: String?
+    ): retrofit2.Call<MinimalUserResponse>
+
+    @GET("user_following/get_followings")
+    fun getFollowings(
+        @Header("Authorization") token: String?,
+        @Header("otherUserEmail") email: String?
+    ): retrofit2.Call<MinimalUserResponse>
+
+    @DELETE("user_following/unfollow")
+    fun unfollow(
+        @Header("Authorization") token: String?,
+        @Header("followingUserEmail") email: String?
+    ): retrofit2.Call<MinimalUserResponse>
+
 
     /* Requests related to annotations.
      */

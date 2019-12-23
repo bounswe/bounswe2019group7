@@ -56,7 +56,6 @@ class ProfileFragment : Fragment() {
 
         val otherEmail = bundle?.getString("email")
 
-        val profileImage = profilePic
         val followButton = follow
 
         if(otherEmail.isNullOrBlank()) { // self profile
@@ -97,8 +96,10 @@ class ProfileFragment : Fragment() {
                     }
 
                 })
-        }else{
+        }else{  // other profile
             updateProfile.visibility = View.GONE
+            email.visibility = View.GONE // don't show other people's email addresses
+
             retrofitService.getOtherProfileInformation(sp?.getString("token", null), otherEmail)
                 .enqueue(object : Callback<OtherProfileInformationResponse> {
                     override fun onFailure(
