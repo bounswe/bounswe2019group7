@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.app.tradersapp.Fragments.ProfileFragment
 import com.example.app.tradersapp.RegistrationActivity.RegisterCallback.activity
 import kotlinx.android.synthetic.main.fragment_article_detail.view.*
 import okhttp3.ResponseBody
@@ -32,12 +33,28 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
         val commentModel: CommentModel = list[position]
         holder.bind(commentModel, mContext)
         val sp = PreferenceManager.getDefaultSharedPreferences(mContext)
+
+        holder.commentAuthorName?.setOnClickListener {
+            val profileFragment = ProfileFragment()
+            val profileBundle = Bundle()
+            profileBundle.apply{
+                putString("email", holder.userEmail)
+            }
+            profileFragment.arguments = profileBundle
+
+            val transaction = (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_fragment, profileFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
         if(holder.userId != sp.getString("userId","")){
             holder.deleteComment?.visibility = View.INVISIBLE
             holder.updateComment?.visibility = View.INVISIBLE
         }
         else{
             val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
+
             holder.deleteComment?.setOnClickListener {
                 retrofitService.deleteComment(sp.getString("token", ""), holder.commentId).enqueue(object: Callback<ResponseBody>{
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -82,6 +99,7 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
                                 resp?.userInfo?.name,
                                 resp?.userInfo?.surname,
                                 resp?.userInfo?.id,
+                                resp?.userInfo?.email,
                                 resp?.createdDate,
                                 resp?.id)
                             list.removeAll{it.id == holder.commentId}

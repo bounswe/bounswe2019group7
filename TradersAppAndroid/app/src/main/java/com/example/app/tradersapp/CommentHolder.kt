@@ -26,6 +26,7 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
     var approveUpdateButton: Button? = null
     var commentId: String? = null
     var userId: String? = null
+    var userEmail: String? = null
 
 
     init {
@@ -43,6 +44,7 @@ class CommentHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.
         commentAuthorName?.text = item.authorName + " " + item.authorSurname
         commentChangeDate?.text = item.changeDate?.substring(0, 10)     // Only show the date, not the hour
         userId = item.userId
+        userEmail = item.userEmail
         commentId = item.id
     }
 
@@ -54,6 +56,7 @@ data class CommentModel(
     val authorName: String?,
     val authorSurname: String?,
     val userId: String?,
+    val userEmail: String?,
     val changeDate: String?,
     val id: String?
 )
