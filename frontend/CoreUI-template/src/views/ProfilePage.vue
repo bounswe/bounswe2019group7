@@ -48,9 +48,22 @@
                   >{{portfolio}}</b-button
                 >
               </router-link>
-              <b-button size="lg" variant="primary" v-if="seen" block
-                >Create an Alarm</b-button
+
+              <router-link
+                :to="{
+                  path: '/otherPredictions/'+ item.email
+                }"
               >
+                <b-button
+                  size="lg"
+                  v-if="seen"
+                  variant="primary"
+                  style="margin-top:5px"
+                  block
+                  >Predictions</b-button
+                >
+              </router-link>
+
             </b-col>
             <b-col sm="4">
               <b-button v-on:click="followUser(item.email)" v-if="seen" size="md" variant="primary" block
