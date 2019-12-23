@@ -1,17 +1,14 @@
 <template>
 
-  
 
-<div class="Articles">
+<div class="Search Bar">
   <div class="form-group" id="bar-div">
     <label for="input" class="sr-only"></label>
-
     <input type="text" class="form-control" id="bar" placeholder="Search">
-
-</div>
-
-<b-button type="submit" variant="primary" v-on:click="search">Search</b-button>
-
+    
+  </div>
+  <b-button type="submit" variant="primary" v-on:click="search">Search</b-button>
+  <div class="Articles" id="articles">
       <h3 align="left">Articles </h3>
   <b
     style="justify-content: right;"
@@ -39,6 +36,35 @@
         </p>
       </b-card>
   </b>
+  </div>
+
+  <div class="table" id="events">
+      <h3 align="left">Events</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Significance</th>
+            <th>Event</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="event in this.events">
+              <td>{{ event.stringDate}}</td>
+              <td>{{ event.score+"/5"}}</td>
+              <td>{{ event.title }}</td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <div class="table" id="users">
+      <h3 align="left">Users</h3>
+      <li v-for="user in users">
+          {{ user.name + " " + user.surname }}
+      </li>
+  </div>
+
 </div>
         
 
@@ -70,7 +96,11 @@ import router from "../router";
           seenTop: true,
           seenAll: false,
           isDisabled: false,
-          errors: []
+          errors: [],
+          events: [],
+          users: [],
+          currentPage: 1,
+          elementsPerPage: 7
         };
       },
 
@@ -82,8 +112,18 @@ import router from "../router";
             this.$http.get('/search/basic/' + textToSearch)
               .then((response) => {
                 if (response.status == 200) {
+                  var articles = document.getElementById("articles");
+                  var events = document.getElementById("events");
+                  var users = document.getElementById("users");
+
+                  articles.style.display = "";
+                  events.style.display = "";
+                  users.style.display = "";
+
                   this.articles = response.data.articleResources;
-                  console.log(response.data.articleResources);
+                  this.events = response.data.eventResources;
+                  this.users = response.data.minimalUserResources;
+                  
                   this.$forceUpdate();
                 }
               });
@@ -92,6 +132,15 @@ import router from "../router";
 
             
         },
+      },
+      mounted(){
+          var articles = document.getElementById("articles");
+          var events = document.getElementById("events");
+          var users = document.getElementById("users");
+
+          articles.style.display = "none";
+          events.style.display = "none";
+          users.style.display = "none";
       }
     };
 </script>
