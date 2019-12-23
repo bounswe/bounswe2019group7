@@ -21,4 +21,10 @@
             android:id="@+id/commentDateTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:layout_weight="1" android:text="TextView"/>
+
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deleteCommentButton"
+            android:layout_weight="0.5"
+            android:text="DEL"/>
 </LinearLayout>

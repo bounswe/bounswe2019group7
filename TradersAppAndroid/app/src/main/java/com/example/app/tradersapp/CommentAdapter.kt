@@ -27,7 +27,7 @@ class CommentAdapter(private val list: List<CommentModel>, context: Context)
 
     override fun onBindViewHolder(holder: CommentHolder, position: Int) {
         val commentModel: CommentModel = list[position]
-        holder.bind(commentModel)
+        holder.bind(commentModel, mContext)
     }
     override fun getItemCount(): Int = list.size
 }

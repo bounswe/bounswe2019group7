@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                 if (response.code() == 200) {
                     val editor = sp?.edit()
                     editor?.putString("token", response.body()?.token)
+                    editor?.putString("userId", response.body()?.userId)
                     editor?.apply()
                     openHomePage()
                 } else {
