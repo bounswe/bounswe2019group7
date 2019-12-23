@@ -225,7 +225,7 @@ interface ApiInterface {
     fun deleteNotification(
         @Header("Authorization") token: String?,
         @Header("notification_id") notification_id: String
-    )
+    ): retrofit2.Call<ResponseBody>
 
     @DELETE("notification/delete_self_notifications")
     fun deleteSelfNotifications(

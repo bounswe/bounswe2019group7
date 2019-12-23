@@ -9,10 +9,19 @@
 
     <TextView
             android:id="@+id/newFollowerName"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="3"
             tools:text="new follower"/>
+
+    <Button android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:background="@drawable/ic_delete_red_24dp"
+            android:layout_height="16dp"
+            android:id="@+id/deleteNotificationButton"
+            android:layout_weight="0.2"/>
 
 </LinearLayout>

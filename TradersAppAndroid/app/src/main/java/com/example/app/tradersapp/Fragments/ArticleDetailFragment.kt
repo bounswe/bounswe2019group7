@@ -181,7 +181,7 @@ class ArticleDetailFragment : Fragment() {
     private fun switchToReadingMode(){
         isInSelfAnnotationMode = false
         aBody.setTextIsSelectable(false)
-        showAnnotationsButton.text = "SWITCH TO ANNOTATION MODE"
+        showAnnotationsButton.text = "SEE/ADD ANNOTATIONS"
         isInAnnotationMode = false
         revertHighlightText()
 
