@@ -5,6 +5,7 @@ import com.eyetrade.backend.model.resource.event.EventResource;
 import com.eyetrade.backend.utils.DateUtils;
 
 import static com.eyetrade.backend.constants.EventConstants.RESOURCE_TIME_FORMAT;
+import static org.decimal4j.util.DoubleRounder.round;
 
 public class EventMapper {
 
@@ -14,7 +15,7 @@ public class EventMapper {
                 event.getContent(),
                 DateUtils.dateTimeFormatter(event.getAdditionDate(), RESOURCE_TIME_FORMAT),
                 event.getLink(),
-                event.getScore());
+                round(event.getScore(),2));
     }
 
 }

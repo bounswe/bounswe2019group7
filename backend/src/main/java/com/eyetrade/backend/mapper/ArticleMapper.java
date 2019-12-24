@@ -5,6 +5,9 @@ import com.eyetrade.backend.model.entity.Article;
 import com.eyetrade.backend.model.entity.User;
 import com.eyetrade.backend.model.resource.article.ArticleResource;
 
+import static org.decimal4j.util.DoubleRounder.round;
+
+
 public class ArticleMapper {
 
     public static Article articleDtoToEntity(ArticleDto articleDto, User user){
@@ -24,7 +27,7 @@ public class ArticleMapper {
         articleResource.setContent(article.getContent());
         articleResource.setContentAbstract(article.getContentAbstract());
         articleResource.setStringDate(article.getAdditionDate().toString());
-        articleResource.setScore(article.getScore());
+        articleResource.setScore(round(article.getScore(),2));
         articleResource.setUuid(article.getId());
         articleResource.setChangeDate(article.getLastChangeDate().toString());
         articleResource.setAuthorName(article.getAuthorName());
