@@ -51,6 +51,7 @@
                 android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/AntiqueWhite"
                 app:layout_constraintLeft_toLeftOf="@id/aImage"
                 app:layout_constraintRight_toRightOf="@id/aImage"
                 app:layout_constraintTop_toBottomOf="@id/aTitle"/>
@@ -117,6 +118,7 @@
                 <Button android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:backgroundTint="@color/Green"
                         android:id="@+id/addCommentButton"
                         android:text="ADD COMMENT"/>
 

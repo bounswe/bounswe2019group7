@@ -42,6 +42,8 @@ class ArticleDetailFragment : Fragment() {
 
     private var body: String = ""
 
+    private var hintTextColor: Int = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -103,11 +105,6 @@ class ArticleDetailFragment : Fragment() {
                     }
 
                     override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
-                        Toast.makeText(
-                            activity,
-                            "Your comment has been saved successfully.",
-                            Toast.LENGTH_SHORT
-                        ).show()
                         addCommentEditText.hideKeyboard()
                         addCommentEditText.text = null
                         getComments(token, articleId)
@@ -193,6 +190,7 @@ class ArticleDetailFragment : Fragment() {
 
         addCommentButton.visibility = View.VISIBLE
         addCommentEditText.hint = "Write your comment here"
+
     }
     private fun switchToAnnotationMode(articleId: String){
         isInSelfAnnotationMode = false
@@ -203,7 +201,6 @@ class ArticleDetailFragment : Fragment() {
 
         addCommentButton.visibility = View.GONE
         addCommentEditText.hint = "Write your annotation here"
-
     }
 
     private fun highlightText(startIndex: Int, endIndex: Int){
