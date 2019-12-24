@@ -218,6 +218,38 @@ interface ApiInterface {
         @Query("articleOrEventId") commentId: String?,
         @Query("newContent") newContent: String
     ): retrofit2.Call<CommentResponse>
+
+    // trading account
+
+    @GET("create_trading_account")
+    fun createTradingAccount(
+        @Header("Authorization") token: String?
+    ): retrofit2.Call<Void>
+
+    @GET("get_trading_account")
+    fun getTradingAccount(
+        @Header("Authorization") token: String?
+    ): retrofit2.Call<TradingAccountResponse>
+
+    // transactions
+
+    @POST("buy_transaction")
+    fun buyTransaction(
+        @Header("Authorization") token: String?,
+        @Body info: BuyTransactionInformation
+    ): retrofit2.Call<BuyTransactionResponse>
+
+    @POST("sell_transaction")
+    fun sellTransaction(
+        @Header("Authorization") token: String?,
+        @Body info: SellTransactionInformation
+    ): retrofit2.Call<SellTransactionResponse>
+
+    @POST("exchange_transaction")
+    fun exchangeTransaction(
+        @Header("Authorization") token: String?,
+        @Body info: ExchangeTransactionInformation
+    ): retrofit2.Call<ExchangeTransactionResponse>
 }
 
 data class BasicUserInformation(
@@ -406,4 +438,63 @@ data class AnnotationUserModel(
 
 data class AnnotationListResponse(
     val annotations: List<AnnotationResponse>
+)
+
+data class TradingAccountResponse(
+    val id: String,
+    val bitcoinAmount: Double,
+    val cnyAmount: Double,
+    val ethereumAmount: Double,
+    val eurAmount: Double,
+    val gbpAmount: Double,
+    val jpyAmount: Double,
+    val litecoinAmount: Double,
+    val moneroAmount: Double,
+    val rippleAmount: Double,
+    val tryAmount: Double,
+    val usdAmount: Double
+)
+
+data class BuyTransactionInformation(
+    val amount: Double,
+    val boughtTypeCurrency: String,
+    val creditCardNumber: String,
+    val cvv: String,
+    val expiredDate: String
+)
+
+data class BuyTransactionResponse(
+    val boughtTypeCurrency: String,
+    val boughtTypeInitialAmount: Double,
+    val boughtTypeLastAmount: Double,
+    val isSuccessful: Boolean
+)
+
+data class SellTransactionInformation(
+    val amount: Double,
+    val soldTypeCurrency: String
+)
+
+data class SellTransactionResponse(
+    val soldTypeCurrency: String,
+    val soldTypeInitialAmount: Double,
+    val soldTypeLastAmount: Double,
+    val isSuccessful: Boolean
+)
+
+data class ExchangeTransactionInformation(
+    val amount: Double,
+    val boughtTypeCurrency: String,
+    val soldTypeCurrency: String
+)
+
+data class ExchangeTransactionResponse(
+    val boughtTypeCurrency: String,
+    val boughtTypeInitialAmount: Double,
+    val boughtTypeLastAmount: Double,
+    val soldTypeCurrency: String,
+    val soldTypeInitialAmount: Double,
+    val soldTypeLastAmount: Double,
+    val rate: Double,
+    val isSuccessful: Boolean
 )
