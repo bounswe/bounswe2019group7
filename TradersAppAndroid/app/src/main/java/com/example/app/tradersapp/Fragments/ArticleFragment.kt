@@ -88,7 +88,8 @@ class ArticleFragment() : Fragment() {
                         it.authorEmail,
                         it.score,
                         it.changeDate,
-                        it.uuid)
+                        it.uuid
+                        )
                 } ?: allArticles
 
 

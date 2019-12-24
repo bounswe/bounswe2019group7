@@ -8,18 +8,18 @@
     <TextView
             android:id="@+id/commentAuthorTv"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:layout_weight="1" android:text="TextView"/>
     <TextView
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:id="@+id/commentBodyTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:layout_weight="2" android:text="TextView"/>
     <EditText
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:id="@+id/updateCommentEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:layout_weight="2"
@@ -28,7 +28,7 @@
 
     <TextView
             android:layout_gravity="center"
-            android:gravity="center"
+            android:gravity="left"
             android:id="@+id/commentDateTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:layout_weight="1" android:text="TextView"/>

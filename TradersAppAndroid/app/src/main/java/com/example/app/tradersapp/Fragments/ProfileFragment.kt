@@ -143,9 +143,11 @@ class ProfileFragment : Fragment() {
                         Log.i("ApiRequest", "Request failed: " + t.toString())
                         Toast.makeText(
                             activity?.applicationContext,
-                            "Unexpected server error occurred. Please try again.",
+                            "You cannot see this profile since it's private.",
                             Toast.LENGTH_SHORT
                         ).show()
+                        followButton.visibility = View.GONE
+                        EyeTradeUtils.hideSpinner(activity)
                     }
 
                     override fun onResponse(
@@ -159,6 +161,7 @@ class ProfileFragment : Fragment() {
                             followersText.text = body?.followerCount.toString()
                             followingText.text = body?.followingCount.toString()
                             EyeTradeUtils.hideSpinner(activity)
+
                         } else {
                             Toast.makeText(
                                 activity?.applicationContext,

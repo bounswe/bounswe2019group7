@@ -38,7 +38,12 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
             val profileFragment = ProfileFragment()
             val profileBundle = Bundle()
             profileBundle.apply{
-                putString("email", holder.userEmail)
+                if(holder.userId == sp.getString("userId", null)){
+                    putString("email", null)
+                }
+                else{
+                    putString("email", holder.userEmail)
+                }
             }
             profileFragment.arguments = profileBundle
 
