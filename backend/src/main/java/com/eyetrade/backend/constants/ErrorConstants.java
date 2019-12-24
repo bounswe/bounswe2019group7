@@ -21,6 +21,7 @@ public class ErrorConstants {
     public static final String A_USER_CAN_HAVE_ONLY_AN_ACCOUNT = "A user can have only an acoount!";
     public static final String USER_CANNOT_GIVE_POINT_SELF = "A user cannot give point to himself/herself!";
     public static final String USER_CANNOT_DELETE_ANOTHER_USERS_COMMENT = "A user cannot delete to another user's comment!";
+    public static final String USER_CANNOT_UPDATE_ANOTHER_USERS_COMMENT = "A user cannot delete to another user's comment!";
     public static final String USER_CANNOT_DELETE_ANOTHER_USERS_ANNOTATION = "A user cannot delete another user's annotation!";
     public static final String USER_CANNOT_DELETE_ANOTHER_USERS_ORDER = "A user cannot delete another user's order!";
     public static final String USER_CANNOT_UPDATE_ANOTHER_USERS_ORDER = "A user cannot update another user's order!";

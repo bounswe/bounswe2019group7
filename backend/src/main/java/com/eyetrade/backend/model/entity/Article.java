@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 @Data
@@ -50,4 +51,11 @@ public class Article {
 
     @Column(name = "score_number")
     private Integer givenScoreCount =0;
+
+    public String toStringForSearch() {
+        return  (" " + title  +
+                "  " + content +
+                " " + authorName  +
+                " " + authorSurname).toLowerCase(Locale.ENGLISH);
+    }
 }

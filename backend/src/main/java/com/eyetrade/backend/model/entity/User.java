@@ -10,6 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import static com.eyetrade.backend.constants.GeneralConstants.ID_LENGTH;
@@ -79,4 +80,11 @@ public class User {
     @Column(name = "confirmed")
     private boolean confirmed;
 
+    public String toStringForSearch() {
+        return (" " + email  +
+                " " + name +
+                " " + surname +
+                " " + country +
+                " " + city).toLowerCase(Locale.ENGLISH) ;
+    }
 }
