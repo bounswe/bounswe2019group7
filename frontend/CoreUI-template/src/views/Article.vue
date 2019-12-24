@@ -132,7 +132,7 @@ export default {
       .then(
         response => {
           this.item = response.data;
-          this.rating = this.item.score;
+          this.rating = Math.round(this.item.score * 100) / 100;
         },
         error => {
           console.log("Error");
