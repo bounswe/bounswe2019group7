@@ -15,7 +15,7 @@ class FundsHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.Vie
     var fundsAmount: TextView? = null
     init {
         fundsName = itemView.findViewById(R.id.fundsName)
-        fundsAmount = itemView.findViewById(R.id.fundsName)
+        fundsAmount = itemView.findViewById(R.id.fundsAmount)
     }
 
     fun bind(item: FundsModel) {
