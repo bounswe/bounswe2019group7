@@ -37,7 +37,7 @@
           </div>
           <div class="row">
             Score:
-            <p style="color:grey">{{ item.score }}</p>
+            <p style="color:grey">{{ this.rating }}</p>
           </div>
           <div class="row">
             Abstract:
@@ -133,6 +133,7 @@ export default {
         response => {
           this.item = response.data;
           this.rating = Math.round(this.item.score * 100) / 100;
+
         },
         error => {
           console.log("Error");
@@ -178,7 +179,7 @@ export default {
             },
             params: {
               articleID: this.item.uuid,
-              score: this.rating
+              score: this.rating 
             }
           }
         )
