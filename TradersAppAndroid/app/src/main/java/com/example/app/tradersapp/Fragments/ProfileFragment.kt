@@ -63,6 +63,33 @@ class ProfileFragment : Fragment() {
         if(otherEmail.isNullOrBlank()) { // self profile
             followButton.visibility = View.GONE
 
+            privacySwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                if(isChecked){
+                    retrofitService.updatePrivacy(sp?.getString("token", null), "PRIVATE_USER").enqueue(object: Callback<SelfProfileInformationResponse>{
+                        override fun onFailure(call: Call<SelfProfileInformationResponse>, t: Throwable) {
+                            EyeTradeUtils.toastErrorMessage(activity!!.applicationContext, t)
+                        }
+
+                        override fun onResponse(call: Call<SelfProfileInformationResponse>, response: Response<SelfProfileInformationResponse>) {
+                            // Do nothing
+                        }
+
+                    })
+                }
+                else{
+                    retrofitService.updatePrivacy(sp?.getString("token", null), "PUBLIC_USER").enqueue(object: Callback<SelfProfileInformationResponse>{
+                        override fun onFailure(call: Call<SelfProfileInformationResponse>, t: Throwable) {
+                            EyeTradeUtils.toastErrorMessage(activity!!.applicationContext, t)
+                        }
+
+                        override fun onResponse(call: Call<SelfProfileInformationResponse>, response: Response<SelfProfileInformationResponse>) {
+                            // Do nothing
+                        }
+
+                    })
+                }
+            }
+
             retrofitService.getSelfProfileInformation(sp?.getString("token", null))
                 .enqueue(object : Callback<SelfProfileInformationResponse> {
                     override fun onFailure(
@@ -87,6 +114,9 @@ class ProfileFragment : Fragment() {
                             email.text = body?.email
                             followersText.text = body?.followerCount.toString()
                             followingText.text = body?.followingCount.toString()
+                            if(body?.privacyType == "PRIVATE_USER"){
+                                privacySwitch.isChecked = true
+                            }
                             EyeTradeUtils.hideSpinner(activity)
                         } else {
                             Toast.makeText(
@@ -99,6 +129,8 @@ class ProfileFragment : Fragment() {
 
                 })
         }else{  // other profile
+            privacySwitch.visibility = View.GONE
+            privacyText.visibility = View.GONE
             updateProfile.visibility = View.GONE
             email.visibility = View.GONE // don't show other people's email addresses
 
