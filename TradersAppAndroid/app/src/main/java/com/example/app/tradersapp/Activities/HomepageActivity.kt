@@ -72,6 +72,10 @@ class HomepageActivity : AppCompatActivity() {
                     fragment = ProfileFragment()
                 }
 
+                R.id.action_notifications -> {
+                    fragment = NotificationFragment()
+                }
+
             }
 
             if (fragment != null) {
