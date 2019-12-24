@@ -55,6 +55,7 @@
             android:background="@drawable/ic_delete_red_24dp"
             android:layout_height="20dp"
             android:id="@+id/deleteCommentButton"
+            android:visibility="invisible"
             android:layout_weight="0.3"/>
 
     <Button android:layout_width="0dp"
@@ -63,6 +64,7 @@
             android:background="@drawable/ic_update_blue_24dp"
             android:layout_height="20dp"
             android:id="@+id/updateCommentButton"
+            android:visibility="invisible"
             android:layout_weight="0.3"/>
 
     <Button android:layout_width="0dp"

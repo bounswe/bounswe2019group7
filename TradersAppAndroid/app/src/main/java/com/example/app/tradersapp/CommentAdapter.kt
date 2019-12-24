@@ -53,11 +53,11 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
             transaction.commit()
         }
 
-        if(holder.userId != sp.getString("userId","")){
-            holder.deleteComment?.visibility = View.INVISIBLE
-            holder.updateComment?.visibility = View.INVISIBLE
+        if(holder.userId == sp.getString("userId","")){
+            holder.deleteComment?.visibility = View.VISIBLE
+            holder.updateComment?.visibility = View.VISIBLE
         }
-        else{
+
             val retrofitService = RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
 
             holder.deleteComment?.setOnClickListener {
@@ -67,8 +67,8 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
                     }
 
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        list.removeAll{it.id == holder.commentId}
-                        notifyDataSetChanged()
+                        list.removeAt(position)
+                        notifyItemRemoved(position)
                         Toast.makeText(
                             mContext,
                             "Your comment has been deleted!",
@@ -107,9 +107,10 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
                                 resp?.userInfo?.email,
                                 resp?.createdDate,
                                 resp?.id)
-                            list.removeAll{it.id == holder.commentId}
+                            list.removeAt(position)
+                            notifyItemRemoved(position)
                             list.add(position, commentModel)
-                            notifyDataSetChanged()
+                            notifyItemInserted(position)
 
                             holder.approveUpdateButton?.visibility = View.GONE
                             holder.updateComment?.visibility = View.VISIBLE
@@ -122,7 +123,7 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
 
             }
 
-        }
+
 
     }
     override fun getItemCount(): Int = list.size
