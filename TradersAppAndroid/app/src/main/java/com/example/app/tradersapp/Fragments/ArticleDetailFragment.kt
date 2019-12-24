@@ -103,11 +103,6 @@ class ArticleDetailFragment : Fragment() {
                     }
 
                     override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
-                        Toast.makeText(
-                            activity,
-                            "Your comment has been saved successfully.",
-                            Toast.LENGTH_SHORT
-                        ).show()
                         addCommentEditText.hideKeyboard()
                         addCommentEditText.text = null
                         getComments(token, articleId)

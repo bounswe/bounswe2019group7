@@ -108,13 +108,9 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
                                 resp?.createdDate,
                                 resp?.id)
                             list.removeAll{it.id == holder.commentId}
-                            list.add(0,commentModel)
+                            list.add(position, commentModel)
                             notifyDataSetChanged()
-                            Toast.makeText(
-                                mContext,
-                                "Your comment has been successfully updated!",
-                                Toast.LENGTH_SHORT
-                            ).show()
+
                             holder.approveUpdateButton?.visibility = View.GONE
                             holder.updateComment?.visibility = View.VISIBLE
                             holder.updateCommentEditText?.visibility = View.GONE
