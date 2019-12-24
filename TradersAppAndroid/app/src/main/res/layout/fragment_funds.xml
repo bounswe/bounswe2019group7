@@ -5,10 +5,34 @@
         android:layout_height="match_parent"
         tools:context=".Fragments.FundsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+            android:id="@+id/noAccountContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:gravity="center"
+            android:orientation="vertical">
 
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You do not have a trading account yet!" />
+
+        <Button
+                android:id="@+id/createTradingAccountButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Trading Account" />
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+            android:id="@+id/fundsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/fundsList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/funds_recycler_item" />
+    </android.support.v4.widget.NestedScrollView>
 </FrameLayout>
