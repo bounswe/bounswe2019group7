@@ -14,6 +14,7 @@ import com.example.app.tradersapp.Fragments.ProfileFragment
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
+import java.util.*
 import javax.security.auth.callback.Callback
 
 class NotificationsAdapter(private val items: MutableList<SelfNotificationsResponse>,  context: Context): RecyclerView.Adapter<NotificationsAdapter.NotificationssViewHolder>() {
@@ -72,10 +73,12 @@ class NotificationsAdapter(private val items: MutableList<SelfNotificationsRespo
         var deleteNotificationButton: Button = itemView.findViewById(R.id.deleteNotificationButton)
         var notificationId: String = ""
         var email: String = ""
+        var date: String = ""
 
 
         fun bind(notificationsResponse: SelfNotificationsResponse) {
-            newFollowerName.text = notificationsResponse.followerName + " " + notificationsResponse.followerSurname + " followed you!"
+            date = notificationsResponse.notificationDate.toString().substring(0,10)
+            newFollowerName.text = notificationsResponse.followerName + " " + notificationsResponse.followerSurname + " followed you!" + "\n\n" + date
             notificationId = notificationsResponse.id
             email = notificationsResponse.followerEmail
         }
