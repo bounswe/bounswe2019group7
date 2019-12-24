@@ -64,7 +64,7 @@
     <item
             android:id="@+id/action_notifications"
             android:title="Notifications"
-            android:icon="@drawable/ic_vpn_key_black_24dp"
+            android:icon="@drawable/notification_icon"
             />
 
     <item
