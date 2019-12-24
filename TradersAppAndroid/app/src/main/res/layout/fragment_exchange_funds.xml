@@ -1,14 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Fragments.ExchangeFundsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="Exchange Funds"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <EditText
+            android:id="@+id/exchangeFundAmount1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="Amount"
+            android:textAlignment="textEnd"
+            app:layout_constraintEnd_toStartOf="@+id/exchangeFundTypeSpinner1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+    <Spinner
+            android:id="@+id/exchangeFundTypeSpinner1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:entries="@array/currencies"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/exchangeFundAmount1" />
+
+    <EditText
+            android:id="@+id/exchangeFundAmount2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:ems="10"
+            android:hint="Amount"
+            android:textAlignment="textEnd"
+            app:layout_constraintEnd_toStartOf="@+id/exchangeFundTypeSpinner1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/exchangeFundAmount1" />
+
+    <Spinner
+            android:id="@+id/exchangeFundTypeSpinner2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:entries="@array/currencies"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/exchangeFundAmount1" />
+
+    <Button
+            android:id="@+id/exchangeFundsSubmit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            app:layout_constraintEnd_toEndOf="@+id/exchangeFundTypeSpinner2"
+            app:layout_constraintStart_toStartOf="@+id/exchangeFundAmount2"
+            app:layout_constraintTop_toBottomOf="@+id/exchangeFundAmount2" />
+
+</android.support.constraint.ConstraintLayout>
