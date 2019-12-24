@@ -108,9 +108,8 @@ class CommentAdapter(private var list: MutableList<CommentModel>, context: Conte
                                 resp?.createdDate,
                                 resp?.id)
                             list.removeAt(position)
-                            notifyItemRemoved(position)
                             list.add(position, commentModel)
-                            notifyItemInserted(position)
+                            notifyDataSetChanged()
 
                             holder.approveUpdateButton?.visibility = View.GONE
                             holder.updateComment?.visibility = View.VISIBLE
