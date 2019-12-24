@@ -459,8 +459,8 @@ data class BuyTransactionInformation(
     val amount: Double,
     val boughtTypeCurrency: String,
     val creditCardNumber: String,
-    val cvv: String,
-    val expiredDate: String
+    val expiredDate: String,
+    val cvv: String
 )
 
 data class BuyTransactionResponse(

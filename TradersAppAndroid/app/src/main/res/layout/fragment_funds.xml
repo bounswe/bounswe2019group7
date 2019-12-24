@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -36,4 +37,120 @@
                 android:layout_height="match_parent"
                 tools:listitem="@layout/funds_recycler_item" />
     </android.support.v4.widget.NestedScrollView>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+                android:id="@+id/fabExchangeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="88dp"
+                android:layout_marginBottom="256dp"
+                android:background="#212121"
+                android:padding="8dp"
+                android:text="Exchange"
+                android:textColor="#ffffff"
+                android:visibility="invisible" />
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabExchange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="246dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:elevation="16dp"
+                android:focusable="true"
+                android:visibility="invisible"
+                app:backgroundTint="@color/colorAccent"
+                app:pressedTranslationZ="12dp"
+                app:srcCompat="@drawable/ic_compare_arrows_black_24dp" />
+
+        <TextView
+                android:id="@+id/fabWithdrawText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="88dp"
+                android:layout_marginBottom="186dp"
+                android:background="#212121"
+                android:padding="8dp"
+                android:text="Withdraw"
+                android:textColor="#ffffff"
+                android:visibility="invisible" />
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabWithdraw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="176dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:elevation="16dp"
+                android:focusable="true"
+                android:visibility="invisible"
+                app:backgroundTint="@color/colorAccent"
+                app:pressedTranslationZ="12dp"
+                app:srcCompat="@drawable/ic_attach_money_black_24dp" />
+
+        <TextView
+                android:id="@+id/fabAddText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="88dp"
+                android:layout_marginBottom="116dp"
+                android:background="#212121"
+                android:padding="8dp"
+                android:text="Add"
+                android:textColor="#ffffff"
+                android:visibility="invisible" />
+
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="106dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:elevation="16dp"
+                android:focusable="true"
+                android:visibility="invisible"
+                app:backgroundTint="@color/colorAccent"
+                app:pressedTranslationZ="12dp"
+                app:srcCompat="@drawable/ic_account_balance_wallet_black_24dp" />
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="32dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:elevation="16dp"
+                android:focusable="true"
+                android:visibility="visible"
+                app:backgroundTint="@color/colorAccent"
+                app:pressedTranslationZ="12dp"
+                app:srcCompat="@drawable/icon_add" />
+
+    </RelativeLayout>
 </FrameLayout>

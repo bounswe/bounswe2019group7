@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Fragments.AddFundsFragment">
+
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="Add Funds"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+            android:id="@+id/addFundAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="Amount"
+            android:textAlignment="textEnd"
+            app:layout_constraintEnd_toStartOf="@+id/addFundTypeSpinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Spinner
+            android:id="@+id/addFundTypeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:entries="@array/currencies"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/addFundAmount" />
+
+    <EditText
+            android:id="@+id/addFundsCreditCardNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Credit Card Number"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@+id/addFundTypeSpinner"
+            app:layout_constraintStart_toStartOf="@+id/addFundAmount"
+            app:layout_constraintTop_toBottomOf="@+id/addFundAmount" />
+
+    <EditText
+            android:id="@+id/addFundsExpiryDate"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Expiry Date"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="@+id/addFundsCreditCardNumber"
+            app:layout_constraintTop_toBottomOf="@+id/addFundsCreditCardNumber" />
+
+    <EditText
+            android:id="@+id/addFundsCVV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="CVV"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="@+id/addFundsCreditCardNumber"
+            app:layout_constraintStart_toEndOf="@+id/addFundsExpiryDate"
+            app:layout_constraintTop_toBottomOf="@+id/addFundsCreditCardNumber" />
+
+    <Button
+            android:id="@+id/addFundsSubmit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            app:layout_constraintEnd_toEndOf="@+id/addFundsCVV"
+            app:layout_constraintStart_toStartOf="@+id/addFundsExpiryDate"
+            app:layout_constraintTop_toBottomOf="@+id/addFundsExpiryDate" />
+
+</android.support.constraint.ConstraintLayout>

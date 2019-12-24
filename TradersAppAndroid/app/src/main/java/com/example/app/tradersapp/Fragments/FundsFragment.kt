@@ -7,10 +7,10 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.example.app.tradersapp.*
 import kotlinx.android.synthetic.main.fragment_funds.*
@@ -19,14 +19,19 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
+
 class FundsFragment : Fragment() {
     private var sp: SharedPreferences? = null
     private val retrofitService =
         RetrofitInstance.getRetrofitInstance().create(ApiInterface::class.java)
 
+    private var isFabOpen = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         EyeTradeUtils.showSpinner(activity)
+
+        isFabOpen = false
 
         sp = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -40,6 +45,63 @@ class FundsFragment : Fragment() {
 
         createTradingAccountButton.setOnClickListener {
             createTradingAccount()
+        }
+
+        val fabClose = AnimationUtils.loadAnimation(context, R.anim.fab_close)
+        val fabOpen = AnimationUtils.loadAnimation(context, R.anim.fab_open)
+        val fabCW = AnimationUtils.loadAnimation(context, R.anim.fab_rotate_cw)
+        val fabCCW = AnimationUtils.loadAnimation(context, R.anim.fab_rotate_ccw)
+
+        fabMain.setOnClickListener{
+            if (isFabOpen) {
+                fabAddText.visibility = View.INVISIBLE
+                fabWithdrawText.visibility = View.INVISIBLE
+                fabExchangeText.visibility = View.INVISIBLE
+                fabExchange.startAnimation(fabClose)
+                fabWithdraw.startAnimation(fabClose)
+                fabAdd.startAnimation(fabClose)
+                fabMain.startAnimation(fabCCW)
+                fabExchange.isClickable = false
+                fabExchange.isClickable = false
+                fabExchange.isClickable = false
+                isFabOpen = false
+            } else {
+                fabAddText.visibility = View.VISIBLE
+                fabWithdrawText.visibility = View.VISIBLE
+                fabExchangeText.visibility = View.VISIBLE
+                fabExchange.startAnimation(fabOpen)
+                fabWithdraw.startAnimation(fabOpen)
+                fabAdd.startAnimation(fabOpen)
+                fabMain.startAnimation(fabCW)
+                fabExchange.isClickable = true
+                fabExchange.isClickable = true
+                fabExchange.isClickable = true
+                isFabOpen = true
+            }
+        }
+
+        fabAdd.setOnClickListener {
+            val fragment = AddFundsFragment()
+            val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_fragment, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+        fabWithdraw.setOnClickListener {
+            val fragment = WithdrawFundsFragment()
+            val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_fragment, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
+        fabExchange.setOnClickListener {
+            val fragment = ExchangeFundsFragment()
+            val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_fragment, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 
