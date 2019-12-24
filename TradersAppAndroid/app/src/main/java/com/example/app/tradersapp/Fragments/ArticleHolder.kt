@@ -53,5 +53,4 @@ data class ArticleModel(
      val score: Double,
      val changeDate: String,
      val articleId: String
-
 )

@@ -138,7 +138,13 @@ class ArticleDetailFragment : Fragment() {
             val profileFragment = ProfileFragment()
             val profileBundle = Bundle()
             profileBundle.apply{
-                putString("email", bundle.getString("email"))
+                if(sp?.getString("userEmail", null) == bundle.getString("email")){
+                    putString("email", null)
+                }
+                else{
+                    putString("email", bundle.getString("email"))
+                }
+
             }
             profileFragment.arguments = profileBundle
 
