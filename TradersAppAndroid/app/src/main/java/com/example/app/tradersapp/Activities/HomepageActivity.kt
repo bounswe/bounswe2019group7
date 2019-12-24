@@ -55,6 +55,10 @@ class HomepageActivity : AppCompatActivity() {
                     fragment = CurrencyConverterFragment()
                 }
 
+                R.id.action_funds -> {
+                    fragment = FundsFragment()
+                }
+
                 R.id.action_cryptocurrencies -> {
                     fragment = CryptocurrenciesFragment()
                 }
