@@ -8,10 +8,13 @@
 $ git clone https://github.com/coreui/coreui-free-vue-admin-template.git CoreUI-Vue
 
 # go into app's directory
-$ cd CoreUI-Vue
+$ cd bounswe2019group7/frontend
 
 # install app's dependencies
 $ npm install
+
+# serve with hot reload at localhost:8080
+$ npm run serve
 ```
 
 ## Usage
