@@ -5,7 +5,7 @@
 
 ``` bash
 # clone the repo
-$ git clone https://github.com/coreui/coreui-free-vue-admin-template.git CoreUI-Vue
+$ git clone https://github.com/bounswe/bounswe2019group7.git
 
 # go into app's directory
 $ cd bounswe2019group7/frontend
