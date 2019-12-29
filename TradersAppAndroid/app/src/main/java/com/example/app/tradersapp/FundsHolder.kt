@@ -20,7 +20,7 @@ class FundsHolder(inflater: LayoutInflater, parent:ViewGroup) : RecyclerView.Vie
 
     fun bind(item: FundsModel) {
         fundsName?.text = item.name
-        fundsAmount?.text = item.amount.toString()
+        fundsAmount?.text = "%.5f".format(item.amount)
     }
 
 }

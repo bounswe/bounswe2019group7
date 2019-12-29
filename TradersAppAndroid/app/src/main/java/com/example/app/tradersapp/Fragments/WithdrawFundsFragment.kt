@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.app.tradersapp.*
 import kotlinx.android.synthetic.main.fragment_withdraw_funds.*
 
@@ -45,7 +46,7 @@ class WithdrawFundsFragment : Fragment() {
             )
                 .enqueue(object : Callback<SellTransactionResponse> {
                     override fun onFailure(call: Call<SellTransactionResponse>, t: Throwable) {
-                        EyeTradeUtils.toastErrorMessage(context!!, t)
+                        Toast.makeText(context, "Not enough funds", Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onResponse(

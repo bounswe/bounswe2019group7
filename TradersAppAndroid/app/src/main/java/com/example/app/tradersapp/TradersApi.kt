@@ -483,7 +483,7 @@ data class SellTransactionResponse(
 )
 
 data class ExchangeTransactionInformation(
-    val amount: Double,
+    val amountOfSold: Double,
     val boughtTypeCurrency: String,
     val soldTypeCurrency: String
 )
