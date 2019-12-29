@@ -25,6 +25,7 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="Amount"
+            android:inputType="numberDecimal"
             android:textAlignment="textEnd"
             app:layout_constraintEnd_toStartOf="@+id/addFundTypeSpinner"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +47,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Credit Card Number"
-            android:inputType="textPersonName"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="@+id/addFundTypeSpinner"
             app:layout_constraintStart_toStartOf="@+id/addFundAmount"
             app:layout_constraintTop_toBottomOf="@+id/addFundAmount" />
@@ -57,7 +58,6 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Expiry Date"
-            android:inputType="textPersonName"
             app:layout_constraintStart_toStartOf="@+id/addFundsCreditCardNumber"
             app:layout_constraintTop_toBottomOf="@+id/addFundsCreditCardNumber" />
 
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="CVV"
-            android:inputType="textPersonName"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="@+id/addFundsCreditCardNumber"
             app:layout_constraintStart_toEndOf="@+id/addFundsExpiryDate"
             app:layout_constraintTop_toBottomOf="@+id/addFundsCreditCardNumber" />

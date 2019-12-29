@@ -25,6 +25,7 @@
             android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="Amount"
+            android:inputType="numberDecimal"
             android:textAlignment="textEnd"
             app:layout_constraintEnd_toStartOf="@+id/withdrawFundTypeSpinner"
             app:layout_constraintStart_toStartOf="parent"

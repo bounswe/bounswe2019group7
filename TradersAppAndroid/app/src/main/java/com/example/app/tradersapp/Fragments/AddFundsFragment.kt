@@ -45,6 +45,24 @@ class AddFundsFragment : Fragment() {
             val expiryDate: String = addFundsExpiryDate.text.toString()
             val cvv: String = addFundsCVV.text.toString()
 
+            if (creditCardNumber.length != 16) {
+                Toast.makeText(
+                    context,
+                    "Credit card number must have 16 digits",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+            if (!expiryDate.matches(Regex("[0-9]{2}/[0-9]{2}"))) {
+                Toast.makeText(context, "Expiry date must be in MM/YY format", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
+            if (cvv.length != 3) {
+                Toast.makeText(context, "CVV must have 3 digits", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             retrofitService.buyTransaction(
                 sp?.getString("token", null),
                 BuyTransactionInformation(fundAmount, currency, creditCardNumber, expiryDate, cvv)
