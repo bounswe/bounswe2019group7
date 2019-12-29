@@ -46,13 +46,16 @@ class WithdrawFundsFragment : Fragment() {
             )
                 .enqueue(object : Callback<SellTransactionResponse> {
                     override fun onFailure(call: Call<SellTransactionResponse>, t: Throwable) {
-                        Toast.makeText(context, "Not enough funds", Toast.LENGTH_SHORT).show()
+                        EyeTradeUtils.toastErrorMessage(context!!, t)
                     }
 
                     override fun onResponse(
                         call: Call<SellTransactionResponse>,
                         response: Response<SellTransactionResponse>
                     ) {
+                        if(response.body() == null || response.body()?.isSuccessful == false){
+                            Toast.makeText(context, "Not enough funds", Toast.LENGTH_SHORT).show()
+                        }
                         (context as FragmentActivity).supportFragmentManager.popBackStack()
                     }
                 })

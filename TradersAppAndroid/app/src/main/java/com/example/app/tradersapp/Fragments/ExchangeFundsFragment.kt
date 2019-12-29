@@ -106,14 +106,16 @@ class ExchangeFundsFragment : Fragment() {
             )
                 .enqueue(object : Callback<ExchangeTransactionResponse> {
                     override fun onFailure(call: Call<ExchangeTransactionResponse>, t: Throwable) {
-                        //EyeTradeUtils.toastErrorMessage(context!!, t)
-                        Toast.makeText(context, "Not enough funds", Toast.LENGTH_SHORT).show()
+                        EyeTradeUtils.toastErrorMessage(context!!, t)
                     }
 
                     override fun onResponse(
                         call: Call<ExchangeTransactionResponse>,
                         response: Response<ExchangeTransactionResponse>
                     ) {
+                        if(response.body() == null || response.body()?.isSuccessful == false){
+                            Toast.makeText(context, "Not enough funds", Toast.LENGTH_SHORT).show()
+                        }
                         (context as FragmentActivity).supportFragmentManager.popBackStack()
                     }
                 })
