@@ -85,6 +85,22 @@ class HomepageActivity : AppCompatActivity() {
                     }
                 }
 
+                R.id.action_funds ->{
+                    EyeTradeUtils.toastComingSoonMessage(this)
+                }
+
+                R.id.action_commodities ->{
+                    EyeTradeUtils.toastComingSoonMessage(this)
+                }
+
+                R.id.action_stocks ->{
+                    EyeTradeUtils.toastComingSoonMessage(this)
+                }
+
+                R.id.action_trade_indices ->{
+                    EyeTradeUtils.toastComingSoonMessage(this)
+                }
+
             }
 
             if (fragment != null) {
