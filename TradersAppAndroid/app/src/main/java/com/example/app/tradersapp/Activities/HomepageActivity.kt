@@ -1,7 +1,9 @@
 package com.example.app.tradersapp
 
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBar
@@ -15,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_homepage.*
 class HomepageActivity : AppCompatActivity() {
 
     private var actionBar: ActionBar? = null
+    private var sp: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,6 +26,8 @@ class HomepageActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         actionBar = supportActionBar
         actionBar?.title = "eyeTrade"
+
+        sp = PreferenceManager.getDefaultSharedPreferences(this)
 
         val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
             this,
@@ -65,7 +70,6 @@ class HomepageActivity : AppCompatActivity() {
 
                 R.id.action_events -> {
                     fragment = EventFragment.newInstance()
-
                 }
 
                 R.id.action_profile -> {
@@ -73,7 +77,12 @@ class HomepageActivity : AppCompatActivity() {
                 }
 
                 R.id.action_notifications -> {
-                    fragment = NotificationFragment()
+                    if(sp?.getString("token", null).isNullOrEmpty()){
+                        EyeTradeUtils.toastLoginMessage(this)
+                    }
+                    else{
+                        fragment = NotificationFragment()
+                    }
                 }
 
             }
