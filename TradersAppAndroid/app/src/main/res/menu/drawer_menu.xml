@@ -16,21 +16,7 @@
             android:title="Articles"
             android:icon="@drawable/ic_paragraph_black_24dp"
             />
-    <item
-            android:id="@+id/action_trade_indices"
-            android:title="Trade Indices"
-            android:icon="@drawable/ic_compare_arrows_black_24dp"
-            />
-    <item
-            android:id="@+id/action_stocks"
-            android:title="Stocks"
-            android:icon="@drawable/ic_show_chart_black_24dp"
-            />
-    <item
-            android:id="@+id/action_commodities"
-            android:title="Commodities"
-            android:icon="@drawable/ic_style_black_24dp"
-            />
+
     <item
             android:id="@+id/action_currencies"
             android:title="Currencies"
@@ -42,12 +28,6 @@
             android:title="Currency Converter"
             android:icon="@drawable/ic_autorenew_black_24dp"
     />
-
-    <item
-            android:id="@+id/action_funds"
-            android:title="Funds"
-            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
-            />
 
     <item
             android:id="@+id/action_cryptocurrencies"
@@ -68,8 +48,23 @@
             />
 
     <item
-            android:id="@+id/action_help"
-            android:title="Help"
-            android:icon="@drawable/ic_help_black_24dp"
-            />
+            android:id="@+id/action_trade_indices"
+            android:title="Trade Indices"
+            android:icon="@drawable/ic_compare_arrows_black_24dp"
+    />
+    <item
+            android:id="@+id/action_stocks"
+            android:title="Stocks"
+            android:icon="@drawable/ic_show_chart_black_24dp"
+    />
+    <item
+            android:id="@+id/action_commodities"
+            android:title="Commodities"
+            android:icon="@drawable/ic_style_black_24dp"
+    />
+    <item
+            android:id="@+id/action_funds"
+            android:title="Funds"
+            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
+    />
 </menu>
