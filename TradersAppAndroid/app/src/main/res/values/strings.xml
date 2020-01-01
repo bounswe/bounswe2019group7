@@ -37,4 +37,18 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_location_picker">Location</string>
+
+    <string-array name="currencies">
+        <item>@string/currency_try</item>
+        <item>@string/currency_usd</item>
+        <item>@string/currency_eur</item>
+        <item>@string/currency_gbp</item>
+        <item>@string/currency_jpy</item>
+        <item>@string/currency_cny</item>
+        <item>@string/currency_btc</item>
+        <item>@string/currency_eth</item>
+        <item>@string/currency_xrp</item>
+        <item>@string/currency_ltc</item>
+        <item>@string/currency_xmr</item>
+    </string-array>
 </resources>
