@@ -211,19 +211,6 @@ class ProfileFragment : Fragment() {
                         followersText.text = (followersCount + 1).toString()
                         followersCount += 1
                         Toast.makeText(context, "You are now following ${name.text}", Toast.LENGTH_SHORT).show()
-                        val profileFragment = ProfileFragment()
-                        val profileBundle = Bundle()
-                        profileBundle.apply{
-                            putString("email", otherEmail)
-                        }
-                        profileFragment.arguments = profileBundle
-
-
-                        (context as FragmentActivity).supportFragmentManager.popBackStack()
-                        val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
-                        transaction.replace(R.id.nav_host_fragment, profileFragment)
-                        transaction.addToBackStack(null)
-                        transaction.commit()
                     }else {
                         Toast.makeText(context, "There was an error following ${name.text}", Toast.LENGTH_SHORT).show();
                     }

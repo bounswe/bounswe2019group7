@@ -64,56 +64,69 @@ class EventDetailFragment : Fragment() {
             eBody, context, token, retrofitService, eventId, annotationBody = addCommentEditText2, allAnnotations = allAnnotations, annotationType = "Event")
 
         showAnnotationsButton2.setOnClickListener {
-            if(isInAnnotationMode){
-                switchToReadingMode()
+            if(sp?.getString("token", null).isNullOrEmpty()){
+                EyeTradeUtils.toastLoginMessage(context)
             }
-            else{
-                switchToAnnotationMode(eventId)
+            else {
+                if (isInAnnotationMode) {
+                    switchToReadingMode()
+                } else {
+                    switchToAnnotationMode(eventId)
+                }
             }
         }
 
         myAnnotationsButton2.setOnClickListener {
-            revertHighlightText()
-            isInSelfAnnotationMode = true
-            getSelfAnnotationsInArticleOrEvent(eventId,false)
+            if(sp?.getString("token", null).isNullOrEmpty()){
+                EyeTradeUtils.toastLoginMessage(context)
+            }
+            else {
+                revertHighlightText()
+                isInSelfAnnotationMode = true
+                getSelfAnnotationsInArticleOrEvent(eventId, false)
+            }
         }
 
         addCommentButton2.setOnClickListener {
-            if(addCommentEditText2.text.isNullOrEmpty()){
-                Toast.makeText(
-                    activity,
-                    "Write a comment before sending it!",
-                    Toast.LENGTH_SHORT
-                ).show()
+            if(sp?.getString("token", null).isNullOrEmpty()){
+                EyeTradeUtils.toastLoginMessage(context)
             }
             else{
-                retrofitService.addComment(
-                    token,
-                    CommentInformation(
-                        eventId,
-                        "Event",
-                        addCommentEditText2.text.toString(),
-                        "Comment Title"
-                    )
-                ).enqueue(object: Callback<CommentResponse>{
-                    override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
-                        EyeTradeUtils.toastErrorMessage(RegistrationActivity.RegisterCallback.activity as Context, t)
-                    }
+                if(addCommentEditText2.text.isNullOrEmpty()){
+                    Toast.makeText(
+                        activity,
+                        "Write a comment before sending it!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else{
+                    retrofitService.addComment(
+                        token,
+                        CommentInformation(
+                            eventId,
+                            "Event",
+                            addCommentEditText2.text.toString(),
+                            "Comment Title"
+                        )
+                    ).enqueue(object: Callback<CommentResponse>{
+                        override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
+                            EyeTradeUtils.toastErrorMessage(RegistrationActivity.RegisterCallback.activity as Context, t)
+                        }
 
-                    override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
-                        Toast.makeText(
-                            activity,
-                            "Your comment has been saved successfully.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        addCommentEditText2.hideKeyboard()
-                        addCommentEditText2.text = null
-                        getComments(token, eventId)
-                    }
-                })
+                        override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
+                            addCommentEditText2.hideKeyboard()
+                            addCommentEditText2.text = null
+                            getComments(token, eventId)
+                        }
+                    })
+                }
             }
+
         }
-        getComments(token, eventId)
+        if(!sp?.getString("token", null).isNullOrEmpty()){
+            getComments(token, eventId)
+        }
+
 
     }
 

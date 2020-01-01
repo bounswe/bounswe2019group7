@@ -191,8 +191,6 @@
 
     </LinearLayout>
 
-
-
     <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
@@ -202,5 +200,15 @@
             android:layout_marginTop="30dp" app:layout_constraintTop_toBottomOf="@id/linearContainer">
 
     </com.github.mikephil.charting.charts.LineChart>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:text="Change in last 7 days"
+            app:layout_constraintTop_toBottomOf="@id/chart"/>
 
 </android.support.constraint.ConstraintLayout>

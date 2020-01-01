@@ -7,6 +7,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class RetrofitInstance {
@@ -250,6 +252,34 @@ interface ApiInterface {
         @Header("Authorization") token: String?,
         @Body info: ExchangeTransactionInformation
     ): retrofit2.Call<ExchangeTransactionResponse>
+  
+    // Notifications
+    @GET("notification/self_notifications")
+    fun getSelfNotifications(
+        @Header ("Authorization") token: String?
+    ): retrofit2.Call<MutableList<SelfNotificationsResponse>>
+
+    @DELETE("notification/delete_notification")
+    fun deleteNotification(
+        @Header("Authorization") token: String?,
+        @Header("notification_id") notification_id: String
+    ): retrofit2.Call<ResponseBody>
+
+    @DELETE("notification/delete_self_notifications")
+    fun deleteSelfNotifications(
+        @Header("Authorization") token: String?
+    )
+
+    @PUT("notification/mark_notification")
+    fun markNotification(
+        @Header("Authorization") token: String?,
+        @Header ("notification_id") notification_id: String
+    )
+
+    @PUT("notification/mark_self_notifications")
+    fun markSelfNotifications(
+        @Header("Authorization") token: String?
+    )
 }
 
 data class BasicUserInformation(
@@ -408,6 +438,15 @@ data class CommentInformation(
     val commentType: String,
     val content: String,
     val title: String
+)
+
+data class SelfNotificationsResponse(
+    val followerEmail: String,
+    val followerName: String,
+    val followerSurname: String,
+    val id: String,
+    val notificationDate: Date,
+    var seen: Boolean
 )
 
 data class AnnotationInformation(

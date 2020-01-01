@@ -8,6 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -16,7 +17,6 @@ import java.util.UUID;
  */
 @Entity
 @Data
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "event")
@@ -45,4 +45,9 @@ public class Event {
 
     @Column(name = "score_number")
     private Integer givenScoreCount =0;
+
+    public String toStringForSearch() {
+        return (" " + title +
+                " " + content).toLowerCase(Locale.ENGLISH);
+    }
 }

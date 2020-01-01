@@ -7,27 +7,42 @@
 
     <TextView
             android:id="@+id/commentAuthorTv"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_gravity="center"
             android:gravity="left"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_weight="1" android:text="TextView"/>
+            android:textColor="@color/AntiqueWhite"
+            android:layout_height="wrap_content" android:layout_weight="1.3" android:text="TextView"/>
     <TextView
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:layout_gravity="center"
             android:gravity="left"
             android:id="@+id/commentBodyTv"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_weight="2" android:text="TextView"/>
+            android:layout_height="wrap_content" android:layout_weight="1.7" android:text="TextView"/>
     <EditText
             android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:gravity="left"
             android:id="@+id/updateCommentEditText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_weight="2"
+            android:layout_height="wrap_content" android:layout_weight="1.7"
             android:visibility="gone"
             android:text="TextView"/>
 
     <TextView
             android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="12dp"
             android:gravity="left"
             android:id="@+id/commentDateTv"
             android:layout_width="0dp"
@@ -36,25 +51,28 @@
     <Button android:layout_width="0dp"
             android:layout_gravity="center"
             android:gravity="left"
+            android:layout_marginEnd="4dp"
             android:background="@drawable/ic_delete_red_24dp"
-            android:layout_height="16dp"
+            android:layout_height="20dp"
             android:id="@+id/deleteCommentButton"
-            android:layout_weight="0.2"/>
+            android:visibility="invisible"
+            android:layout_weight="0.3"/>
 
     <Button android:layout_width="0dp"
             android:layout_gravity="center"
             android:gravity="left"
             android:background="@drawable/ic_update_blue_24dp"
-            android:layout_height="16dp"
+            android:layout_height="20dp"
             android:id="@+id/updateCommentButton"
-            android:layout_weight="0.2"/>
+            android:visibility="invisible"
+            android:layout_weight="0.3"/>
 
     <Button android:layout_width="0dp"
             android:layout_gravity="center"
             android:gravity="left"
             android:background="@drawable/ic_done_green_24dp"
-            android:layout_height="16dp"
+            android:layout_height="20dp"
             android:id="@+id/approveUpdateButton"
             android:visibility="gone"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.3"/>
 </LinearLayout>

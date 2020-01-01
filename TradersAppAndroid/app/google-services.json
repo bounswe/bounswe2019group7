@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "762186075449",
+    "firebase_url": "https://tradersappnotifications.firebaseio.com",
+    "project_id": "tradersappnotifications",
+    "storage_bucket": "tradersappnotifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762186075449:android:1a0c4583211692b02a6ce8",
+        "android_client_info": {
+          "package_name": "com.example.app.tradersapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762186075449-0frp7kgb3f14klm8sud0i16h7r4oovpo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app.tradersapp",
+            "certificate_hash": "f04c0dcc8430827271aa84c54c8eb4678adf6cf6"
+          }
+        },
+        {
+          "client_id": "762186075449-575oif8j2it6eqoqphfcqel7ulcfd5nu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgF_vlIIytJLHBq0nJjT5ZH5vvHE71rGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762186075449-575oif8j2it6eqoqphfcqel7ulcfd5nu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

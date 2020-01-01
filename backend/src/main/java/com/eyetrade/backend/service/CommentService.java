@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.eyetrade.backend.constants.ErrorConstants.USER_CANNOT_DELETE_ANOTHER_USERS_COMMENT;
+import static com.eyetrade.backend.constants.ErrorConstants.USER_CANNOT_UPDATE_ANOTHER_USERS_COMMENT;
 import static com.eyetrade.backend.constants.GeneralConstants.DB_DATE_TIME_FORMAT;
 import static com.eyetrade.backend.utils.DateUtils.dateTimeFormatter;
 
@@ -40,12 +41,12 @@ public class CommentService {
     }
 
     public List<CommentResource> getCommentsOfArticleOrEvent(UUID articleOrCommandId){
-            return mapper.entityToResource(repository.findCommentsByArticleEventId(articleOrCommandId));
+            return mapper.entityToResource(repository.findCommentsByArticleEventIdOrderByCreatedDateDesc(articleOrCommandId));
     }
 
     public List<CommentResource> getCommentsOfUser(UUID userId){
         User user=userRepository.findById(userId);
-        return mapper.entityToResource(repository.findCommentsByUser(user));
+        return mapper.entityToResource(repository.findCommentsByUserOrderByCreatedDateDesc(user));
     }
 
     public CommentResource postComment(CommentDto dto,UUID userId){
@@ -56,7 +57,16 @@ public class CommentService {
         return resource;
     }
 
-    // TODO: 14 Ara 2019 update
+    @Modifying
+    @Transactional
+    public CommentResource updateComment(String newContent, UUID commentId, UUID userId) throws IllegalAccessException {
+        Comment comment = repository.getOne(commentId);
+        if(!comment.getUser().getId().equals(userId)){
+            throw new IllegalAccessException(USER_CANNOT_UPDATE_ANOTHER_USERS_COMMENT);
+        }
+        comment.setContent(newContent);
+        return mapper.entityToResource(repository.save(comment));
+    }
 
     @Modifying
     @Transactional

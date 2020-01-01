@@ -50,11 +50,17 @@ class ArticleFragment() : Fragment() {
         EyeTradeUtils.showSpinner(activity)
         getArticles()
         floatingButton.setOnClickListener {
-            val addArticleFragment = AddArticleFragment()
-            val transaction = activity!!.supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.nav_host_fragment, addArticleFragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
+            // Lock adding article for guest users
+            if(sp?.getString("token", null).isNullOrEmpty()){
+                EyeTradeUtils.toastLoginMessage(context)
+            }
+            else{
+                val addArticleFragment = AddArticleFragment()
+                val transaction = activity!!.supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.nav_host_fragment, addArticleFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
         }
     }
 

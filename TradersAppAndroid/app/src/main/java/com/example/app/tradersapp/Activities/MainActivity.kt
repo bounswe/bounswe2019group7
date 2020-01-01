@@ -3,21 +3,22 @@ package com.example.app.tradersapp
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.ResponseBody
+import kotlinx.android.synthetic.main.fragment_article.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
+const val CHANNEL_ID = "personal_notifications"
+const val NOTIFICATION_ID = 123
 class MainActivity : AppCompatActivity() {
+
+
     private var sp:SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +77,19 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+   /* public fun displayNotification() {
+        val newMessageNotification = Notification.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.notification_icon)
+            .setContentTitle("One new follower")
+            .setContentText("user x followed you")
+            .setPriority(Notification.PRIORITY_DEFAULT)
+            .build()
+
+        with(NotificationManagerCompat.from(this)) {
+            notificationManager.notify(NOTIFICATION_ID, newMessageNotification)
+        }
+    }*/
+
     private fun openHomePage() {
         val intent = Intent(this, HomepageActivity::class.java)
         startActivity(intent)
@@ -86,5 +100,6 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, RegistrationActivity::class.java)
         startActivity(intent)
     }
+
 }
 

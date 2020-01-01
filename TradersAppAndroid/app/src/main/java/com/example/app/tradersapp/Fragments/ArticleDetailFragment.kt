@@ -42,6 +42,8 @@ class ArticleDetailFragment : Fragment() {
 
     private var body: String = ""
 
+    private var hintTextColor: Int = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,73 +68,91 @@ class ArticleDetailFragment : Fragment() {
             aBody, context, token, retrofitService, articleId, annotationBody = addCommentEditText, allAnnotations = allAnnotations, annotationType = "Article")
 
         showAnnotationsButton.setOnClickListener {
-            if(isInAnnotationMode){
-                switchToReadingMode()
+            if(sp?.getString("token", null).isNullOrEmpty()){
+                EyeTradeUtils.toastLoginMessage(context)
             }
             else{
-                switchToAnnotationMode(articleId)
+                if(isInAnnotationMode){
+                    switchToReadingMode()
+                }
+                else{
+                    switchToAnnotationMode(articleId)
+                }
             }
+
         }
 
         myAnnotationsButton.setOnClickListener {
-            revertHighlightText()
-            isInSelfAnnotationMode = true
-            getSelfAnnotationsInArticleOrEvent(articleId, false)
+            if(sp?.getString("token", null).isNullOrEmpty()){
+                EyeTradeUtils.toastLoginMessage(context)
+            }
+            else{
+                revertHighlightText()
+                isInSelfAnnotationMode = true
+                getSelfAnnotationsInArticleOrEvent(articleId, false)
+            }
         }
 
         addCommentButton.setOnClickListener {
-            if(addCommentEditText.text.isNullOrEmpty()){
-                Toast.makeText(
-                    activity,
-                    "Write a comment to send it!",
-                    Toast.LENGTH_SHORT
-                ).show()
+            if(sp?.getString("token", null).isNullOrEmpty()){
+                EyeTradeUtils.toastLoginMessage(context)
             }
             else{
-                retrofitService.addComment(
-                    token,
-                    CommentInformation(
-                        articleId,
-                        "Article",
-                        addCommentEditText.text.toString(),
-                        "Comment Title"
-                    )
-                ).enqueue(object: Callback<CommentResponse>{
-                    override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
-                        EyeTradeUtils.toastErrorMessage(activity?.applicationContext as Context, t)
-                    }
+                if(addCommentEditText.text.isNullOrEmpty()){
+                    Toast.makeText(
+                        activity,
+                        "Write a comment to send it!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else{
+                    retrofitService.addComment(
+                        token,
+                        CommentInformation(
+                            articleId,
+                            "Article",
+                            addCommentEditText.text.toString(),
+                            "Comment Title"
+                        )
+                    ).enqueue(object: Callback<CommentResponse>{
+                        override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
+                            EyeTradeUtils.toastErrorMessage(activity?.applicationContext as Context, t)
+                        }
 
-                    override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
-                        Toast.makeText(
-                            activity,
-                            "Your comment has been saved successfully.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        addCommentEditText.hideKeyboard()
-                        addCommentEditText.text = null
-                        getComments(token, articleId)
-                    }
-                })
+                        override fun onResponse(call: Call<CommentResponse>, response: Response<CommentResponse>) {
+                            addCommentEditText.hideKeyboard()
+                            addCommentEditText.text = null
+                            getComments(token, articleId)
+                        }
+                    })
+                }
             }
+
         }
 
         ratingBar.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
 
-            retrofitService.givePointToArticle(token, articleId, rating.toDouble()).enqueue(object:
-                Callback<ArticleResponse>{
-                override fun onFailure(call: Call<ArticleResponse>, t: Throwable) {
-                    EyeTradeUtils.toastErrorMessage(activity as Context, t)
-                }
+            if(sp?.getString("token", null).isNullOrEmpty()){
+                EyeTradeUtils.toastLoginMessage(context)
+                ratingBar.rating = 0f
+            }
+            else{
+                retrofitService.givePointToArticle(token, articleId, rating.toDouble()).enqueue(object:
+                    Callback<ArticleResponse>{
+                    override fun onFailure(call: Call<ArticleResponse>, t: Throwable) {
+                        EyeTradeUtils.toastErrorMessage(activity as Context, t)
+                    }
 
-                override fun onResponse(call: Call<ArticleResponse>, response: Response<ArticleResponse>) {
-                    Toast.makeText(
-                        context,
-                        "Your rating has been saved successfully.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                    override fun onResponse(call: Call<ArticleResponse>, response: Response<ArticleResponse>) {
+                        Toast.makeText(
+                            context,
+                            "Your rating has been saved successfully.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
-            })
+                })
+            }
         }
         articleAuthorName.setOnClickListener {
             val profileFragment = ProfileFragment()
@@ -153,7 +173,10 @@ class ArticleDetailFragment : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
-        getComments(token, articleId)
+        if(!sp?.getString("token", null).isNullOrEmpty()){
+            getComments(token, articleId)
+        }
+
     }
 
     private fun View.hideKeyboard() {
@@ -187,12 +210,13 @@ class ArticleDetailFragment : Fragment() {
     private fun switchToReadingMode(){
         isInSelfAnnotationMode = false
         aBody.setTextIsSelectable(false)
-        showAnnotationsButton.text = "SWITCH TO ANNOTATION MODE"
+        showAnnotationsButton.text = "SEE/ADD ANNOTATIONS"
         isInAnnotationMode = false
         revertHighlightText()
 
         addCommentButton.visibility = View.VISIBLE
         addCommentEditText.hint = "Write your comment here"
+
     }
     private fun switchToAnnotationMode(articleId: String){
         isInSelfAnnotationMode = false
@@ -203,7 +227,6 @@ class ArticleDetailFragment : Fragment() {
 
         addCommentButton.visibility = View.GONE
         addCommentEditText.hint = "Write your annotation here"
-
     }
 
     private fun highlightText(startIndex: Int, endIndex: Int){
