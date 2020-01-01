@@ -36,6 +36,12 @@
             />
 
     <item
+            android:id="@+id/action_funds"
+            android:title="Funds"
+            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
+    />
+
+    <item
             android:id="@+id/action_profile"
             android:title="My Profile"
             android:icon="@drawable/ic_account_box_black_24dp"
@@ -61,10 +67,5 @@
             android:id="@+id/action_commodities"
             android:title="Commodities"
             android:icon="@drawable/ic_style_black_24dp"
-    />
-    <item
-            android:id="@+id/action_funds"
-            android:title="Funds"
-            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
     />
 </menu>
