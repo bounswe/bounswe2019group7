@@ -25,8 +25,7 @@ class TradersUnitTest {
 
         assertEquals(expectedCurrency1, actualCurrency1)
         assertEquals(expectedCurrency2, actualCurrency2)
-
-
+        
     }
 
     @Test
