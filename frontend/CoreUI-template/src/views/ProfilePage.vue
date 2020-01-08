@@ -218,7 +218,7 @@ export default {
       this.seenTop = false;
       if (this.portfolio == "My Portfolio") {
         this.$http
-          .get("http://100.26.202.213:8080/article/self_top_articles", {
+          .get("/article/self_top_articles", {
             headers: {
               Authorization: localStorage.getItem("token")
             }
@@ -234,15 +234,12 @@ export default {
       } else {
         this.$http
           .get(
-            "http://100.26.202.213:8080/article/user_top_articles?userEmail=" +
+            "/article/user_top_articles?userEmail=" +
               this.$route.params.email
           )
           .then(
             response => {
               this.items = response.data.articles;
-            },
-            error => {
-              console.log("error");
             }
           );
       }
@@ -252,7 +249,7 @@ export default {
       this.seenTop = true;
       if (this.portfolio == "My Portfolio") {
         this.$http
-          .get("http://100.26.202.213:8080/article/self_articles", {
+          .get("/article/self_articles", {
             headers: {
               Authorization: localStorage.getItem("token")
             }
@@ -260,23 +257,17 @@ export default {
           .then(
             response => {
               this.items = response.data.articles;
-            },
-            error => {
-              console.log("error");
             }
           );
       } else {
         this.$http
           .get(
-            "http://100.26.202.213:8080/article/user_articles?userEmail=" +
+            "/article/user_articles?userEmail=" +
               this.$route.params.email
           )
           .then(
             response => {
               this.items = response.data.articles;
-            },
-            error => {
-              console.log("error");
             }
           );
       }
@@ -366,7 +357,7 @@ export default {
       this.portfolio = "My Portfolio";
       this.articleButton = true;
       this.$http
-        .get("http://100.26.202.213:8080/user_profile/self_profile", {
+        .get("/user_profile/self_profile", {
           headers: {
             Authorization: localStorage.getItem("token")
           }
@@ -381,7 +372,7 @@ export default {
           }
         );
       this.$http
-        .get("http://100.26.202.213:8080/article/self_articles", {
+        .get("/article/self_articles", {
           headers: {
             Authorization: localStorage.getItem("token")
           }
@@ -396,7 +387,7 @@ export default {
         );
     } else {
       this.$http
-        .get("http://100.26.202.213:8080/user_profile/other_profile", {
+        .get("/user_profile/other_profile", {
           headers: {
             Authorization: localStorage.getItem("token"),
             email: this.$route.params.email
@@ -412,7 +403,7 @@ export default {
         );
       this.$http
         .get(
-          "http://100.26.202.213:8080/article/user_articles?userEmail=" +
+          "/article/user_articles?userEmail=" +
             this.$route.params.email
         )
         .then(
