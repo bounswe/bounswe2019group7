@@ -17,7 +17,7 @@ export default {
 
             var params = "amount=" + amount + "&lastDays=" + last_days+ "&sourceCurrencyType=" + from + "&targetCurrencyType="+ to;
             var http = new XMLHttpRequest();
-            http.open("GET", "http://100.26.202.213:8080/currency/take-rates-last-days"+"?"+params, true);
+            http.open("GET", "http://18.184.25.234:8090/currency/take-rates-last-days"+"?"+params, true);
             http.setRequestHeader('sourceCurrencyType', from);
             http.setRequestHeader('targetCurrencyType', to);
             http.setRequestHeader('amount', amount);
