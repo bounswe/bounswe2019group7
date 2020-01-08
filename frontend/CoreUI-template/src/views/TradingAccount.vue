@@ -811,7 +811,7 @@ export default {
         }
       );
     this.$http
-      .get("http://100.26.202.213:8080/user_profile/self_profile", {
+      .get("/user_profile/self_profile", {
         headers: {
           Authorization: localStorage.getItem("token")
         }
