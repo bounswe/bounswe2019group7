@@ -172,7 +172,7 @@ export default {
   },
   mounted() {
     this.$http
-        .get("http://100.26.202.213:8080/user_profile/self_profile", {
+        .get("/user_profile/self_profile", {
           headers: {
             Authorization: localStorage.getItem("token")
           }
@@ -273,12 +273,10 @@ export default {
       }
     },
     privacyCheck() {
-      console.log("hel");
         if(document.getElementById('private').checked == true) {
           this.privacy = "Public Profile";
-          console.log("trrr");
           this.$http
-          .post("http://100.26.202.213:8080/user_profile/update_privacy", {},{
+          .post("/user_profile/update_privacy", {},{
             headers: {
               Authorization: localStorage.getItem("token"),
               privacy: "PUBLIC_USER"
@@ -286,16 +284,13 @@ export default {
           })
           .then(
             response => {
-            },
-            error => {
-              console.log("eerror");
             }
           );
         }
         else {
           this.privacy = "Private Profile";
           this.$http
-          .post("http://100.26.202.213:8080/user_profile/update_privacy", {}, {
+          .post("/user_profile/update_privacy", {}, {
             headers: {
               Authorization: "" +localStorage.getItem("token"),
               privacy: "PRIVATE_USER"
@@ -303,9 +298,6 @@ export default {
           })
           .then(
             response => {
-            },
-            error => {
-              console.log("error");
             }
           );
         }
