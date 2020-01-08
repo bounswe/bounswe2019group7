@@ -25,8 +25,7 @@ public class UtilTests {
 
     @Test
     public void TimeFormatterTest(){
-        Assert.assertEquals(dateTimeFormatter(new Date(),"yyyy"),"2019");
-        System.out.println("\n"+new Date());
+        Assert.assertEquals(dateTimeFormatter(new Date(),"yyyy"),"2020");
     }
 
     @Test

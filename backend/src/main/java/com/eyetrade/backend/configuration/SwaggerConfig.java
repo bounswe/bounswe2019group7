@@ -33,7 +33,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("Eyetrade")
                 .description("Trading Management REST API")
-                .contact(new Contact("Eyetrade", "http://100.26.202.213:8080", "eyetrade451@gmail.com"))
+                .contact(new Contact("Eyetrade", "http://18.184.25.234:8090", "eyetrade451@gmail.com"))
                 .license("Apache 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .version("1.0.0")
