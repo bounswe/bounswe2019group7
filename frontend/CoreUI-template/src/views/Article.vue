@@ -127,7 +127,7 @@ export default {
 
     await this.$http
       .get(
-        "http://100.26.202.213:8080/article/article?id=" + this.$route.params.id
+        "/article/article?id=" + this.$route.params.id
       )
       .then(
         response => {
@@ -157,7 +157,7 @@ export default {
         });
 
          this.$http
-          .get("http://100.26.202.213:8080/user_profile/self_profile", {
+          .get("/user_profile/self_profile", {
             headers: {
               Authorization: localStorage.getItem("token")
             }
