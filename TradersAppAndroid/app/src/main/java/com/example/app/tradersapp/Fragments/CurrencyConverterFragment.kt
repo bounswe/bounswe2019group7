@@ -21,9 +21,9 @@ import kotlin.properties.Delegates
 
 class CurrencyConverterFragment : Fragment() {
 
-    private var rate: Double by Delegates.notNull<Double>()
-    private var currency1 = "EUR"
-    private var currency2 = "USD"
+    var rate: Double by Delegates.notNull<Double>()
+    var currency1 = "EUR"
+    var currency2 = "USD"
     private val currencies = listOf("TRY", "EUR", "USD", "GBP", "JPY", "CNY", "ETH", "BTC", "XRP", "LTC", "XMR")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -123,14 +123,10 @@ class CurrencyConverterFragment : Fragment() {
     }
 
     private fun swapCurrencies(){
-        // Swap currencies
-        val tempCurrency = currency1
-        currency1 = currency2
-        currency2 = tempCurrency
-
+        // Swap the currencies
+        swapCurr()
         // Reverse the exchange rate
-        rate = 1 / rate
-
+        reverseRate()
         // Swap background colors
         val tempBackground = layout1.background
         layout1.background = layout2.background
@@ -143,7 +139,18 @@ class CurrencyConverterFragment : Fragment() {
 
     }
 
-    private fun round(number: Double): String{
+    fun swapCurr(){
+        // Swap currencies
+        val tempCurrency = currency1
+        currency1 = currency2
+        currency2 = tempCurrency
+    }
+
+    fun reverseRate(){
+        rate = 1 / rate
+    }
+
+    fun round(number: Double): String{
         return BigDecimal(number).setScale(2, RoundingMode.HALF_EVEN).toString()
     }
 }

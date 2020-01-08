@@ -22,6 +22,22 @@ class EyeTradeUtils {
             ).show()
         }
 
+        fun toastLoginMessage(context: Context?){
+            Toast.makeText(
+                context,
+                "Please login to use this feature.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        fun toastComingSoonMessage(context: Context){
+            Toast.makeText(
+                context,
+                "This feature is coming soon...",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
         fun showSpinner(activity: FragmentActivity?){
             activity?.spinner?.visibility = View.VISIBLE
             activity?.nav_host_fragment?.visibility = View.GONE
