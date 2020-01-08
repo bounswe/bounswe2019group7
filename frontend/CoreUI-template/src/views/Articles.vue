@@ -85,7 +85,7 @@ export default {
       );
     },
     showAllArticles() {
-      this.$http.get("http://100.26.202.213:8080/article/articles").then(
+      this.$http.get("/article/articles").then(
         response => {
           this.seenTop = true;
           this.seenAll = false;
