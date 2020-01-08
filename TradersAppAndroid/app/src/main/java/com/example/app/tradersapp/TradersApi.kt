@@ -13,7 +13,7 @@ import kotlin.collections.ArrayList
 
 class RetrofitInstance {
     companion object {
-        val BASE_URL: String = "http://100.26.202.213:8080/"
+        val BASE_URL: String = "http://18.184.25.234:8090/"
 
         val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
             this.level = HttpLoggingInterceptor.Level.BODY
