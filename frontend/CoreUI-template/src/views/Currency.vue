@@ -79,7 +79,7 @@
             var to = e2.options[e2.selectedIndex].text;
             var params = "inputCurrencyType=" + from + "&outputCurrencyType=" + to + "&amount=" + input;
             var http = new XMLHttpRequest();
-            http.open("GET", "http://100.26.202.213:8080/currency/convert"+"?"+params, true);
+            http.open("GET", "http://18.184.25.234:8090/currency/convert"+"?"+params, true);
             http.setRequestHeader('inputCurrencyType', from);
             http.setRequestHeader('outputCurrencyType', to);
             http.setRequestHeader('amount', input_value);
