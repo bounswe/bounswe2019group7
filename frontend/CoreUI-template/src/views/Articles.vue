@@ -55,7 +55,7 @@
 import router from "../router";
 export default {
   mounted() {
-    this.$http.get("http://100.26.202.213:8080/article/articles").then(
+    this.$http.get("http://18.184.25.234:8090/article/articles").then(
       response => {
         this.items = response.data.articles;
       },

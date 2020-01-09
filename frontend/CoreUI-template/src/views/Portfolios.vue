@@ -211,7 +211,7 @@ export default {
   mounted() {
     this.events = [];
     this.$http
-      .get("http://100.26.202.213:8080/portfolio/get_self_portfolios", {
+      .get("http://18.184.25.234:8090/portfolio/get_self_portfolios", {
         headers: {
           Authorization: localStorage.getItem("token")
         }
