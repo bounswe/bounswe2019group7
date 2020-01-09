@@ -21,7 +21,7 @@ export default {
         notify: function() {
             var token = localStorage.getItem("token");
             var http = new XMLHttpRequest();
-            http.open("GET", "http://100.26.202.213:8080/notification/self_notifications", true);
+            http.open("GET", "http://18.184.25.234:8090/notification/self_notifications", true);
             http.setRequestHeader('Authorization', token);
             http.onreadystatechange = function () {
                 if (this.readyState === 4) {
