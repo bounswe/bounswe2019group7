@@ -102,7 +102,7 @@ export default {
       var sourceCurrencyType = this.currencies[i].substring(0, 3);
       var targetCurrencyType = this.currencies[i].substring(4, 7);
       var params = "amount=0" + "&lastDays=1" + "&sourceCurrencyType=" + sourceCurrencyType + "&targetCurrencyType=" + targetCurrencyType;
-      await this.$http.get("http://100.26.202.213:8080/currency/take-rates-last-days?" + params)
+      await this.$http.get("http://18.184.25.234:8090/currency/take-rates-last-days?" + params)
         .then((response) => {
           this.map_currencyRates.set(this.currencies[i], response.data.currencyConverterResources[0].rate.toFixed(4));
         });
