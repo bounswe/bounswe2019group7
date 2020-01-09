@@ -11,7 +11,7 @@ import router from "./router";
 import axios from "axios";
 
 Vue.prototype.$http = axios.create({
-  baseURL: "http://100.26.202.213:8080/",
+  baseURL: "http://18.184.25.234:8090/",
   withCredentials: false
 });
 // todo
