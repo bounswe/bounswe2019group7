@@ -77,17 +77,17 @@
             var from = e.options[e.selectedIndex].text;
             var e2 = document.getElementById("to");
             var to = e2.options[e2.selectedIndex].text;
-            var params = "inputCurrencyType=" + from + "&outputCurrencyType=" + to + "&amount=" + input;
+            var params = "amount=" + input + "&inputCurrencyType=" + from + "&outputCurrencyType=" + to ;
             var http = new XMLHttpRequest();
             http.open("GET", "http://18.184.25.234:8090/currency/convert"+"?"+params, true);
             http.setRequestHeader('inputCurrencyType', from);
             http.setRequestHeader('outputCurrencyType', to);
-            http.setRequestHeader('amount', input_value);
+            http.setRequestHeader('amount', input);
             http.onreadystatechange = function () {
                 if (this.readyState === 4) {
                     if ((this.status == 200) && (this.status < 300)) {
                         var json_object = JSON.parse(this.responseText);
-                        var result = input_value + " " + from + " is " + parseFloat(json_object.amount).toFixed(2) + " " + to;
+                        var result = input + " " + from + " is " + parseFloat(json_object.amount).toFixed(2) + " " + to;
                         document.getElementById("result").innerHTML = result;
                     }
                 }
